@@ -2,7 +2,7 @@
 require_once('bd/bd.php');
 try{	
 	$BDhost = 'localhost';
-	$BDbase = 'dbunova';
+	$BDbase = 'dbunovaprivado';
 	//$BDusuario = 'root';
 	//$BDpswd = 'root';
 	
