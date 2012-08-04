@@ -5,7 +5,7 @@ require_once('layout/headers/headCierre.php');
 ?>
 
 <div class="contenido">
-    <div class="left centerText" style="width: 590px">
+    <div class="left centerText" style="width: 100%">
         <h1>Inicio de sesión</h1>
 
         <?php
@@ -35,18 +35,7 @@ require_once('layout/headers/headCierre.php');
                     </div>
                     </p>
                 </fieldset>
-                <?php if (!$user) { ?>
-                    <div class="login-box olvidePass">
-
-                        <div class="special-btn-wrap">
-                            <a class="special-btn facebook badge-facebook-connect" href="<?= $loginUrl ?>">
-                                Iniciar sesión con Facebook
-                            </a>
-                        </div>
-                    </div>
-
-                <?php } ?>
-
+                
 
                 <div class="info centerText olvidePass">
                     <a href="/usuarios/usuario/recuperarPassword">¿Olvidaste tu contraseña? Da click aquí</a>
@@ -60,11 +49,6 @@ require_once('layout/headers/headCierre.php');
 
         </div>
 
-    </div>
-    <div class="right" style="width: 320px">
-        <div class="notice centerText noCuenta" style="">
-            <a href="/usuarios/registro"><h1>Si no tienes cuenta registrate aquí</h1></a>            
-        </div>
     </div>
 </div>
 

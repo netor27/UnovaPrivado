@@ -32,6 +32,8 @@ function tipoUsuario() {
             return 'administrador';
         } else if ($usuario->tipoUsuario == 0) {
             return 'usuario';
+        } else if ($usuario->tipoUsuario == 2) {
+            return 'administradorPrivado';
         }
     } else {
         return 'visitante';
@@ -56,19 +58,21 @@ function getUsuarioActual() {
 function validarUsuarioLoggeado() {
     if (!isset($_SESSION['usuario'])) {
         $pagina = getUrl();
-        $msgLogin = "Debes iniciar sesión para ver este contenido.";
-        require_once 'lib/php/facebook/loginFacebook.php';
-        if ($user) {
-            //si user existe entonces ya hay un inicio de sesión por facebook
-            return true;
-        } else {
-            //si no hay user, no hay usuario en facebook
-            require_once 'modulos/principal/vistas/login.php';
-            return false;
-        }
+        require_once 'modulos/principal/vistas/login.php';
+        return false;
     } else {
         return true;
     }
+}
+
+function paginaValidaSinUsuario($accion) {
+    if ($accion == "loginSubmit" ||
+            $accion == "recuperarPassword" ||
+            $accion == "recuperarPasswordSubmit" ||
+            $accion == "reestablecerPassword" ||
+            $accion == "reestablecerPasswordSubmit")
+        return true;
+    return false;
 }
 
 function validarUsuarioLoggeadoParaSubmits() {
@@ -103,7 +107,7 @@ function transformaMysqlDateDDMMAAAA($date) {
 }
 
 function transformaMysqlDateDDMMAAAAConHora($date) {
-    $time = strtotime($date);    
+    $time = strtotime($date);
     return date('d/m/Y -- h:i a', $time);
 }
 

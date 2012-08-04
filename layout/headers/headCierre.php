@@ -5,22 +5,14 @@
     <div id="e_bar">
         <div id="top-bar">
             <a href="/" class="logo left" id="logo"> <img src="/layout/imagenes/Unova_Logo_135x47.png"></a>
-            <div id="e_search-box-wrapper">
-                <div id="e_search-box"  class="right">
-                    <form action="/busqueda.php" id="search-form" method="get">
-                        <input id="q" class="search-input ease3 ui-autocomplete-input" autocomplete="off" name="q" type="text" placeholder="Buscar" role="textbox" aria-autocomplete="list" aria-haspopup="true"/>
-                        <input type="submit" id="u_search-submit" value/>
-                    </form>
-                </div>
-            </div>            
+                     
             <?php
             require_once 'funcionesPHP/funcionesGenerales.php';
             require_once 'modulos/usuarios/clases/Usuario.php';
 
             if (tipoUsuario() == 'visitante') {
                 ?>
-                <a href="/usuarios/registro" class="element right ease3">Registrarse</a>
-                <a href="/login" class="element right ease3">Iniciar Sesión</a>
+                
                 <?php
             } else {
                 $usuarioHead = getUsuarioActual();
@@ -32,11 +24,11 @@
                 }
             }
             ?>
-            <a href="/cursos/curso/crearCurso" class="element right ease3">Crear un curso</a>
         </div>
     </div>
     <?php
-    if (tipoUsuario() == 'usuario' || tipoUsuario() == 'administrador') {
+    $tipoU = tipoUsuario();
+    if ($tipoU != 'visitante') {
         ?>
         <div class="dropdownContainer">
             <div id="perfil_menu">   
@@ -49,24 +41,14 @@
                     </div>
                 </a>
                 <div id="perfil_links">
-                    <!--<a href="/usuarios/saldo">-->
-                    <a href="#">
-                        <span>Cuenta</span>
-                        <br>
-                        <?php
-                        if ($usuarioHead->saldo > 0) {
-                            echo '<span id="perfil_saldo">Saldo: $' . $usuarioHead->saldo . '</span>';
-                        } else {
-                            echo '<span id="perfil_saldo_cero">Saldo: $' . $usuarioHead->saldo . '</span>';
-                        }
-                        ?>
-                    </a>
-                    <br>
                     <a href="/login/login/logout"><span>Cerrar Sesión</span></a><br>
                 </div>
 
             </div>
             <div id="cursos_menu">
+                <?php
+                if($tipoU != 'usuario'){
+                ?>
                 <div class="cursosMenuHeader">
                     Cursos de los que soy instructor
                 </div>                
@@ -94,6 +76,7 @@
                         Ver todos >>
                     </div>
                 </a>
+                <?php } ?>
                 <div class="cursosMenuHeader">
                     Cursos que estoy tomando
                 </div>                

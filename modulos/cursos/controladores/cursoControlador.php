@@ -6,16 +6,22 @@ function principal() {
 
 function crearCurso() {
     if (validarUsuarioLoggeado()) {
-        require_once 'modulos/categorias/modelos/categoriaModelo.php';
-        require_once 'modulos/categorias/modelos/subcategoriaModelo.php';
-        $categorias = getCategorias();
-        $subcategorias = getSubcategoriasDeCategoria($categorias[0]->idCategoria);
-        require_once 'modulos/cursos/vistas/crearCurso.php';
+        if (tipoUsuario() == "administradorPrivado" ||
+                tipoUsuario() == "administrador") {
+            require_once 'modulos/categorias/modelos/categoriaModelo.php';
+            require_once 'modulos/categorias/modelos/subcategoriaModelo.php';
+            $categorias = getCategorias();
+            $subcategorias = getSubcategoriasDeCategoria($categorias[0]->idCategoria);
+            require_once 'modulos/cursos/vistas/crearCurso.php';
+        } else {
+            goToIndex();
+        }
     }
 }
 
 function crearCursoSubmit() {
-    if (validarUsuarioLoggeadoParaSubmits()) {
+    if (tipoUsuario() == "administradorPrivado" ||
+            tipoUsuario() == "administrador") {
         if (isset($_POST['titulo']) && isset($_POST['descripcionCorta']) && isset($_POST['subcategoria']) && isset($_POST['palabrasClave'])) {
             $descripcionCorta = removeBadHtmlTags(trim($_POST['descripcionCorta']));
             $titulo = removeBadHtmlTags(trim($_POST['titulo']));
@@ -580,7 +586,7 @@ function inscribirUsuario() {
                                         //Ocurrió un error al disminuir el saldo
                                         setSessionMessage("<h4 class='error'>Ocurrió un error al inscribirte al curso</h4>");
                                         redirect("/curso/" . $curso->uniqueUrl);
-                                    }                                    
+                                    }
                                 } else {
                                     //No tiene saldo suficiente para suscribirse al curso, lo enviamos a
                                     //una página donde puede recargar saldo
