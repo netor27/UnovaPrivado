@@ -23,7 +23,7 @@ require_once('layout/headers/headCierre.php');
                 </p>
             </div>
             <br><br>
-            <h5>Categoria: <a href="/categoria/<?php echo $categoria->urlNombre; ?>"><?php echo $categoria->nombre; ?></a> >> <?php echo $subcategoria->nombre; ?></h5>
+            <h5>Categoria: <?php echo $categoria->nombre; ?> >> <?php echo $subcategoria->nombre; ?></h5>
             <br>
             <h5>Palabras clave: 
                 <?php
@@ -33,7 +33,7 @@ require_once('layout/headers/headCierre.php');
 
                     if ($i != 0)
                         echo ", ";
-                    echo "<a href='/busqueda.php?q=" . trim($split) . "'>" . trim($split) . "</a>";
+                    echo "" . trim($split) . "";
 
                     $i++;
                 }
