@@ -2,7 +2,6 @@
 require_once('layout/headers/headInicio.php');
 require_once('layout/headers/headPerfil.php');
 require_once('layout/headers/headCierre.php');
-require_once('layout/headers/headSocialMedia.php');
 ?>
 
 <div class="contenido">    
@@ -57,26 +56,12 @@ require_once('layout/headers/headSocialMedia.php');
                     <a  href="/usuarios/usuario/editarInformacion/<?php echo $usuarioPerfil->idUsuario; ?>">
                         <div class="blueButton" style="width:250px;">Editar mi información de usuario</div>
                     </a>
-                    <a href="/usuarios/usuario/cambiarCorreo" >
-                        <div class="blueButton" style="width:250px;">Cambiar mi correo electrónico</div>
-                    </a>
                     <a href="/usuarios/usuario/cambiarPassword">
                         <div class="blueButton" style="width:250px;">Cambiar mi contraseña</div>
                     </a>
-                    <?php if ($usuarioPerfil->activado == 0) { ?>
-                        <a href="/usuarios/usuario/enviarCorreoConfirmacion">
-                            <div class="blueButton" style="width:250px;">Confirmar cuenta</div>
-                        </a>
-                    <?php } ?>
-
                 </div>
             </div>
         <?php } ?>
-        <div class="right">
-            <?php
-            require_once('layout/SocialMediaContainer.php');
-            ?>
-        </div>
     </div>
     <div id="perfil_panel">
         <h3>Biografía</h3>

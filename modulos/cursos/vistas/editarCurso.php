@@ -2,7 +2,6 @@
 require_once('layout/headers/headInicio.php');
 require_once('layout/headers/headEditarCurso.php');
 require_once('layout/headers/headStarRating.php');
-require_once('layout/headers/headSocialMedia.php');
 require_once('layout/headers/headCierre.php');
 ?>
 
@@ -83,11 +82,7 @@ require_once('layout/headers/headCierre.php');
                 ?>
             </div>
         </div>
-        <div class="right">
-            <?php
-            require_once('layout/SocialMediaContainer.php');
-            ?>
-        </div>
+        
     </div>
     <div id="cursoTabs">
         <ul>

@@ -2,7 +2,6 @@
 require_once('layout/headers/headInicio.php');
 require_once('layout/headers/headTomarCurso.php');
 require_once('layout/headers/headStarRating.php');
-require_once('layout/headers/headSocialMedia.php');
 require_once('layout/headers/headCierre.php');
 ?>
 
@@ -263,15 +262,8 @@ require_once('layout/headers/headCierre.php');
                     <img style="float:left;margin-left:30px;margin-right: 20px;" width="25px" src="/layout/imagenes/red_flag.png">
                     <h4>Reportar como inapropiado</h4>
                 </a>
-            </div>
-            <div id="SocialMediaContainer" style="width:97%">
-                <?php
-                require_once('layout/SocialMediaContainer.php');
-                ?>
-            </div>
+            </div>            
             <br>
-
-
             <div id="instructor" class="whiteBox" style="width: 95%;">
                 <div id="instructorHeader">
                     Instructor

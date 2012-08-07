@@ -2,7 +2,6 @@
 require_once('layout/headers/headInicio.php');
 require_once('layout/headers/headDetallesCurso.php');
 require_once('layout/headers/headStarRating.php');
-require_once('layout/headers/headSocialMedia.php');
 require_once('layout/headers/headCierre.php');
 ?>
 
@@ -195,11 +194,7 @@ require_once('layout/headers/headCierre.php');
                     ?>
                 </div>
             </div>
-            <div id="SocialMediaContainer" style="width:97%">
-                <?php
-                require_once('layout/SocialMediaContainer.php');
-                ?>
-            </div>
+            
             <div id="instructor" class="whiteBox" style="width: 95%;">
                 <div id="instructorHeader">
                     Instructor
