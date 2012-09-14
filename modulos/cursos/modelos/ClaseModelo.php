@@ -161,6 +161,7 @@ function getCursoPerteneciente($idClase) {
     $curso = NULL;
     if ($stmt->execute()) {
         $row = $stmt->fetch();
+        require_once 'modulos/cursos/clases/Curso.php';
         $curso = new Curso();
         $curso->idCurso = $row['idCurso'];
         $curso->idUsuario = $row['idUsuario'];
@@ -187,4 +188,20 @@ function sumarVistaClase($idClase) {
     return $stmt->execute();
 }
 
+function obtenerIdSiguienteClase($idClase,$clases){
+    $idSiguienteClase = -1;
+    $bandera = true;
+    $i = 0;
+    $numClases = sizeof($clases);
+    while($bandera && $i < $numClases){
+        if($clases[$i]->idClase == $idClase){
+            if($i+1 < sizeof($clases)){
+                $idSiguienteClase = $clases[$i+1]->idClase;
+                $bandera = false;
+            }
+        }
+        $i++;
+    }
+    return $idSiguienteClase;
+}
 ?>

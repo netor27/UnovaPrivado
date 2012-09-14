@@ -46,7 +46,7 @@ define("FOOTER", '<p></p>
                                 <a href="http://twitter.com/UnovaEdu" style="text-decoration:none;border:0" title="Twitter" target="_blank">
                                     <img src="http://c342380.r80.cf1.rackcdn.com/Twitter.png" style="border:0" width="16" height="16" alt="Encuentra a Unova en Twitter">
                                 </a>&nbsp;
-                                <a href="#" style="text-decoration:none;border:0" title="Google+" target="_blank">
+                                <a href="https://plus.google.com/u/0/118207331473943619520/posts" style="text-decoration:none;border:0" title="Google+" target="_blank">
                                     <img src="http://c342380.r80.cf1.rackcdn.com/Google+.png" style="border:0" width="16" height="16" alt="Encuentra a Unova en Google+">
                                 </a>&nbsp;
                                 <br>
@@ -232,7 +232,7 @@ function enviarMailResumenSemanal($email, $nombreUsuario, $numAlumnos, $numPregu
                         <span style="padding:5px;margin:0;font-size:24px;color:darkgreen;">'.$numAlumnos.'</span>
                         <p><a href="http://www.unova.co/usuarios/cursos/instructor">Ir a mis cursos</a></p>
                     </td>
-                    <td style="font-size:18px;margin: 10px; padding: 10px; width: 50%; border-left: 1px;border-style: dotted;">
+                    <td style="font-size:18px;margin: 10px; padding: 10px; width: 50%;">
                         <p style=""> 
                             Preguntas sin responder
                         </p>

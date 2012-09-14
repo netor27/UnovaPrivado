@@ -9,6 +9,7 @@ require_once('layout/headers/headCierre.php');
         <div id="perfil_header_image" class="left">
             <img src="<?php echo $usuarioPerfil->avatar; ?>" ><br>
             <?php
+            
             if ($miPerfil) {
                 echo '<a href="/usuarios/usuario/cambiarImagen">Cambiar imagen</a>';
             }
@@ -50,12 +51,15 @@ require_once('layout/headers/headCierre.php');
         <?php
         if ($miPerfil) {
             ?>
-            <div class="right">
+            <div class="right" style="text-align: right">
                 <div id="perfil_header_links" style="width:270px;">
                     <br><br>
                     <a  href="/usuarios/usuario/editarInformacion/<?php echo $usuarioPerfil->idUsuario; ?>">
                         <div class="blueButton" style="width:250px;">Editar mi información de usuario</div>
                     </a>
+                    <a href="/usuarios/usuario/cambiarCorreo" >
+                        <div class="blueButton" style="width:250px;">Cambiar mi correo electrónico</div>
+                    </a>                    
                     <a href="/usuarios/usuario/cambiarPassword">
                         <div class="blueButton" style="width:250px;">Cambiar mi contraseña</div>
                     </a>

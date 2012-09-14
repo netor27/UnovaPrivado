@@ -4,7 +4,20 @@ require_once('layout/headers/headEditarCurso.php');
 require_once('layout/headers/headStarRating.php');
 require_once('layout/headers/headCierre.php');
 ?>
-
+<div id="modalDialogCambiarPrecio" title="Cambiar precio">
+    <h2>Aquí puedes establecer el precio de tu curso</h2>
+    <div>
+        <form method="post" action="/cursos/curso/cambiarPrecio">
+            <p>
+                <label for="amount">Precio del curso:</label>
+                <input type="text" name="cantidad" id="cantidad" style="border:1; color:#f6931f; font-weight:bold; font-size: 20px;" value="10"/>
+            </p>
+            <br>
+            <input type="hidden" name="ic" value="<?php echo $cursoParaModificar->idCurso; ?>">
+            <input class="right" type="submit" value="  Aceptar ">
+        </form>
+    </div>
+</div>
 
 <div class="contenido">    
     <div id="cursoHeader">
@@ -41,7 +54,7 @@ require_once('layout/headers/headCierre.php');
                     }
                     ?>
                 </div>
-                
+
                 <br><br><br>
                 <h5>Categoria: <a href="/categoria/<?php echo $categoria->urlNombre; ?>"><?php echo $categoria->nombre; ?></a> >> <?php echo $subcategoria->nombre; ?></h5>
                 <br>
@@ -60,21 +73,30 @@ require_once('layout/headers/headCierre.php');
                     ?>
 
                 </h5>
+                <h5> 
+                    <?php
+                    if ($cursoParaModificar->precio > 0)
+                        echo "Precio:  <strong>$" . $cursoParaModificar->precio . "</strong>";
+                    else
+                        echo "<strong>Curso gratuito</strong>";
+                    ?>
+                </h5>
             </div>            
         </div>
         <div id="cursoHeader_right" class="right">
             <a href="/cursos/curso/editarInformacionCurso/<?php echo $cursoParaModificar->idCurso; ?>" >
                 <div class="blueButton">Editar información del curso</div>
             </a>
+            <a id="cambiarPrecio">
+                <div class="blueButton">Cambiar precio del curso</div>
+            </a>
             <div id="publicadoContainer">
                 <?php
                 if ($cursoParaModificar->publicado == 1) {
-                    ?>
-                    <h4 class="success" style="text-align: center;">Curso publicado</h4>
-                    <?php
+                    echo '<h4 class="success" style="text-align: center;">Curso publicado</h4>';
                 } else {
                     ?>
-                    <a style="text-align:center;" href="#" onclick="publicarCurso('<?php echo $cursoParaModificar->idCurso ?>')"id="publicarCurso">
+                    <a style="text-align:center;"  onclick="publicarCurso('<?php echo $cursoParaModificar->idCurso ?>')"id="publicarCurso">
                         <div class="blueButton" >Publicar curso</div>
                     </a>
                     <?php

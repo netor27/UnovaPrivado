@@ -40,7 +40,7 @@ function tipoUsuario() {
     }
 }
 
-function getUsuarioActual() {
+function validarUniqueSession() {
     if (isset($_SESSION['usuario'])) {
         require_once 'modulos/principal/modelos/loginModelo.php';
         $sessionId = session_id();
@@ -50,8 +50,28 @@ function getUsuarioActual() {
         } else {
             return NULL;
         }
+    }
+}
+
+function getUsuarioActual() {
+    if (isset($_SESSION['usuario'])) {
+        //hay un usuario en la sesioń, regresamos eso.
+        return $_SESSION['usuario'];
     } else {
-        return NULL;
+        //no hay usuario en session, verificamos si hay cookies guardadas
+        if (isset($_COOKIE['usrcookie']) && isset($_COOKIE['clvcookie'])) {
+            //hay cookies, tratamos de hacer login
+            require_once 'modulos/principal/modelos/loginModelo.php';
+            if (loginUsuario($_COOKIE['usrcookie'], $_COOKIE['clvcookie']) == 1) {
+                //hay buen login
+                return $_SESSION['usuario'];
+            } else {
+                //los datos guardados en las cookies no son correctos. Se borran
+                return NULL;
+            }
+        } else {
+            return NULL;
+        }
     }
 }
 
@@ -187,6 +207,9 @@ function getTipoOperacion($idTipoOperacion) {
         case 3:
             return "Ganancia por ventas";
             break;
+        case 4:
+            return "Retiro de saldo";
+            break;
         default:
             return "Tipo de operaci&oacute;n no definida";
             break;
@@ -200,9 +223,30 @@ function operacionEsPositiva($idTipoOperacion) {
             return true;
             break;
         case 2:
+        case 4:
             return false;
             break;
     }
+}
+
+function transformaMMSStoMinutes($tiempo) {
+    list($minutes, $seconds) = explode(":", $tiempo);
+    $minutes = $minutes + floor($seconds / 60);
+    return $minutes;
+}
+
+function guardarTipoLayout() {
+    //checamos si es tablet, movil o desktop
+    if (!isset($_SESSION['layout'])) {
+        require_once 'lib/php/Mobile_Detect/Mobile_Detect.php';
+        $detect = new Mobile_Detect();
+        $layout = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'mobile') : 'desktop');
+        $_SESSION['layout'] = $layout;
+    }
+}
+
+function getTipoLayout() {
+    return $_SESSION['layout'];
 }
 
 ?>

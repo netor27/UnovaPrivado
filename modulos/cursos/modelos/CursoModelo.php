@@ -226,8 +226,8 @@ function getCursos($offset, $numRows) {
     return $cursos;
 }
 
-function getAllCursos(){
-     require_once 'bd/conex.php';
+function getAllCursos() {
+    require_once 'bd/conex.php';
     global $conex;
     $stmt = $conex->prepare("SELECT * FROM curso");
     $stmt->execute();
@@ -375,7 +375,7 @@ function getClases($idCurso) {
     $stmt = $conex->prepare("SELECT c.idClase, c.idTema, c.titulo, c.orden, c.idTipoClase, c.transformado, c.views, c.duracion
                             FROM clase c, tema t
                             WHERE c.idTema = t.idTema AND t.idCurso = :id
-                            ORDER BY orden ASC ");
+                            ORDER BY  t.idTema, orden ASC ");
     $stmt->bindParam(':id', $idCurso);
     if (!$stmt->execute())
         print_r($stmt->errorInfo());
@@ -496,12 +496,22 @@ function sumarTotalView($idCurso) {
     return $stmt->execute();
 }
 
-function sumarTotalReportes($idCurso){
+function sumarTotalReportes($idCurso) {
     require_once 'bd/conex.php';
     global $conex;
     $stmt = $conex->prepare("UPDATE curso 
                             SET totalReportes = totalReportes + 1
                             WHERE idCurso = :idCurso");
+    $stmt->bindParam(':idCurso', $idCurso);
+    return $stmt->execute();
+}
+
+function actualizaPrecioCurso($idCurso, $precio) {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("UPDATE curso SET precio = :precio
+                            WHERE idCurso = :idCurso");
+    $stmt->bindParam(':precio', $precio);
     $stmt->bindParam(':idCurso', $idCurso);
     return $stmt->execute();
 }

@@ -48,8 +48,4 @@ function alta() {
     }
 }
 
-function altaDesdeFacebook(){
-    
-}
-
 ?>

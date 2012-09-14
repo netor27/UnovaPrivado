@@ -1,12 +1,51 @@
 var $popPrincipal;
 var $indice = 0;
+var $videoVisible = true;
 
 $(function(){
-    $(".videoClass").bind("contextmenu", function(e) {
-        e.preventDefault();
-    });
-    
+    if(layout == "desktop"){
+        $(".videoClass").bind("contextmenu", function(e) {
+            e.preventDefault();
+        });
+        $("#menuClasesLink").click(function(e){   
+            //cambiamos la flecha
+            if($("#flechaClases").hasClass('flechaAbajo')){
+                $("#flechaClases").removeClass('flechaAbajo');
+                $("#flechaClases").addClass('flechaArriba');  
+            }else{
+                $("#flechaClases").removeClass('flechaArriba');
+                $("#flechaClases").addClass('flechaAbajo');
+            }
+            $("#flechitaClases").toggle("swing");       
+            $("#clases_menu").toggle("swing");  
+        });
+        //Evento para evitar que se cierre al dar click dentro del menu
+        $("#clases_menu").mouseup(function(){
+            return false;
+        });
+        //Evento en todo el body que cierra el menu si no 
+        $(document).mouseup(function(e){    
+            var id = $(e.target).parents("div").attr("id");
+            if(id != "menuClasesLink"){
+                cerrarClasesMenu();     
+            }
+            return true;
+        });
+    }else {
+        //bind para dispositivos con pantalla tactil
+        //NO SIRVE NINGÚN LINK SI HAY UN VIDEO ABAJO
+        //SI EL VIDEO SE ESCONDE Y LUEGO SE MUESTRA YA NO
+        //FUNCIONA. POR ESO SE QUITO ESTA FUNCIONALIDAD
+        //
+    }
 });
+
+function cerrarClasesMenu(){
+    $("#clases_menu").hide("swing");
+    $("#flechitaClases").hide("swing");       
+    $("#flechaClases").removeClass("flechaArriba");
+    $("#flechaClases").addClass("flechaAbajo");
+}
 
 Popcorn( function() {
     $popPrincipal = Popcorn('#videoPrincipal');
@@ -65,7 +104,7 @@ function agregarImagenDiv(urlImagen, inicio, fin, color, top, left, width, heigh
         text: textoDiv,
         target: "footnotediv"
     });
-     $("#drag_"+$indice).draggable({
+    $("#drag_"+$indice).draggable({
         containment: "#editorContainment",
         stack: ".stack"
     });
@@ -87,7 +126,7 @@ function agregarLinkDiv(texto, url, inicio, fin, color, top, left, width, height
         text: textoDiv,
         target: "footnotediv"
     });
-     $("#drag_"+$indice).draggable({
+    $("#drag_"+$indice).draggable({
         containment: "#editorContainment",
         stack: ".stack"
     });
@@ -116,7 +155,7 @@ function agregarVideoDiv(urlVideo, inicio, fin, color, top, left, width, height)
     auxVarVideo.on("playing", function() {    	
         pauseVideo();
     });
-     $("#videoContainer_"+indiceVideo).draggable({
+    $("#videoContainer_"+indiceVideo).draggable({
         handle: "p",
         containment: "#editorContainment",
         stack: ".stack"

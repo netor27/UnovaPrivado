@@ -51,6 +51,11 @@ if ($user) {
     require_once 'modulos/usuarios/modelos/usuarioModelo.php';
     //validamos si este usuario ya tiene su email registrado, sino creamos un usuario nuevo
     $usuario = getUsuarioFromEmail($email);
+    //si no es su mail principal, validamos si lo tiene guardado como mailFacebook
+    if(!isset($usuario)){
+        $usuario = getUsuarioFromFacebookEmail($email);
+    }
+    
     if (isset($usuario)) {
         //el usuario ya existe en la bd, loggearlo!
         if (loginUsuario($usuario->email, $usuario->password) == 1) {
@@ -63,6 +68,7 @@ if ($user) {
         $usuario = new Usuario();
         $usuario->nombreUsuario = $nombre;
         $usuario->email = $email;
+        $usuario->emailFacebook = $email;
         $password = getUniqueCode(10);
         $usuario->password = md5($password);
         $usuario->uniqueUrl = getUsuarioUniqueUrl($nombre);
