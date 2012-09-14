@@ -25,15 +25,18 @@ function strleft($s1, $s2) {
 
 function tipoUsuario() {
     require_once 'modulos/usuarios/clases/Usuario.php';
-
     if (isset($_SESSION['usuario'])) {
         $usuario = $_SESSION['usuario'];
-        if ($usuario->tipoUsuario == 1) {
-            return 'administrador';
-        } else if ($usuario->tipoUsuario == 0) {
-            return 'usuario';
-        } else if ($usuario->tipoUsuario == 2) {
-            return 'administradorPrivado';
+        switch($usuario->tipoUsuario){
+            case 0:
+                return 'usuario';
+                break;
+            case 1:
+                return 'administrador';                
+                break;
+            case 2:
+                return 'administradorPrivado';
+                break;
         }
     } else {
         return 'visitante';
