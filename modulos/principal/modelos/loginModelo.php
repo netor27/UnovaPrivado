@@ -60,10 +60,7 @@ function validateSessionIdUsuario($idUsuario, $sessionId) {
     if ($stmt->rowCount() == 1) {
         //el usuario y el sessionId son válidos regresar true
         return true;
-    }else{
-        //el sessionId ya no es válido para este usuario, destruimos la session
-        setSessionMessage("<h4 class='error'>Alguien utilizó tus datos para iniciar sesión. Si esto es un error <a href='/usuarios/usuario/recuperarPassword'>recupera tu contraseña aquí</a></h4>");
-        $_SESSION['usuario'] = null;
+    } else {
         return false;
     }
 }
@@ -74,6 +71,8 @@ function salir() {
         $_SESSION['usuario'] = null;
         session_destroy();
         //Si cerró sesión, matamos las cookies
+        unset($_COOKIE['usrcookie']);
+        unset($_COOKIE['clvcookie']);
         setcookie("usrcookie", "logout", 1, '/');
         setcookie("clvcookie", "logout", 1, '/');
         $log = true;
