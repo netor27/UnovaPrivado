@@ -112,7 +112,6 @@ function getUsuarios() {
         $usuario->fechaRegistro = $row['fechaRegistro'];
         $usuario->tituloPersonal = $row['tituloPersonal'];
         $usuario->uniqueUrl = $row['uniqueUrl'];
-        $usuario->saldo = $row['saldo'];
         $usuarios[$i] = $usuario;
         $i++;
     }
@@ -141,7 +140,6 @@ function getUsuario($idUsuario) {
         $usuario->tituloPersonal = $row['tituloPersonal'];
         $usuario->uuid = $row['uuid'];
         $usuario->uniqueUrl = $row['uniqueUrl'];
-        $usuario->saldo = $row['saldo'];
     }
     return $usuario;
 }
@@ -200,7 +198,6 @@ function getUsuarioFromUniqueUrl($uniqueUrl) {
         $usuario->tituloPersonal = $row['tituloPersonal'];
         $usuario->uuid = $row['uuid'];
         $usuario->uniqueUrl = $row['uniqueUrl'];
-        $usuario->saldo = $row['saldo'];
     }
     return $usuario;
 }
@@ -241,7 +238,6 @@ function getUsuarioFromEmail($email) {
         $usuario->tituloPersonal = $row['tituloPersonal'];
         $usuario->uuid = $row['uuid'];
         $usuario->uniqueUrl = $row['uniqueUrl'];
-        $usuario->saldo = $row['saldo'];
     }
     return $usuario;
 }
@@ -298,18 +294,6 @@ function elNombreUsuarioEsUnico($uniqueUrl) {
 
     $stmt->execute();
     return ($stmt->rowCount() == 0);
-}
-
-function actualizaSaldoUsuario($idUsuario, $delta) {
-    require_once 'bd/conex.php';
-    global $conex;
-    $stmt = $conex->prepare("UPDATE usuario 
-                            SET saldo = saldo + :delta
-                            WHERE idUsuario = :id");
-    $stmt->bindParam(':delta', $delta);
-    $stmt->bindParam(':id', $idUsuario);
-
-    return $stmt->execute();
 }
 
 ?>

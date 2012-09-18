@@ -289,7 +289,4 @@ function enviarCorreoConfirmacion() {
     }
 }
 
-
-
-
-?>
+?>

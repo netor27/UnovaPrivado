@@ -23,7 +23,6 @@ function loginUsuario($email, $password) {
         $usuario->tipoUsuario = $row['tipoUsuario'];
         $usuario->uuid = $row['uuid'];
         $usuario->uniqueUrl = $row['uniqueUrl'];
-        $usuario->saldo = $row['saldo'];
 
         $_SESSION['usuario'] = $usuario;
         $_SESSION['contador'] = 1;

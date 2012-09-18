@@ -120,19 +120,6 @@
                                 </div>
                             </a>
                             <div id="perfil_links">
-                                <!--<a href="/usuarios/saldo">-->
-                                <a >
-                                    <span>Cuenta</span>
-                                    <br>
-                                    <?php
-                                    if ($usuarioHead->saldo > 0) {
-                                        echo '<span id="perfil_saldo">Saldo: $' . $usuarioHead->saldo . '</span>';
-                                    } else {
-                                        echo '<span id="perfil_saldo_cero">Saldo: $' . $usuarioHead->saldo . '</span>';
-                                    }
-                                    ?>
-                                </a>
-                                <br>
                                 <a href="/login/login/logout"><span>Cerrar Sesión</span></a><br>
                             </div>
                         </div>

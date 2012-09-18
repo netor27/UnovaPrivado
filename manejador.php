@@ -10,17 +10,6 @@ session_start();
 //validamos que una sesión no este siendo usada por varias computadoras al mismo tiempo
 if (validarUniqueSession()) {
     guardarTipoLayout();
-//actualizamos la cantidad de saldo cada 3 requests
-    if (isset($_SESSION['contador'])) {
-        $n = $_SESSION['contador'];
-        if ($n >= 3) {
-            require_once 'funcionesPHP/CargarInformacionSession.php';
-            cargarUsuarioSession();
-            $n = 0;
-        }
-        $n++;
-        $_SESSION['contador'] = $n;
-    }
 
     if (!empty($_GET['c']))
         $controlador = $_GET['c'];
