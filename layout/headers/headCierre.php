@@ -7,14 +7,7 @@
     <div id="e_bar">
         <div id="top-bar">
             <a href="/" class="logo left" id="logo"> <img src="/layout/imagenes/Unova_Logo_135x47.png"></a>
-            <div id="e_search-box-wrapper">
-                <div id="e_search-box"  class="right">
-                    <form action="/busqueda.php" id="search-form" method="get">
-                        <input id="q" class="search-input ease3 ui-autocomplete-input" autocomplete="off" name="q" type="text" placeholder="Buscar" role="textbox" aria-autocomplete="list" aria-haspopup="true"/>
-                        <input type="submit" id="u_search-submit" value/>
-                    </form>
-                </div>
-            </div>            
+                      
             <?php
             $usuarioHead = getUsuarioActual();
             if (isset($usuarioHead)) {
@@ -52,39 +45,6 @@
                     </a>         
                     <div id="cursos_menu">
                         <div id="flechitaCursos"></div>
-                        <?php
-                        if (tipoUsuario() == "administradorPrivado") {
-                            ?>
-                            <div class="cursosMenuHeader">
-                                Cursos de los que soy instructor
-                            </div>                
-                            <?php
-                            if (isset($_SESSION['cursosPropios'])) {
-                                $cursosSession = $_SESSION['cursosPropios'];
-                                foreach ($cursosSession as $cursoSess) {
-                                    ?>
-                                    <a href="/curso/<?php echo $cursoSess->uniqueUrl; ?>">
-                                        <div class="cursoMenuElement">
-                                            <img src="<?php echo $cursoSess->imagen; ?>"/><?php echo $cursoSess->titulo; ?>
-                                            <div class=""><h6>Editar</h6></div>
-                                        </div>
-                                    </a>
-                                    <?php
-                                }
-                            } else {
-                                ?>                
-                                <div class="cursoMenuElement">
-                                    <h3>No has creado ningún curso</h3>
-                                </div>
-                            <?php } ?>
-                            <a href="/usuarios/cursos/instructor">
-                                <div class="cusosMenuVerMas">
-                                    Ver todos >>
-                                </div>
-                            </a>
-                            <?php
-                        }
-                        ?>
                         <div class="cursosMenuHeader">
                             Cursos que estoy tomando
                         </div>                

@@ -7,7 +7,6 @@ class Curso{
     public $titulo;             //varchar(100)
     public $uniqueUrl;          //varchar(100)
     public $publicado;          //tinyint
-    public $precio;             //integer
     public $descripcionCorta;   //varchar(140)
     public $descripcion;        //text    
     public $fechaPublicacion;   //DATE
@@ -15,9 +14,7 @@ class Curso{
     public $imagen;             //varchar(200)
     public $rating;             //Integer
     public $keywords;           //varchar(50)
-    public $totalViews;         //Integer
-    public $totalReportes;         //Integer
-    
+    public $totalViews;         //Integer    
     
     //Las siguientes no son parte de la bd
     public $nombreUsuario;    

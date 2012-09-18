@@ -28,12 +28,6 @@ require_once ('layout/headers/headCierre.php');
                                 echo 'Publicado';
                             else
                                 echo 'No publicado';
-                            echo '</span><span> - </span><span class="precio">';
-
-                            if ($curso->precio > 0)
-                                echo "$" . $curso->precio;
-                            else
-                                echo "Gratis";
                             echo "</span>";
                             ?>                    
                         </div>

@@ -87,7 +87,7 @@ function getCategoriaPorUniqueUrl($uniqueUrl) {
 function getCursosPorCategoria($idCategoria, $offset, $numRows) {    
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS c.idCurso, c.idUsuario, c.idSubcategoria, c.titulo, c.uniqueUrl, c.precio, c.imagen, u.nombreUsuario, u.uniqueUrl as uniqueUrlUsuario,
+    $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS c.idCurso, c.idUsuario, c.idSubcategoria, c.titulo, c.uniqueUrl, c.imagen, u.nombreUsuario, u.uniqueUrl as uniqueUrlUsuario,
                                 count(distinct cl.idClase) as numClases, count(distinct uc.idUsuario) as numAlumnos, 
                                 c.keywords, c.descripcionCorta
                             FROM curso c
@@ -119,7 +119,6 @@ function getCursosPorCategoria($idCategoria, $offset, $numRows) {
         $curso->idSubcategoria = $row['idSubcategoria'];
         $curso->titulo = $row['titulo'];
         $curso->uniqueUrl = $row['uniqueUrl'];
-        $curso->precio = $row['precio'];
         $curso->imagen = $row['imagen'];
         $curso->nombreUsuario = $row['nombreUsuario'];
         $curso->numeroDeClases = $row['numClases'];

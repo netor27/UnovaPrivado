@@ -134,33 +134,6 @@
                         <div id="cursos_menu">
                             <div id="flechitaCursos"></div>
                             <div class="cursosMenuHeader">
-                                Cursos de los que soy instructor
-                            </div>                
-                            <?php
-                            if (isset($_SESSION['cursosPropios'])) {
-                                $cursosSession = $_SESSION['cursosPropios'];
-                                foreach ($cursosSession as $cursoSess) {
-                                    ?>
-                                    <a href="/curso/<?php echo $cursoSess->uniqueUrl; ?>">
-                                        <div class="cursoMenuElement">
-                                            <img src="<?php echo $cursoSess->imagen; ?>"/><?php echo $cursoSess->titulo; ?>
-                                            <div class=""><h6>Editar</h6></div>
-                                        </div>
-                                    </a>
-                                    <?php
-                                }
-                            } else {
-                                ?>                
-                                <div class="cursoMenuElement">
-                                    <h3>No has creado ningún curso</h3>
-                                </div>
-                            <?php } ?>
-                            <a href="/usuarios/cursos/instructor">
-                                <div class="cusosMenuVerMas">
-                                    Ver todos >>
-                                </div>
-                            </a>
-                            <div class="cursosMenuHeader">
                                 Cursos que estoy tomando
                             </div>                
                             <?php

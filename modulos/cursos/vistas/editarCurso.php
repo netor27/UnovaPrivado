@@ -4,20 +4,6 @@ require_once('layout/headers/headEditarCurso.php');
 require_once('layout/headers/headStarRating.php');
 require_once('layout/headers/headCierre.php');
 ?>
-<div id="modalDialogCambiarPrecio" title="Cambiar precio">
-    <h2>Aquí puedes establecer el precio de tu curso</h2>
-    <div>
-        <form method="post" action="/cursos/curso/cambiarPrecio">
-            <p>
-                <label for="amount">Precio del curso:</label>
-                <input type="text" name="cantidad" id="cantidad" style="border:1; color:#f6931f; font-weight:bold; font-size: 20px;" value="10"/>
-            </p>
-            <br>
-            <input type="hidden" name="ic" value="<?php echo $cursoParaModificar->idCurso; ?>">
-            <input class="right" type="submit" value="  Aceptar ">
-        </form>
-    </div>
-</div>
 
 <div class="contenido">    
     <div id="cursoHeader">
@@ -66,29 +52,18 @@ require_once('layout/headers/headCierre.php');
 
                         if ($i != 0)
                             echo ", ";
-                        echo "<a href='/busqueda.php?q=" . trim($split) . "'>" . trim($split) . "</a>";
+                        echo  trim($split);
 
                         $i++;
                     }
                     ?>
 
                 </h5>
-                <h5> 
-                    <?php
-                    if ($cursoParaModificar->precio > 0)
-                        echo "Precio:  <strong>$" . $cursoParaModificar->precio . "</strong>";
-                    else
-                        echo "<strong>Curso gratuito</strong>";
-                    ?>
-                </h5>
             </div>            
         </div>
         <div id="cursoHeader_right" class="right">
             <a href="/cursos/curso/editarInformacionCurso/<?php echo $cursoParaModificar->idCurso; ?>" >
                 <div class="blueButton">Editar información del curso</div>
-            </a>
-            <a id="cambiarPrecio">
-                <div class="blueButton">Cambiar precio del curso</div>
             </a>
             <div id="publicadoContainer">
                 <?php

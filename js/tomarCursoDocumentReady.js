@@ -110,14 +110,3 @@ $(function(){
     
     
 });
-
-function reportarCurso(i){
-    var url = '/cursos.php?a=reportarCurso&i=' + i;
-    $.ajax({
-        type: 'get',
-        url: url,             
-        success: function(data) {
-            $( "#reportar" ).html("<h4 style='text-align:center;'>¡Gracias!</h4>");
-        }
-    }); 
-}

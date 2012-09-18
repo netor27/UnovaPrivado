@@ -9,18 +9,17 @@ function principal() {
     $numCursos = $array['n'];
     $cursos = $array['cursos'];
 
-    $numPreguntas = 0;
-    //checamos que no tenga preguntas sin responder
-    $usuario = getUsuarioActual();
-    if (isset($usuario)) {
-        $aleatorio = rand(0, 100);
-        if ($aleatorio > 80) {
-            require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
-            $numPreguntas = getNumeroDePreguntasSinResponder($usuario->idUsuario);
-        }
-    }
-
-    require_once('modulos/principal/vistas/principal.php');
+    switch(tipoUsuario()){
+        case 'usuario':
+            require_once('modulos/principal/vistas/principal.php');
+            break;
+        case 'administradorPrivado':
+            require_once('modulos/principal/vistas/principalAdministradorPrivado.php');
+            break;
+        case 'administrador';
+            require_once('modulos/principal/vistas/principal.php');
+            break;
+    }    
 }
 
 ?>

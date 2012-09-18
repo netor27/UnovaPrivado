@@ -125,7 +125,7 @@ function getCursosInstructorDetalles($idUsuario, $orderBy, $orderAscDesc) {
     else if ($orderBy == "titulo")
         $auxOrder = " c.titulo " . $orderAscDesc . " ";
 
-    $stmt = $conex->prepare("Select u.idUsuario, u.nombreUsuario, u.uniqueUrl as uniqueUrlUsuario, c.idCurso, c.descripcionCorta, c.titulo, c.uniqueUrl, c.publicado, c.precio, c.imagen, c.fechaCreacion, count(distinct uc.idUsuario) as numAlumnos, count(distinct cl.idClase) as numClases
+    $stmt = $conex->prepare("Select u.idUsuario, u.nombreUsuario, u.uniqueUrl as uniqueUrlUsuario, c.idCurso, c.descripcionCorta, c.titulo, c.uniqueUrl, c.publicado, c.imagen, c.fechaCreacion, count(distinct uc.idUsuario) as numAlumnos, count(distinct cl.idClase) as numClases
                             From curso c
                             INNER JOIN usuario u ON c.idUsuario = u.idUsuario
                             LEFT OUTER JOIN tema t ON c.idCurso = t.idCurso
@@ -146,7 +146,6 @@ function getCursosInstructorDetalles($idUsuario, $orderBy, $orderAscDesc) {
             $curso->idCurso = $row['idCurso'];
             $curso->titulo = $row['titulo'];
             $curso->publicado = $row['publicado'];
-            $curso->precio = $row['precio'];
             $curso->imagen = $row['imagen'];
             $curso->fechaCreacion = $row['fechaCreacion'];
             $curso->numeroDeAlumnos = $row['numAlumnos'];
@@ -174,7 +173,7 @@ function getCursosInstructorDetallesPublicados($idUsuario, $orderBy, $orderAscDe
     else if ($orderBy == "titulo")
         $auxOrder = " c.titulo " . $orderAscDesc . " ";
 
-    $stmt = $conex->prepare("Select c.idCurso, c.descripcionCorta, c.titulo, c.uniqueUrl, c.publicado, c.precio, c.imagen, c.fechaCreacion, count(distinct uc.idUsuario) as numAlumnos, count(distinct cl.idClase) as numClases
+    $stmt = $conex->prepare("Select c.idCurso, c.descripcionCorta, c.titulo, c.uniqueUrl, c.publicado, c.imagen, c.fechaCreacion, count(distinct uc.idUsuario) as numAlumnos, count(distinct cl.idClase) as numClases
                             From curso c
                             INNER JOIN usuario u ON c.idUsuario = u.idUsuario
                             LEFT OUTER JOIN tema t ON c.idCurso = t.idCurso
@@ -195,7 +194,6 @@ function getCursosInstructorDetallesPublicados($idUsuario, $orderBy, $orderAscDe
             $curso->idCurso = $row['idCurso'];
             $curso->titulo = $row['titulo'];
             $curso->publicado = $row['publicado'];
-            $curso->precio = $row['precio'];
             $curso->imagen = $row['imagen'];
             $curso->fechaCreacion = $row['fechaCreacion'];
             $curso->numeroDeAlumnos = $row['numAlumnos'];

@@ -4,7 +4,7 @@ require_once('layout/headers/headIndex.php');
 require_once('layout/headers/headCierre.php');
 ?>
 <div class="contenido">    
-    <h1>Página de inicio, unova privado</h1>
+    <h1>Página de inicio, administrador privado</h1>
    
 </div>
 

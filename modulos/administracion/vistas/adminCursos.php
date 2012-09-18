@@ -21,10 +21,8 @@ require_once('layout/headers/headCierre.php');
                     <th><a  title="Click Header to Sort">Título</a></th>
                     <th><a  title="Click Header to Sort">Fecha Creación</a></th>
                     <th><a  title="Click Header to Sort">Fecha Publicación</a></th>
-                    <th><a  title="Click Header to Sort">Precio</a></th>
                     <th><a  title="Click Header to Sort">Rating</a></th>
                     <th><a  title="Click Header to Sort">Total Views</a></th>
-                    <th><a  title="Click Header to Sort">Total Reportes</a></th>
                 </tr>
             </thead>
             <tbody>
@@ -37,10 +35,8 @@ require_once('layout/headers/headCierre.php');
                         echo '<td>'. $curso->fechaPublicacion . '</td>';
                     else
                         echo '<td>No publicado</td>';
-                    echo '<td>'. $curso->precio . '</td>';
                     echo '<td>'. $curso->rating . '</td>';
                     echo '<td>'. $curso->totalViews . '</td>';
-                    echo '<td>'. $curso->totalReportes . '</td>';
                     echo '</tr>';
                 }
                 ?>

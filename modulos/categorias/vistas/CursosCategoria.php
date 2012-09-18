@@ -29,14 +29,6 @@ require_once('layout/headers/headCierre.php');
                         <a href="/curso/<?php echo $curso->uniqueUrl; ?>"><div class="thumb" style="background: url(<?php echo $curso->imagen; ?>);"></div></a>
                         <div class="detalles">                        
                             <a href="/curso/<?php echo $curso->uniqueUrl; ?> "> <?php echo $curso->titulo; ?> </a>
-                            <span class="precio">
-                                <?php
-                                if ($curso->precio > 0)
-                                    echo '$' . $curso->precio;
-                                else
-                                    echo 'Gratis';
-                                ?>
-                            </span>
                             <br><span class="autor"> Hecho por <a href="/usuario/<?php echo $curso->uniqueUrlUsuario; ?>"><?php echo $curso->nombreUsuario; ?></a></span>
                             <br><span class="descripcionCorta"><?php echo $curso->descripcionCorta; ?></span>                                            
 

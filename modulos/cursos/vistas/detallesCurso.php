@@ -45,14 +45,6 @@ require_once('layout/headers/headCierre.php');
             <div id="botonComprar-wrapper">
                 <a class="botonComprar-link" onclick="return validarInscripcionCurso();" href="/cursos/curso/inscribirUsuario/<?php echo $curso->idCurso; ?>">
                     Inscribirme a este curso
-                    <span>
-                        <?php
-                        if ($curso->precio > 0)
-                            echo "$" . $curso->precio;
-                        else
-                            echo 'Gratuitamente ';
-                        ?>
-                    </span>
                 </a>
             </div>
         </div>
