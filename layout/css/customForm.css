@@ -51,7 +51,6 @@
 }  
 #customForm div span.error{  
     color:white;
-    font-weight:bold;
     font-style:italic;
     text-align:left;
     background-color:rgb(179, 12, 0);

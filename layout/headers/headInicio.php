@@ -15,12 +15,17 @@
         <link rel="stylesheet" href="/layout/css/MainStyle.css" />
         <link rel="stylesheet" href="/layout/css/forms.css" />
         <link rel="stylesheet" href="/layout/css/redmond/jquery-ui-1.8.17.custom.css" />
+
+        <link rel="stylesheet" href="/layout/css/jqueryFileUpload/bootstrap-image-gallery.min.css">
+        <link rel="stylesheet" href="/layout/css/jqueryFileUpload/bootstrap-responsive.min.css">
+        <link rel="stylesheet" href="/layout/css/jqueryFileUpload/bootstrap.min.css">
+
         <script src="/js/jquery-1.7.2.min.js"></script>		
         <script src="/js/jquery-ui-1.8.17.custom.min.js"></script>
         <script src="/js/popcorn-complete.min.js"></script>
         <script src="/js/funciones.js"></script>	
         <script src="/js/DocumentReady.js"></script>
-        
+
         <!--Google analytics Unova.co-->
         <script type="text/javascript">
 

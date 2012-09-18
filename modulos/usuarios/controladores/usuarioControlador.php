@@ -233,34 +233,6 @@ function reestablecerPasswordSubmit() {
     }
 }
 
-function cambiarCorreo() {
-    if (validarUsuarioLoggeado()) {
-        require_once 'modulos/usuarios/vistas/cambiarCorreo.php';
-    }
-}
-
-function cambiarCorreoSubmit() {
-    if (validarUsuarioLoggeadoParaSubmits()) {
-        if (isset($_POST['email']) && comprobar_email($_POST['email'])) {
-            $usuario = getUsuarioActual();
-            require_once 'modulos/usuarios/modelos/usuarioModelo.php';
-            $usuario->email = $_POST['email'];
-            if (actualizaEmail($usuario)) {
-                setSessionMessage("<h4 class='success'>¡Actualizaste tu correo! Recibirás un correo para confirmarlo</h4>");
-                redirect("/usuario/" . $usuario->uniqueUrl);
-            } else {
-                setSessionMessage("<h4 class='error'>Ocurrió un error al actualizar tu correo. Intenta de nuevo más tarde</h4>");
-                redirect("/usuario/" . $usuario->uniqueUrl);
-            }
-        } else {
-            $error = "Los datos no son válidos";
-            require_once 'modulos/usuarios/vistas/cambiarPassword.php';
-        }
-    } else {
-        goToIndex();
-    }
-}
-
 function confirmarCuenta() {
     $uuid = $_GET['i'];
     require_once 'modulos/usuarios/modelos/usuarioModelo.php';
