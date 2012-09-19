@@ -43,7 +43,11 @@ require_once('layout/headers/headCierre.php');
                                         <a class="btn btn-warning" href="#"><i class="icon-share icon-white"></i> Grupos</a>
                                         <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                                         <ul class="dropdown-menu">
-                                            <li><a href="#"><i class="icon-pencil"></i> Ver asignados</a></li>
+                                            <li>
+                                                <a href="/grupos/cursos/asignados/<?php echo $curso->idCurso; ?>">
+                                                    <i class="icon-pencil"></i> Ver asignados
+                                                </a>
+                                            </li>
                                             <li><a href="#"><i class="icon-plus"></i> Asignar grupo(s)</a></li>                                            
                                         </ul>
                                     </div>                                
