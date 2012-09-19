@@ -23,13 +23,13 @@ require_once('layout/headers/headCierre.php');
         </div>        
         <div class="span4 offset1">
             <div>
-                <a href="#" class="btn btn-primary">
+                <a href="/usuarios/cursos/inscribirUsuario/<?php echo $curso->idCurso; ?>" class="btn btn-primary">
                     <i class="icon-white icon-plus"></i>
                     Inscribir usuario(s) a este curso
                 </a>
             </div>
         </div>
-    </div>
+    </div>    
     <div class="row-fluid">
         <div id="alumnosContainer" class="span12">
             <div class="gridster ready">
@@ -42,13 +42,13 @@ require_once('layout/headers/headCierre.php');
                         <li class="cuadro ui-corner-all" data-row="1" data-col="1" data-sizex="1" data-sizey="1" style="background: url('<?php echo $alumno->avatar; ?>')">
                             <div class="cuadroFooter ui-corner-bottom ease3">
                                 <span class="cuadroFooterTitulo">
-                                    <a href="/usuario/<?php echo $alumno->uniqueUrl;?>">
+                                    <a href="/usuario/<?php echo $alumno->uniqueUrl; ?>">
                                         <?php echo $alumno->nombreUsuario; ?>
                                     </a>
                                 </span>
                                 <br>
                                 <span class="cuadroFooterLink">
-                                    <a class="btn btn-mini btn-danger">
+                                    <a class="btn btn-mini btn-danger borrarInscripcion" id="<?php echo $alumno->idUsuario; ?>">
                                         <i class="icon-white icon-trash"></i>
                                         Quitar de este curso
                                     </a>
@@ -63,27 +63,37 @@ require_once('layout/headers/headCierre.php');
         </div>
     </div>
     <div class="row-fluid">
-        <div class="pagination pagination-centered">
-            <ul>
-                <?php
-                if ($pagina > 1)
-                    echo '<li><a href="/cursos/curso/alumnos/' . $idCurso . '/' . ($pagina - 1) . '">«</a></li>';
-                else
-                    echo '<li class="disabled"><a href="#">«</a></li>';
-
-                for ($i = 1; $i <= $maxPagina; $i++) {
-                    if ($i == $pagina)
-                        echo '<li class="active"><a href="#">' . $i . '</a></li>';
+        <div class="span12">
+            <div class="pagination pagination-centered">
+                <ul>
+                    <?php
+                    if ($pagina > 1)
+                        echo '<li><a href="/cursos/curso/alumnos/' . $idCurso . '/' . ($pagina - 1) . ':pc='.$paginaCursos.'">«</a></li>';
                     else
-                        echo '<li><a href="/cursos/curso/alumnos/' . $idCurso . '/' . $i . '">' . $i . '</a></li>';
-                }
+                        echo '<li class="disabled"><a href="#">«</a></li>';
 
-                if ($pagina < $maxPagina)
-                    echo '<li><a href="/cursos/curso/alumnos/' . $idCurso . '/' . ($pagina + 1) . '">»</a></li>';
-                else
-                    echo '<li class="disabled"><a href="#">»</a></li>';
-                ?>
-            </ul>
+                    for ($i = 1; $i <= $maxPagina; $i++) {
+                        if ($i == $pagina)
+                            echo '<li class="active"><a href="#">' . $i . '</a></li>';
+                        else
+                            echo '<li><a href="/cursos/curso/alumnos/' . $idCurso . '/' . $i . ':pc='.$paginaCursos.'">' . $i . '</a></li>';
+                    }
+
+                    if ($pagina < $maxPagina)
+                        echo '<li><a href="/cursos/curso/alumnos/' . $idCurso . '/' . ($pagina + 1) . ':pc='.$paginaCursos.'">»</a></li>';
+                    else
+                        echo '<li class="disabled"><a href="#">»</a></li>';
+                    ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span3">
+            <a class="btn btn-inverse btn-small"href="/cursos:p=<?php echo $paginaCursos; ?>">
+                <i class="icon-white icon-arrow-left"></i>
+                Regresar a la lista de cursos
+            </a>
         </div>
     </div>
 

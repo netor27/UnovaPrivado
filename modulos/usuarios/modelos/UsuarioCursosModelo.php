@@ -270,6 +270,22 @@ function inscribirUsuarioCurso($idUsuario, $idCurso) {
     return $stmt->execute();
 }
 
+function eliminarInscripcionUsuarioCurso($idUsuario, $idCurso) {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("DELETE FROM usuariocurso
+                            WHERE idUsuario = :idUsuario
+                            AND idCurso = :idCurso");
+    $stmt->bindParam("idUsuario", $idUsuario);
+    $stmt->bindParam("idCurso", $idCurso);
+    if($stmt->execute()){
+        return true;        
+    }else{
+        print_r($stmt->errorInfo());
+        return false;
+    }
+}
+
 function getRatingUsuario($idUsuario, $idCurso) {
     require_once 'bd/conex.php';
     global $conex;

@@ -17,7 +17,11 @@ function principal() {
             $cursos = $res['cursos'];
             $numCursos = $res['n'];
             $maxPagina = ceil($numCursos / $numRows);
-            require_once 'modulos/cursos/vistas/principal.php';
+            if ($pagina != 1 && $pagina > $maxPagina) {
+                redirect("/cursos?p=" . $maxPagina);
+            } else {
+                require_once 'modulos/cursos/vistas/principal.php';
+            }
         } else {
             goToIndex();
         }
@@ -670,8 +674,12 @@ function alumnos() {
             if (isset($_GET['i'])) {
                 $idCurso = intval($_GET['i']);
                 $offset = 0;
-                $numRows = 8;
+                $numRows = 6;
                 $pagina = 1;
+                $paginaCursos = 1;
+                if(isset($_GET['pc']) && is_numeric($_GET['pc'])){
+                    $paginaCursos = $_GET['pc'];
+                }
                 if (isset($_GET['j']) && is_numeric($_GET['j'])) {
                     $pagina = intval($_GET['j']);
                     $offset = $numRows * ($pagina - 1);
@@ -682,7 +690,11 @@ function alumnos() {
                 $alumnos = $res['alumnos'];
                 $numAlumnos = $res['n'];
                 $maxPagina = ceil($numAlumnos / $numRows);
-                require_once 'modulos/cursos/vistas/listaAlumnosDeCurso.php';
+                if ($pagina != 1 && $pagina > $maxPagina) {
+                    redirect("/cursos/curso/alumnos/" . $idCurso . "/" . $maxPagina);
+                } else {
+                    require_once 'modulos/cursos/vistas/listaAlumnosDeCurso.php';
+                }
             } else {
                 setSessionMessage("<h4 class='error'>Ocurrió un error</h4>");
                 redirect("/cursos");

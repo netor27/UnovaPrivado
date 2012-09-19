@@ -36,3 +36,9 @@ RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)/([a-zA-Z]+)/([a-zA-Z0-9]+)$ $1.php?c=$2&a=$
 RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)/([a-zA-Z]+)$ $1.php?c=$2&a=$3 [L]
 RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)$ $1.php?c=$2 [L]
 RewriteRule ^([a-zA-Z]+)$ $1.php [L]
+
+RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)/([a-zA-Z]+)/([a-zA-Z0-9]+)/([a-zA-Z0-9]+):(.+)$ $1.php?c=$2&a=$3&i=$4&j=$5&$6 [L]
+RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)/([a-zA-Z]+)/([a-zA-Z0-9]+):(.+)$ $1.php?c=$2&a=$3&i=$4&$5 [L]
+RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)/([a-zA-Z]+):(.+)$ $1.php?c=$2&a=$3&$4 [L]
+RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+):(.+)$ $1.php?c=$2&$3 [L]
+RewriteRule ^([a-zA-Z]+):(.+)$ $1.php?$2 [L]
