@@ -91,7 +91,6 @@ function getCursosPorCategoria($idCategoria, $offset, $numRows) {
                                 count(distinct cl.idClase) as numClases, count(distinct uc.idUsuario) as numAlumnos, 
                                 c.keywords, c.descripcionCorta
                             FROM curso c
-                            INNER JOIN cursobusqueda cb ON c.idCurso = cb.idCurso
                             INNER JOIN subcategoria s ON c.idSubcategoria = s.idSubcategoria
                             LEFT OUTER JOIN tema t ON c.idCurso = t.idCurso
                             LEFT OUTER JOIN clase cl ON t.idTema = cl.idTema

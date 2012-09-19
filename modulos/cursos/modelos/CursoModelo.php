@@ -18,23 +18,8 @@ function altaCurso($curso) {
     if ($val) {
         $id = $conex->lastInsertId();
         $curso->idCurso = $id;
-        altaCursoBusqueda($curso);
     }
     return $id;
-}
-
-function altaCursoBusqueda($curso) {
-    require_once 'bd/conex.php';
-    global $conex;
-    $stmt = $conex->prepare("INSERT into cursobusqueda (idCurso, titulo, keywords, descripcionCorta) 
-                             values (:idCurso, :titulo, :keywords, :descripcionCorta)");
-    $stmt->bindParam(':idCurso', $curso->idCurso);
-    $stmt->bindParam(':titulo', $curso->titulo);
-    $stmt->bindParam(':keywords', $curso->keywords);
-    $stmt->bindParam(':descripcionCorta', $curso->descripcionCorta);
-    $id = -1;
-    if (!$stmt->execute())
-        print_r($stmt->errorInfo());
 }
 
 function bajaCurso($idCurso) {
@@ -44,17 +29,7 @@ function bajaCurso($idCurso) {
     $stmt->bindParam(':id', $idCurso);
     $stmt->execute();
     $n = $stmt->rowCount();
-    bajaCursoBusqueda($idCurso);
     return $n;
-}
-
-function bajaCursoBusqueda($idCurso) {
-    require_once 'bd/conex.php';
-    global $conex;
-    $stmt = $conex->prepare("DELETE FROM cursobusqueda WHERE idCurso = :id");
-    $stmt->bindParam(':id', $idCurso);
-    $stmt->execute();
-    return $stmt->rowCount();
 }
 
 function actualizaInformacionCurso($curso) {
@@ -69,24 +44,6 @@ function actualizaInformacionCurso($curso) {
     $stmt->bindParam(':descripcionCorta', $curso->descripcionCorta);
     $stmt->bindParam(':descripcion', $curso->descripcion);
     $stmt->bindParam(':keywords', $curso->keywords);
-    $stmt->bindParam(':idCurso', $curso->idCurso);
-    if ($stmt->execute()) {
-        return acutalizaInformacionCursoBusqueda($curso);
-    } else {
-        return false;
-    }
-}
-
-function acutalizaInformacionCursoBusqueda($curso) {
-    require_once 'bd/conex.php';
-    global $conex;
-    $stmt = $conex->prepare("UPDATE cursobusqueda SET titulo = :titulo, 
-                             descripcionCorta = :descripcionCorta,
-                             keywords = :keywords
-                            WHERE idCurso = :idCurso");
-    $stmt->bindParam(':titulo', $curso->titulo);
-    $stmt->bindParam(':keywords', $curso->keywords);
-    $stmt->bindParam(':descripcionCorta', $curso->descripcionCorta);
     $stmt->bindParam(':idCurso', $curso->idCurso);
     return $stmt->execute();
 }
@@ -257,11 +214,11 @@ function getAllCursos() {
 function getCursosFuncion() {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS c.idCurso, c.idUsuario, c.idSubcategoria, c.titulo, c.uniqueUrl, c.imagen, u.nombreUsuario, u.uniqueUrl as uniqueUrlUsuario,
+    $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS c.idCurso, c.idUsuario, c.idSubcategoria, c.titulo, 
+                                c.uniqueUrl, c.imagen, u.nombreUsuario, u.uniqueUrl as uniqueUrlUsuario,
                                 count(distinct cl.idClase) as numClases, count(distinct uc.idUsuario) as numAlumnos, 
                                 c.keywords, c.descripcionCorta
                             FROM curso c
-                            INNER JOIN cursobusqueda cb ON c.idCurso = cb.idCurso
                             LEFT OUTER JOIN tema t ON c.idCurso = t.idCurso
                             LEFT OUTER JOIN clase cl ON t.idTema = cl.idTema
                             LEFT OUTER JOIN usuariocurso uc ON c.idCurso = uc.idCurso
