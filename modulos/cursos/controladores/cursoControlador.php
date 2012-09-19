@@ -1,7 +1,29 @@
 <?php
 
 function principal() {
-    require_once 'modulos/cursos/vistas/principal.php';
+    if (validarUsuarioLoggeado()) {
+        if (tipoUsuario() == "administradorPrivado") {
+            $offset = 0;
+            $numRows = 5;
+            $pagina = 1;
+            if (isset($_GET['p'])) {
+                if (is_numeric($_GET['p'])) {
+                    $pagina = intval($_GET['p']);
+                    $offset = $numRows * ($pagina - 1);
+                }
+            }
+            require_once 'modulos/cursos/modelos/CursoModelo.php';
+            $res = getCursos($offset, $numRows);
+            $cursos = $res['cursos'];
+            $numCursos = $res['n'];
+            $maxPagina = ceil($numCursos / $numRows);
+            require_once 'modulos/cursos/vistas/principal.php';
+        } else {
+            goToIndex();
+        }
+    } else {
+        goToIndex();
+    }
 }
 
 function crearCurso() {
@@ -639,6 +661,27 @@ function publicar() {
         }
     } else {
         echo 'ERROR. Usuario no loggeado';
+    }
+}
+
+function alumnos() {
+    if (validarUsuarioLoggeado()) {
+        if (tipoUsuario() == "administradorPrivado") {
+            if(isset($_GET['i'])){
+                $idCurso = intval($_GET['i']);
+                require_once 'modulos/cursos/modelos/CursoModelo.php';
+                $usuarios = getAlumnosDeCurso($idCurso);
+                print_r($usuarios);
+                
+            }else{
+                setSessionMessage("<h4 class='error'>Ocurrió un error</h4>");
+                redirect("/cursos");
+            }            
+        } else {
+            goToIndex();
+        }
+    } else {
+        goToIndex();
     }
 }
 

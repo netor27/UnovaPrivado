@@ -155,11 +155,28 @@ function getCursoFromUniqueUrl($cursoUrl) {
 function getCursos($offset, $numRows) {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("SELECT * FROM curso LIMIT :offset, :numRows");
-    $stmt->bindParam(':offset', $offset);
-    $stmt->bindParam(':numRows', $numRows);
-    $stmt->execute();
+    $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS c.idCurso, c.idUsuario, c.idSubcategoria, c.titulo, 
+                                c.uniqueUrl, c.imagen, u.nombreUsuario, u.uniqueUrl as uniqueUrlUsuario,
+                                count(distinct cl.idClase) as numClases, count(distinct uc.idUsuario) as numAlumnos, 
+                                c.keywords, c.descripcionCorta
+                            FROM curso c
+                            LEFT OUTER JOIN tema t ON c.idCurso = t.idCurso
+                            LEFT OUTER JOIN clase cl ON t.idTema = cl.idTema
+                            LEFT OUTER JOIN usuariocurso uc ON c.idCurso = uc.idCurso
+                            LEFT OUTER JOIN usuario u ON c.idUsuario = u.idUsuario
+                            WHERE c.publicado = 1
+                            GROUP BY c.idCurso
+                            ORDER BY c.titulo ASC
+                            LIMIT $offset, $numRows");
+
+    if (!$stmt->execute())
+        print_r($stmt->errorInfo());
     $rows = $stmt->fetchAll();
+
+    $r = $conex->query("SELECT FOUND_ROWS() as numero")->fetch();
+    $n = $r['numero'];
+
+
     $cursos = null;
     $curso = null;
     $i = 0;
@@ -170,20 +187,28 @@ function getCursos($offset, $numRows) {
         $curso->idSubcategoria = $row['idSubcategoria'];
         $curso->titulo = $row['titulo'];
         $curso->uniqueUrl = $row['uniqueUrl'];
-        $curso->descripcionCorta = $row['descripcionCorta'];
-        $curso->descripcion = $row['descripcion'];
+        $curso->imagen = $row['imagen'];
+        $curso->nombreUsuario = $row['nombreUsuario'];
+        $curso->numeroDeClases = $row['numClases'];
+        $curso->numeroDeAlumnos = $row['numAlumnos'];
         $curso->keywords = $row['keywords'];
-
+        $curso->descripcionCorta = $row['descripcionCorta'];
+        $curso->uniqueUrlUsuario = $row['uniqueUrlUsuario'];
         $cursos[$i] = $curso;
         $i++;
     }
-    return $cursos;
+    $array = array(
+        "n" => $n,
+        "cursos" => $cursos
+    );
+    return $array;
 }
 
 function getAllCursos() {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("SELECT * FROM curso");
+    $stmt = $conex->prepare("SELECT * FROM curso
+                            ORDER BY titulo asc");
     $stmt->execute();
     $rows = $stmt->fetchAll();
     $cursos = null;
@@ -204,7 +229,7 @@ function getAllCursos() {
         $curso->fechaPublicacion = $row['fechaPublicacion'];
         $curso->publicado = $row['publicado'];
         $curso->rating = $row['rating'];
-
+        $curso->imagen = $row['imagen'];
         $cursos[$i] = $curso;
         $i++;
     }
@@ -413,6 +438,35 @@ function sumarTotalView($idCurso) {
                             WHERE idCurso = :idCurso");
     $stmt->bindParam(':idCurso', $idCurso);
     return $stmt->execute();
+}
+
+function getAlumnosDeCurso($idCurso) {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("SELECT u.*
+                            FROM usuario u, usuariocurso uc
+                            WHERE u.idUsuario = uc.idUsuario
+                            AND uc.idCurso = :idCurso");
+    $stmt->bindParam(':idCurso', $idCurso);
+    if ($stmt->execute()) {
+        $usuario = null;
+        $usuarios = null;
+        $rows = $stmt->fetchAll();
+        $i=0;
+        foreach ($rows as $row) {
+            $usuario = new Usuario();
+            $usuario->idUsuario = $row['idUsuario'];
+            $usuario->nombreUsuario = $row['nombreUsuario'];
+            $usuario->avatar = $row['avatar'];
+            $usuario->uniqueUrl = $row['uniqueUrl'];
+            $usuarios[$i] = $usuario;
+            $i++;
+        }
+        return $usuarios;
+    } else {
+        print_r($stmt->errorInfo());
+        return null;
+    }
 }
 
 ?>
