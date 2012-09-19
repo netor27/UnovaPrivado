@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xml:lang="es">
+<html lang="es-es" xml:lang="es-es">
     <head>
         <meta name="google" value="notranslate">
         <meta charset="utf-8" />
@@ -15,8 +15,7 @@
         <link rel="stylesheet" href="/layout/css/MainStyle.css" />
         <link rel="stylesheet" href="/layout/css/forms.css" />
         <link rel="stylesheet" href="/layout/css/redmond/jquery-ui-1.8.17.custom.css" />
-
-        <script src="/js/jquery-1.7.2.min.js"></script>		
+        <script src="/js/jquery-1.7.2.min.js"></script>	
         <script src="/js/jquery-ui-1.8.17.custom.min.js"></script>
         <script src="/js/popcorn-complete.min.js"></script>
         <script src="/js/funciones.js"></script>	

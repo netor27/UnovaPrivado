@@ -1,10 +1,9 @@
 <?php
 require_once('layout/headers/headInicio.php');
 require_once('layout/headers/headBootstrap.php');
-require_once ('layout/headers/headListaCursos.php');
+require_once('layout/headers/headListaCursos.php');
 require_once('layout/headers/headCierre.php');
 ?>
-
 
 <div class="contenido">
     <h4 style="text-align: center;">Cursos</h4>
@@ -32,16 +31,16 @@ require_once('layout/headers/headCierre.php');
                                 <br>
                                 <div class="left botones">
                                     <div class="left btn-group">
-                                        <a class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> Usuarios</a>
-                                        <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                        <a class="btn btn-small btn-primary" href="#"><i class="icon-user icon-white"></i> Usuarios</a>
+                                        <a class="btn  btn-small btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                                         <ul class="dropdown-menu">
                                             <li><a href="/cursos/curso/alumnos/<?php echo $curso->idCurso; ?>"><i class="icon-pencil"></i> Ver inscritos</a></li>
                                             <li><a href="#"><i class="icon-plus"></i> Inscribir usuario(s)</a></li>                                            
                                         </ul>
                                     </div>
                                     <div class="left btn-group">
-                                        <a class="btn btn-warning" href="#"><i class="icon-share icon-white"></i> Grupos</a>
-                                        <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                        <a class="btn btn-small btn-warning" href="#"><i class="icon-share icon-white"></i> Grupos</a>
+                                        <a class="btn  btn-small btn-warning dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                                         <ul class="dropdown-menu">
                                             <li>
                                                 <a href="/grupos/cursos/asignados/<?php echo $curso->idCurso; ?>">
@@ -66,7 +65,10 @@ require_once('layout/headers/headCierre.php');
 
                             <div class="right botonBorrar">
                                 <div class="left btn-group">
-                                    <a class="btn btn-danger" href="#"><i class="icon-fire icon-white"></i> Eliminar</a>
+                                    <a class="btn btn-small btn-danger borrarCurso" href="#" 
+                                       id="<?php echo $curso->idCurso; ?>">
+                                        <i class="icon-fire icon-white"></i> Eliminar
+                                    </a>
                                 </div>
                             </div>
                         </li>

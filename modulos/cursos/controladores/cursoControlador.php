@@ -667,16 +667,53 @@ function publicar() {
 function alumnos() {
     if (validarUsuarioLoggeado()) {
         if (tipoUsuario() == "administradorPrivado") {
-            if(isset($_GET['i'])){
+            if (isset($_GET['i'])) {
                 $idCurso = intval($_GET['i']);
+                $offset = 0;
+                $numRows = 18;
+                $pagina = 1;
+                if (isset($_GET['j']) && is_numeric($_GET['j'])) {
+                    $pagina = intval($_GET['j']);
+                    $offset = $numRows * ($pagina - 1);
+                }
                 require_once 'modulos/cursos/modelos/CursoModelo.php';
-                $usuarios = getAlumnosDeCurso($idCurso);
-                print_r($usuarios);
-                
-            }else{
+                $curso = getCurso($idCurso);
+                $res = getAlumnosDeCurso($idCurso, $offset, $numRows);
+                $alumnos = $res['alumnos'];
+                $numAlumnos = $res['n'];
+                $maxPagina = ceil($numAlumnos / $numRows);
+                require_once 'modulos/cursos/vistas/listaAlumnosDeCurso.php';
+            } else {
                 setSessionMessage("<h4 class='error'>Ocurrió un error</h4>");
                 redirect("/cursos");
-            }            
+            }
+        } else {
+            goToIndex();
+        }
+    } else {
+        goToIndex();
+    }
+}
+
+function eliminar() {
+    if (validarUsuarioLoggeado()) {
+        if (tipoUsuario() == "administradorPrivado") {
+            if (isset($_GET['i']) && is_numeric($_GET['i'])) {
+                $idCurso = intval($_GET['i']);
+                require_once 'modulos/cursos/modelos/CursoModelo.php';
+                $n = bajaCurso($idCurso);
+                if ($n > 0) {
+                    if ($n > 1)
+                        setSessionMessage("<h4 class='success'>Se eliminaron con éxito " . $n . " cursos</h4>");
+                    else
+                        setSessionMessage("<h4 class='success'>Se eliminó con éxito 1 curso</h4>");
+                }else {
+                    setSessionMessage("<h4 class='error'>Ocurrió un error al eliminar</h4>");
+                }
+            } else {
+                setSessionMessage("<h4 class='error'>Ocurrió un error</h4>");
+            }
+            redirect("/cursos");
         } else {
             goToIndex();
         }

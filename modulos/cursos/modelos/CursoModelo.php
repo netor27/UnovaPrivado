@@ -440,33 +440,41 @@ function sumarTotalView($idCurso) {
     return $stmt->execute();
 }
 
-function getAlumnosDeCurso($idCurso) {
+function getAlumnosDeCurso($idCurso, $offset, $numRows) {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("SELECT u.*
+    $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS  u.*
                             FROM usuario u, usuariocurso uc
                             WHERE u.idUsuario = uc.idUsuario
-                            AND uc.idCurso = :idCurso");
+                            AND uc.idCurso = :idCurso
+                            ORDER BY u.nombreUsuario ASC
+                            LIMIT $offset, $numRows");
     $stmt->bindParam(':idCurso', $idCurso);
-    if ($stmt->execute()) {
-        $usuario = null;
-        $usuarios = null;
-        $rows = $stmt->fetchAll();
-        $i=0;
-        foreach ($rows as $row) {
-            $usuario = new Usuario();
-            $usuario->idUsuario = $row['idUsuario'];
-            $usuario->nombreUsuario = $row['nombreUsuario'];
-            $usuario->avatar = $row['avatar'];
-            $usuario->uniqueUrl = $row['uniqueUrl'];
-            $usuarios[$i] = $usuario;
-            $i++;
-        }
-        return $usuarios;
-    } else {
+
+    if (!$stmt->execute())
         print_r($stmt->errorInfo());
-        return null;
+    $rows = $stmt->fetchAll();
+
+    $r = $conex->query("SELECT FOUND_ROWS() as numero")->fetch();
+    $n = $r['numero'];
+
+    $usuario = null;
+    $usuarios = null;
+    $i = 0;
+    foreach ($rows as $row) {
+        $usuario = new Usuario();
+        $usuario->idUsuario = $row['idUsuario'];
+        $usuario->nombreUsuario = $row['nombreUsuario'];
+        $usuario->avatar = $row['avatar'];
+        $usuario->uniqueUrl = $row['uniqueUrl'];
+        $usuarios[$i] = $usuario;
+        $i++;
     }
+    $array = array(
+        "n" => $n,
+        "alumnos" => $usuarios
+    );
+    return $array;
 }
 
 ?>
