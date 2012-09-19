@@ -1,5 +1,5 @@
 <link rel="stylesheet" type="text/css" href="/lib/js/jqueryGridster/jquery.gridster.min.css">
-<link rel="stylesheet" href="/lib/js/jqueryGridster/style.css">
+<link rel="stylesheet" href="/layout/css/gridsterThumbs.css">
 <!--
 Hay algo raro en este plugin, se debe de agregar el script en el body o no jala
 

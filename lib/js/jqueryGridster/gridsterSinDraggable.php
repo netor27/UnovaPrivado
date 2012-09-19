@@ -9,11 +9,6 @@
             widget_base_dimensions: [140, 140],
             min_cols: 6,
             min_rows: 20,
-            /*draggable: {                
-                stop: function(event, ui){ 
-                    alert("stop");
-                }
-            },*/
             serialize_params: function($w, wgd) { 
                 return { 
                     col: wgd.col, 
@@ -25,18 +20,5 @@
             }
         }).data('gridster');
         gridster.disable();
-                 
-        $(".cuadro").hover(
-        function () {
-            $(this).children(".cuadroFooter").addClass("bottomFooterHover");
-        }, 
-        function () {
-            $(this).children(".cuadroFooter").removeClass("bottomFooterHover");
-                
-        });
-                
-        function generarGridster(arreglo){
-                
-        }
     });
 </script>

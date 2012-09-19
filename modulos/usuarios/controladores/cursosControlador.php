@@ -1,5 +1,13 @@
 <?php
 
+function inscribirUsuario(){
+    die('not yet implemented');
+}
+
+function eliminarInscripcion(){
+    
+}
+
 function instructor() {
     require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
     if (validarUsuarioLoggeado()) {

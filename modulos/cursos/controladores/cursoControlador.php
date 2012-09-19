@@ -670,7 +670,7 @@ function alumnos() {
             if (isset($_GET['i'])) {
                 $idCurso = intval($_GET['i']);
                 $offset = 0;
-                $numRows = 18;
+                $numRows = 8;
                 $pagina = 1;
                 if (isset($_GET['j']) && is_numeric($_GET['j'])) {
                     $pagina = intval($_GET['j']);

@@ -18,18 +18,5 @@
             }
         }).data('gridster');
         //gridster.disable();
-                 
-        $(".cuadro").hover(
-        function () {
-            $(this).append($("<span> ***</span>"));
-        }, 
-        function () {
-            $(this).find("span:last").remove();
-                
-        });
-                
-        function generarGridster(arreglo){
-                
-        }
     });
 </script>
