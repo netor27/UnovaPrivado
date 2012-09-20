@@ -1,8 +1,47 @@
 <?php
 
 function inscribirUsuario() {
-    if(tipoUsuario() == "administradorPrivado"){
-        
+    if (tipoUsuario() == "administradorPrivado") {
+        if (isset($_GET['i']) && is_numeric($_GET['i'])) {
+            $idCurso = $_GET['i'];
+            require_once 'modulos/cursos/modelos/CursoModelo.php';
+            $curso = getCurso($idCurso);
+            $usuariosDelCurso = getTodosAlumnosDecurso($idCurso);
+            require_once 'modulos/usuarios/modelos/usuarioModelo.php';
+            $usuarios = getUsuarios();
+            require_once 'modulos/usuarios/vistas/asignarUsuarioCurso.php';
+        } else {
+            setSessionMessage("<h4 class='error'>Datos no válidos</h4>");
+            redirect("/cursos");
+        }
+    } else {
+        goToIndex();
+    }
+}
+
+function asignarUsuarios() {
+    if (tipoUsuario() == "administradorPrivado") {
+        if (isset($_POST['idCurso']) && is_numeric($_POST['idCurso'])) {
+            $idCurso = $_POST['idCurso'];
+            require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
+            //si hay idUsuariosQuitar eliminamos de la bd las relaciones en usuariocurso
+            if(isset($_POST['idUsuariosQuitar'])){
+                foreach($_POST['idUsuariosQuitar'] as $value){
+                    eliminarInscripcionUsuarioCurso($value, $idCurso);
+                }
+            }            
+            //si hay idUsuariosInscribir agregamos a la bd las relaciones en usuariocurso
+            if(isset($_POST['idUsuariosInscribir'])){
+                foreach($_POST['idUsuariosInscribir'] as $value){
+                    inscribirUsuarioCurso($value, $idCurso);
+                }
+            }
+            echo 'ok';
+        } else {
+            echo "error";
+        }
+    } else {
+        echo "error";
     }
 }
 

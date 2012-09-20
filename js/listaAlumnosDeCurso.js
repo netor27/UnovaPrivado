@@ -19,7 +19,7 @@ $(function(){
                 "callback": function() {
                     $url = "/usuarios.php?c=cursos&a=eliminarInscripcion&ic="+curso+"&iu="+id+"&origen=listaAlumnos"+"&pagina="+pagina;
                     //console.log($url);
-                    document.location.href = $url;
+                    redirect($url);
                 }
             }, {
                 "label" : "Cancelar",

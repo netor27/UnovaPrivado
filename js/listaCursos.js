@@ -8,7 +8,8 @@ $(function(){
                 "class" : "btn-danger",
                 "icon"  : "icon-warning-sign icon-white",
                 "callback": function() {
-                    document.location.href="/cursos/curso/eliminar/"+id;
+                    $url = "/cursos/curso/eliminar/"+id;
+                    redirect($url);
                 }
             }, {
                 "label" : "Cancelar",

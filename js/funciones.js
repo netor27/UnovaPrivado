@@ -16,3 +16,7 @@ function decode_utf8( s )
 {
   return decodeURIComponent( escape( s ) );
 }
+
+function redirect(url){
+    document.location.href = url;
+}

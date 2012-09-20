@@ -477,4 +477,33 @@ function getAlumnosDeCurso($idCurso, $offset, $numRows) {
     return $array;
 }
 
+function getTodosAlumnosDecurso($idCurso){
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("SELECT u.*
+                            FROM usuario u, usuariocurso uc
+                            WHERE u.idUsuario = uc.idUsuario
+                            AND uc.idCurso = :idCurso
+                            ORDER BY u.nombreUsuario ASC");
+    $stmt->bindParam(':idCurso', $idCurso);
+
+    if (!$stmt->execute())
+        print_r($stmt->errorInfo());
+    $rows = $stmt->fetchAll();
+
+    $usuario = null;
+    $usuarios = null;
+    $i = 0;
+    foreach ($rows as $row) {
+        $usuario = new Usuario();
+        $usuario->idUsuario = $row['idUsuario'];
+        $usuario->nombreUsuario = $row['nombreUsuario'];
+        $usuario->avatar = $row['avatar'];
+        $usuario->uniqueUrl = $row['uniqueUrl'];
+        $usuarios[$i] = $usuario;
+        $i++;
+    }
+    return $usuarios;
+}
+
 ?>
