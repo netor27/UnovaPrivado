@@ -18,7 +18,7 @@ function principal() {
             $numCursos = $res['n'];
             $maxPagina = ceil($numCursos / $numRows);
             if ($pagina != 1 && $pagina > $maxPagina) {
-                redirect("/cursos?p=" . $maxPagina);
+                redirect("/cursos:p=" . $maxPagina);
             } else {
                 require_once 'modulos/cursos/vistas/principal.php';
             }

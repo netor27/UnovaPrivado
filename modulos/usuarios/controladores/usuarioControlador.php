@@ -1,5 +1,31 @@
 <?php
 
+function principal() {
+    if (tipoUsuario() == "administradorPrivado") {
+        $offset = 0;
+        $numRows = 18;
+        $pagina = 1;
+        if (isset($_GET['p'])) {
+            if (is_numeric($_GET['p'])) {
+                $pagina = intval($_GET['p']);
+                $offset = $numRows * ($pagina - 1);
+            }
+        }
+        require_once 'modulos/usuarios/modelos/usuarioModelo.php';
+        $res = getUsuariosLimit($offset, $numRows);
+        $usuarios = $res['usuarios'];
+        $numAlumnos = $res['n'];
+        $maxPagina = ceil($numAlumnos / $numRows);
+        if ($pagina != 1 && $pagina > $maxPagina) {
+            redirect("/usuarios:p=" . $maxPagina);
+        } else {
+            require_once 'modulos/usuarios/vistas/principal.php';
+        }
+    } else {
+        goToIndex();
+    }
+}
+
 function detalles() {
 
     $uniqueUrl = $_GET['i'];
@@ -199,7 +225,7 @@ function recuperarPasswordSubmit() {
             require_once 'modulos/email/modelos/envioEmailModelo.php';
             enviarMailOlvidePassword($email, $link);
             setSessionMessage("<h4 class='info'>Te hemos enviado un correo electrónico para que reestablescas tu contraseña.</h4>");
-        }else{
+        } else {
             setSessionMessage("<h4 class='error'>No tenemos registrado este correo electrónico.</h4>");
         }
     }
@@ -257,6 +283,32 @@ function enviarCorreoConfirmacion() {
         redirect("/usuario/" . $usuario->uniqueUrl);
     } else {
         setSessionMessage("<h4 class='error'>Ocurrió un error, intentalo más tarde</h4>");
+        goToIndex();
+    }
+}
+
+function eliminar() {
+    if (tipoUsuario() == "administradorPrivado") {
+        $pagina = 1;
+        if (isset($_GET['pagina']) && is_numeric($_GET['pagina']))
+            $pagina = $_GET['pagina'];
+        if (isset($_GET['iu']) && is_numeric($_GET['iu'])) {
+            $idUsuario = $_GET['iu'];
+            $pagina = $_GET['pagina'];
+            $usuario = getUsuarioActual();
+            if($usuario->idUsuario != $idUsuario){
+                require_once 'modulos/usuarios/modelos/usuarioModelo.php';
+                eliminarUsuario($idUsuario);
+                setSessionMessage("<h4 class='success'>Se eliminó correctamente el usuario</h4>");
+            }else{
+                setSessionMessage("<h4 class='error'>No puedes borrar tu propio usuario</h4>");
+            }            
+        } else {
+            setSessionMessage("<h4 class='error'>Datos no válidos</h4>");
+        }
+        redirect("/usuarios:p=" . $pagina);
+    } else {
+        setSessionMessage("<h4 class='error'>usuario no valido</h4>");
         goToIndex();
     }
 }

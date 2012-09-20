@@ -118,6 +118,41 @@ function getUsuarios() {
     return $usuarios;
 }
 
+function getUsuariosLimit($offset, $numRows) {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS u.*
+                            FROM usuario u
+                            ORDER BY u.nombreUsuario ASC
+                            LIMIT $offset, $numRows");
+
+    if (!$stmt->execute())
+        print_r($stmt->errorInfo());
+    $rows = $stmt->fetchAll();
+
+    $r = $conex->query("SELECT FOUND_ROWS() as numero")->fetch();
+    $n = $r['numero'];
+
+
+    $usuarios = null;
+    $usuario = null;
+    $i = 0;
+    foreach ($rows as $row) {
+        $usuario = new Usuario();
+        $usuario->idUsuario = $row['idUsuario'];
+        $usuario->avatar = $row['avatar'];
+        $usuario->nombreUsuario = $row['nombreUsuario'];
+        $usuario->uniqueUrl = $row['uniqueUrl'];
+        $usuarios[$i] = $usuario;
+        $i++;
+    }
+    $array = array(
+        "n" => $n,
+        "usuarios" => $usuarios
+    );
+    return $array;
+}
+
 function getUsuario($idUsuario) {
     require_once 'bd/conex.php';
     global $conex;
@@ -282,7 +317,7 @@ function reestablecerPasswordPorUUID($uuid, $pass) {
                             WHERE uuid = :id");
     $stmt->bindParam(':password', $pass);
     $stmt->bindParam(':id', $uuid);
-    
+
     return $stmt->execute();
 }
 
