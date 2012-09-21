@@ -18,6 +18,18 @@ require_once('layout/headers/headCierre.php');
                             $msgAlta = " alumnos ";
                             echo "<h4>Alta de alumnos</h4>";
                             break;
+                        case "altaProfesor":
+                            $urlRegreso = "/profesores";
+                            $urlAlta = "/profesores/usuario/altaProfesores";
+                            $msgAlta = " profesores ";
+                            echo "<h4>Alta de profesores</h4>";
+                            break;
+                        case "altaAdministrador":
+                            $urlRegreso = "/administradores";
+                            $urlAlta = "/alumnos/usuario/altaAdministradores";
+                            $msgAlta = " administradores ";
+                            echo "<h4>Alta de administradores</h4>";
+                            break;
                     }
                     ?>
                 </div>
@@ -39,12 +51,12 @@ require_once('layout/headers/headCierre.php');
                                     <i class="icon-white icon-ok-circle"></i>
                                 </span>
                             </div>
-                            <div class="span6 offset1">
+                            <div class="span5">
                                 <?php
                                 echo '<a href="/usuario/' . $usuario->uniqueUrl . '">' . $usuario->nombreUsuario . '</a>';
                                 ?>
                             </div>
-                            <div class="span4">
+                            <div class="span5">
                                 <?php
                                 echo $usuario->email;
                                 ?>
@@ -69,7 +81,7 @@ require_once('layout/headers/headCierre.php');
                                     <i class="icon-white icon-warning-sign"></i>
                                 </span>
                             </div>
-                            <div class="span5 offset1">
+                            <div class="span5">
                                 <?php
                                 echo $fallo['email'];
                                 ?>

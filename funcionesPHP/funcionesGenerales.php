@@ -37,6 +37,9 @@ function tipoUsuario() {
             case 2:
                 return 'administradorPrivado';
                 break;
+            case 3:
+                return 'profesor';
+                break;
         }
     } else {
         return 'visitante';

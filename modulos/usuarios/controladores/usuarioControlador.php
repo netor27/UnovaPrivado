@@ -2,6 +2,30 @@
 
 function principal() {
     if (tipoUsuario() == "administradorPrivado") {
+        listarUsuarios("alumnos");
+    } else {
+        goToIndex();
+    }
+}
+
+function listaProfesores() {
+    if (tipoUsuario() == "administradorPrivado") {
+        listarUsuarios("profesores");
+    } else {
+        goToIndex();
+    }
+}
+
+function listaAdministradores() {
+    if (tipoUsuario() == "administradorPrivado") {
+        listarUsuarios("administradores");
+    } else {
+        goToIndex();
+    }
+}
+
+function listarUsuarios($tipo) {
+    if (isset($tipo)) {
         $offset = 0;
         $numRows = 18;
         $pagina = 1;
@@ -13,12 +37,33 @@ function principal() {
         }
         require_once 'modulos/usuarios/modelos/usuarioModelo.php';
         $tipoUsuarioAlumno = 0;
+        switch ($tipo) {
+            case 'alumnos':
+                $tipoUsuarioAlumno = 0;
+                break;
+            case 'profesores':
+                $tipoUsuarioAlumno = 3;
+                break;
+            case 'administradores':
+                $tipoUsuarioAlumno = 2;
+                break;
+        }
         $res = getUsuariosPorTipo($tipoUsuarioAlumno, $offset, $numRows);
         $usuarios = $res['usuarios'];
-        $numAlumnos = $res['n'];
-        $maxPagina = ceil($numAlumnos / $numRows);
+        $numUsuarios = $res['n'];
+        $maxPagina = ceil($numUsuarios / $numRows);
         if ($pagina != 1 && $pagina > $maxPagina) {
-            redirect("/usuarios:p=" . $maxPagina);
+            switch ($tipo) {
+                case 'alumnos':
+                    redirect("/alumnos:p=" . $maxPagina);
+                    break;
+                case 'profesores':
+                    redirect("/profesores:p=" . $maxPagina);
+                    break;
+                case 'administradores':
+                    redirect("/administradores:p=" . $maxPagina);
+                    break;
+            }
         } else {
             require_once 'modulos/usuarios/vistas/principal.php';
         }
@@ -293,6 +338,9 @@ function eliminar() {
         $pagina = 1;
         if (isset($_GET['pagina']) && is_numeric($_GET['pagina']))
             $pagina = $_GET['pagina'];
+        $tipo = "alumnos";
+        if (isset($_GET['tipo']))
+            $tipo = $_GET['tipo'];
         if (isset($_GET['iu']) && is_numeric($_GET['iu'])) {
             $idUsuario = $_GET['iu'];
             $pagina = $_GET['pagina'];
@@ -307,7 +355,7 @@ function eliminar() {
         } else {
             setSessionMessage("<h4 class='error'>Datos no válidos</h4>");
         }
-        redirect("/usuarios:p=" . $pagina);
+        redirect("/" . $tipo . ":p=" . $pagina);
     } else {
         setSessionMessage("<h4 class='error'>usuario no valido</h4>");
         goToIndex();
@@ -321,6 +369,20 @@ function altaAlumnos() {
     }
 }
 
+function altaProfesores() {
+    if (tipoUsuario() == "administradorPrivado") {
+        $tipo = "altaProfesor";
+        require_once 'modulos/usuarios/vistas/altaUsuario.php';
+    }
+}
+
+function altaAdministradores() {
+    if (tipoUsuario() == "administradorPrivado") {
+        $tipo = "altaAdministrador";
+        require_once 'modulos/usuarios/vistas/altaUsuario.php';
+    }
+}
+
 function altaUsuariosSubmit() {
     if (tipoUsuario() == "administradorPrivado") {
         if (isset($_POST['tipo']) && isset($_POST['usuarios'])) {
@@ -329,6 +391,12 @@ function altaUsuariosSubmit() {
             switch ($tipo) {
                 case 'altaAlumno':
                     $tipoUsuario = 0;
+                    break;
+                case 'altaProfesor':
+                    $tipoUsuario = 3;
+                    break;
+                case 'altaAdministrador':
+                    $tipoUsuario = 2;
                     break;
             }
             $splitted = explode(",", $_POST['usuarios']);
@@ -413,6 +481,12 @@ function altaUsuariosArchivoCsvSubmit() {
                         switch ($tipo) {
                             case 'altaAlumno':
                                 $tipoUsuario = 0;
+                                break;
+                            case 'altaProfesor':
+                                $tipoUsuario = 3;
+                                break;
+                            case 'altaAdministrador':
+                                $tipoUsuario = 2;
                                 break;
                         }
                         $email = "";

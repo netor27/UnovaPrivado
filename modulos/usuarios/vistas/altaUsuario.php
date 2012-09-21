@@ -14,7 +14,16 @@ require_once('layout/headers/headCierre.php');
                         <?php
                         switch ($tipo) {
                             case "altaAlumno":
+                                $urlRegreso = "/alumnos";
                                 echo '<legend>Agregar alumnos</legend>';
+                                break;
+                            case "altaProfesor":
+                                $urlRegreso = "/profesores";
+                                echo '<legend>Agregar profesores</legend>';
+                                break;
+                            case "altaAdministrador":
+                                $urlRegreso = "/administradores";
+                                echo '<legend>Agregar administradores</legend>';
                                 break;
                         }
                         ?>
@@ -25,6 +34,12 @@ require_once('layout/headers/headCierre.php');
                                 switch ($tipo) {
                                     case "altaAlumno":
                                         echo '<textarea name="usuarios" class="span10" rows="6" placeholder="Introduce los emails de los alumnos separados por comas"></textarea>';
+                                        break;
+                                    case "altaProfesor":
+                                        echo '<textarea name="usuarios" class="span10" rows="6" placeholder="Introduce los emails de los profesores separados por comas"></textarea>';
+                                        break;
+                                    case "altaAdministrador":
+                                        echo '<textarea name="usuarios" class="span10" rows="6" placeholder="Introduce los emails de los administradores separados por comas"></textarea>';
                                         break;
                                 }
                                 ?>
@@ -43,6 +58,12 @@ require_once('layout/headers/headCierre.php');
                         switch ($tipo) {
                             case "altaAlumno":
                                 echo '<legend>Agregar alumnos con un archivo .csv</legend>';
+                                break;
+                            case "altaProfesor":
+                                echo '<legend>Agregar profesores con un archivo .csv</legend>';
+                                break;
+                            case "altaAdministrador":
+                                echo '<legend>Agregar administradores con un archivo .csv</legend>';
                                 break;
                         }
                         ?>
@@ -70,7 +91,7 @@ require_once('layout/headers/headCierre.php');
     </div>
     <div class="row-fluid">
         <div class="span3">
-            <a class="btn btn-inverse btn-small" href="/alumnos">
+            <a class="btn btn-inverse btn-small" href="<?php echo $urlRegreso; ?>">
                 <i class="icon-white icon-arrow-left"></i>
                 Regresar
             </a>

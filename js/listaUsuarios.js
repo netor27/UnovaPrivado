@@ -15,7 +15,7 @@ $(function(){
                 "class" : "btn-danger",
                 "icon"  : "icon-warning-sign icon-white",
                 "callback": function() {
-                    $url = "/usuarios.php?c=usuario&a=eliminar&iu="+id+"&pagina="+pagina;
+                    $url = "/usuarios.php?c=usuario&a=eliminar&iu="+id+"&pagina="+pagina+"&tipo="+tipo;
                     redirect($url);
                 }
             }, {

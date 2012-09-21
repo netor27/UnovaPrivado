@@ -5,6 +5,11 @@ require_once('layout/headers/headGridster.php');
 require_once('layout/headers/headListaUsuarios.php');
 require_once('layout/headers/headCierre.php');
 ?>
+<script>
+    var tipo = "<?php echo $tipo; ?>";    
+</script>
+    
+
 <div class="container">
     <div class="contenido">
         <div class="well well-large">
@@ -12,18 +17,52 @@ require_once('layout/headers/headCierre.php');
             <div class="row-fluid">
                 <div class="span6">
                     <?php
-                    if ($numAlumnos == 1)
-                        echo '<h4>Hay un alumno</h4>';
-                    else
-                        echo '<h4>Hay ' . $numAlumnos . ' alumnos</h4>';
+                    switch ($tipo) {
+                        case 'alumnos':
+                            if ($numUsuarios == 1)
+                                echo '<h4>Hay un alumno</h4>';
+                            else
+                                echo '<h4>Hay ' . $numUsuarios . ' alumnos</h4>';
+                            break;
+                        case 'profesores':
+                            if ($numUsuarios == 1)
+                                echo '<h4>Hay un profesor</h4>';
+                            else
+                                echo '<h4>Hay ' . $numUsuarios . ' profesores</h4>';
+                            break;
+                        case 'administradores':
+                            if ($numUsuarios == 1)
+                                echo '<h4>Hay un administrador</h4>';
+                            else
+                                echo '<h4>Hay ' . $numUsuarios . ' administradores</h4>';
+                            break;
+                    }
                     ?>
                 </div>
                 <div class="span3 offset3">
                     <div style="padding-top: 20px;">
-                        <a href="/alumnos/usuario/altaAlumnos" class="btn btn-primary">
-                            <i class="icon-white icon-plus"></i>
-                            Agregar alumno(s)
-                        </a>
+                        <?php
+                        switch ($tipo) {
+                            case 'alumnos':
+                                echo '<a href="/alumnos/usuario/altaAlumnos" class="btn btn-primary">';
+                                echo '<i class="icon-white icon-plus"></i>';
+                                echo 'Agregar alumno(s)';
+                                echo '</a>';
+                                break;
+                            case 'profesores':
+                                echo '<a href="/profesores/usuario/altaProfesores" class="btn btn-primary">';
+                                echo '<i class="icon-white icon-plus"></i>';
+                                echo 'Agregar prefesor(es)';
+                                echo '</a>';
+                                break;
+                            case 'administradores':
+                                echo '<a href="/administradores/usuario/altaAdministradores" class="btn btn-primary">';
+                                echo '<i class="icon-white icon-plus"></i>';
+                                echo 'Agregar administrador(es)';
+                                echo '</a>';
+                                break;
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -53,12 +92,26 @@ require_once('layout/headers/headCierre.php');
                                             <span class="cuadroFooterLink">
                                                 <a class="btn btn-mini btn-danger borrarUsuario" id="<?php echo $usuario->idUsuario; ?>">
                                                     <i class="icon-white icon-trash"></i>
-                                                    Eliminar alumno
+                                                    <?php
+                                                    switch($tipo){
+                                                        case 'alumnos':
+                                                            echo 'Eliminar alumno';
+                                                            break;
+                                                        case 'profesores':
+                                                            echo 'Eliminar profesor';
+                                                            break;
+                                                        case 'administradores':
+                                                            echo 'Eliminar admin';
+                                                            break;
+                                                    }
+                                                    ?>                                                    
                                                 </a>
                                             </span>
                                         </div>
                                     </li>
-                                <?php }
+                                <?php 
+                                
+                                }
                                 ?>                        
                             </ul>
                         </div>
@@ -71,7 +124,7 @@ require_once('layout/headers/headCierre.php');
                             <ul>
                                 <?php
                                 if ($pagina > 1)
-                                    echo '<li><a href="/usuarios:p=' . ($pagina - 1) . '">«</a></li>';
+                                    echo '<li><a href="/'.$tipo.':p=' . ($pagina - 1) . '">«</a></li>';
                                 else
                                     echo '<li class="disabled"><a href="#">«</a></li>';
 
@@ -79,11 +132,11 @@ require_once('layout/headers/headCierre.php');
                                     if ($i == $pagina)
                                         echo '<li class="active"><a href="#">' . $i . '</a></li>';
                                     else
-                                        echo '<li><a href="/usuarios:p=' . $i . '">' . $i . '</a></li>';
+                                        echo '<li><a href="/'.$tipo.':p=' . $i . '">' . $i . '</a></li>';
                                 }
 
                                 if ($pagina < $maxPagina)
-                                    echo '<li><a href="/usuarios:p=' . ($pagina + 1) . '">»</a></li>';
+                                    echo '<li><a href="/'.$tipo.':p=' . ($pagina + 1) . '">»</a></li>';
                                 else
                                     echo '<li class="disabled"><a href="#">»</a></li>';
                                 ?>
@@ -95,7 +148,7 @@ require_once('layout/headers/headCierre.php');
             }else {
                 ?>
                 <div class="row-fluid">
-                    <h3>No hay usuarios asignados a este curso</h3>
+                    <h3>No hay <?php echo $tipo; ?> dados de alta</h3>
                 </div>
                 <?php
             }
