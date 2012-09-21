@@ -1,7 +1,7 @@
 <?php
 require_once('layout/headers/headInicio.php');
 require_once('layout/headers/headBootstrap.php');
-require_once('layout/headers/headAsignarUsuarioCurso.php');
+require_once('layout/headers/headAltaUsuario.php');
 require_once('layout/headers/headCierre.php');
 ?>
 <div class="container">
@@ -37,20 +37,23 @@ require_once('layout/headers/headCierre.php');
                             </div>
                         </div>
                     </form>
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" action="/alumnos/usuario/altaUsuariosArchivoCsvSubmit" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="tipo" value="<?php echo $tipo; ?>">
                         <?php
                         switch ($tipo) {
                             case "altaAlumno":
                                 echo '<legend>Agregar alumnos con un archivo .csv</legend>';
-                                echo '';
                                 break;
                         }
                         ?>
                         <div class="control-group">
                             <label class="control-label">Seleccionar archivo .cvs</label>
                             <div class="controls">
-                                <input type="file" name="archivo">
+                                <input type="file" name="csv">
+                            </div>
+                            <div class="span2 btn btn-info" id="btnAyuda">
+                                <i class="icon-white icon-info-sign"></i>
+                                Ayuda
                             </div>
                         </div>
                         <div class="control-group">

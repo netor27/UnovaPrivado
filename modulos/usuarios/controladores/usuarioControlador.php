@@ -333,7 +333,6 @@ function altaUsuariosSubmit() {
             }
             $splitted = explode(",", $_POST['usuarios']);
 
-            $resultados = array();
             require_once 'modulos/usuarios/modelos/usuarioModelo.php';
             require_once 'funcionesPHP/uniqueUrlGenerator.php';
 
@@ -341,7 +340,6 @@ function altaUsuariosSubmit() {
             $name = "";
             $usuarios = array();
             $fallos = array();
-            $i = 0;
             $numAltas = 0;
             $numFallos = 0;
             foreach ($splitted as $split) {
@@ -382,7 +380,6 @@ function altaUsuariosSubmit() {
                     $fallos[$numFallos] = array("email" => $split, "mensaje" => $mensajeError);
                     $numFallos++;
                 }
-                $i++;
             }
             require_once 'modulos/usuarios/vistas/resultadoDeAltaUsuarios.php';
         } else {
@@ -391,6 +388,101 @@ function altaUsuariosSubmit() {
         }
     } else {
         goToIndex();
+    }
+}
+
+function altaUsuariosArchivoCsvSubmit() {
+    if (tipoUsuario() == "administradorPrivado") {
+        if (isset($_FILES['csv'])) {
+            $csv = array();
+            if ($_FILES['csv']['error'] == 0) {
+                $name = $_FILES['csv']['name'];
+                $ext = strtolower(end(explode('.', $_FILES['csv']['name'])));
+                $type = $_FILES['csv']['type'];
+                $tmpName = $_FILES['csv']['tmp_name'];
+
+                // check the file is a csv
+                if ($ext === 'csv') {
+                    if (($handle = fopen($tmpName, 'r')) !== FALSE) {
+                        // necessary if a large csv file
+                        set_time_limit(0);
+                        require_once 'modulos/usuarios/modelos/usuarioModelo.php';
+                        require_once 'funcionesPHP/uniqueUrlGenerator.php';
+                        $tipo = $_POST['tipo'];
+                        $tipoUsuario = 0;
+                        switch ($tipo) {
+                            case 'altaAlumno':
+                                $tipoUsuario = 0;
+                                break;
+                        }
+                        $email = "";
+                        $name = "";
+                        $usuarios = array();
+                        $fallos = array();
+                        $numAltas = 0;
+                        $numFallos = 0;
+                        while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
+                            $email = comprobar_email(trim($data[0]));
+                            if (isset($data[1])) {//la linea tiene nombre
+                                $name = trim($data[1]);
+                            } else {
+                                $name = strstr($email, '@', true);
+                            }
+
+                            if (!empty($email)) {
+                                $usuario = new Usuario();
+                                $usuario->tipoUsuario = $tipoUsuario;
+                                $usuario->email = $email;
+                                $usuario->nombreUsuario = $name;
+                                $usuario->password = md5(getUniqueCode(10));
+                                $usuario->uniqueUrl = getUsuarioUniqueUrl($name);
+                                $res = altaUsuario($usuario);
+                                if ($res['resultado'] == 'ok') {
+                                    //se dió de alta con éxito el usuario
+                                    $usuario->idUsuario = $res['id'];
+                                    $usuario->uuid = $res['uuid'];
+                                    array_push($usuarios, $usuario);
+                                    $numAltas++;
+                                } else {
+                                    $mensajeError = "";
+                                    //Ocurrió un error al dar de alta el usuario
+                                    if ($res['errorId'] == '1062') {
+                                        //el error es por email duplicado
+                                        //informamos que este usuario ya está dado de alta
+                                        $mensajeError = "Este correo electrónico ya fue dado de alta";
+                                    } else {
+                                        //error desconocido
+                                        $mensajeError = "Ocurrió un error al dar de alta. Intenta de nuevo más tarde";
+                                    }
+                                    $fallos[$numFallos] = array("email" => $email, "mensaje" => $mensajeError);
+                                    $numFallos++;
+                                }
+                            } else {
+                                //el email no es válido
+                                $mensajeError = "No es un email válido";
+                                $fallos[$numFallos] = array("email" => trim($data[0]), "mensaje" => $mensajeError);
+                                $numFallos++;
+                            }
+                        }
+                        require_once 'modulos/usuarios/vistas/resultadoDeAltaUsuarios.php';
+                        print_r($csv);
+                        fclose($handle);
+                    } else {
+                        setSessionMessage("<h4 class='error'>Ocurrió un error al procesar tu archivo. Intenta de nuevo más tarde</h4>");
+                        redirect("/alumnos/usuario/altaAlumnos");
+                    }
+                } else {
+                    setSessionMessage("<h4 class='error'>No es un archivo .csv</h4>");
+                    redirect("/alumnos/usuario/altaAlumnos");
+                }
+            } else {
+                setSessionMessage("<h4 class='error'>Archivo no válido</h4>");
+                redirect("/alumnos/usuario/altaAlumnos");
+            }
+        } else {
+            setSessionMessage("<h4 class='error'>Archivo no válido</h4>");
+            redirect("/alumnos/usuario/altaAlumnos");
+        }
     }
 }
 

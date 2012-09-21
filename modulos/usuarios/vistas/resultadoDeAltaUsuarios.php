@@ -91,7 +91,7 @@ require_once('layout/headers/headCierre.php');
                 <div class="span3">
                     <a class="btn btn-primary btn-small" href="<?php echo $urlAlta; ?>">
                         <i class="icon-white icon-arrow-left"></i>
-                        Dar de alta <?php echo $msgAlta; ?>
+                        Dar de alta más <?php echo $msgAlta; ?>
                     </a>
                 </div>
             </div>
