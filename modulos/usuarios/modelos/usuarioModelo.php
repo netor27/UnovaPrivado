@@ -6,20 +6,24 @@ function altaUsuario($usuario) {
     require_once 'bd/conex.php';
     global $conex;
     $uuid = md5($usuario->email) . getUniqueCode(4);
-    $stmt = $conex->prepare("INSERT into usuario (email,password,nombreUsuario, uniqueUrl, fechaRegistro, uuid) values(:email,:password,:nombreUsuario,:uniqueUrl, NOW() ,:uuid)");
+    $stmt = $conex->prepare("INSERT into usuario 
+                            (email, password, nombreUsuario, uniqueUrl, fechaRegistro, uuid, tipoUsuario) 
+                            values(:email,:password,:nombreUsuario,:uniqueUrl, NOW() ,:uuid , :tipoUsuario)");
     $stmt->bindParam(':email', $usuario->email);
     $stmt->bindParam(':password', $usuario->password);
     $stmt->bindParam(':nombreUsuario', $usuario->nombreUsuario);
     $stmt->bindParam(':uuid', $uuid);
     $stmt->bindParam(':uniqueUrl', $usuario->uniqueUrl);
+    $stmt->bindParam(':tipoUsuario', $usuario->tipoUsuario);
     $id = -1;
 
-    if ($stmt->execute())
+    if ($stmt->execute()) {
         $id = $conex->lastInsertId();
-    else {
-        print_r($stmt->errorInfo());
+        return array("resultado" => "ok", "id" => $id, "uuid" => $uuid);
+    } else {
+        $error = $stmt->errorInfo();
+        return array("resultado" => "error", "errorId" => $error[1]);
     }
-    return array("id" => $id, "uuid" => $uuid);
 }
 
 function eliminarUsuario($idUsuario) {
@@ -118,14 +122,15 @@ function getUsuarios() {
     return $usuarios;
 }
 
-function getUsuariosLimit($offset, $numRows) {
+function getUsuariosPorTipo($tipo, $offset, $numRows) {
     require_once 'bd/conex.php';
     global $conex;
     $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS u.*
                             FROM usuario u
+                            WHERE tipoUsuario = :tipo
                             ORDER BY u.nombreUsuario ASC
                             LIMIT $offset, $numRows");
-
+    $stmt->bindParam(":tipo", $tipo);
     if (!$stmt->execute())
         print_r($stmt->errorInfo());
     $rows = $stmt->fetchAll();

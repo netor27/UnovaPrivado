@@ -12,7 +12,8 @@ function principal() {
             }
         }
         require_once 'modulos/usuarios/modelos/usuarioModelo.php';
-        $res = getUsuariosLimit($offset, $numRows);
+        $tipoUsuarioAlumno = 0;
+        $res = getUsuariosPorTipo($tipoUsuarioAlumno, $offset, $numRows);
         $usuarios = $res['usuarios'];
         $numAlumnos = $res['n'];
         $maxPagina = ceil($numAlumnos / $numRows);
@@ -296,19 +297,99 @@ function eliminar() {
             $idUsuario = $_GET['iu'];
             $pagina = $_GET['pagina'];
             $usuario = getUsuarioActual();
-            if($usuario->idUsuario != $idUsuario){
+            if ($usuario->idUsuario != $idUsuario) {
                 require_once 'modulos/usuarios/modelos/usuarioModelo.php';
                 eliminarUsuario($idUsuario);
                 setSessionMessage("<h4 class='success'>Se eliminó correctamente el usuario</h4>");
-            }else{
+            } else {
                 setSessionMessage("<h4 class='error'>No puedes borrar tu propio usuario</h4>");
-            }            
+            }
         } else {
             setSessionMessage("<h4 class='error'>Datos no válidos</h4>");
         }
         redirect("/usuarios:p=" . $pagina);
     } else {
         setSessionMessage("<h4 class='error'>usuario no valido</h4>");
+        goToIndex();
+    }
+}
+
+function altaAlumnos() {
+    if (tipoUsuario() == "administradorPrivado") {
+        $tipo = "altaAlumno";
+        require_once 'modulos/usuarios/vistas/altaUsuario.php';
+    }
+}
+
+function altaUsuariosSubmit() {
+    if (tipoUsuario() == "administradorPrivado") {
+        if (isset($_POST['tipo']) && isset($_POST['usuarios'])) {
+            $tipo = $_POST['tipo'];
+            $tipoUsuario = 0;
+            switch ($tipo) {
+                case 'altaAlumno':
+                    $tipoUsuario = 0;
+                    break;
+            }
+            $splitted = explode(",", $_POST['usuarios']);
+
+            $resultados = array();
+            require_once 'modulos/usuarios/modelos/usuarioModelo.php';
+            require_once 'funcionesPHP/uniqueUrlGenerator.php';
+
+            $email = "";
+            $name = "";
+            $usuarios = array();
+            $fallos = array();
+            $i = 0;
+            $numAltas = 0;
+            $numFallos = 0;
+            foreach ($splitted as $split) {
+                $email = comprobar_email(trim($split));
+                if (!empty($email)) {
+                    //el email es válido
+                    $usuario = new Usuario();
+                    $usuario->tipoUsuario = $tipoUsuario;
+                    $usuario->email = $email;
+                    $name = strstr($email, '@', true);
+                    $usuario->nombreUsuario = $name;
+                    $usuario->password = md5(getUniqueCode(10));
+                    $usuario->uniqueUrl = getUsuarioUniqueUrl($name);
+                    $res = altaUsuario($usuario);
+                    if ($res['resultado'] == 'ok') {
+                        //se dió de alta con éxito el usuario
+                        $usuario->idUsuario = $res['id'];
+                        $usuario->uuid = $res['uuid'];
+                        array_push($usuarios, $usuario);
+                        $numAltas++;
+                    } else {
+                        $mensajeError = "";
+                        //Ocurrió un error al dar de alta el usuario
+                        if ($res['errorId'] == '1062') {
+                            //el error es por email duplicado
+                            //informamos que este usuario ya está dado de alta
+                            $mensajeError = "Este correo electrónico ya fue dado de alta";
+                        } else {
+                            //error desconocido
+                            $mensajeError = "Ocurrió un error al dar de alta. Intenta de nuevo más tarde";
+                        }
+                        $fallos[$numFallos] = array("email" => $email, "mensaje" => $mensajeError);
+                        $numFallos++;
+                    }
+                } else {
+                    //el email no es válido
+                    $mensajeError = "No es un email válido";
+                    $fallos[$numFallos] = array("email" => $split, "mensaje" => $mensajeError);
+                    $numFallos++;
+                }
+                $i++;
+            }
+            require_once 'modulos/usuarios/vistas/resultadoDeAltaUsuarios.php';
+        } else {
+            setSessionMessage("<h4 class='error'>Datos no válidos</h4>");
+            goToIndex();
+        }
+    } else {
         goToIndex();
     }
 }

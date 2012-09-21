@@ -6,7 +6,7 @@ require_once('layout/headers/headCierre.php');
 ?>
 
 <div class="contenido">
-    <h4 style="text-align: center;">Cursos</h4>
+    <h4 style="text-align: center;"><?php echo $numCursos; ?> Cursos en total</h4>
     <div style="background: #F7F7F7;">
         <div class="cursosContainer">
             <ul class="listaCursos">
