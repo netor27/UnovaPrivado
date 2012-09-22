@@ -28,9 +28,12 @@ switch ($_SERVER['REQUEST_METHOD']) {
             $upload_handler->delete();
         } else {
             if (isset($_POST['uuid']) && isset($_POST['idUsuario']) && isset($_POST['idCurso']) && isset($_POST['idTema'])) {
-                $info = $upload_handler->post();
-
+                $info = $upload_handler->post();                
                 $file = $info[0];
+                
+                //Tamaño en bytes
+                $sizeInBytes = $file->size;
+                
                 $uuid = $_POST['uuid'];
                 $idUsuario = $_POST['idUsuario'];
                 $idCurso = $_POST['idCurso'];
@@ -84,6 +87,7 @@ function crearClase($idUsuario, $idCurso, $uuid, $idTema, $fileName, $fileType) 
 
         if ($clase->idTipoClase == 0) {
             $clase->transformado = 0;
+            $clase->usoDeDisco = 0;
             $idClase = altaClase($clase);
             //Si es video creamos la clase con la bandera que todavía no se transforma
             //guardamos en la cola que falta transformar este video
@@ -110,11 +114,14 @@ function crearClase($idUsuario, $idCurso, $uuid, $idTema, $fileName, $fileType) 
             //Le agregamos al nombre del archivo un codigo aleatorio de 5 caracteres
             $fileName = getUniqueCode(15) . "_" . $fileName;
 
-            $uri = crearArchivoCDN($file, $fileName, $clase->idTipoClase);
+            $res = crearArchivoCDN($file, $fileName, $clase->idTipoClase);
 
-            if ($uri != NULL) {
+            if ($res != NULL) {
                 //Si se creo correctamene el archivo CDN, creamos la clase y borramos el archivo local
+                $uri = $res['uri'];
+                $size = $res['size'];
                 $clase->archivo = $uri;
+                $clase->usoDeDisco = $size;
                 altaClase($clase);
                 return $clase;
             } else {

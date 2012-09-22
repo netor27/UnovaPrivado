@@ -5,13 +5,14 @@ require_once 'modulos/cursos/clases/Clase.php';
 function altaClase($clase) {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("INSERT INTO clase (idTema, titulo, idTipoClase, archivo, transformado)
-                             VALUES(:idTema, :titulo, :tipoClase, :archivo, :transformado)");
+    $stmt = $conex->prepare("INSERT INTO clase (idTema, titulo, idTipoClase, archivo, transformado, usoDeDisco)
+                             VALUES(:idTema, :titulo, :tipoClase, :archivo, :transformado, :usoDeDisco)");
     $stmt->bindParam(':idTema', $clase->idTema);
     $stmt->bindParam(':titulo', $clase->titulo);
     $stmt->bindParam(':tipoClase', $clase->idTipoClase);
     $stmt->bindParam(':archivo', $clase->archivo);
     $stmt->bindParam(':transformado', $clase->transformado);
+    $stmt->bindParam(':usoDeDisco', $clase->usoDeDisco);
     $id = -1;
     if ($stmt->execute())
         $id = $conex->lastInsertId();
@@ -52,7 +53,7 @@ function actualizaDuracionClase($idClase, $duration) {
     return $stmt->execute();
 }
 
-function actualizaCodigoClase($idClase,$codigo) {
+function actualizaCodigoClase($idClase, $codigo) {
     require_once 'bd/conex.php';
     global $conex;
     $stmt = $conex->prepare("UPDATE clase SET codigo = :codigo
@@ -74,14 +75,15 @@ function actualizaOrdenClase($idClase, $idTema, $orden) {
     return $stmt->execute();
 }
 
-function actualizaArchivosDespuesTransformacion($idClase, $archivo, $archivo2) {
+function actualizaArchivosDespuesTransformacion($idClase, $archivo, $archivo2, $usoDeDisco) {
     require_once 'bd/conex.php';
     global $conex;
     $stmt = $conex->prepare("UPDATE clase 
-                            SET transformado = 1, archivo = :archivo , archivo2 = :archivo2
+                            SET transformado = 1, archivo = :archivo , archivo2 = :archivo2, usoDeDisco = :usoDeDisco
                             WHERE idClase = :idClase");
     $stmt->bindParam(':archivo', $archivo);
     $stmt->bindParam(':archivo2', $archivo2);
+    $stmt->bindParam(':usoDeDisco', $usoDeDisco);
     $stmt->bindParam(':idClase', $idClase);
     return $stmt->execute();
 }
@@ -187,15 +189,15 @@ function sumarVistaClase($idClase) {
     return $stmt->execute();
 }
 
-function obtenerIdSiguienteClase($idClase,$clases){
+function obtenerIdSiguienteClase($idClase, $clases) {
     $idSiguienteClase = -1;
     $bandera = true;
     $i = 0;
     $numClases = sizeof($clases);
-    while($bandera && $i < $numClases){
-        if($clases[$i]->idClase == $idClase){
-            if($i+1 < sizeof($clases)){
-                $idSiguienteClase = $clases[$i+1]->idClase;
+    while ($bandera && $i < $numClases) {
+        if ($clases[$i]->idClase == $idClase) {
+            if ($i + 1 < sizeof($clases)) {
+                $idSiguienteClase = $clases[$i + 1]->idClase;
                 $bandera = false;
             }
         }
@@ -203,4 +205,17 @@ function obtenerIdSiguienteClase($idClase,$clases){
     }
     return $idSiguienteClase;
 }
+
+function getTotalDiscoUtilizado() {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->query("SELECT SUM(usoDeDisco) as suma 
+                          FROM clase");
+    $count = 0;
+    foreach ($stmt as $row) {
+        $count = $row['suma'];
+    }
+    return $count;
+}
+
 ?>

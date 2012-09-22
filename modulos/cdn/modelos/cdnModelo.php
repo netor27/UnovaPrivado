@@ -13,13 +13,16 @@ function crearArchivoCDN($file, $fileName, $tipoArchivo) {
     $container = $conn->get_container($containerName);
     //Creamos el objeto
     $object = $container->create_object($fileName);
-    $uri = NULL;
+    $array = NULL;
+
     if ($object->load_from_filename($file)) {
         $uri = $object->public_uri();
+        $size = $object->content_length;
+        $array = array("uri" => $uri, "size" => $size);
         //obtenemos el link del cdn y borramos el archivo local
         unlink($file);
     }
-    return $uri;
+    return $array;
 }
 
 function deleteArchivoCdn($fileName, $tipoArchivo) {
@@ -42,7 +45,7 @@ function getConnection() {
     return $conn;
 }
 
-function listContainers(){
+function listContainers() {
     $conn = getConnection();
     $containers = $conn->list_containers_info();
     return $containers;
@@ -71,7 +74,7 @@ function getContainerName($tipoArchivo) {
     }
 }
 
-function getContainer($nombre){
+function getContainer($nombre) {
     $conn = getConnection();
     $container = $conn->get_container($nombre);
     return $container;

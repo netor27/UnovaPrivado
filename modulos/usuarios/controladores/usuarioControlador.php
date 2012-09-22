@@ -186,8 +186,9 @@ function cambiarImagenSubmit() {
                     //borramos la imagen temporal
                     unlink($file);
                     require_once 'modulos/cdn/modelos/cdnModelo.php';
-                    $uri = crearArchivoCDN($dest, $destName, -1);
-                    if ($uri != NULL) {
+                    $res = crearArchivoCDN($dest, $destName, -1);
+                    if ($res != NULL) {
+                        $uri = $res['uri'];
                         $usuarioCambiar->avatar = $uri;
                         //actualizamos la información en la bd                
                         actualizaAvatar($usuarioCambiar);

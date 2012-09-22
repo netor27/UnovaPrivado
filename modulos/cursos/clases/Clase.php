@@ -13,6 +13,7 @@
         public $transformado;
         public $views;
         public $duracion;
+        public $usoDeDisco = 0;
         
         //No son parte de la bd
         public $nombreTema;

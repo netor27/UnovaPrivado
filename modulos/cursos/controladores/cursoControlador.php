@@ -525,9 +525,10 @@ function cambiarImagenSubmit() {
                         //borramos la imagen temporal
                         unlink($file);
                         require_once 'modulos/cdn/modelos/cdnModelo.php';
-                        $uri = crearArchivoCDN($dest, $destName, -1);
+                        $res = crearArchivoCDN($dest, $destName, -1);                        
                         $oldUri = $cursoParaModificar->imagen;
-                        if ($uri != NULL) {
+                        if ($res != NULL) {
+                            $uri = $res['uri'];
                             $cursoParaModificar->imagen = $uri;
                             if (actualizaImagenCurso($cursoParaModificar)) {
                                 //Se actualizó correctamente la bd, borramos el archivo anterior del cdn

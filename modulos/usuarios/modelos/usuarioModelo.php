@@ -208,7 +208,9 @@ function getUsuariosParaResumenSemanal($offset, $numRows) {
 function getTotalUsuarios() {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->query("SELECT COUNT(idUsuario) as cuenta FROM usuario");
+    $stmt = $conex->query("SELECT COUNT(idUsuario) as cuenta 
+                          FROM usuario
+                          WHERE tipoUsuario != 1");
     $count = 0;
     foreach ($stmt as $row) {
         $count = $row['cuenta'];
