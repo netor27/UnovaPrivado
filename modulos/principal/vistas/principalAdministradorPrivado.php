@@ -40,7 +40,7 @@ require_once('layout/headers/headCierre.php');
             <div class="row-fluid"><div class="span12"></div></div>
             <div class="row-fluid">
                 <div class="span12">
-                    <a class="btn btn-large btn-primary span12" href="#">Grupos</a>
+                    <a class="btn btn-large btn-primary span12" href="/grupos">Grupos</a>
                 </div>
             </div>
             <div class="row-fluid"><div class="span12"></div></div>

@@ -40,6 +40,24 @@ function modificaGrupo($grupo) {
     return $stmt->execute();
 }
 
+function getGrupo($idGrupo){
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("SELECT * from grupo
+                            WHERE idGrupo = :idGrupo");
+    $stmt->bindParam(":idGrupo", $idGrupo);
+    if($stmt->execute()){
+        $row = $stmt->fetch();
+        $grupo = new Grupo();
+        $grupo->idGrupo = $row['idGrupo'];
+        $grupo->nombre = $row['nombre'];
+        $grupo->descripcion = $row['descripcion'];
+        return $grupo;
+    }else{
+        return null;
+    }
+}
+
 function getGrupos($offset, $numRows) {
     require_once 'bd/conex.php';
     global $conex;
@@ -58,6 +76,7 @@ function getGrupos($offset, $numRows) {
     $i = 0;
     foreach ($rows as $row) {
         $grupo = new Grupo();
+        $grupo->idGrupo = $row['idGrupo'];
         $grupo->nombre = $row['nombre'];
         $grupo->descripcion = $row['descripcion'];
         $grupos[$i] = $grupo;
