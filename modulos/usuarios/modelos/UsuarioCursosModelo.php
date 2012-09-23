@@ -278,9 +278,9 @@ function eliminarInscripcionUsuarioCurso($idUsuario, $idCurso) {
                             AND idCurso = :idCurso");
     $stmt->bindParam("idUsuario", $idUsuario);
     $stmt->bindParam("idCurso", $idCurso);
-    if($stmt->execute()){
-        return true;        
-    }else{
+    if ($stmt->execute()) {
+        return true;
+    } else {
         print_r($stmt->errorInfo());
         return false;
     }
@@ -291,7 +291,7 @@ function getRatingUsuario($idUsuario, $idCurso) {
     global $conex;
 
     $stmt = $conex->prepare("SELECT rating
-                             FROM usuariocurso
+                             FROM puntuacion
                              WHERE idUsuario = :idUsuario AND idCurso = :idCurso");
     $stmt->bindParam(':idUsuario', $idUsuario);
     $stmt->bindParam(':idCurso', $idCurso);
@@ -306,17 +306,31 @@ function getRatingUsuario($idUsuario, $idCurso) {
 function setRatingUsuario($idUsuario, $idCurso, $rating) {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("UPDATE usuariocurso 
-                            SET rating = :rating
-                            WHERE idUsuario = :idUsuario AND idCurso = :idCurso");
+
+    //tratamos de insertar en la tabla puntuación
+    beginTransaction();
+    $stmt = $conex->prepare("INSERT into puntuacion
+                            (idUsuario, idCurso, rating)
+                            VALUES(:idUsuario, :idCurso, :rating)");
     $stmt->bindParam(':rating', $rating);
     $stmt->bindParam(':idUsuario', $idUsuario);
     $stmt->bindParam(':idCurso', $idCurso);
 
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        //si NO se pudo ejecutar es que ya había una tupla con esos ids, actualizamos el rating
+        $stmt = $conex->prepare("UPDATE puntuacion 
+                            SET rating = :rating
+                            WHERE idUsuario = :idUsuario AND idCurso = :idCurso");
+        $stmt->bindParam(':rating', $rating);
+        $stmt->bindParam(':idUsuario', $idUsuario);
+        $stmt->bindParam(':idCurso', $idCurso);
 
+        $stmt->execute();
+    } 
+
+    //Ahora, hacemos el update de la variable rating de la tabla curso
     $stmt = $conex->prepare("SELECT count(rating) as cuenta, sum(rating) as suma
-                            FROM usuariocurso
+                            FROM puntuacion
                             WHERE idUsuario = :idUsuario AND idCurso = :idCurso");
     $stmt->bindParam(':idUsuario', $idUsuario);
     $stmt->bindParam(':idCurso', $idCurso);
@@ -333,7 +347,14 @@ function setRatingUsuario($idUsuario, $idCurso, $rating) {
     $stmt->bindParam(':rating', $prom);
     $stmt->bindParam(':idCurso', $idCurso);
 
-    return $stmt->execute();
+    if($stmt->execute()){
+        commitTransaction();
+        return true;
+    }else{
+        rollBackTransaction();
+        return false;
+    }
+    
 }
 
 function getNumeroDeNuevosAlumnos($idUsuario, $dias) {
