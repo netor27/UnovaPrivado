@@ -1,7 +1,9 @@
 <?php
 
 function inscritos(){
-    echo 'inscritos grupo -> ' . $_GET['i'];
+    if(validarAdministradorPrivado()){
+        
+    }
 }
 
 ?>

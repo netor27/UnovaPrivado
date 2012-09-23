@@ -1,7 +1,7 @@
 <?php
 
 function principal() {
-    if (tipoUsuario() == "administradorPrivado") {
+    if (validarAdministradorPrivado()) {
         listarUsuarios("alumnos");
     } else {
         goToIndex();
@@ -9,7 +9,7 @@ function principal() {
 }
 
 function listaProfesores() {
-    if (tipoUsuario() == "administradorPrivado") {
+    if (validarAdministradorPrivado()) {
         listarUsuarios("profesores");
     } else {
         goToIndex();
@@ -17,7 +17,7 @@ function listaProfesores() {
 }
 
 function listaAdministradores() {
-    if (tipoUsuario() == "administradorPrivado") {
+    if (validarAdministradorPrivado()) {
         listarUsuarios("administradores");
     } else {
         goToIndex();
@@ -335,7 +335,7 @@ function enviarCorreoConfirmacion() {
 }
 
 function eliminar() {
-    if (tipoUsuario() == "administradorPrivado") {
+    if (validarAdministradorPrivado()) {
         $pagina = 1;
         if (isset($_GET['pagina']) && is_numeric($_GET['pagina']))
             $pagina = $_GET['pagina'];
@@ -364,28 +364,28 @@ function eliminar() {
 }
 
 function altaAlumnos() {
-    if (tipoUsuario() == "administradorPrivado") {
+    if (validarAdministradorPrivado()) {
         $tipo = "altaAlumno";
         require_once 'modulos/usuarios/vistas/altaUsuario.php';
     }
 }
 
 function altaProfesores() {
-    if (tipoUsuario() == "administradorPrivado") {
+    if (validarAdministradorPrivado()) {
         $tipo = "altaProfesor";
         require_once 'modulos/usuarios/vistas/altaUsuario.php';
     }
 }
 
 function altaAdministradores() {
-    if (tipoUsuario() == "administradorPrivado") {
+    if (validarAdministradorPrivado()) {
         $tipo = "altaAdministrador";
         require_once 'modulos/usuarios/vistas/altaUsuario.php';
     }
 }
 
 function altaUsuariosSubmit() {
-    if (tipoUsuario() == "administradorPrivado") {
+    if (validarAdministradorPrivado()) {
         if (isset($_POST['tipo']) && isset($_POST['usuarios'])) {
             $tipo = $_POST['tipo'];
             $tipoUsuario = 0;
@@ -461,7 +461,7 @@ function altaUsuariosSubmit() {
 }
 
 function altaUsuariosArchivoCsvSubmit() {
-    if (tipoUsuario() == "administradorPrivado") {
+    if (validarAdministradorPrivado()) {
         if (isset($_FILES['csv'])) {
             $csv = array();
             if ($_FILES['csv']['error'] == 0) {

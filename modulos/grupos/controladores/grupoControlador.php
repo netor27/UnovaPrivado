@@ -2,7 +2,7 @@
 
 function principal() {
     if (validarUsuarioLoggeado()) {
-        if (tipoUsuario() == "administradorPrivado") {
+        if (validarAdministradorPrivado()) {
             $offset = 0;
             $numRows = 6;
             $pagina = 1;
@@ -28,7 +28,7 @@ function principal() {
 }
 
 function agregar() {
-    if (tipoUsuario() == "administradorPrivado") {
+    if (validarAdministradorPrivado()) {
         $tipo = "alta";
         require_once 'modulos/grupos/clases/Grupo.php';
         $grupo = new Grupo();
@@ -39,7 +39,7 @@ function agregar() {
 }
 
 function borrar() {
-    if (tipoUsuario() == "administradorPrivado") {
+    if (validarAdministradorPrivado()) {
         if (isset($_GET['ig']) && is_numeric($_GET['ig']) &&
                 isset($_GET['pagina']) && is_numeric($_GET['pagina'])) {
             require_once 'modulos/grupos/modelos/grupoModelo.php';
@@ -61,7 +61,7 @@ function borrar() {
 }
 
 function modificar() {
-    if (tipoUsuario() == "administradorPrivado") {
+    if (validarAdministradorPrivado()) {
         $tipo = "edita";
         if (isset($_GET['i']) && is_numeric($_GET['i'])) {
             $idGrupo = $_GET['i'];
@@ -78,7 +78,7 @@ function modificar() {
 }
 
 function grupoSubmit() {
-    if (tipoUsuario() == "administradorPrivado") {
+    if (validarAdministradorPrivado()) {
         if (isset($_POST['tipo']) && isset($_POST['nombre']) && isset($_POST['descripcion'])) {
             $tipo = $_POST['tipo'];
             require_once 'modulos/grupos/modelos/grupoModelo.php';

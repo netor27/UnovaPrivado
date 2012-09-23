@@ -2,7 +2,7 @@
 
 function principal() {
     if (validarUsuarioLoggeado()) {
-        if (tipoUsuario() == "administradorPrivado") {
+        if (validarAdministradorPrivado()) {
             $offset = 0;
             $numRows = 5;
             $pagina = 1;
@@ -32,7 +32,7 @@ function principal() {
 
 function crearCurso() {
     if (validarUsuarioLoggeado()) {
-        if (tipoUsuario() == "administradorPrivado" ||
+        if (validarAdministradorPrivado() ||
                 tipoUsuario() == "administrador") {
             require_once 'modulos/categorias/modelos/categoriaModelo.php';
             require_once 'modulos/categorias/modelos/subcategoriaModelo.php';
@@ -46,7 +46,7 @@ function crearCurso() {
 }
 
 function crearCursoSubmit() {
-    if (tipoUsuario() == "administradorPrivado" ||
+    if (validarAdministradorPrivado() ||
             tipoUsuario() == "administrador") {
         if (isset($_POST['titulo']) && isset($_POST['descripcionCorta']) && isset($_POST['subcategoria']) && isset($_POST['palabrasClave'])) {
             $descripcionCorta = removeBadHtmlTags(trim($_POST['descripcionCorta']));
@@ -671,7 +671,7 @@ function publicar() {
 
 function alumnos() {
     if (validarUsuarioLoggeado()) {
-        if (tipoUsuario() == "administradorPrivado") {
+        if (validarAdministradorPrivado()) {
             if (isset($_GET['i'])) {
                 $idCurso = intval($_GET['i']);
                 $offset = 0;
@@ -710,7 +710,7 @@ function alumnos() {
 
 function eliminar() {
     if (validarUsuarioLoggeado()) {
-        if (tipoUsuario() == "administradorPrivado") {
+        if (validarAdministradorPrivado()) {
             if (isset($_GET['i']) && is_numeric($_GET['i'])) {
                 $idCurso = intval($_GET['i']);
                 require_once 'modulos/cursos/modelos/CursoModelo.php';

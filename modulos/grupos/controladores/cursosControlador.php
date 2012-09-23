@@ -2,7 +2,7 @@
 
 function asignados() {
     if (validarUsuarioLoggeado()) {
-        if (tipoUsuario() == "administradorPrivado") {
+        if (validarAdministradorPrivado()) {
             if (isset($_GET['i']) && is_numeric($_GET['i'])) {
                 $idCurso = intval($_GET['i']);
                 $offset = 0;

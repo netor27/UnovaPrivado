@@ -1,7 +1,7 @@
 <?php
 
 function inscribirUsuario() {
-    if (tipoUsuario() == "administradorPrivado") {
+    if (validarAdministradorPrivado()) {
         if (isset($_GET['i']) && is_numeric($_GET['i'])) {
             $idCurso = $_GET['i'];
             require_once 'modulos/cursos/modelos/CursoModelo.php';
@@ -20,7 +20,7 @@ function inscribirUsuario() {
 }
 
 function asignarUsuarios() {
-    if (tipoUsuario() == "administradorPrivado") {
+    if (validarAdministradorPrivado()) {
         if (isset($_POST['idCurso']) && is_numeric($_POST['idCurso'])) {
             $idCurso = $_POST['idCurso'];
             require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
@@ -46,7 +46,7 @@ function asignarUsuarios() {
 }
 
 function eliminarInscripcion() {
-    if (tipoUsuario() == "administradorPrivado") {
+    if (validarAdministradorPrivado()) {
         if (isset($_GET['ic']) && is_numeric($_GET['ic']) &&
                 isset($_GET['iu']) && is_numeric($_GET['iu']) &&
                 isset($_GET['origen']) && isset($_GET['pagina'])) {
