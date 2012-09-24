@@ -89,6 +89,29 @@ function getGrupos($offset, $numRows) {
     return $array;
 }
 
+function getTodosLosGrupos() {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->query("SELECT * FROM grupo
+                           ORDER BY nombre asc");
+    if (!$stmt->execute())
+        print_r($stmt->errorInfo());
+    $rows = $stmt->fetchAll();
+
+    $grupos = null;
+    $grupo = null;
+    $i = 0;
+    foreach ($rows as $row) {
+        $grupo = new Grupo();
+        $grupo->idGrupo = $row['idGrupo'];
+        $grupo->nombre = $row['nombre'];
+        $grupo->descripcion = $row['descripcion'];
+        $grupos[$i] = $grupo;
+        $i++;
+    }
+    return $grupos;
+}
+
 function getGruposAsignadosAlCurso($idCurso, $offset, $numRows) {
     require_once 'bd/conex.php';
     global $conex;
@@ -108,6 +131,7 @@ function getGruposAsignadosAlCurso($idCurso, $offset, $numRows) {
         $i = 0;
         foreach ($rows as $row) {
             $grupo = new Grupo();
+            $grupo->idGrupo = $row['idGrupo'];
             $grupo->nombre = $row['nombre'];
             $grupo->descripcion = $row['descripcion'];
             $grupos[$i] = $grupo;
@@ -118,6 +142,35 @@ function getGruposAsignadosAlCurso($idCurso, $offset, $numRows) {
             "grupos" => $grupos
         );
         return $array;
+    } else {
+        print_r($stmt->errorInfo());
+        return null;
+    }
+}
+
+function getTodosGruposAsignadosAlCurso($idCurso) {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("SELECT g.* 
+                            FROM grupo g, grupocurso gc
+                            WHERE gc.idGrupo = g.idGrupo
+                            AND gc.idCurso = :idCurso
+                            ORDER BY g.nombre asc");
+    $stmt->bindParam(":idCurso", $idCurso);
+    if ($stmt->execute()) {
+        $rows = $stmt->fetchAll();
+        $grupos = null;
+        $grupo = null;
+        $i = 0;
+        foreach ($rows as $row) {
+            $grupo = new Grupo();
+            $grupo->idGrupo = $row['idGrupo'];
+            $grupo->nombre = $row['nombre'];
+            $grupo->descripcion = $row['descripcion'];
+            $grupos[$i] = $grupo;
+            $i++;
+        }
+        return $grupos;
     } else {
         print_r($stmt->errorInfo());
         return null;
@@ -244,6 +297,27 @@ function quitarUsuarioDelGrupo($idUsuario, $idGrupo) {
                             AND idUsuario = :idUsuario");
     $stmt->bindParam(":idGrupo", $idGrupo);
     $stmt->bindParam(":idUsuario", $idUsuario);
+    return $stmt->execute();
+}
+
+function agregarGrupoAlCurso($idGrupo, $idCurso) {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("INSERT INTO grupocurso(idGrupo, idCurso, fechaInscripcion)
+                            VALUES(:idGrupo, :idCurso, NOW())");
+    $stmt->bindParam(":idGrupo", $idGrupo);
+    $stmt->bindParam(":idCurso", $idCurso);
+    return $stmt->execute();
+}
+
+function quitarGrupoDelCurso($idGrupo, $idCurso) {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("DELETE FROM grupocurso
+                            WHERE idGrupo = :idGrupo
+                            AND idCurso = :idCurso");
+    $stmt->bindParam(":idGrupo", $idGrupo);
+    $stmt->bindParam(":idCurso", $idCurso);
     return $stmt->execute();
 }
 

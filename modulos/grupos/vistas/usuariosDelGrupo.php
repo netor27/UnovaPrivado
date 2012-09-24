@@ -2,7 +2,7 @@
 require_once('layout/headers/headInicio.php');
 require_once('layout/headers/headBootstrap.php');
 require_once('layout/headers/headGridster.php');
-require_once('layout/headers/headListaUsuarios.php');
+require_once('layout/headers/headListaUsuariosDeGrupo.php');
 require_once('layout/headers/headCierre.php');
 ?>
 
