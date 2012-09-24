@@ -672,7 +672,7 @@ function publicar() {
 function alumnos() {
     if (validarUsuarioLoggeado()) {
         if (validarAdministradorPrivado()) {
-            if (isset($_GET['i'])) {
+            if (isset($_GET['i']) && is_numeric($_GET['i'])) {
                 $idCurso = intval($_GET['i']);
                 $offset = 0;
                 $numRows = 18;
@@ -681,8 +681,8 @@ function alumnos() {
                 if(isset($_GET['pc']) && is_numeric($_GET['pc'])){
                     $paginaCursos = $_GET['pc'];
                 }
-                if (isset($_GET['j']) && is_numeric($_GET['j'])) {
-                    $pagina = intval($_GET['j']);
+                if (isset($_GET['p']) && is_numeric($_GET['p'])) {
+                    $pagina = intval($_GET['p']);
                     $offset = $numRows * ($pagina - 1);
                 }
                 require_once 'modulos/cursos/modelos/CursoModelo.php';
@@ -692,7 +692,7 @@ function alumnos() {
                 $numAlumnos = $res['n'];
                 $maxPagina = ceil($numAlumnos / $numRows);
                 if ($pagina != 1 && $pagina > $maxPagina) {
-                    redirect("/cursos/curso/alumnos/" . $idCurso . "/" . $maxPagina);
+                    redirect("/cursos/curso/alumnos/" . $idCurso . ":pc=" . $paginaCursos . "&p=". $maxPagina);
                 } else {
                     require_once 'modulos/cursos/vistas/listaAlumnosDeCurso.php';
                 }

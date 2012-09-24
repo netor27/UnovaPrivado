@@ -26,7 +26,8 @@
     bottom: 0%;
     left: 0%;
     width: 100%;
-    height: 30%;
+    height: auto;
+    min-height: 30%;
     background: rgb(41,36,36);    
     opacity: .6;
 }
@@ -50,7 +51,7 @@
 }
 
 .bottomFooterHover{
-    height: 70%;
+    height: auto;
     opacity: 0.9;
 }
 

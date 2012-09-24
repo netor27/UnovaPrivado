@@ -2,66 +2,64 @@
 require_once('layout/headers/headInicio.php');
 require_once('layout/headers/headBootstrap.php');
 require_once('layout/headers/headGridster.php');
-require_once('layout/headers/headListaAlumnosDeCurso.php');
+require_once('layout/headers/headListaUsuarios.php');
 require_once('layout/headers/headCierre.php');
 ?>
+
 <div class="container">
     <div class="contenido">
         <div class="well well-large">
             <div class="row-fluid">
-                <div class="span12">
+                <div class="span6">
                     <?php
-                    if ($numAlumnos == 1)
-                        echo '<h4>Hay un alumno inscritos al curso:</h4>';
+                    if ($numUsuarios == 1)
+                        echo '<h4>Hay un usuario en este grupo</h4>';
                     else
-                        echo '<h4>Hay ' . $numAlumnos . ' alumnos inscritos al curso:</h4>';
+                        echo '<h4>Hay ' . $numUsuarios . ' usuarios en este grupo</h4>';
                     ?>
                 </div>
-            </div>
-            <div class="row-fluid">
-                <div class="span7">
-                    <h5> <?php echo $curso->titulo; ?></h5>
-                </div>        
-                <div class="span4 offset1">
-                    <div>
-                        <a href="/usuarios/cursos/inscribirUsuario/<?php echo $curso->idCurso; ?>" class="btn btn-primary">
+                <div class="span3 offset3">
+                    <div style="padding-top: 20px;">
+                        <a href="/grupos/usuarios/usuariosDelGrupo/<?php echo $idGrupo; ?>" class="btn btn-primary">
                             <i class="icon-white icon-plus"></i>
-                            Inscribir usuario(s) a este curso
+                            Agregar usuario(s) al grupo
                         </a>
                     </div>
                 </div>
-            </div>    
+            </div>
+            <div class="row-fluid">
+                <div class="span12"></div>
+            </div>
             <?php
             $columna = 1;
             $fila = 1;
-            if (isset($alumnos)) {
+            if (isset($usuarios)) {
                 ?>
                 <div class="row-fluid">
                     <div id="alumnosContainer" class="span12">
-
-
                         <div class="gridster ready">
                             <ul style="height: 480px; position: relative; ">
                                 <?php
-                                foreach ($alumnos as $alumno) {
+                                foreach ($usuarios as $usuario) {
                                     ?>
-                                    <li class="cuadro ui-corner-all" data-row="1" data-col="1" data-sizex="1" data-sizey="1" style="background: url('<?php echo $alumno->avatar; ?>')">
+                                    <li class="cuadro ui-corner-all" data-row="1" data-col="1" data-sizex="1" data-sizey="1" style="background: url('<?php echo $usuario->avatar; ?>')">
                                         <div class="cuadroFooter ui-corner-bottom ease3">
                                             <span class="cuadroFooterTitulo">
-                                                <a href="/usuario/<?php echo $alumno->uniqueUrl; ?>">
-                                                    <?php echo $alumno->nombreUsuario; ?>
+                                                <a href="/usuario/<?php echo $usuario->uniqueUrl; ?>">
+                                                    <?php echo $usuario->nombreUsuario; ?>
                                                 </a>
                                             </span>
                                             <br>
                                             <span class="cuadroFooterLink">
-                                                <a class="btn btn-mini btn-danger borrarInscripcion" id="<?php echo $alumno->idUsuario; ?>">
+                                                <a class="btn btn-mini btn-danger btnQuitar" id="<?php echo $usuario->idUsuario; ?>">
                                                     <i class="icon-white icon-trash"></i>
-                                                    Quitar de este curso
+                                                    Quitar usuario del grupo                                                
                                                 </a>
                                             </span>
                                         </div>
                                     </li>
-                                <?php }
+                                    <?php
+                                }
                                 ?>                        
                             </ul>
                         </div>
@@ -74,7 +72,7 @@ require_once('layout/headers/headCierre.php');
                             <ul>
                                 <?php
                                 if ($pagina > 1)
-                                    echo '<li><a href="/cursos/curso/alumnos/' . $idCurso . ':p=' . ($pagina - 1) . '&pc=' . $paginaCursos . '">«</a></li>';
+                                    echo '<li><a href="/grupos/usuarios/inscritos/' . $idGrupo . ':p=' . ($pagina - 1) . '">«</a></li>';
                                 else
                                     echo '<li class="disabled"><a href="#">«</a></li>';
 
@@ -82,11 +80,11 @@ require_once('layout/headers/headCierre.php');
                                     if ($i == $pagina)
                                         echo '<li class="active"><a href="#">' . $i . '</a></li>';
                                     else
-                                        echo '<li><a href="/cursos/curso/alumnos/' . $idCurso . ':p=' . $i . '&pc=' . $paginaCursos . '">' . $i . '</a></li>';
+                                        echo '<li><a href="/grupos/usuarios/inscritos/' . $idGrupo . ':p=' . $i . '">' . $i . '</a></li>';
                                 }
 
                                 if ($pagina < $maxPagina)
-                                    echo '<li><a href="/cursos/curso/alumnos/' . $idCurso . ':p=' . ($pagina + 1) . '&pc=' . $paginaCursos . '">»</a></li>';
+                                    echo '<li><a href="/grupos/usuarios/inscritos/' . $idGrupo . ':p=' . ($pagina + 1) . '">»</a></li>';
                                 else
                                     echo '<li class="disabled"><a href="#">»</a></li>';
                                 ?>
@@ -98,16 +96,16 @@ require_once('layout/headers/headCierre.php');
             }else {
                 ?>
                 <div class="row-fluid">
-                    <h3>No hay usuarios asignados a este curso</h3>
+                    <h3>No hay usuarios en este grupo</h3>
                 </div>
                 <?php
             }
             ?>
             <div class="row-fluid">
                 <div class="span3">
-                    <a class="btn btn-inverse btn-small"href="/cursos:p=<?php echo $paginaCursos; ?>">
+                    <a class="btn btn-inverse btn-small" href="/grupos">
                         <i class="icon-white icon-arrow-left"></i>
-                        Regresar a la lista de cursos
+                        Regresar
                     </a>
                 </div>
             </div>

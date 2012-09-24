@@ -99,7 +99,10 @@ function setActivado($idUsuario, $valor) {
 function getUsuarios() {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->query("SELECT * FROM usuario");
+    $stmt = $conex->query("SELECT * 
+                          FROM usuario
+                          WHERE tipoUsuario != 1
+                          ORDER BY nombreUsuario ASC");
     $usuarios = null;
     $usuario = null;
     $i = 0;

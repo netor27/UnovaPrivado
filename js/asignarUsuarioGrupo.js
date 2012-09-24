@@ -35,6 +35,21 @@ var usuariosQuitar = [];
 $(function() {
     $('#listaUsuarios').filterByText($('#textUsuarios'), true);
     //$('#listaInscritos').filterByText($('#textInscritos'), true);
+    
+    //agregar por doble click
+    $('#listaUsuarios').dblclick(function(){
+        var $id = $('#listaUsuarios option:selected').attr("value");
+        console.log("id= "+ $id);
+        var bandera = false;
+        $('#listaInscritos option').each(function(i) {
+            if($id == this.value){
+                bandera = true;
+            }
+        });        
+        if(!bandera){
+            $('#listaUsuarios option:selected').clone().appendTo('#listaInscritos');
+        }
+    });
   
     $("#btnAgregar").click(function(){
         var $id = $('#listaUsuarios option:selected').attr("value");
@@ -51,23 +66,6 @@ $(function() {
             console.log("no se agregará el usuario, ya existe");
         }*/   
     });
-    
-    //dobleclick para agregar
-    $('#listaUsuarios').dblclick(function(){
-        var $id = $('#listaUsuarios option:selected').attr("value");
-        console.log("id= "+ $id);
-        var bandera = false;
-        $('#listaInscritos option').each(function(i) {
-            if($id == this.value){
-                bandera = true;
-            }
-        });        
-        if(!bandera){
-            $('#listaUsuarios option:selected').clone().appendTo('#listaInscritos');
-        }/*else{
-            console.log("no se agregará el usuario, ya existe");
-        }*/ 
-    });
   
     $("#btnQuitar").click(function(){
         var valor = $('#listaInscritos option:selected').attr("value");
@@ -75,7 +73,7 @@ $(function() {
         $('#listaInscritos option:selected').remove();
     });
     
-    //doble click para quitar
+    //quitar por dobleclick
     $('#listaInscritos').dblclick(function(){
         var valor = $('#listaInscritos option:selected').attr("value");
         usuariosQuitar.push(valor);        
@@ -88,16 +86,16 @@ $(function() {
             $('#listaInscritos option').each(function(i) {
                 usuariosInscribir.push(this.value);
             });
-            $("#btnGuardar").html("Guardando...");
-            $("#btnGuardar").addClass("disabled");
             //var serializado = mySelections.serialize();
             //console.log(usuariosInscribir);
+            $("#btnGuardar").html("Guardando...");
+            $("#btnGuardar").addClass("disabled");
             $.ajax({
                 type: "post",
-                url: "/usuarios/cursos/asignarUsuarios" ,
+                url: "/grupos/usuarios/asignarUsuarios" ,
                 dataType: "text",
                 data: {
-                    'idCurso' : curso,
+                    'idGrupo' : grupo,
                     'idUsuariosInscribir' : usuariosInscribir,
                     'idUsuariosQuitar' : usuariosQuitar
                 },
@@ -109,16 +107,16 @@ $(function() {
                         bootbox.alert("Ocurrió un error al actualizar los datos. <br>Intenta de nuevo más tarde");
                     }
                 },
-                complete: function(){
+                complete: function(data){
                     $("#btnGuardar").html('<i class="icon-white icon-ok"></i>Guardar Cambios');
                     $("#btnGuardar").removeClass("disabled");
                 }
-            });    
+            });  
         }
     });
   
     $("#btnCancelar").click(function(){
-        $url = "/cursos/curso/alumnos/"+curso;
+        $url = "/grupos/usuarios/inscritos/"+grupo;
         redirect($url);
     });
 });  

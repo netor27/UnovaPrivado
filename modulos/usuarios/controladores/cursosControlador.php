@@ -61,7 +61,7 @@ function eliminarInscripcion() {
                 setSessionMessage("<h4 class='error'>Ocurrió un error al quitar al usuario</h4>");
             }
             if ($origen == "listaAlumnos") {
-                redirect("/cursos/curso/alumnos/" . $idCurso . "/" . $pagina);
+                redirect("/cursos/curso/alumnos/" . $idCurso . ":p=" . $pagina);
             }
         } else {
             setSessionMessage("<h4 class='error'>Datos no válidos</h4>");

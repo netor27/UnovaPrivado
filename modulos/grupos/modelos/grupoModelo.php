@@ -40,20 +40,20 @@ function modificaGrupo($grupo) {
     return $stmt->execute();
 }
 
-function getGrupo($idGrupo){
+function getGrupo($idGrupo) {
     require_once 'bd/conex.php';
     global $conex;
     $stmt = $conex->prepare("SELECT * from grupo
                             WHERE idGrupo = :idGrupo");
     $stmt->bindParam(":idGrupo", $idGrupo);
-    if($stmt->execute()){
+    if ($stmt->execute()) {
         $row = $stmt->fetch();
         $grupo = new Grupo();
         $grupo->idGrupo = $row['idGrupo'];
         $grupo->nombre = $row['nombre'];
         $grupo->descripcion = $row['descripcion'];
         return $grupo;
-    }else{
+    } else {
         return null;
     }
 }
@@ -159,33 +159,35 @@ function getGruposDelUsuario($idUsuario, $offset, $numRows) {
     }
 }
 
-function getUsuariosDelGrupo($idGrupo, $offset, $numRows){
+function getUsuariosDelGrupo($idGrupo, $offset, $numRows) {
     require_once 'bd/conex.php';
     global $conex;
     $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS u.* 
                             FROM usuario u, usuariogrupo ug
                             WHERE u.idUsuario = ug.idUsuario
                             AND ug.idGrupo = :idGrupo
-                            ORDER BY u.nombreUsuario
+                            ORDER BY u.nombreUsuario ASC
                             LIMIT $offset, $numRows");
     $stmt->bindParam(":idGrupo", $idGrupo);
     if ($stmt->execute()) {
         $rows = $stmt->fetchAll();
         $r = $conex->query("SELECT FOUND_ROWS() as numero")->fetch();
         $n = $r['numero'];
-        $grupos = null;
-        $grupo = null;
+        $usuarios = null;
+        $usuario = null;
         $i = 0;
         foreach ($rows as $row) {
-            $grupo = new Grupo();
-            $grupo->nombre = $row['nombre'];
-            $grupo->descripcion = $row['descripcion'];
-            $grupos[$i] = $grupo;
+            $usuario = new Usuario();
+            $usuario->idUsuario = $row['idUsuario'];
+            $usuario->avatar = $row['avatar'];
+            $usuario->nombreUsuario = $row['nombreUsuario'];
+            $usuario->uniqueUrl = $row['uniqueUrl'];
+            $usuarios[$i] = $usuario;
             $i++;
         }
         $array = array(
             "n" => $n,
-            "grupos" => $grupos
+            "usuarios" => $usuarios
         );
         return $array;
     } else {
@@ -194,4 +196,55 @@ function getUsuariosDelGrupo($idGrupo, $offset, $numRows){
     }
 }
 
-?>
+function getTodosUsuariosDelGrupo($idGrupo) {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("SELECT u.* 
+                            FROM usuario u, usuariogrupo ug
+                            WHERE u.idUsuario = ug.idUsuario
+                            AND ug.idGrupo = :idGrupo
+                            ORDER BY u.nombreUsuario ASC");
+    $stmt->bindParam(":idGrupo", $idGrupo);
+    if ($stmt->execute()) {
+        $rows = $stmt->fetchAll();
+        $usuarios = null;
+        $usuario = null;
+        $i = 0;
+        foreach ($rows as $row) {
+            $usuario = new Usuario();
+            $usuario->idUsuario = $row['idUsuario'];
+            $usuario->avatar = $row['avatar'];
+            $usuario->nombreUsuario = $row['nombreUsuario'];
+            $usuario->uniqueUrl = $row['uniqueUrl'];
+            $usuarios[$i] = $usuario;
+            $i++;
+        }
+        return $usuarios;
+    } else {
+        print_r($stmt->errorInfo());
+        return null;
+    }
+}
+
+function agregarUsuarioAlGrupo($idUsuario, $idGrupo) {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("INSERT INTO usuariogrupo(idGrupo, idUsuario)
+                            VALUES(:idGrupo, :idUsuario)");
+    $stmt->bindParam(":idGrupo", $idGrupo);
+    $stmt->bindParam(":idUsuario", $idUsuario);
+    return $stmt->execute();
+}
+
+function quitarUsuarioDelGrupo($idUsuario, $idGrupo) {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("DELETE FROM usuariogrupo
+                            WHERE idGrupo = :idGrupo
+                            AND idUsuario = :idUsuario");
+    $stmt->bindParam(":idGrupo", $idGrupo);
+    $stmt->bindParam(":idUsuario", $idUsuario);
+    return $stmt->execute();
+}
+
+?>  
