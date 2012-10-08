@@ -65,19 +65,6 @@ require_once('layout/headers/headCierre.php');
             <a href="/cursos/curso/editarInformacionCurso/<?php echo $cursoParaModificar->idCurso; ?>" >
                 <div class="blueButton">Editar información del curso</div>
             </a>
-            <div id="publicadoContainer">
-                <?php
-                if ($cursoParaModificar->publicado == 1) {
-                    echo '<h4 class="success" style="text-align: center;">Curso publicado</h4>';
-                } else {
-                    ?>
-                    <a style="text-align:center;"  onclick="publicarCurso('<?php echo $cursoParaModificar->idCurso ?>')"id="publicarCurso">
-                        <div class="blueButton" >Publicar curso</div>
-                    </a>
-                    <?php
-                }
-                ?>
-            </div>
         </div>
         
     </div>

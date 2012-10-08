@@ -29,15 +29,15 @@ function transformar($datosJson) {
         $path = pathinfo($archivoOgv);
         $fileNameOgv = $path['basename'];
 
-        $resOGV = crearArchivoCDN($archivoOgv, $fileNameOgv, $tipoVideo);
+        $resOgv = crearArchivoCDN($archivoOgv, $fileNameOgv, $tipoVideo);
 
         require_once 'modulos/cursos/modelos/ClaseModelo.php';
 
-        if ($resMP4 != NULL && $resOGV != NULL) {
-            $uriMp4 = $resMP4['uri'];
-            $uriOGV = $resOGV['uri'];
-            $size = floatval($resMP4['size']) + floatval($resOGV['size']);
-            actualizaArchivosDespuesTransformacion($idClase, $uriMp4, $uriOGV, $size);
+        if (isset($resMp4) && isset($resOgv)) {
+            $uriMp4 = $resMp4['uri'];
+            $uriOgv = $resOgv['uri'];
+            $size = floatval($resMp4['size']) + floatval($resOgv['size']);
+            actualizaArchivosDespuesTransformacion($idClase, $uriMp4, $uriOgv, $size);
             actualizaDuracionClase($idClase, $duration);
             //enviar emai de aviso
             $curso = getCursoPerteneciente($idClase);
@@ -45,14 +45,14 @@ function transformar($datosJson) {
             $usuario = getUsuarioDeCurso($curso->idCurso);
             require_once 'modulos/email/modelos/envioEmailModelo.php';
             $clase = getClase($idClase);
-            enviarMailTransformacionVideoCompleta($usuario->email, $curso->titulo, $clase->titulo, 'www.unova.mx/curso/' . $curso->uniqueUrl);
-            return true;
+            //enviarMailTransformacionVideoCompleta($usuario->email, $curso->titulo, $clase->titulo, 'www.unova.mx/curso/' . $curso->uniqueUrl);
+            return 1;
         } else {
-            return false;
+            return -1;
         }
     } else {
         //putLog("ERROR transformando a mp4 y ogv. ERROR = " . $res['return_var']);
-        return false;
+        return -2;
     }
 }
 
