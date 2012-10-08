@@ -24,7 +24,6 @@ function loginSubmit() {
         //$num= 0;
         if ($num == 0) { //no hay usuario correcto
             $msgLogin = "Nombre de usuario y/o contraseña incorrectos.<br>";
-            require_once 'lib/php/facebook/loginFacebook.php';
             require_once 'modulos/principal/vistas/login.php';
         } else {
             if (isset($_POST['recuerdame']) && $_POST['recuerdame'] == 1) { //Guardamos la cookie para recordar

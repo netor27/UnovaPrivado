@@ -3,20 +3,25 @@
 function cargarCursosSession() {
     $usuario = getUsuarioActual();
     require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
+    $aux = NULL;
     //obtener los ultimos 5 cursos a los que se ha 
-    //inscrito y guardarlos en la sesión para mostrarlos en el menú        
+    //inscrito y guardarlos en la sesión para mostrarlos en el menú            
+    if (tipoUsuario() == 'administradorPrivado' ||
+            tipoUsuario() == 'profesor') {
+        $numCursos = 2;
+        //Obtener los ultimos 5 cursos que ha creado el usuario
+        //guardarlos en la sesión para mostrarlos en el menú
+        $aux = getCursosInstructor($usuario->idUsuario, 0, $numCursos, "fechaCreacion", "DESC");
+        if (!is_null($aux))
+            $_SESSION['cursosPropios'] = $aux;
+    }else{
+        $numCursos = 4;
+    }
 
-    $aux = getCursosInscrito($usuario->idUsuario, 0, 4, "fechaInscripcion", "DESC");
+    $aux = getCursosInscrito($usuario->idUsuario, 0, $numCursos, "fechaInscripcion", "DESC");
     if (!is_null($aux)) {
         $_SESSION['cursos'] = $aux;
-        //echo 'no es null';
     }
-    //Obtener los ultimos 5 cursos que ha creado el usuario
-    //guardarlos en la sesión para mostrarlos en el menú
-
-    $aux = getCursosInstructor($usuario->idUsuario, 0, 4, "fechaCreacion", "DESC");
-    if (!is_null($aux))
-        $_SESSION['cursosPropios'] = $aux;
 }
 
 function cargarUsuarioSession() {

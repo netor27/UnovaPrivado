@@ -33,7 +33,8 @@ function principal() {
 function crearCurso() {
     if (validarUsuarioLoggeado()) {
         if (validarAdministradorPrivado() ||
-                tipoUsuario() == "administrador") {
+                tipoUsuario() == "administrador" ||
+                tipoUsuario() == "profesor") {
             require_once 'modulos/categorias/modelos/categoriaModelo.php';
             require_once 'modulos/categorias/modelos/subcategoriaModelo.php';
             $categorias = getCategorias();
@@ -47,7 +48,8 @@ function crearCurso() {
 
 function crearCursoSubmit() {
     if (validarAdministradorPrivado() ||
-            tipoUsuario() == "administrador") {
+            tipoUsuario() == "administrador" ||
+            tipoUsuario() == "profesor" ) {
         if (isset($_POST['titulo']) && isset($_POST['descripcionCorta']) && isset($_POST['subcategoria']) && isset($_POST['palabrasClave'])) {
             $descripcionCorta = removeBadHtmlTags(trim($_POST['descripcionCorta']));
             $titulo = removeBadHtmlTags(trim($_POST['titulo']));

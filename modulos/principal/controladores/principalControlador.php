@@ -11,7 +11,7 @@ function principal() {
 
     switch(tipoUsuario()){
         case 'usuario':
-            require_once('modulos/principal/vistas/principal.php');
+            redirect("/usuarios/cursos/inscrito");
             break;
         case 'administradorPrivado':
             //obtener los datos del paquete
@@ -35,8 +35,11 @@ function principal() {
             
             require_once('modulos/principal/vistas/principalAdministradorPrivado.php');
             break;
-        case 'administrador';
+        case 'administrador':
             require_once('modulos/principal/vistas/principal.php');
+            break;
+        case 'profesor':
+            redirect("/usuarios/cursos/instructor");
             break;
     }    
 }

@@ -2,6 +2,7 @@
 
 require_once 'modulos/usuarios/clases/Usuario.php';
 require_once 'funcionesPHP/funcionesGenerales.php';
+require_once 'funcionesPHP/CargarInformacionSession.php';
 require_once 'modulos/cursos/clases/Curso.php';
 require_once 'funcionesPHP/LogFile.php';
 
@@ -10,7 +11,8 @@ session_start();
 //validamos que una sesión no este siendo usada por varias computadoras al mismo tiempo
 if (validarUniqueSession()) {
     guardarTipoLayout();
-
+    cargarCursosSession();
+    
     if (!empty($_GET['c']))
         $controlador = $_GET['c'];
     else

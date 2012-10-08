@@ -64,7 +64,7 @@ function getCursosInstructor($idUsuario, $offset, $numRows) {
     }
 }
 
-function getCursosInscritoDetalles($idUsuario, $orderBy, $orderAscDesc) {
+function getCursosInscritoDetalles($idUsuario, $orderBy, $orderAscDesc, $offset, $numRows) {
     require_once 'bd/conex.php';
     global $conex;
     $auxOrder = "";
@@ -73,50 +73,57 @@ function getCursosInscritoDetalles($idUsuario, $orderBy, $orderAscDesc) {
     else if ($orderBy == "titulo")
         $auxOrder = " c.titulo " . $orderAscDesc . " ";
 
-    $stmt = $conex->prepare("Select u.idUsuario, u.nombreUsuario, u.uniqueUrl as uniqueUrlUsuario, c.imagen, c.descripcionCorta,  c.idCurso, c.titulo, c.uniqueUrl, uc.fechaInscripcion, count(distinct uc.idUsuario) as numAlumnos, count(distinct cl.idClase) as numClases
-                            From curso c
+    $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS u.idUsuario, u.nombreUsuario, u.uniqueUrl as uniqueUrlUsuario, c.imagen, c.descripcionCorta,  c.idCurso, c.titulo, c.uniqueUrl, uc.fechaInscripcion, count(distinct uc.idUsuario) as numAlumnos, count(distinct cl.idClase) as numClases
+                            FROM curso c
                             INNER JOIN usuario u ON c.idUsuario = u.idUsuario
                             LEFT OUTER JOIN tema t ON c.idCurso = t.idCurso
                             LEFT OUTER JOIN clase cl ON t.idTema = cl.idTema
                             LEFT OUTER JOIN usuariocurso uc ON c.idCurso = uc.idCurso
-                            where c.idCurso IN (
+                            WHERE c.idCurso IN (
                                 select idCurso
                                 from usuariocurso
                                 where idUsuario = :idUsuario
                             )
-                            group by c.idCurso
-                            order by $auxOrder ");
+                            GROUP BY c.idCurso
+                            ORDER BY $auxOrder 
+                            LIMIT $offset, $numRows");
     $stmt->bindParam(':idUsuario', $idUsuario);
 
-    if ($stmt->execute()) {
-        $cursos = null;
-        $curso = null;
-        $rows = $stmt->fetchAll();
-        $i = 0;
-        foreach ($rows as $row) {
-            $curso = new Curso();
-            $curso->idCurso = $row['idCurso'];
-            $curso->idUsuario = $row['idUsuario'];
-            $curso->nombreUsuario = $row['nombreUsuario'];
-            $curso->imagen = $row['imagen'];
-            $curso->titulo = $row['titulo'];
-            $curso->fechaInscripcion = $row['fechaInscripcion'];
-            $curso->numeroDeAlumnos = $row['numAlumnos'];
-            $curso->numeroDeClases = $row['numClases'];
-            $curso->descripcionCorta = $row['descripcionCorta'];
-            $curso->uniqueUrl = $row['uniqueUrl'];
-            $curso->uniqueUrlUsuario = $row['uniqueUrlUsuario'];
-            $cursos[$i] = $curso;
-            $i++;
-        }
-        return $cursos;
-    } else {
-        //print_r($stmt->errorInfo());
-        return null;
+    if (!$stmt->execute())
+        print_r($stmt->errorInfo());
+
+    $rows = $stmt->fetchAll();
+
+    $r = $conex->query("SELECT FOUND_ROWS() as numero")->fetch();
+    $n = $r['numero'];
+
+    $cursos = null;
+    $curso = null;
+    $i = 0;
+    foreach ($rows as $row) {
+        $curso = new Curso();
+        $curso->idCurso = $row['idCurso'];
+        $curso->idUsuario = $row['idUsuario'];
+        $curso->nombreUsuario = $row['nombreUsuario'];
+        $curso->imagen = $row['imagen'];
+        $curso->titulo = $row['titulo'];
+        $curso->fechaInscripcion = $row['fechaInscripcion'];
+        $curso->numeroDeAlumnos = $row['numAlumnos'];
+        $curso->numeroDeClases = $row['numClases'];
+        $curso->descripcionCorta = $row['descripcionCorta'];
+        $curso->uniqueUrl = $row['uniqueUrl'];
+        $curso->uniqueUrlUsuario = $row['uniqueUrlUsuario'];
+        $cursos[$i] = $curso;
+        $i++;
     }
+    $array = array(
+        "n" => $n,
+        "cursos" => $cursos
+    );
+    return $array;
 }
 
-function getCursosInstructorDetalles($idUsuario, $orderBy, $orderAscDesc) {
+function getCursosInstructorDetalles($idUsuario, $orderBy, $orderAscDesc, $offset, $numRows) {
     require_once 'bd/conex.php';
     global $conex;
     $auxOrder = "";
@@ -125,43 +132,51 @@ function getCursosInstructorDetalles($idUsuario, $orderBy, $orderAscDesc) {
     else if ($orderBy == "titulo")
         $auxOrder = " c.titulo " . $orderAscDesc . " ";
 
-    $stmt = $conex->prepare("Select u.idUsuario, u.nombreUsuario, u.uniqueUrl as uniqueUrlUsuario, c.idCurso, c.descripcionCorta, c.titulo, c.uniqueUrl, c.publicado, c.imagen, c.fechaCreacion, count(distinct uc.idUsuario) as numAlumnos, count(distinct cl.idClase) as numClases
-                            From curso c
+    $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS u.idUsuario, u.nombreUsuario, u.uniqueUrl as uniqueUrlUsuario, c.idCurso, c.descripcionCorta, c.titulo, c.uniqueUrl, c.publicado, c.imagen, c.fechaCreacion, count(distinct uc.idUsuario) as numAlumnos, count(distinct cl.idClase) as numClases
+                            FROM curso c
                             INNER JOIN usuario u ON c.idUsuario = u.idUsuario
                             LEFT OUTER JOIN tema t ON c.idCurso = t.idCurso
                             LEFT OUTER JOIN clase cl ON t.idTema = cl.idTema
                             LEFT OUTER JOIN usuariocurso uc ON c.idCurso = uc.idCurso
-                            where u.idUsuario = :idUsuario
-                            group by c.idCurso
-                            order by $auxOrder");
+                            WHERE u.idUsuario = :idUsuario
+                            GROUP BY c.idCurso
+                            ORDER BY $auxOrder
+                            LIMIT $offset, $numRows");
     $stmt->bindParam(':idUsuario', $idUsuario);
 
-    if ($stmt->execute()) {
-        $cursos = null;
-        $curso = null;
-        $rows = $stmt->fetchAll();
-        $i = 0;
-        foreach ($rows as $row) {
-            $curso = new Curso();
-            $curso->idCurso = $row['idCurso'];
-            $curso->titulo = $row['titulo'];
-            $curso->publicado = $row['publicado'];
-            $curso->imagen = $row['imagen'];
-            $curso->fechaCreacion = $row['fechaCreacion'];
-            $curso->numeroDeAlumnos = $row['numAlumnos'];
-            $curso->numeroDeClases = $row['numClases'];
-            $curso->descripcionCorta = $row['descripcionCorta'];
-            $curso->uniqueUrl = $row['uniqueUrl'];
-            $curso->idUsuario = $row['idUsuario'];
-            $curso->nombreUsuario = $row['nombreUsuario'];
-            $curso->uniqueUrlUsuario = $row['uniqueUrlUsuario'];
-            $cursos[$i] = $curso;
-            $i++;
-        }
-        return $cursos;
-    } else {
-        return null;
+    if (!$stmt->execute())
+        print_r($stmt->errorInfo());
+
+    $rows = $stmt->fetchAll();
+
+    $r = $conex->query("SELECT FOUND_ROWS() as numero")->fetch();
+    $n = $r['numero'];
+
+    $cursos = null;
+    $curso = null;
+    $i = 0;
+    foreach ($rows as $row) {
+        $curso = new Curso();
+        $curso->idCurso = $row['idCurso'];
+        $curso->titulo = $row['titulo'];
+        $curso->publicado = $row['publicado'];
+        $curso->imagen = $row['imagen'];
+        $curso->fechaCreacion = $row['fechaCreacion'];
+        $curso->numeroDeAlumnos = $row['numAlumnos'];
+        $curso->numeroDeClases = $row['numClases'];
+        $curso->descripcionCorta = $row['descripcionCorta'];
+        $curso->uniqueUrl = $row['uniqueUrl'];
+        $curso->idUsuario = $row['idUsuario'];
+        $curso->nombreUsuario = $row['nombreUsuario'];
+        $curso->uniqueUrlUsuario = $row['uniqueUrlUsuario'];
+        $cursos[$i] = $curso;
+        $i++;
     }
+    $array = array(
+        "n" => $n,
+        "cursos" => $cursos
+    );
+    return $array;
 }
 
 function getCursosInstructorDetallesPublicados($idUsuario, $orderBy, $orderAscDesc) {
@@ -326,7 +341,7 @@ function setRatingUsuario($idUsuario, $idCurso, $rating) {
         $stmt->bindParam(':idCurso', $idCurso);
 
         $stmt->execute();
-    } 
+    }
 
     //Ahora, hacemos el update de la variable rating de la tabla curso
     $stmt = $conex->prepare("SELECT count(rating) as cuenta, sum(rating) as suma
@@ -347,14 +362,13 @@ function setRatingUsuario($idUsuario, $idCurso, $rating) {
     $stmt->bindParam(':rating', $prom);
     $stmt->bindParam(':idCurso', $idCurso);
 
-    if($stmt->execute()){
+    if ($stmt->execute()) {
         commitTransaction();
         return true;
-    }else{
+    } else {
         rollBackTransaction();
         return false;
     }
-    
 }
 
 function getNumeroDeNuevosAlumnos($idUsuario, $dias) {

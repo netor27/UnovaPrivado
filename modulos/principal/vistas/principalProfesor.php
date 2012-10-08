@@ -5,7 +5,7 @@ require_once('layout/headers/headCierre.php');
 ?>
 <div class="contenido">    
     <h1>Página de inicio</h1>
-    <h2>Alumno</h2>
+    <h2>Profesor</h2>
 </div>
 
 <?php

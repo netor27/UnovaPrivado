@@ -164,7 +164,6 @@ function getCursos($offset, $numRows) {
                             LEFT OUTER JOIN clase cl ON t.idTema = cl.idTema
                             LEFT OUTER JOIN usuariocurso uc ON c.idCurso = uc.idCurso
                             LEFT OUTER JOIN usuario u ON c.idUsuario = u.idUsuario
-                            WHERE c.publicado = 1
                             GROUP BY c.idCurso
                             ORDER BY c.titulo ASC
                             LIMIT $offset, $numRows");

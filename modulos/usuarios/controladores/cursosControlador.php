@@ -25,14 +25,14 @@ function asignarUsuarios() {
             $idCurso = $_POST['idCurso'];
             require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
             //si hay idUsuariosQuitar eliminamos de la bd las relaciones en usuariocurso
-            if(isset($_POST['idUsuariosQuitar'])){
-                foreach($_POST['idUsuariosQuitar'] as $value){
+            if (isset($_POST['idUsuariosQuitar'])) {
+                foreach ($_POST['idUsuariosQuitar'] as $value) {
                     eliminarInscripcionUsuarioCurso($value, $idCurso);
                 }
-            }            
+            }
             //si hay idUsuariosInscribir agregamos a la bd las relaciones en usuariocurso
-            if(isset($_POST['idUsuariosInscribir'])){
-                foreach($_POST['idUsuariosInscribir'] as $value){
+            if (isset($_POST['idUsuariosInscribir'])) {
+                foreach ($_POST['idUsuariosInscribir'] as $value) {
                     inscribirUsuarioCurso($value, $idCurso);
                 }
             }
@@ -76,8 +76,25 @@ function instructor() {
     require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
     if (validarUsuarioLoggeado()) {
         $usuario = getUsuarioActual();
-        $cursos = getCursosInstructorDetalles($usuario->idUsuario, "titulo", "ASC");
-        require_once 'modulos/usuarios/vistas/cursosInstructor.php';
+        $offset = 0;
+        $numRows = 5;
+        $pagina = 1;
+        if (isset($_GET['p'])) {
+            if (is_numeric($_GET['p'])) {
+                $pagina = intval($_GET['p']);
+                $offset = $numRows * ($pagina - 1);
+            }
+        }
+
+        $res = getCursosInstructorDetalles($usuario->idUsuario, "titulo", "ASC", $offset, $numRows);
+        $cursos = $res['cursos'];
+        $numCursos = $res['n'];
+        $maxPagina = ceil($numCursos / $numRows);
+        if ($pagina != 1 && $pagina > $maxPagina) {
+            redirect("/usuarios/cursos/instructor:p=" . $maxPagina);
+        } else {
+            require_once 'modulos/usuarios/vistas/cursosInstructor.php';
+        }
     }
 }
 
@@ -85,8 +102,24 @@ function inscrito() {
     require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
     if (validarUsuarioLoggeado()) {
         $usuario = getUsuarioActual();
-        $cursos = getCursosInscritoDetalles($usuario->idUsuario, "fechaInscripcion", "DESC");
-        require_once 'modulos/usuarios/vistas/cursosAlumno.php';
+        $offset = 0;
+        $numRows = 5;
+        $pagina = 1;
+        if (isset($_GET['p'])) {
+            if (is_numeric($_GET['p'])) {
+                $pagina = intval($_GET['p']);
+                $offset = $numRows * ($pagina - 1);
+            }
+        }
+        $res = getCursosInscritoDetalles($usuario->idUsuario, "titulo", "ASC", $offset, $numRows);
+        $cursos = $res['cursos'];
+        $numCursos = $res['n'];
+        $maxPagina = ceil($numCursos / $numRows);
+        if ($pagina != 1 && $pagina > $maxPagina) {
+            redirect("/usuarios/cursos/inscrito:p=" . $maxPagina);
+        } else {
+            require_once 'modulos/usuarios/vistas/cursosAlumno.php';
+        }
     }
 }
 
