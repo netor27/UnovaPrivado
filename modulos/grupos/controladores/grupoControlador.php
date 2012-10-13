@@ -50,7 +50,7 @@ function borrar() {
             }else{
                 setSessionMessage("<h4 class='error'>Ocurrió un error al borrar el grupo. Intenta de nuevo más tarde</h4>");
             }
-            redirect("/grupos:p=".$pagina);
+            redirect("/grupos&p=".$pagina);
         } else {
             setSessionMessage("<h4 class='error'>Datos no validos</h4>");
             redirect("/grupos");

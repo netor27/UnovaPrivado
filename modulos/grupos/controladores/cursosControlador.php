@@ -95,7 +95,7 @@ function eliminarGrupoDeCurso() {
                 setSessionMessage("<h4 class='error'>Ocurrió un error al quitar al grupo</h4>");
             }
 
-            redirect("/grupos/cursos/asignados/" . $idCurso . ":p=" . $pagina);
+            redirect("/grupos/cursos/asignados/" . $idCurso . "&p=" . $pagina);
         } else {
             setSessionMessage("<h4 class='error'>Datos no válidos</h4>");
             redirect("/");

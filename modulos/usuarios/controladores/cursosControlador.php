@@ -61,7 +61,7 @@ function eliminarInscripcion() {
                 setSessionMessage("<h4 class='error'>Ocurrió un error al quitar al usuario</h4>");
             }
             if ($origen == "listaAlumnos") {
-                redirect("/cursos/curso/alumnos/" . $idCurso . ":p=" . $pagina);
+                redirect("/cursos/curso/alumnos/" . $idCurso . "&p=" . $pagina);
             }
         } else {
             setSessionMessage("<h4 class='error'>Datos no válidos</h4>");
@@ -91,7 +91,7 @@ function instructor() {
         $numCursos = $res['n'];
         $maxPagina = ceil($numCursos / $numRows);
         if ($pagina != 1 && $pagina > $maxPagina) {
-            redirect("/usuarios/cursos/instructor:p=" . $maxPagina);
+            redirect("/usuarios/cursos/instructor&p=" . $maxPagina);
         } else {
             require_once 'modulos/usuarios/vistas/cursosInstructor.php';
         }
@@ -116,7 +116,7 @@ function inscrito() {
         $numCursos = $res['n'];
         $maxPagina = ceil($numCursos / $numRows);
         if ($pagina != 1 && $pagina > $maxPagina) {
-            redirect("/usuarios/cursos/inscrito:p=" . $maxPagina);
+            redirect("/usuarios/cursos/inscrito&p=" . $maxPagina);
         } else {
             require_once 'modulos/usuarios/vistas/cursosAlumno.php';
         }

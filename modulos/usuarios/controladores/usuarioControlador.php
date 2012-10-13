@@ -55,13 +55,13 @@ function listarUsuarios($tipo) {
         if ($pagina != 1 && $pagina > $maxPagina) {
             switch ($tipo) {
                 case 'alumnos':
-                    redirect("/alumnos:p=" . $maxPagina);
+                    redirect("/alumnos&p=" . $maxPagina);
                     break;
                 case 'profesores':
-                    redirect("/profesores:p=" . $maxPagina);
+                    redirect("/profesores&p=" . $maxPagina);
                     break;
                 case 'administradores':
-                    redirect("/administradores:p=" . $maxPagina);
+                    redirect("/administradores&p=" . $maxPagina);
                     break;
             }
         } else {
@@ -356,7 +356,7 @@ function eliminar() {
         } else {
             setSessionMessage("<h4 class='error'>Datos no válidos</h4>");
         }
-        redirect("/" . $tipo . ":p=" . $pagina);
+        redirect("/" . $tipo . "&p=" . $pagina);
     } else {
         setSessionMessage("<h4 class='error'>usuario no valido</h4>");
         goToIndex();

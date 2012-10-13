@@ -19,7 +19,7 @@ function inscritos() {
             $numUsuarios = $res['n'];
             $maxPagina = ceil($numUsuarios / $numRows);
             if ($pagina != 1 && $pagina > $maxPagina) {
-                redirect("grupos/usuarios/inscritos/1:p=" . $maxPagina);
+                redirect("grupos/usuarios/inscritos/1&p=" . $maxPagina);
             } else {
                 require_once 'modulos/grupos/vistas/usuariosDelGrupo.php';
             }
@@ -92,7 +92,7 @@ function eliminarInscripcion() {
             } else {
                 setSessionMessage("<h4 class='error'>Ocurrió un error al quitar al usuario</h4>");
             }
-            redirect("/grupos/usuarios/inscritos/" . $idGrupo . ":p=" . $pagina);
+            redirect("/grupos/usuarios/inscritos/" . $idGrupo . "&p=" . $pagina);
         } else {
             setSessionMessage("<h4 class='error'>Datos no válidos</h4>");
             redirect("/");

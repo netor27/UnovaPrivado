@@ -1,9 +1,7 @@
 <?php
 
 function principal() {
-    require_once 'lib/php/facebook/loginFacebook.php';
-
-    if ($user || isset($_SESSION['usuario'])) {
+    if (isset($_SESSION['usuario'])) {
         goToIndex();
     } else {
         $pagina = "/";
@@ -11,7 +9,7 @@ function principal() {
     }
 }
 
-function loginSubmit() {
+function loginSubmit() {    
     require_once 'modulos/principal/modelos/loginModelo.php';
 
     if (isset($_POST['pagina']))
