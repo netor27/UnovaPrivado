@@ -2,8 +2,6 @@
 
 //require_once '';
 function principal() {
-    require_once 'modulos/categorias/modelos/categoriaModelo.php';
-    $categorias = getCategorias();
     require_once 'modulos/cursos/modelos/CursoModelo.php';
     $array = getCursosFuncion();
     $numCursos = $array['n'];

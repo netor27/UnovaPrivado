@@ -82,20 +82,5 @@ $(document).ready(function(){
             return true  
         else  
             return false;  
-    });  
-    
-    //Llamadas AJAX al servidor para llenar los dropdown de las categorias
-    $('#categoria').change(function(e) {                    
-        $.get("/categorias/categoria/subcategorias/"+$('#categoria').val(),
-            function(data){
-                $('#subcategoria').empty();
-                var i;
-                for(i = 0; i < data.length; i++){
-                    if(i == 0)
-                        $('#subcategoria').append("<option value='" + data[i].idSubcategoria + "' selected >"+data[i].nombre+"</option>");
-                    else
-                        $('#subcategoria').append("<option value='" + data[i].idSubcategoria + "' >"+data[i].nombre+"</option>");
-                }
-            }, "json");
     });
 });

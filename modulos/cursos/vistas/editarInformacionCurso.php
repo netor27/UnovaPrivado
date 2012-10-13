@@ -28,32 +28,6 @@ require_once('layout/headers/headCierre.php');
                 </div>  
                 </p>
                 <p>
-                <div>  
-                    <label for="categoria" class="inline">Categoría</label>  
-                    <select name="categoria" id="categoria" class="inline">
-                        <?php
-                        foreach ($categorias as $categoria) {
-                            if ($cat->idCategoria == $categoria->idCategoria)
-                                echo '<option value="' . $categoria->idCategoria . '" selected >' . $categoria->nombre . '</option>';
-                            else
-                                echo '<option value="' . $categoria->idCategoria . '" >' . $categoria->nombre . '</option>';
-                        }
-                        ?>                            
-                    </select>   
-                </div>
-                <div>
-                    <label for="subcategoria" class="inline">Subcategoría</label>
-                    <select name="subcategoria" id="subcategoria"  class="inline">
-                        <?php
-                        foreach ($subcategorias as $subcategoria) {
-                            if ($cursoParaModificar->idSubcategoria == $subcategoria->idSubcategoria)
-                                echo '<option value="' . $subcategoria->idSubcategoria . '" selected >' . $subcategoria->nombre . '</option>';
-                            else
-                                echo '<option value="' . $subcategoria->idSubcategoria . '" >' . $subcategoria->nombre . '</option>';
-                        }
-                        ?>   
-                    </select>   
-                </div>  
                 </p>
                 <p>
                 <div>  

@@ -35,10 +35,6 @@ function crearCurso() {
         if (validarAdministradorPrivado() ||
                 tipoUsuario() == "administrador" ||
                 tipoUsuario() == "profesor") {
-            require_once 'modulos/categorias/modelos/categoriaModelo.php';
-            require_once 'modulos/categorias/modelos/subcategoriaModelo.php';
-            $categorias = getCategorias();
-            $subcategorias = getSubcategoriasDeCategoria($categorias[0]->idCategoria);
             require_once 'modulos/cursos/vistas/crearCurso.php';
         } else {
             goToIndex();
@@ -50,10 +46,9 @@ function crearCursoSubmit() {
     if (validarAdministradorPrivado() ||
             tipoUsuario() == "administrador" ||
             tipoUsuario() == "profesor" ) {
-        if (isset($_POST['titulo']) && isset($_POST['descripcionCorta']) && isset($_POST['subcategoria']) && isset($_POST['palabrasClave'])) {
+        if (isset($_POST['titulo']) && isset($_POST['descripcionCorta']) && isset($_POST['palabrasClave'])) {
             $descripcionCorta = removeBadHtmlTags(trim($_POST['descripcionCorta']));
             $titulo = removeBadHtmlTags(trim($_POST['titulo']));
-            $subcategoria = removeBadHtmlTags($_POST['subcategoria']);
             $keywords = removeBadHtmlTags(trim($_POST['palabrasClave']));
 
             if (strlen($titulo) >= 10 && strlen($titulo) <= 100 && strlen($descripcionCorta) >= 10 && strlen($descripcionCorta) <= 140 && strlen($keywords) <= 140) {
@@ -63,7 +58,6 @@ function crearCursoSubmit() {
                 $curso = new Curso();
                 $curso->titulo = $titulo;
                 $curso->descripcionCorta = $descripcionCorta;
-                $curso->idSubcategoria = $subcategoria;
                 $curso->idUsuario = getUsuarioActual()->idUsuario;
                 if (strlen($keywords) > 0)
                     $curso->keywords = $keywords;
@@ -108,11 +102,7 @@ function editarCurso() {
 
 
     if ($cursoParaModificar->idUsuario == getUsuarioActual()->idUsuario) {
-        require_once 'modulos/categorias/modelos/categoriaModelo.php';
-        require_once 'modulos/categorias/modelos/subcategoriaModelo.php';
         require_once 'modulos/cursos/modelos/ClaseModelo.php';
-        $subcategoria = getSubcategoria($cursoParaModificar->idSubcategoria);
-        $categoria = getCategoriaPerteneciente($subcategoria->idSubcategoria);
         $temas = getTemas($cursoParaModificar->idCurso);
         $clases = getClases($cursoParaModificar->idCurso);
         $duracion = 0;
@@ -145,15 +135,6 @@ function editarInformacionCurso() {
 
     if ($cursoParaModificar->idUsuario == getUsuarioActual()->idUsuario) {
         //El curso le pertenece al usuario loggeado.
-        require_once 'modulos/categorias/modelos/subcategoriaModelo.php';
-        $cat = getCategoriaPerteneciente($cursoParaModificar->idSubcategoria);
-        //echo 'La categoria es '.$cat->idCategoria.' nombre = '.$cat->nombre;
-        require_once 'modulos/categorias/modelos/categoriaModelo.php';
-        require_once 'modulos/categorias/modelos/subcategoriaModelo.php';
-        $categorias = getCategorias();
-        $subcategorias = getSubcategoriasDeCategoria($cat->idCategoria);
-
-        //echo 'La subcategoria es ' . $idSubcategoria. " .";
         require_once 'modulos/cursos/vistas/editarInformacionCurso.php';
     } else {
         //Este curso no le pertenece a esta persona, no lo puede modificar.
@@ -164,11 +145,10 @@ function editarInformacionCurso() {
 
 function editarInformacionCursoSubmit() {
     if (validarUsuarioLoggeadoParaSubmits()) {
-        if (isset($_GET['i']) && isset($_POST['titulo']) && isset($_POST['descripcionCorta']) && isset($_POST['descripcion']) && isset($_POST['subcategoria']) && isset($_POST['palabrasClave'])) {
+        if (isset($_GET['i']) && isset($_POST['titulo']) && isset($_POST['descripcionCorta']) && isset($_POST['descripcion']) && isset($_POST['palabrasClave'])) {
             $idCurso = removeBadHtmlTags($_GET['i']);
             $titulo = removeBadHtmlTags(trim($_POST['titulo']));
             $descripcionCorta = removeBadHtmlTags(trim($_POST['descripcionCorta']));
-            $idSubcategoria = removeBadHtmlTags($_POST['subcategoria']);
             $keywords = removeBadHtmlTags(trim($_POST['palabrasClave']));
             $descripcion = removeBadHtmlTags(trim($_POST['descripcion']));
 
@@ -186,7 +166,6 @@ function editarInformacionCursoSubmit() {
                     }
 
                     $curso->descripcionCorta = $descripcionCorta;
-                    $curso->idSubcategoria = $idSubcategoria;
                     $curso->keywords = $keywords;
                     $curso->descripcion = $descripcion;
 
@@ -275,11 +254,6 @@ function detalles() {
                         $comentarios = getComentarios($curso->idCurso);
                         $preguntas = getPreguntas($curso->idCurso);
                         $usuarioDelCurso = getUsuarioDeCurso($curso->idCurso);
-                        require_once 'modulos/categorias/modelos/categoriaModelo.php';
-                        require_once 'modulos/categorias/modelos/subcategoriaModelo.php';
-
-                        $subcategoria = getSubcategoria($curso->idSubcategoria);
-                        $categoria = getCategoriaPerteneciente($subcategoria->idSubcategoria);
                         $tituloPagina = substr($curso->titulo, 0, 50);
                         require_once 'modulos/cursos/vistas/detallesCurso.php';
                     }
@@ -312,11 +286,6 @@ function detalles() {
                 $preguntas = getPreguntas($curso->idCurso);
                 $usuarioDelCurso = getUsuarioDeCurso($curso->idCurso);
                 //si no hay usuario loggeado mostramos la página donde se suscribe
-                require_once 'modulos/categorias/modelos/categoriaModelo.php';
-                require_once 'modulos/categorias/modelos/subcategoriaModelo.php';
-
-                $subcategoria = getSubcategoria($curso->idSubcategoria);
-                $categoria = getCategoriaPerteneciente($subcategoria->idSubcategoria);
                 $tituloPagina = substr($curso->titulo, 0, 50);
                 require_once 'modulos/cursos/vistas/detallesCurso.php';
             }
@@ -341,11 +310,6 @@ function tomarCurso() {
     } else {
         if (esUsuarioUnAlumnoDelCurso($usuario->idUsuario, $curso->idCurso) ||
                 tipoUsuario() == "administrador") {
-            require_once 'modulos/categorias/modelos/categoriaModelo.php';
-            require_once 'modulos/categorias/modelos/subcategoriaModelo.php';
-            require_once 'modulos/cursos/modelos/ClaseModelo.php';
-            $subcategoria = getSubcategoria($curso->idSubcategoria);
-            $categoria = getCategoriaPerteneciente($subcategoria->idSubcategoria);
             $temas = getTemas($curso->idCurso);
             $clases = getClases($curso->idCurso);
             $duracion = 0;

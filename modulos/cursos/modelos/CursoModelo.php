@@ -5,10 +5,9 @@ require_once 'modulos/cursos/clases/Curso.php';
 function altaCurso($curso) {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("INSERT into curso (idUsuario, idSubcategoria, titulo, uniqueUrl, descripcionCorta, fechaCreacion, keywords) 
-                             values (:idUsuario, :idSubcategoria, :titulo, :uniqueUrl, :descripcionCorta, NOW(), :keywords)");
+    $stmt = $conex->prepare("INSERT into curso (idUsuario, titulo, uniqueUrl, descripcionCorta, fechaCreacion, keywords) 
+                             values (:idUsuario, :titulo, :uniqueUrl, :descripcionCorta, NOW(), :keywords)");
     $stmt->bindParam(':idUsuario', $curso->idUsuario);
-    $stmt->bindParam(':idSubcategoria', $curso->idSubcategoria);
     $stmt->bindParam(':titulo', $curso->titulo);
     $stmt->bindParam(':uniqueUrl', $curso->uniqueUrl);
     $stmt->bindParam(':descripcionCorta', $curso->descripcionCorta);
@@ -35,10 +34,9 @@ function bajaCurso($idCurso) {
 function actualizaInformacionCurso($curso) {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("UPDATE curso SET idSubcategoria = :idSubcategoria, titulo = :titulo, uniqueUrl = :uniqueUrl,
+    $stmt = $conex->prepare("UPDATE curso SET titulo = :titulo, uniqueUrl = :uniqueUrl,
                              descripcionCorta = :descripcionCorta, descripcion = :descripcion, keywords = :keywords
                             WHERE idCurso = :idCurso");
-    $stmt->bindParam(':idSubcategoria', $curso->idSubcategoria);
     $stmt->bindParam(':titulo', $curso->titulo);
     $stmt->bindParam(':uniqueUrl', $curso->uniqueUrl);
     $stmt->bindParam(':descripcionCorta', $curso->descripcionCorta);
@@ -114,7 +112,6 @@ function getCurso($idCurso) {
         $curso = new Curso();
         $curso->idCurso = $row['idCurso'];
         $curso->idUsuario = $row['idUsuario'];
-        $curso->idSubcategoria = $row['idSubcategoria'];
         $curso->titulo = $row['titulo'];
         $curso->uniqueUrl = $row['uniqueUrl'];
         $curso->descripcionCorta = $row['descripcionCorta'];
@@ -139,7 +136,6 @@ function getCursoFromUniqueUrl($cursoUrl) {
         $curso = new Curso();
         $curso->idCurso = $row['idCurso'];
         $curso->idUsuario = $row['idUsuario'];
-        $curso->idSubcategoria = $row['idSubcategoria'];
         $curso->titulo = $row['titulo'];
         $curso->uniqueUrl = $row['uniqueUrl'];
         $curso->descripcionCorta = $row['descripcionCorta'];
@@ -155,7 +151,7 @@ function getCursoFromUniqueUrl($cursoUrl) {
 function getCursos($offset, $numRows) {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS c.idCurso, c.idUsuario, c.idSubcategoria, c.titulo, 
+    $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS c.idCurso, c.idUsuario, c.titulo, 
                                 c.uniqueUrl, c.imagen, u.nombreUsuario, u.uniqueUrl as uniqueUrlUsuario,
                                 count(distinct cl.idClase) as numClases, count(distinct uc.idUsuario) as numAlumnos, 
                                 c.keywords, c.descripcionCorta
@@ -183,7 +179,6 @@ function getCursos($offset, $numRows) {
         $curso = new Curso();
         $curso->idCurso = $row['idCurso'];
         $curso->idUsuario = $row['idUsuario'];
-        $curso->idSubcategoria = $row['idSubcategoria'];
         $curso->titulo = $row['titulo'];
         $curso->uniqueUrl = $row['uniqueUrl'];
         $curso->imagen = $row['imagen'];
@@ -217,7 +212,6 @@ function getAllCursos() {
         $curso = new Curso();
         $curso->idCurso = $row['idCurso'];
         $curso->idUsuario = $row['idUsuario'];
-        $curso->idSubcategoria = $row['idSubcategoria'];
         $curso->titulo = $row['titulo'];
         $curso->uniqueUrl = $row['uniqueUrl'];
         $curso->descripcionCorta = $row['descripcionCorta'];
@@ -238,7 +232,7 @@ function getAllCursos() {
 function getCursosFuncion() {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS c.idCurso, c.idUsuario, c.idSubcategoria, c.titulo, 
+    $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS c.idCurso, c.idUsuario, c.titulo, 
                                 c.uniqueUrl, c.imagen, u.nombreUsuario, u.uniqueUrl as uniqueUrlUsuario,
                                 count(distinct cl.idClase) as numClases, count(distinct uc.idUsuario) as numAlumnos, 
                                 c.keywords, c.descripcionCorta
@@ -266,7 +260,6 @@ function getCursosFuncion() {
         $curso = new Curso();
         $curso->idCurso = $row['idCurso'];
         $curso->idUsuario = $row['idUsuario'];
-        $curso->idSubcategoria = $row['idSubcategoria'];
         $curso->titulo = $row['titulo'];
         $curso->uniqueUrl = $row['uniqueUrl'];
         $curso->imagen = $row['imagen'];

@@ -22,8 +22,6 @@ require_once('layout/headers/headCierre.php');
                 </p>
             </div>
             <br><br>
-            <h5>Categoria: <?php echo $categoria->nombre; ?> >> <?php echo $subcategoria->nombre; ?></h5>
-            <br>
             <h5>Palabras clave: 
                 <?php
                 $splitted = explode(",", $curso->keywords);

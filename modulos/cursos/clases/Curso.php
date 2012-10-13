@@ -3,7 +3,6 @@
 class Curso{
     public $idCurso;            //Integer autoincrement
     public $idUsuario;          //Integer
-    public $idSubcategoria;     //integer
     public $titulo;             //varchar(100)
     public $uniqueUrl;          //varchar(100)
     public $publicado;          //tinyint
@@ -27,7 +26,6 @@ class Curso{
     function toString(){
         return " idCurso=" . $this->idCurso . 
                " idUsuario=" . $this->idUsuario .
-               " idSubcategoria=" . $this->idSubcategoria .
                " titulo=". $this->titulo .
                " descripcionCorta=". $this->descripcionCorta .
                " keywords=".$this->keywords .
