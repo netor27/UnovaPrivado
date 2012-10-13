@@ -155,7 +155,7 @@ function clasePerteneceACurso($idCurso, $idClase) {
 function getCursoPerteneciente($idClase) {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("Select c.idCurso, c.idUsuario, c.titulo, c.uniqueUrl, c.descripcionCorta, c.descripcion, c.imagen, c.rating, c.keywords
+    $stmt = $conex->prepare("Select c.idCurso, c.idUsuario, c.titulo, c.uniqueUrl, c.descripcionCorta, c.descripcion, c.imagen, c.rating
                              FROM curso c, tema t, clase cl
                              WHERE c.idCurso = t.idCurso AND t.idTema = cl.idTema 
                              AND cl.idClase = :idClase");
@@ -171,7 +171,6 @@ function getCursoPerteneciente($idClase) {
         $curso->uniqueUrl = $row['uniqueUrl'];
         $curso->descripcionCorta = $row['descripcionCorta'];
         $curso->descripcion = $row['descripcion'];
-        $curso->keywords = $row['keywords'];
         $curso->imagen = $row['imagen'];
         $curso->rating = $row['rating'];
     }

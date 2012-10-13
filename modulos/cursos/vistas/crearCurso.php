@@ -30,13 +30,7 @@ require_once('layout/headers/headCierre.php');
                     <textarea id="descripcionCorta" name="descripcionCorta"></textarea>                        
                     <br>
                     <span id="descripcionCortaInfo">Escribe una descripción corta de tu curso.</span>  
-                </div>  
-                <div>  
-                    <label for="palabrasClave">Palabras Clave</label>  
-                    <textarea id="palabrasClave" name="palabrasClave"></textarea>                        
-                    <br>
-                    <span id="palabrasClaveInfo">Palabras clave para identificar tu curso. Separadas con comas.</span>  
-                </div> 
+                </div>   
                 <div>  
                     <input id="send" name="send" type="submit" value="  Aceptar  " />  
                 </div> 

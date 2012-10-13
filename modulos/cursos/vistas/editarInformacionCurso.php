@@ -47,14 +47,6 @@ require_once('layout/headers/headCierre.php');
                 </p>
                 <p>
                 <div>  
-                    <label for="palabrasClave">Palabras Clave</label>  
-                    <textarea id="palabrasClave" name="palabrasClave"><?php echo $cursoParaModificar->keywords; ?></textarea>                        
-                    <br>
-                    <span id="palabrasClaveInfo">Palabras clave para identificar tu curso. Separadas con comas.</span>  
-                </div> 
-                </p>
-                <p>
-                <div>  
                     <input id="send" name="send" type="submit" value="  Aceptar  " />  
                 </div> 
                 </p>

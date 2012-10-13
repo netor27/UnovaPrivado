@@ -21,22 +21,6 @@ require_once('layout/headers/headCierre.php');
                     <?php echo $curso->descripcionCorta; ?>
                 </p>
             </div>
-            <br><br>
-            <h5>Palabras clave: 
-                <?php
-                $splitted = explode(",", $curso->keywords);
-                $i = 0;
-                foreach ($splitted as $split) {
-
-                    if ($i != 0)
-                        echo ", ";
-                    echo "" . trim($split) . "";
-
-                    $i++;
-                }
-                ?>
-
-            </h5>
         </div>
     </div>       
 

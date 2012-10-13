@@ -40,23 +40,6 @@ require_once('layout/headers/headCierre.php');
                     }
                     ?>
                 </div>
-
-                <br><br><br>
-                <h5>Palabras clave: 
-                    <?php
-                    $splitted = explode(",", $cursoParaModificar->keywords);
-                    $i = 0;
-                    foreach ($splitted as $split) {
-
-                        if ($i != 0)
-                            echo ", ";
-                        echo  trim($split);
-
-                        $i++;
-                    }
-                    ?>
-
-                </h5>
             </div>            
         </div>
         <div id="cursoHeader_right" class="right">

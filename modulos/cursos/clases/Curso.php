@@ -12,7 +12,6 @@ class Curso{
     public $fechaCreacion;      //DATE
     public $imagen;             //varchar(200)
     public $rating;             //Integer
-    public $keywords;           //varchar(50)
     public $totalViews;         //Integer    
     
     //Las siguientes no son parte de la bd
@@ -28,7 +27,6 @@ class Curso{
                " idUsuario=" . $this->idUsuario .
                " titulo=". $this->titulo .
                " descripcionCorta=". $this->descripcionCorta .
-               " keywords=".$this->keywords .
                " usuario =".$this->nombreUsuario;
     }
 }

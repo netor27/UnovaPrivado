@@ -46,12 +46,11 @@ function crearCursoSubmit() {
     if (validarAdministradorPrivado() ||
             tipoUsuario() == "administrador" ||
             tipoUsuario() == "profesor" ) {
-        if (isset($_POST['titulo']) && isset($_POST['descripcionCorta']) && isset($_POST['palabrasClave'])) {
+        if (isset($_POST['titulo']) && isset($_POST['descripcionCorta'])) {
             $descripcionCorta = removeBadHtmlTags(trim($_POST['descripcionCorta']));
             $titulo = removeBadHtmlTags(trim($_POST['titulo']));
-            $keywords = removeBadHtmlTags(trim($_POST['palabrasClave']));
 
-            if (strlen($titulo) >= 10 && strlen($titulo) <= 100 && strlen($descripcionCorta) >= 10 && strlen($descripcionCorta) <= 140 && strlen($keywords) <= 140) {
+            if (strlen($titulo) >= 10 && strlen($titulo) <= 100 && strlen($descripcionCorta) >= 10 && strlen($descripcionCorta) <= 140) {
 
                 require_once 'modulos/cursos/clases/Curso.php';
 
@@ -59,8 +58,6 @@ function crearCursoSubmit() {
                 $curso->titulo = $titulo;
                 $curso->descripcionCorta = $descripcionCorta;
                 $curso->idUsuario = getUsuarioActual()->idUsuario;
-                if (strlen($keywords) > 0)
-                    $curso->keywords = $keywords;
 
                 require_once 'funcionesPHP/uniqueUrlGenerator.php';
                 $curso->uniqueUrl = getCursoUniqueUrl($titulo);
@@ -145,14 +142,13 @@ function editarInformacionCurso() {
 
 function editarInformacionCursoSubmit() {
     if (validarUsuarioLoggeadoParaSubmits()) {
-        if (isset($_GET['i']) && isset($_POST['titulo']) && isset($_POST['descripcionCorta']) && isset($_POST['descripcion']) && isset($_POST['palabrasClave'])) {
+        if (isset($_GET['i']) && isset($_POST['titulo']) && isset($_POST['descripcionCorta']) && isset($_POST['descripcion'])) {
             $idCurso = removeBadHtmlTags($_GET['i']);
             $titulo = removeBadHtmlTags(trim($_POST['titulo']));
             $descripcionCorta = removeBadHtmlTags(trim($_POST['descripcionCorta']));
-            $keywords = removeBadHtmlTags(trim($_POST['palabrasClave']));
             $descripcion = removeBadHtmlTags(trim($_POST['descripcion']));
 
-            if (strlen($titulo) >= 10 && strlen($titulo) <= 100 && strlen($descripcionCorta) >= 10 && strlen($descripcionCorta) <= 140 && strlen($keywords) <= 140) {
+            if (strlen($titulo) >= 10 && strlen($titulo) <= 100 && strlen($descripcionCorta) >= 10 && strlen($descripcionCorta) <= 140) {
                 //Todo bien
                 require_once 'modulos/cursos/modelos/CursoModelo.php';
                 $curso = getCurso($idCurso);
@@ -166,7 +162,6 @@ function editarInformacionCursoSubmit() {
                     }
 
                     $curso->descripcionCorta = $descripcionCorta;
-                    $curso->keywords = $keywords;
                     $curso->descripcion = $descripcion;
 
                     if (actualizaInformacionCurso($curso)) {
@@ -296,6 +291,7 @@ function detalles() {
 function tomarCurso() {
     require_once 'modulos/cursos/modelos/CursoModelo.php';
     require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
+    
     $cursoUrl = $_GET['i'];
     $curso = getCursoFromUniqueUrl($cursoUrl);
 
@@ -322,6 +318,7 @@ function tomarCurso() {
             $comentarios = getComentarios($curso->idCurso);
             $preguntas = getPreguntas($curso->idCurso);
             $usuarioDelCurso = getUsuarioDeCurso($curso->idCurso);
+            require_once 'modulos/cursos/modelos/ClaseModelo.php';
             $tiposClase = getTiposClase();
             $ratingUsuario = getRatingUsuario($usuario->idUsuario, $curso->idCurso);
             $numAlumnos = getNumeroDeAlumnos($curso->idCurso);
