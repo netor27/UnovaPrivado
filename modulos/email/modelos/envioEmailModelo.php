@@ -20,7 +20,7 @@ define("HEADER", '<html>
                         <tr>
                             <td>&nbsp;</td>
                             <td style="padding:10px 0">
-                                <a href="http://unova.co">
+                                <a href="' . DOMINIO_PRIVADO . '">
                                     <img src="http://c342380.r80.cf1.rackcdn.com/Unova_Logo_400x102.png" width="219" height="50" border="0" title="Unova" alt="Unova">
                                 </a>
                             </td>
@@ -128,6 +128,29 @@ function enviarMailOlvidePassword($email, $urlReestablecer) {
     return sendMail($text, $html, utf8_encode("Reestablecer contraseña"), EMAIL_FROM, $email);
 }
 
+function enviarMailSuscripcionUsuario($email, $urlReestablecer) {
+    $text = 'Bienvenido a Unova,\n\n
+        Para poder utilizar esta plataforma de educaci&oacute;n en l&iacute;nea s&oacute;lo 
+        tienes que ingresar al siguiente enlace.\n\n        
+        ' . $urlReestablecer . '\n\n
+        Gracias, equipo Unova.';
+    $html = HEADER . '
+        <h1 style="font-size:18px">Bienvenido a Unova</h1>
+        <table bgcolor="#f1f1ee" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
+                <tbody>
+                    <tr valign="top">
+                        <td style="font-size:13px;margin: 10px; padding: 10px;">
+                            <p style="padding:10px;margin:0">Para poder utilizar esta plataforma de 
+                            educaci&oacute;n en l&iacute;nea s&oacute;lo tienes que ingresar al siguiente enlace:</p>
+                            <p style="padding:10px;margin:0"><a href="' . $urlReestablecer . '">' . $urlReestablecer . '</a></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        ' . FOOTER;
+    return sendMail($text, $html, utf8_encode("Bienvenido a Unova"), EMAIL_FROM, $email);
+}
+
 function enviarMailTransformacionVideoCompleta($email, $tituloCurso, $tituloClase, $urlCurso) {
     $text = 'Transformaci&oacute;n de video completa,\n\n
         El video de tu clase "' . utf8_encode($tituloClase) . '" perteneciente a tu curso "' . utf8_encode($tituloCurso) . '"\n
@@ -215,13 +238,13 @@ function enviarMailRespuestaPregunta($email, $tituloCurso, $urlCurso, $pregunta,
 }
 
 function enviarMailResumenSemanal($email, $nombreUsuario, $numAlumnos, $numPreguntas) {
-    $text = $nombreUsuario .', este es tu resument semanal en Unova: \n\n
-        Tienes '.$numAlumnos.' nuevos.\n\n
-        Te quedan '.$numPreguntas.' sin responder.\n\n\n
+    $text = $nombreUsuario . ', este es tu resument semanal en Unova: \n\n
+        Tienes ' . $numAlumnos . ' nuevos.\n\n
+        Te quedan ' . $numPreguntas . ' sin responder.\n\n\n
         Equipo Unova.
         ';
     $html = HEADER . '
-        <h1 style="font-size:18px">'.utf8_encode($nombreUsuario).', este es tu resumen semanal en Unova</h1>
+        <h1 style="font-size:18px">' . utf8_encode($nombreUsuario) . ', este es tu resumen semanal en Unova</h1>
         <table bgcolor="#f1f1ee" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
             <tbody>                                            
                 <tr valign="top" style="text-align: center;">
@@ -229,14 +252,14 @@ function enviarMailResumenSemanal($email, $nombreUsuario, $numAlumnos, $numPregu
                         <p style=""> 
                             Alumnos nuevos 
                         </p>
-                        <span style="padding:5px;margin:0;font-size:24px;color:darkgreen;">'.$numAlumnos.'</span>
+                        <span style="padding:5px;margin:0;font-size:24px;color:darkgreen;">' . $numAlumnos . '</span>
                         <p><a href="http://www.unova.co/usuarios/cursos/instructor">Ir a mis cursos</a></p>
                     </td>
                     <td style="font-size:18px;margin: 10px; padding: 10px; width: 50%;">
                         <p style=""> 
                             Preguntas sin responder
                         </p>
-                        <span style="padding:5px;margin:0;font-size:24px;color:darkred;">'. $numPreguntas.'</span>
+                        <span style="padding:5px;margin:0;font-size:24px;color:darkred;">' . $numPreguntas . '</span>
                         <p><a href="http://www.unova.co/usuarios/cursos/responderPreguntas">Responder las preguntas</a></p>
                     </td>
                 </tr>

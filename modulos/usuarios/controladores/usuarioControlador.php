@@ -92,16 +92,8 @@ function detalles() {
             }
         }
         require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
-
-        if ($miPerfil) {
-            $numTomados = getNumeroCursosTomados($usuarioPerfil->idUsuario);
-            $cursos = getCursosInstructorDetalles($usuarioPerfil->idUsuario, "titulo", "ASC");
-            $numCursos = sizeof($cursos);
-        } else {
-            $cursos = getCursosInstructorDetallesPublicados($usuarioPerfil->idUsuario, "titulo", "ASC");
-            $numTomados = getNumeroCursosTomados($usuarioPerfil->idUsuario);
-            $numCursos = sizeof($cursos);
-        }
+        $numTomados = getNumeroCursosTomados($usuarioPerfil->idUsuario);
+        $numCursos = getNumeroCursosCreados($usuarioPerfil->idUsuario);
         require_once 'modulos/usuarios/vistas/perfil.php';
     } else {
         setSessionMessage("<h4 class='error'>¡El usuario no existe!</h4>");
@@ -267,7 +259,8 @@ function recuperarPasswordSubmit() {
 
         $uuid = getUUIDFromEmail($email);
         if (!empty($uuid)) {
-            $link = "www.unova.mx/usuarios/usuario/reestablecerPassword/" . $uuid;
+            
+            $link = DOMINIO_PRIVADO . "/usuarios/usuario/reestablecerPassword/" . $uuid;
             //Enviar el mail //
             require_once 'modulos/email/modelos/envioEmailModelo.php';
             enviarMailOlvidePassword($email, $link);
@@ -293,10 +286,10 @@ function reestablecerPasswordSubmit() {
         if ($pass1 == $pass2 && strlen($pass1) >= 5) {
             require_once 'modulos/usuarios/modelos/usuarioModelo.php';
             if (reestablecerPasswordPorUUID($uuid, md5($pass1)) > 0) {
-                setSessionMessage("<h4 class='success'>¡Haz reestablecido tu contraseña!</h4>");
+                setSessionMessage("<h4 class='success'>¡Haz cambiado tu contraseña!<br>Ya puedes iniciar sesión</h4>");
                 redirect("/");
             } else {
-                $error = "Ocurrió un error al reestablecer tu contraseña. Intenta de nuevo más tarde.";
+                $error = "Ocurrió un error al cambiar tu contraseña. Intenta de nuevo más tarde.";
                 require_once 'modulos/usuarios/vistas/reestablecerPassword.php';
             }
         } else {
@@ -427,6 +420,10 @@ function altaUsuariosSubmit() {
                         //se dió de alta con éxito el usuario
                         $usuario->idUsuario = $res['id'];
                         $usuario->uuid = $res['uuid'];
+                        //le enviamos un correo electrónico para que pueda acceder
+                        require_once 'modulos/email/modelos/envioEmailModelo.php';
+                        $urlReestablecer = DOMINIO_PRIVADO . "/usuarios/usuario/establecerPassword/" . $usuario->uuid;
+                        enviarMailSuscripcionUsuario($email, $urlReestablecer);                        
                         array_push($usuarios, $usuario);
                         $numAltas++;
                     } else {
@@ -559,6 +556,11 @@ function altaUsuariosArchivoCsvSubmit() {
             redirect("/alumnos/usuario/altaAlumnos");
         }
     }
+}
+
+function establecerPassword(){
+    $uuid = $_GET['i'];
+    require_once 'modulos/usuarios/vistas/reestablecerPassword.php';
 }
 
 ?>

@@ -4,7 +4,8 @@ require_once 'modulos/usuarios/clases/Usuario.php';
 require_once 'funcionesPHP/funcionesGenerales.php';
 require_once 'funcionesPHP/CargarInformacionSession.php';
 require_once 'modulos/cursos/clases/Curso.php';
-require_once 'funcionesPHP/LogFile.php';
+//require_once 'funcionesPHP/LogFile.php';
+require_once 'funcionesPHP/ConfiguracionPrivada.php';
 
 session_start();
 
