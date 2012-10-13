@@ -11,8 +11,8 @@ function using_ie() {
 }
 
 if (using_ie()) {
-    echo 'ES INTERNET EXPLORER';    
-}else{
+    echo 'ES INTERNET EXPLORER';
+} else {
     echo 'NO es internet explorer';
 }
 ?>

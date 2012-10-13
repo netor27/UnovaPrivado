@@ -1,5 +1,7 @@
 <?php
-class Usuario{
+
+class Usuario {
+
     public $idUsuario;
     public $email;
     public $password;
@@ -12,5 +14,11 @@ class Usuario{
     public $tituloPersonal;
     public $uuid;
     public $uniqueUrl;
+
+    function setRandomProfilePic() {
+        $rand = rand(0, 5);
+        $this->avatar = "/archivos/avatarPredefinido" . $rand . ".jpg";
+    }
 }
+
 ?>
