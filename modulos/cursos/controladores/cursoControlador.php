@@ -655,7 +655,7 @@ function alumnos() {
                 $numAlumnos = $res['n'];
                 $maxPagina = ceil($numAlumnos / $numRows);
                 if ($pagina != 1 && $pagina > $maxPagina) {
-                    redirect("/cursos/curso/alumnos/" . $idCurso . ":pc=" . $paginaCursos . "&p=". $maxPagina);
+                    redirect("/cursos/curso/alumnos/" . $idCurso . "&pc=" . $paginaCursos . "&p=". $maxPagina);
                 } else {
                     require_once 'modulos/cursos/vistas/listaAlumnosDeCurso.php';
                 }

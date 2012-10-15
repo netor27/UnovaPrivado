@@ -29,7 +29,7 @@ function deleteArchivoCdn($fileName, $tipoArchivo) {
     $conn = getConnection();
     $containerName = getContainerName($tipoArchivo);
     $container = $conn->get_container($containerName);
-    $object = $container->delete_object($fileName);
+    return $container->delete_object($fileName);
 }
 
 function getConnection() {

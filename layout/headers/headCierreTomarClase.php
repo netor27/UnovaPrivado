@@ -148,17 +148,20 @@
                                     </a>
                                     <?php
                                 }
+                                ?>
+                                <a href="/usuarios/cursos/inscrito">
+                                    <div class="cusosMenuVerMas">
+                                        Ver todos >>
+                                    </div>
+                                </a>
+                                <?php
                             } else {
                                 ?>                
                                 <div class="cursoMenuElement">
-                                    <h3>No te has inscrito a ningún curso</h3>
+                                    <h3>No estás inscrito a ningún curso</h3>
                                 </div>
                             <?php } ?>
-                            <a href="/usuarios/cursos/inscrito">
-                                <div class="cusosMenuVerMas">
-                                    Ver todos >>
-                                </div>
-                            </a>
+
                         </div>
                     </div>
                     <?php

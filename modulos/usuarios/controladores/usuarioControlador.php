@@ -259,7 +259,7 @@ function recuperarPasswordSubmit() {
 
         $uuid = getUUIDFromEmail($email);
         if (!empty($uuid)) {
-            
+
             $link = DOMINIO_PRIVADO . "/usuarios/usuario/reestablecerPassword/" . $uuid;
             //Enviar el mail //
             require_once 'modulos/email/modelos/envioEmailModelo.php';
@@ -340,9 +340,21 @@ function eliminar() {
             $pagina = $_GET['pagina'];
             $usuario = getUsuarioActual();
             if ($usuario->idUsuario != $idUsuario) {
-                require_once 'modulos/usuarios/modelos/usuarioModelo.php';
-                eliminarUsuario($idUsuario);
-                setSessionMessage("<h4 class='success'>Se eliminó correctamente el usuario</h4>");
+                //Debido a los archivos en el cdn no podemos borrar las clases por cascada,
+                //pero si los cursos y temas.
+                //Obtenemos todas la clases que pertenecen a este usuario, borramos del cdn los archivos
+                //y borramos lo demás por cascada
+                require_once 'modulos/cursos/modelos/ClaseModelo.php';
+                if (borrarClasesConArchivosDeUsuario($idUsuario) > 0) {
+                    require_once 'modulos/usuarios/modelos/usuarioModelo.php';
+                    if (eliminarUsuario($idUsuario) > 0) {
+                        setSessionMessage("<h4 class='success'>Se eliminó correctamente el usuario</h4>");
+                    } else {
+                        setSessionMessage("<h4 class='error'>Ocurrió un error al eliminar al usuario</h4>");
+                    }
+                }else{
+                    setSessionMessage("<h4 class='error'>Ocurrió un error al eliminar las clases del usuario</h4>");
+                }
             } else {
                 setSessionMessage("<h4 class='error'>No puedes borrar tu propio usuario</h4>");
             }
@@ -423,7 +435,7 @@ function altaUsuariosSubmit() {
                         //le enviamos un correo electrónico para que pueda acceder
                         require_once 'modulos/email/modelos/envioEmailModelo.php';
                         $urlReestablecer = DOMINIO_PRIVADO . "/usuarios/usuario/establecerPassword/" . $usuario->uuid;
-                        enviarMailSuscripcionUsuario($email, $urlReestablecer);                        
+                        enviarMailSuscripcionUsuario($email, $urlReestablecer);
                         array_push($usuarios, $usuario);
                         $numAltas++;
                     } else {
@@ -558,7 +570,7 @@ function altaUsuariosArchivoCsvSubmit() {
     }
 }
 
-function establecerPassword(){
+function establecerPassword() {
     $uuid = $_GET['i'];
     require_once 'modulos/usuarios/vistas/reestablecerPassword.php';
 }

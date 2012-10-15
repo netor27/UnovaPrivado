@@ -39,6 +39,10 @@ function transformar($datosJson) {
             $size = floatval($resMp4['size']) + floatval($resOgv['size']);
             actualizaArchivosDespuesTransformacion($idClase, $uriMp4, $uriOgv, $size);
             actualizaDuracionClase($idClase, $duration);
+            //actualizamos el ancho de banda utilizado
+            require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
+            deltaVariableDeProducto("usoActualAnchoDeBanda", $size);            
+
             //enviar emai de aviso
             $curso = getCursoPerteneciente($idClase);
             require_once 'modulos/cursos/modelos/CursoModelo.php';

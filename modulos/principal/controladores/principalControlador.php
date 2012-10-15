@@ -12,6 +12,7 @@ function principal() {
             redirect("/usuarios/cursos/inscrito");
             break;
         case 'administradorPrivado':
+            case 'administrador':
             //obtener los datos del paquete
             require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
             $maxUsuarios = getVariableDeProducto("limiteUsuarios");            
@@ -32,9 +33,6 @@ function principal() {
             $anchoPorcentaje = round(($anchoUsado / $maxAncho) * 100);
             
             require_once('modulos/principal/vistas/principalAdministradorPrivado.php');
-            break;
-        case 'administrador':
-            require_once('modulos/principal/vistas/principal.php');
             break;
         case 'profesor':
             redirect("/usuarios/cursos/instructor");

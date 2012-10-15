@@ -127,26 +127,40 @@ function tomarClase() {
 
     $curso = getCursoFromUniqueUrl($cursoUrl);
     $usuario = getUsuarioActual();
-
-//Validar que la clase pertenezca al curso
+    $tipoUsuario = tipoUsuario();
+    //Validar que la clase pertenezca al curso
     if (clasePerteneceACurso($curso->idCurso, $idClase)) {
         //Validar que el usuario este suscrito al curso
         if (esUsuarioUnAlumnoDelCurso($usuario->idUsuario, $curso->idCurso) ||
                 $curso->idUsuario == $usuario->idUsuario ||
-                tipoUsuario() == "administrador") {
+                $tipoUsuario == "administrador" ||
+                $tipoUsuario == "administradorPrivado") {
             $clase = getClase($idClase);
             $temas = getTemas($curso->idCurso);
             $clases = getClases($curso->idCurso);
-            if ($curso->idUsuario != $usuario->idUsuario && tipoUsuario() != "administrador") {
-                //si no es el dueño ni un administrador, contar las views
+            if ($tipoUsuario != "administrador") {
+                //si no es un administrador, contar las views
                 sumarVistaClase($idClase);
                 sumarTotalView($curso->idCurso);
             }
             $idSiguienteClase = obtenerIdSiguienteClase($clase->idClase, $clases);
+            $usoEnDisco = 0;
             switch ($clase->idTipoClase) {
                 case 0:
                     if ($clase->transformado == 1) {
-                        require_once 'modulos/cursos/vistas/tomarClaseVideo.php';
+                        //dividimos el uso de disco entre dos, porque en la base de datos
+                        //esta almacenado en uso de disco la suma del archivo mp4 y el ogv.
+                        //No siempre el peso de los 2 es igual, pero es lo más cercano sin 
+                        //necesitar otra columna en la bd ni tener que identificar que navegador es.
+                        $usoEnDisco = $clase->usoDeDisco / 2;
+                        //aquí aumentamos el ancho de banda utilizado
+                        require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
+                        if (deltaVariableDeProducto("usoActualAnchoDeBanda", $usoEnDisco)) {
+                            require_once 'modulos/cursos/vistas/tomarClaseVideo.php';
+                        } else {
+                            setSessionMessage("<h4 class='error'>Ocurrió un error al cargar el video</h4>");
+                            redirect('/curso/' . $curso->uniqueUrl);
+                        }
                     } else {
                         setSessionMessage("<h4 class='error'>Este video aún se está transformando. Espera unos minutos</h4>");
                         redirect('/curso/' . $curso->uniqueUrl);
@@ -154,7 +168,15 @@ function tomarClase() {
                     break;
                 case 1:
                 case 2:
-                    require_once 'modulos/cursos/vistas/tomarClase.php';
+                    $usoEnDisco = $clase->usoDeDisco;
+                    //aquí aumentamos el ancho de banda utilizado
+                    require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
+                    if (deltaVariableDeProducto("usoActualAnchoDeBanda", $usoEnDisco)) {
+                        require_once 'modulos/cursos/vistas/tomarClase.php';
+                    } else {
+                        setSessionMessage("<h4 class='error'>Ocurrió un error al cargar el archivo.</h4>");
+                        redirect('/curso/' . $curso->uniqueUrl);
+                    }
                     break;
                 case 3:
                     require_once 'modulos/cursos/vistas/tomarClaseTarjetas.php';
@@ -181,7 +203,15 @@ function editorVideo() {
             if ($usuario->idUsuario == getIdUsuarioDeCurso($idCurso) && clasePerteneceACurso($idCurso, $idClase)) {
                 $clase = getClase($idClase);
                 $curso = getCurso($idCurso);
-                require_once 'modulos/editorPopcorn/vistas/editorPopcorn.php';
+                $usoEnDisco = $clase->usoDeDisco / 2;
+                //aquí aumentamos el ancho de banda utilizado
+                require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
+                if (deltaVariableDeProducto("usoActualAnchoDeBanda", $usoEnDisco)) {
+                    require_once 'modulos/editorPopcorn/vistas/editorPopcorn.php';
+                } else {
+                    setSessionMessage("<h4 class='error'>Ocurrió un error al cargar el video.</h4>");
+                    redirect('/curso/' . $curso->uniqueUrl);
+                }
             } else {
                 setSessionMessage('<h4 class="error">No puedes modificar esta clase</h4>');
                 redirect("/");

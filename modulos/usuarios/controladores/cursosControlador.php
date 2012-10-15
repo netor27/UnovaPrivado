@@ -23,6 +23,8 @@ function asignarUsuarios() {
     if (validarAdministradorPrivado()) {
         if (isset($_POST['idCurso']) && is_numeric($_POST['idCurso'])) {
             $idCurso = $_POST['idCurso'];
+            require_once 'modulos/cursos/modelos/CursoModelo.php';
+            $curso = getCurso($idCurso);
             require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
             //si hay idUsuariosQuitar eliminamos de la bd las relaciones en usuariocurso
             if (isset($_POST['idUsuariosQuitar'])) {
@@ -33,7 +35,11 @@ function asignarUsuarios() {
             //si hay idUsuariosInscribir agregamos a la bd las relaciones en usuariocurso
             if (isset($_POST['idUsuariosInscribir'])) {
                 foreach ($_POST['idUsuariosInscribir'] as $value) {
-                    inscribirUsuarioCurso($value, $idCurso);
+                    //Validar que el usuario no séa el dueño del curso.
+                    //Si es el dueño del curso, no inscribirlo
+                    if ($curso->idUsuario != $value) {
+                        inscribirUsuarioCurso($value, $idCurso);
+                    }
                 }
             }
             echo 'ok';

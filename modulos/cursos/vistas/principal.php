@@ -31,15 +31,15 @@ require_once('layout/headers/headCierre.php');
                                 <br>
                                 <div class="left botones">
                                     <div class="left btn-group">
-                                        <a class="btn btn-small btn-primary" href="/cursos/curso/alumnos/<?php echo $curso->idCurso . ":pc=" . $pagina; ?>"><i class="icon-user icon-white"></i> Usuarios</a>
+                                        <a class="btn btn-small btn-primary" href="/cursos/curso/alumnos/<?php echo $curso->idCurso . "&pc=" . $pagina; ?>"><i class="icon-user icon-white"></i> Usuarios</a>
                                         <a class="btn  btn-small btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                                         <ul class="dropdown-menu">
-                                            <li><a href="/cursos/curso/alumnos/<?php echo $curso->idCurso . ":pc=" . $pagina; ?>"><i class="icon-pencil"></i> Ver inscritos</a></li>
+                                            <li><a href="/cursos/curso/alumnos/<?php echo $curso->idCurso . "&pc=" . $pagina; ?>"><i class="icon-pencil"></i> Ver inscritos</a></li>
                                             <li><a href="/usuarios/cursos/inscribirUsuario/<?php echo $curso->idCurso; ?>"><i class="icon-plus"></i> Inscribir usuario(s)</a></li>                                            
                                         </ul>
                                     </div>
                                     <div class="left btn-group">
-                                        <a class="btn btn-small btn-warning" href="/grupos/cursos/asignados/<?php echo $curso->idCurso . ":pc=" . $pagina; ?>"><i class="icon-share icon-white"></i> Grupos</a>
+                                        <a class="btn btn-small btn-warning" href="/grupos/cursos/asignados/<?php echo $curso->idCurso . "&pc=" . $pagina; ?>"><i class="icon-share icon-white"></i> Grupos</a>
                                         <a class="btn  btn-small btn-warning dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                                         <ul class="dropdown-menu">
                                             <li>

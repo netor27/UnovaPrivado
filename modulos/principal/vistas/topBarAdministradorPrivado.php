@@ -51,17 +51,20 @@ if (isset($usuarioHead)) {
                     </a>
                     <?php
                 }
+                ?>
+                <a href="/usuarios/cursos/instructor">
+                    <div class="cusosMenuVerMas">
+                        Ver todos >>
+                    </div>
+                </a>
+                <?php
             } else {
                 ?>                
                 <div class="cursoMenuElement">
                     <h3>No has creado ningún curso</h3>
                 </div>
             <?php } ?>
-            <a href="/usuarios/cursos/instructor">
-                <div class="cusosMenuVerMas">
-                    Ver todos >>
-                </div>
-            </a>
+
             <div class="cursosMenuHeader">
                 Cursos que estoy tomando
             </div>                
@@ -77,17 +80,20 @@ if (isset($usuarioHead)) {
                     </a>
                     <?php
                 }
+                ?>
+                <a href="/usuarios/cursos/inscrito">
+                    <div class="cusosMenuVerMas">
+                        Ver todos >>
+                    </div>
+                </a>
+                <?php
             } else {
                 ?>                
                 <div class="cursoMenuElement">
-                    <h3>No te has inscrito a ningún curso</h3>
+                    <h3>No estás inscrito a ningún curso</h3>
                 </div>
             <?php } ?>
-            <a href="/usuarios/cursos/inscrito">
-                <div class="cusosMenuVerMas">
-                    Ver todos >>
-                </div>
-            </a>
+
         </div>
     </div>
     <?php

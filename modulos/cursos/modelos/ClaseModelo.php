@@ -5,14 +5,15 @@ require_once 'modulos/cursos/clases/Clase.php';
 function altaClase($clase) {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("INSERT INTO clase (idTema, titulo, idTipoClase, archivo, transformado, usoDeDisco)
-                             VALUES(:idTema, :titulo, :tipoClase, :archivo, :transformado, :usoDeDisco)");
+    $stmt = $conex->prepare("INSERT INTO clase (idTema, titulo, idTipoClase, archivo, transformado, usoDeDisco, duracion)
+                             VALUES(:idTema, :titulo, :tipoClase, :archivo, :transformado, :usoDeDisco, :duracion)");
     $stmt->bindParam(':idTema', $clase->idTema);
     $stmt->bindParam(':titulo', $clase->titulo);
     $stmt->bindParam(':tipoClase', $clase->idTipoClase);
     $stmt->bindParam(':archivo', $clase->archivo);
     $stmt->bindParam(':transformado', $clase->transformado);
     $stmt->bindParam(':usoDeDisco', $clase->usoDeDisco);
+    $stmt->bindParam(':duracion', $clase->duracion);
     $id = -1;
     if ($stmt->execute())
         $id = $conex->lastInsertId();
@@ -110,6 +111,7 @@ function getClase($idClase) {
         $clase->transformado = $row['transformado'];
         $clase->view = $row['views'];
         $clase->duracion = $row['duracion'];
+        $clase->usoDeDisco = $row['usoDeDisco'];
     }
     return $clase;
 }
@@ -214,6 +216,49 @@ function getTotalDiscoUtilizado() {
         $count = $row['suma'];
     }
     return $count;
+}
+
+function borrarClasesConArchivosDeUsuario($idUsuario) {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("SELECT c.idClase, c.archivo, c.archivo2, c.idTipoClase
+                            FROM clase c, tema t, curso cu
+                            WHERE c.idTema = t.idTema 
+                            AND t.idCurso = cu.idCurso
+                            AND cu.idUsuario = :idUsuario");
+    $stmt->bindParam(':idUsuario',$idUsuario);
+    if(!$stmt->execute())
+        print_r($stmt->errorInfo());
+    $rows = $stmt->fetchAll();
+    $clase = null;
+    foreach ($rows as $row) {        
+        $clase = new Clase();
+        $clase->archivo = $row['archivo'];
+        $clase->archivo2 = $row['archivo2'];
+        $clase->tipoClase = $row['idTipoClase'];
+        $clase->idClase = $row['idClase'];
+        //echo '<br>Borrar idClase = '.$clase->idClase;
+        
+        require_once 'modulos/cdn/modelos/cdnModelo.php';
+        $splitted = explode("/", $row['archivo']);
+        $fileName = $splitted[sizeof($splitted) - 1];
+        require_once 'modulos/principal/modelos/variablesDeProductoModelo.php';
+        if (!deleteArchivoCdn($fileName, $clase->idTipoClase)) {
+            //no se borró el archivo del cdn.
+            //Se guarda como pendiente de borrar
+            agregarArchivoPendientePorBorrar($fileName);
+        }
+        if ($clase->idTipoClase == 0) {
+            //si es video borramos el archivo2
+            $splitted = explode("/", $clase->archivo2);
+            $fileName = $splitted[sizeof($splitted) - 1];
+            if (!deleteArchivoCdn($fileName, $clase->idTipoClase)) {
+                //si no se pudo borrar, lo ponemos como pendiente
+                agregarArchivoPendientePorBorrar($fileName);
+            }
+        }
+        return bajaClase($clase->idClase);
+    }
 }
 
 ?>

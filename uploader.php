@@ -88,6 +88,7 @@ function crearClase($idUsuario, $idCurso, $uuid, $idTema, $fileName, $fileType) 
         if ($clase->idTipoClase == 0) {
             $clase->transformado = 0;
             $clase->usoDeDisco = 0;
+            $clase->duracion = "00:00";
             $idClase = altaClase($clase);
             //Si es video creamos la clase con la bandera que todavía no se transforma
             //guardamos en la cola que falta transformar este video
@@ -123,6 +124,9 @@ function crearClase($idUsuario, $idCurso, $uuid, $idTema, $fileName, $fileType) 
                 $clase->archivo = $uri;
                 $clase->usoDeDisco = $size;
                 altaClase($clase);
+                require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
+                deltaVariableDeProducto("usoActualAnchoDeBanda", $size);
+                
                 return $clase;
             } else {
                 //Si ocurrió un error, se borra y regresamos false

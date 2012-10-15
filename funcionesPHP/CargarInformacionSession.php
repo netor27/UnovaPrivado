@@ -13,16 +13,13 @@ function cargarCursosSession() {
             //Obtener los ultimos 5 cursos que ha creado el usuario
             //guardarlos en la sesión para mostrarlos en el menú
             $aux = getCursosInstructor($usuario->idUsuario, 0, $numCursos, "fechaCreacion", "DESC");
-            if (!is_null($aux))
-                $_SESSION['cursosPropios'] = $aux;
-        }else {
+            $_SESSION['cursosPropios'] = $aux;
+        } else {
             $numCursos = 4;
         }
 
         $aux = getCursosInscrito($usuario->idUsuario, 0, $numCursos, "fechaInscripcion", "DESC");
-        if (!is_null($aux)) {
-            $_SESSION['cursos'] = $aux;
-        }
+        $_SESSION['cursos'] = $aux;
     }
 }
 
