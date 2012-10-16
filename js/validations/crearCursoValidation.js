@@ -1,86 +1,71 @@
 $(document).ready(function(){
     var form = $("#customForm");  
-    var titulo = $("#titulo");  
-    var tituloInfo = $("#tituloInfo");  
-    var descripcionCorta = $("#descripcionCorta");  
-    var descripcionCortaInfo = $("#descripcionCortaInfo ");  
-    var palabrasClave = $("#palabrasClave");  
-    var palabrasClaveInfo = $("#palabrasClaveInfo"); 
+    var titulo = $("#inputTitulo");  
+    var descripcionCorta = $("#inputDescripcion");  
+    $('#inputTitulo').popover({
+        trigger: "manual"
+    });
+    $('#inputDescripcion').popover({
+        trigger: "manual"
+    });
 
     function validateTitulo(){  
-        //Si no es valido
-        
         if(trim(titulo.val()).length < 10 ){  
-            titulo.addClass("error");  
-            tituloInfo.text("El título debe tener por lo menos 10 letras");  
-            tituloInfo.addClass("error");  
+            $('#inputTitulo').attr("data-original-title","Error");
+            $('#inputTitulo').attr("data-content","El título debe tener por lo menos 10 letras");
+            $('#inputTitulo').popover("show");
             return false;  
         } else if(trim(titulo.val()).length > 100){
-            titulo.addClass("error");  
-            tituloInfo.text("El título no puede tener más de  100 letras");  
-            tituloInfo.addClass("error");  
+            $('#inputTitulo').attr("data-original-title","Error");
+            $('#inputTitulo').attr("data-content","El título no puede tener más de  100 letras");
+            $('#inputTitulo').popover('show');
             return false;  
-        }
-        //Si es valido 
-        else{  
-            titulo.removeClass("error");  
-            tituloInfo.text("Título");  
-            tituloInfo.removeClass("error");  
+        } else{  
+            //Es valido
+            $('#inputTitulo').popover('hide');
             return true;  
         }  
     }  
     function validateDescripcionCorta(){        
         //Si no es valido        
-        
         if(trim(descripcionCorta.val()).length < 10 ){  
-            descripcionCorta.addClass("error");  
-            descripcionCortaInfo.text("La descripción corta debe tener por lo menos 10 letras");  
-            descripcionCortaInfo.addClass("error");  
+            $('#inputDescripcion').attr("data-original-title","Error");
+            $('#inputDescripcion').attr("data-content","La descripción corta debe tener por lo menos 10 letras");
+            $('#inputDescripcion').popover("show");
             return false;  
         } else if(trim(descripcionCorta.val()).length > 140){
-            descripcionCorta.addClass("error");  
-            descripcionCortaInfo.text("La descripción corta no puede tener más de  140 letras");  
-            descripcionCortaInfo.addClass("error");  
+            $('#inputDescripcion').attr("data-original-title","Error");
+            $('#inputDescripcion').attr("data-content","La descripción corta no puede tener más de  140 letras");
+            $('#inputDescripcion').popover('show');
             return false;  
         }
-        //Si es valido 
         else{  
-            descripcionCorta.removeClass("error");  
-            descripcionCortaInfo.text("Escribe una descripción corta de tu curso.");  
-            descripcionCortaInfo.removeClass("error");  
+            //Si es valido 
+            $('#inputDescripcion').popover("hide");
             return true;  
         }  
+    }    
+    function trimDescripcionCorta(){
+        if(trim(descripcionCorta.val()).length > 140){
+            var str = trim(descripcionCorta.val());
+            str = str.substr(0, 140);
+            descripcionCorta.val(str);
+            $('#inputDescripcion').attr("data-original-title","Error");
+            $('#inputDescripcion').attr("data-content","La descripción corta no puede tener más de  140 letras");
+            $('#inputDescripcion').popover('show');
+        }
     }
-    function validatePalabrasClave(){  
-        if(trim(palabrasClave.val()).length > 140){
-            palabrasClave.addClass("error");  
-            palabrasClaveInfo.text("Las palabras clave no pueden sobrepasar 140 letras");  
-            palabrasClaveInfo.addClass("error");  
-            return false;  
-        }
-        //Si es valido 
-        else{  
-            palabrasClave.removeClass("error");  
-            palabrasClaveInfo.text("Palabras clave para identificar tu curso. Separadas con comas.");  
-            palabrasClaveInfo.removeClass("error");  
-            return true;  
-        }  
-    }  
     
     //On blur
     titulo.blur(validateTitulo);  
     descripcionCorta.blur(validateDescripcionCorta);  
-    palabrasClave.blur(validatePalabrasClave);  
-    
-    //On key press  
-    titulo.keyup(validateTitulo);  
-    descripcionCorta.keyup(validateDescripcionCorta);
-    palabrasClave.keyup(validatePalabrasClave);  
+//    //On key press  
+//    titulo.keyup(validateTitulo);  
+    descripcionCorta.keyup(trimDescripcionCorta);
 
     form.submit(function(){  
-        if(validateTitulo() && validateDescripcion() && validatePalabrasClave())  
-            return true  
-        else  
-            return false;  
+        var t = validateTitulo();
+        var d = validateDescripcionCorta();
+        return (t && d);
     });
 });

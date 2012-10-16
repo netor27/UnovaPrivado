@@ -1,6 +1,5 @@
 <?php
 require_once('layout/headers/headInicio.php');
-require_once('layout/headers/headBootstrap.php');
 require_once('layout/headers/headAsignarUsuarioCurso.php');
 require_once('layout/headers/headCierre.php');
 ?>

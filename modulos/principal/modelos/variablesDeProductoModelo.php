@@ -3,7 +3,7 @@
 function actualizaVariableDeProducto($nombre, $valor) {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("UPDATE variablesDeProducto 
+    $stmt = $conex->prepare("UPDATE variablesdeproducto 
                             SET valor = :valor
                             WHERE nombre = :nombre");
     $stmt->bindParam(':valor', $valor);
@@ -14,12 +14,17 @@ function actualizaVariableDeProducto($nombre, $valor) {
 function deltaVariableDeProducto($nombre, $delta) {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("UPDATE variablesDeProducto 
+    $stmt = $conex->prepare("UPDATE variablesdeproducto 
                             SET valor = valor + :delta
                             WHERE nombre = :nombre");
     $stmt->bindParam(':delta', $delta);
     $stmt->bindParam(':nombre', $nombre);
-    return $stmt->execute();
+    if($stmt->execute()){
+        return true;
+    }else{
+        print_r($stmt->errorInfo());
+        return false;
+    }
 }
 
 function getVariableDeProducto($nombre) {

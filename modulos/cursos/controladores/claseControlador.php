@@ -158,8 +158,8 @@ function tomarClase() {
                         if (deltaVariableDeProducto("usoActualAnchoDeBanda", $usoEnDisco)) {
                             require_once 'modulos/cursos/vistas/tomarClaseVideo.php';
                         } else {
-                            setSessionMessage("<h4 class='error'>Ocurrió un error al cargar el video</h4>");
-                            redirect('/curso/' . $curso->uniqueUrl);
+                            //setSessionMessage("<h4 class='error'>Ocurrió un error al cargar el video.</h4>");
+                            //redirect('/curso/' . $curso->uniqueUrl);
                         }
                     } else {
                         setSessionMessage("<h4 class='error'>Este video aún se está transformando. Espera unos minutos</h4>");

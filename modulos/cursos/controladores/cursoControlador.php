@@ -4,7 +4,7 @@ function principal() {
     if (validarUsuarioLoggeado()) {
         if (validarAdministradorPrivado()) {
             $offset = 0;
-            $numRows = 5;
+            $numRows = 6;
             $pagina = 1;
             if (isset($_GET['p'])) {
                 if (is_numeric($_GET['p'])) {
@@ -35,6 +35,8 @@ function crearCurso() {
         if (validarAdministradorPrivado() ||
                 tipoUsuario() == "administrador" ||
                 tipoUsuario() == "profesor") {
+            $titulo ="";
+            $descripcion="";
             require_once 'modulos/cursos/vistas/crearCurso.php';
         } else {
             goToIndex();
@@ -50,10 +52,10 @@ function crearCursoSubmit() {
             $descripcionCorta = removeBadHtmlTags(trim($_POST['descripcionCorta']));
             $titulo = removeBadHtmlTags(trim($_POST['titulo']));
 
-            if (strlen($titulo) >= 10 && strlen($titulo) <= 100 && strlen($descripcionCorta) >= 10 && strlen($descripcionCorta) <= 140) {
-
+            if (strlen($titulo) >= 10 && strlen($titulo) <= 100 && 
+                    strlen($descripcionCorta) >= 10 && 
+                    strlen($descripcionCorta) <= 140) {
                 require_once 'modulos/cursos/clases/Curso.php';
-
                 $curso = new Curso();
                 $curso->titulo = $titulo;
                 $curso->descripcionCorta = $descripcionCorta;
@@ -70,16 +72,17 @@ function crearCursoSubmit() {
                     setSessionMessage("<h4 class='success'>¡Haz creado un curso!</h4>");
                     redirect($url);
                 } else {
-                    setSessionMessage("<h4 class='error'>Ocurrió un error al dar de alta el curso. Intenta de nuevo más tarde</h4>");
-                    redirect("/cursos/curso/crearCurso");
+                    $msgForma = "Ya existe un curso con ese nombre. Escoje otro nombre";
+                    require_once 'modulos/cursos/vistas/crearCurso.php';
                 }
             } else {
-                setSessionMessage("<h4 class='error'>Los datos que introduciste no son válidos</h4>");
-                redirect("/cursos/curso/crearCurso");
+                $msgForma = "Los datos que introduciste no son válidos.";
+                
+                require_once 'modulos/cursos/vistas/crearCurso.php';
             }
         } else {
-            setSessionMessage("<h4 class='error'>Los datos que introduciste no son válidos</h4>");
-            redirect("/cursos/curso/crearCurso");
+            $msgForma = "Los datos que introduciste no son válidos.";
+            require_once 'modulos/cursos/vistas/crearCurso.php';
         }
     } else {
         goToIndex();
@@ -430,7 +433,7 @@ function responderPreguntaCurso() {
                 require_once 'modulos/email/modelos/envioEmailModelo.php';
                 require_once 'modulos/cursos/modelos/PreguntaModelo.php';
                 $datos = getInfoParaMailRespuestaPregunta($idPregunta);
-                enviarMailRespuestaPregunta($datos['email'], $curso->titulo, 'www.unova.mx/curso/' . $curso->uniqueUrl, $datos['pregunta'], $texto);
+                enviarMailRespuestaPregunta($datos['email'], $curso->titulo, DOMINIO_PRIVADO . '/curso/' . $curso->uniqueUrl, $datos['pregunta'], $texto);
                 echo '<br><div class="respuesta blueBox" style="width: 80%;">';
                 echo '<div class="comentarioAvatar"><img src="' . $usuario->avatar . '"></div>';
                 echo '<div class="comentarioUsuario"><a href="/usuario/' . $usuario->uniqueUrl . '">' . $usuario->nombreUsuario . '</a></div>';

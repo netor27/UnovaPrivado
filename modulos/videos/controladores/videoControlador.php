@@ -49,7 +49,7 @@ function transformar($datosJson) {
             $usuario = getUsuarioDeCurso($curso->idCurso);
             require_once 'modulos/email/modelos/envioEmailModelo.php';
             $clase = getClase($idClase);
-            //enviarMailTransformacionVideoCompleta($usuario->email, $curso->titulo, $clase->titulo, 'www.unova.mx/curso/' . $curso->uniqueUrl);
+            enviarMailTransformacionVideoCompleta($usuario->email, $curso->titulo, $clase->titulo, DOMINIO_PRIVADO . '/curso/' . $curso->uniqueUrl);
             return 1;
         } else {
             return -1;

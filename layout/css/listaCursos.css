@@ -1,106 +1,16 @@
-.cursosContainer{
-    background: #F7F7F7;
-    position: relative;
-    padding-left: 10px;
-    padding-right: 10px;    
-    padding-top: 5px;
-    padding-bottom: 0px;
+.thumbnail:hover{
+    border-color: #08C;
+    -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+    -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+    box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+}
+.thumbnail{
+    background-color: white;
 }
 
-.listaCursos {
-    display: block;
-    list-style-type: disc;
-    margin: 0px;
-    padding: 0px;
-    border: 0px none;
-}
-.curso{
-    background: white;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding-top: 10px;
-    padding-left: 5px;    
-    position: relative;
-    border-radius: 5px;
-    display: block;
-    height: 110px;
-}
-
-.thumb{
-    float: left;    
-    height: 100px;
-    width: 100px;
-    border-radius: 5px;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
-}
-
-.detalles{
-    float: left;
-    margin: -1px 0px 0px 10px;
-    width: 380px;
-    font-size: 15px;
-}
-
-.detalles .titulo a, .detalles .autor a{    
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom:  50px;
-}
-
-.detalles .titulo a:hover, .detalles .autor a:hover{    
-    font-size: 18px;
-    font-weight: bold;
-    text-decoration: underline;
-}
-
-.detalles titulo{
-    padding: 5px;
-    margin: 5px;
-}
-
-.numDetalles{
-    float:right;
-    font-size: 26px;
-    font-weight: bold;
-    margin-top: 5px;
-    text-align: center;
-    width: auto;    
-    position: relative;
-    margin-right: 15px;
-    margin-top: 15px;
-
-}
-.numDetalles span{
-    display: block;
-    font-size: 16px;
-    font-weight: normal;
-}
-.numClases{
-    padding-right: 10px; 
-}
-.numAlumnos{
-    padding-right: 10px;
-}
-
-.autor a{
-    font-size: 15px;
-}
-.autor a:hover{
-    font-size: 15px;
-}
-
-.pagination{
-    height: auto;
-}
-
-.botones{
-    padding-right: 10px;
-    padding-top: 20px;
-}
-
-.botonBorrar{
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+.descripcion{
+    max-width: 272px;
+    height:60px;
+    overflow: auto;
+    
 }

@@ -317,7 +317,7 @@ function enviarCorreoConfirmacion() {
     $usuario = getUsuarioActual();
     if (isset($usuario)) {
         require_once 'modulos/email/modelos/envioEmailModelo.php';
-        $urlConfirmacion = "www.unova.mx/usuarios/usuario/confirmarCuenta/" . $usuario->uuid;
+        $urlConfirmacion = DOMINIO_PRIVADO . "/usuarios/usuario/confirmarCuenta/" . $usuario->uuid;
         enviarMailConfirmacion($usuario->email, $urlConfirmacion);
         setSessionMessage("<h4 class='success'>Te hemos enviado un correo de confirmación</h4>");
         redirect("/usuario/" . $usuario->uniqueUrl);

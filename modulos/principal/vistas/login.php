@@ -1,72 +1,77 @@
 <?php
 require_once('layout/headers/headInicio.php');
-require_once('layout/headers/headLogin.php');
 require_once('layout/headers/headCierre.php');
 ?>
 
 <div class="contenido">
-    <div class="left centerText" style="width: 100%">
-        <h1>Inicio de sesión</h1>
-
-        <?php
-        if (isset($msgLogin)) {
-            echo '<div class="error">' . $msgLogin . '</div>';
-        }
-        ?>         
-        <div id="formDiv" class="centerText">
-            <form type="actionForm" action="/login/login/loginSubmit" method="post">
-                <fieldset style="margin: 0 auto; width:310px;">
-                    <legend>Introduce tus datos</legend>
-                    <p>
-                        <label for="email">Correo electrónico</label>
-                        <br>
-                        <input type="email" class="title" name="email">                            
-                    </p>
-                    <p>
-                        <label for="password">Contraseña</label>
-                        <br>
-                        <input type="password" class="title" name="password">
-                    </p>
-                    <p>
-                        <label for="recuerdame">
-                            <input type="checkbox" name="recuerdame" value="1">
-                            <?php
-                            switch (getTipoLayout()) {
-                                case 'desktop':
-                                    echo 'Recordar mis datos en esta computadora';
-                                    break;
-                                case 'tablet':
-                                case 'mobile':
-                                    echo 'Recordar mis datos en este dispositivo';
-                                    break;
-                            }
-                            
-                            ?>
-                        </label>
-
-                    </p>
-                    <p >
-                    <div style="margin: 0 auto; width: 61px">
-                        <button type="submit" style="margin: 0 auto;">
-                            Aceptar
-                        </button>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12"></div>
+        </div>
+        <div class="well span8 offset1">
+            <div class="row-fluid">
+                <legend>Iniciar sesión</legend>
+            </div>
+            <?php
+            if (isset($msgLogin)) {
+                ?>
+                <div class="row-fluid">
+                    
+                        <div class="alert alert-error">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong>¡Error!</strong> <?php echo $msgLogin?>
+                        </div>
+                    
+                </div>
+                <?php
+            }
+            ?>
+            <div class="row-fluid">
+                <form action="/login/login/loginSubmit" method="post" class="form-horizontal">
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">Correo Electrónico</label>
+                        <div class="controls">
+                            <input type="email" id="inputEmail" placeholder="Correo electrónico" name="email">
+                        </div>
                     </div>
-                    </p>
-                </fieldset>
-                
-
-                <div class="info centerText olvidePass">
+                    <div class="control-group">
+                        <label class="control-label" for="inputPassword">Contraseña</label>
+                        <div class="controls">
+                            <input type="password" id="inputPassword" placeholder="Contraseña" name="password">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input type="checkbox"> 
+                                <?php
+                                switch (getTipoLayout()) {
+                                    case 'desktop':
+                                        echo 'Recordar mis datos en esta computadora';
+                                        break;
+                                    case 'tablet':
+                                    case 'mobile':
+                                        echo 'Recordar mis datos en este dispositivo';
+                                        break;
+                                }
+                                ?>
+                            </label>
+                            <button type="submit" class="btn">Aceptar</button>
+                        </div>
+                    </div>
+                    <?php
+                    if (isset($pagina))
+                        echo '<input type="hidden" name="pagina" value="' . $pagina . '">';
+                    ?>
+                </form>
+            </div>
+            <div class="row-fluid"><div class="span12"></div></div>
+            <div class="row-fluid">
+                <div class="span5 offset7">
                     <a href="/usuarios/usuario/recuperarPassword">¿Olvidaste tu contraseña? Da click aquí</a>
                 </div>
-
-                <?php
-                if (isset($pagina))
-                    echo '<input type="hidden" name="pagina" value="' . $pagina . '">';
-                ?>
-            </form>
-
+            </div>
         </div>
-
     </div>
 </div>
 

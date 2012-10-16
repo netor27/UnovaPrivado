@@ -6,37 +6,51 @@ require_once('layout/headers/headCierre.php');
 
 
 <div class="contenido">
-    <div class="left centerText" style="width: 890px">
-        <h1 class="centerText">Crea un curso</h1>    
-        <br><br>
-        <?php
-        if (isset($error) && $error != "") {
-            echo '<h5 class="error centerText">' . $error . '</h5>';
-        }
-        if (isset($info) && $info != "") {
-            echo '<h5 class="info centerText">' . $info . '</h5>';
-        }
-        ?>
-        <div id="formDiv" style="width:700px;" >  
-            <form method="post" id="customForm" action="/cursos/curso/crearCursoSubmit">  
-                <div>  
-                    <label for="titulo">Título</label>  
-                    <input id="titulo" name="titulo" type="text" style="width:350px;"/>                          
-                    <span id="tituloInfo">Título de tu curso</span>  
-                </div>  
-                <div>  
-                    <label for="descripcionCorta">Descripción Corta</label>  
-                    <textarea id="descripcionCorta" name="descripcionCorta"></textarea>                        
-                    <br>
-                    <span id="descripcionCortaInfo">Escribe una descripción corta de tu curso.</span>  
-                </div>   
-                <div>  
-                    <input id="send" name="send" type="submit" value="  Aceptar  " />  
-                </div> 
-            </form>  
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12"></div>
+        </div>
+        <div class="well span8 offset2">
+            <div class="row-fluid">
+                <legend>Crear un curso</legend>
+            </div>
+            <?php
+            if (isset($msgForma)) {
+                ?>
+                <div class="row-fluid">
+                    <div class="alert alert-error">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>¡Error! </strong> <?php echo $msgForma; ?>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+            <div class="row-fluid">
+                <form id="customForm" action="/cursos/curso/crearCursoSubmit" method="post" class="form-horizontal">
+                    <div class="control-group">
+                        <label class="control-label" for="inputTitulo">Título del curso</label>
+                        <div class="controls">
+                            <input class="span9" type="text" id="inputTitulo" name="titulo" value="<?php echo $titulo; ?>">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputPassword">Descripción corta</label>
+                        <div class="controls">
+                            <textarea class="span12" id="inputDescripcion" name="descripcionCorta" rows="5">
+                                <?php echo $descripcion; ?>
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-primary">Crear curso</button>  
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 <?php

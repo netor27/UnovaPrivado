@@ -1,62 +1,101 @@
 <?php
 require_once ('layout/headers/headInicio.php');
-require_once ('layout/headers/headBootstrap.php');
 require_once ('layout/headers/headListaCursos.php');
 require_once ('layout/headers/headCierre.php');
 ?>
 
-
-<div class="contenido">
-    <?php
-    if ($numCursos > 0) {
-        ?>
+<div class="container">
+    <div class="contenido">
         <div class="row-fluid">
             <div class="span5">
-                <h4 style="text-align: center;">Estás inscrito en <?php echo $numCursos; ?> cursos</h4>
+                <?php
+                if ($numCursos == 1) {
+                    ?>
+                    <h4 >Estás inscrito en un curso</h4>
+                    <?php
+                } else if($numCursos > 0){                    
+                    echo '<h4 >Estás inscrito en ' . $numCursos . ' cursos</h4>';
+                }
+                ?>
+            </div>
+            <div class="span4 offset3">
+                <div style="padding-top: 20px;">
+                    <a href="/usuarios/cursos/responderPreguntas" class="btn btn-primary">Responder las preguntas pendientes</a>
+                </div>
             </div>
         </div>
-        <div class="well well-large">
-            <div class="cursosContainer">        
-                <ul class="listaCursos">
+        <div class="row-fluid">
+            <div class="span12"></div>
+        </div>
+        <?php
+        $columna = 1;
+        $fila = 1;
+        if (isset($cursos)) {
+            ?>
+            <div class="row-fluid">
+                <div class="span12">
                     <?php
-                    if (isset($cursos) && !is_null($cursos)) {
-                        foreach ($cursos as $curso) {
-                            ?>
-                            <li class="curso">
-                                <a href="/curso/<?php echo $curso->uniqueUrl; ?>">
-                                    <div class="thumb" style="background: url(<?php echo $curso->imagen; ?>);"></div>
-                                </a>
-
-                                <div class="detalles">
-                                    <span class="titulo left">
-                                        <?php
-                                        echo '<a href="/curso/' . $curso->uniqueUrl . '">' . substr($curso->titulo, 0, 40) . '</a>';
-                                        ?>                    
-                                    </span>
-                                    <br>
-                                    <span class="autor left">
-                                        Autor: <a href="<?php echo $curso->uniqueUrlUsuario ?>"><?php echo $curso->nombreUsuario; ?></a>
-                                    </span>
-                                    <br>                                
-                                </div>
-                                <div>
-                                    <div class="numDetalles numAlumnos">   
-                                        <?php echo $curso->numeroDeAlumnos; ?>
-                                        <span>Alumnos</span>
-                                    </div>
-                                    <div class="numDetalles numClases">                                    
-                                        <?php echo $curso->numeroDeClases; ?>
-                                        <span>Clases</span>
-                                    </div>   
-                                </div>
-                            </li>
-                            <?php
+                    $i = 0;
+                    foreach ($cursos as $curso) {
+                        if ($i % 3 == 0) {
+                            echo '<ul class="thumbnails">';
                         }
-                    } else {
-                        echo '<li><h2>No hay más cursos</h2></li>';
-                    }
-                    ?>
-                </ul>
+                        ?>
+                        <li class="span4">
+                            <div class="thumbnail">
+                                <a href="/curso/<?php echo $curso->uniqueUrl; ?>"><h3 class="centerText"><?php echo $curso->titulo; ?></h3></a>
+                                <img src="<?php echo $curso->imagen; ?>" class="img-polaroid">
+                                <div class="caption">                                    
+                                    <div class="row-fluid">
+                                        <legend>
+                                            <strong>Autor:</strong> 
+                                            <a href="/usuario/<?php echo $curso->uniqueUrlUsuario; ?>">
+                                                <?php echo $curso->nombreUsuario; ?>
+                                            </a>
+                                        </legend>
+                                    </div>
+                                    <div class="row-fluid centerText">
+                                        <div class="span6">
+                                            <p>
+                                                <?php
+                                                if ($curso->numeroDeAlumnos == 0) {
+                                                    echo 'No tiene alumnos';
+                                                } else if ($curso->numeroDeAlumnos == 1)
+                                                    echo 'Un alumno';
+                                                else
+                                                    echo $curso->numeroDeAlumnos . " alumnos";
+                                                ?>
+                                            </p>
+                                        </div>
+                                        <div class="span6">
+                                            <p>
+                                                <?php
+                                                if ($curso->numeroDeClases == 0) {
+                                                    echo 'No hay clases';
+                                                } else if ($curso->numeroDeClases == 1)
+                                                    echo 'Una clase';
+                                                else
+                                                    echo $curso->numeroDeClases . " clases";
+                                                ?>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        <strong>Descripción</strong>
+                                    </p>
+                                    <p class="descripcion">
+                                        <?php echo $curso->descripcionCorta; ?>
+                                    </p>
+                                </div>
+                            </div>
+                            <?php
+                            if ($i % 3 == 2) {
+                                echo '</ul>';
+                            }
+                            $i++;
+                        }
+                        ?>          
+                </div>
             </div>
             <div class="pagination pagination-centered">
                 <ul>
