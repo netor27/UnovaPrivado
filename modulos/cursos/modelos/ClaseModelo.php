@@ -221,44 +221,43 @@ function getTotalDiscoUtilizado() {
 function borrarClasesConArchivosDeUsuario($idUsuario) {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("SELECT c.idClase, c.archivo, c.archivo2, c.idTipoClase
+    $stmt = $conex->prepare("SELECT c.idClase, c.archivo, c.archivo2, c.idTipoClase, c.transformado
                             FROM clase c, tema t, curso cu
                             WHERE c.idTema = t.idTema 
                             AND t.idCurso = cu.idCurso
                             AND cu.idUsuario = :idUsuario");
-    $stmt->bindParam(':idUsuario',$idUsuario);
-    if(!$stmt->execute())
+    $stmt->bindParam(':idUsuario', $idUsuario);
+    if (!$stmt->execute())
         print_r($stmt->errorInfo());
     $rows = $stmt->fetchAll();
     $clase = null;
-    foreach ($rows as $row) {        
+    $todoOk = true;
+    foreach ($rows as $row) {
         $clase = new Clase();
         $clase->archivo = $row['archivo'];
         $clase->archivo2 = $row['archivo2'];
         $clase->tipoClase = $row['idTipoClase'];
         $clase->idClase = $row['idClase'];
-        //echo '<br>Borrar idClase = '.$clase->idClase;
-        
-        require_once 'modulos/cdn/modelos/cdnModelo.php';
-        $splitted = explode("/", $row['archivo']);
-        $fileName = $splitted[sizeof($splitted) - 1];
-        require_once 'modulos/principal/modelos/variablesDeProductoModelo.php';
-        if (!deleteArchivoCdn($fileName, $clase->idTipoClase)) {
-            //no se borró el archivo del cdn.
-            //Se guarda como pendiente de borrar
-            agregarArchivoPendientePorBorrar($fileName);
-        }
-        if ($clase->idTipoClase == 0) {
-            //si es video borramos el archivo2
-            $splitted = explode("/", $clase->archivo2);
+        $clase->transformado = $row['transformado'];
+        if ($clase->transformado == 1) {
+            require_once 'modulos/cdn/modelos/cdnModelo.php';
+            $splitted = explode("/", $row['archivo']);
             $fileName = $splitted[sizeof($splitted) - 1];
-            if (!deleteArchivoCdn($fileName, $clase->idTipoClase)) {
-                //si no se pudo borrar, lo ponemos como pendiente
-                agregarArchivoPendientePorBorrar($fileName);
+            
+            deleteArchivoCdn($fileName, $clase->idTipoClase);
+            if ($clase->idTipoClase == 0) {
+                //si es video borramos el archivo2
+                $splitted = explode("/", $clase->archivo2);
+                $fileName = $splitted[sizeof($splitted) - 1];
+                deleteArchivoCdn($fileName, $clase->idTipoClase);
             }
+            if (bajaClase($clase->idClase) == 0)
+                $todoOk = false;
+        }else{
+            $todoOk = false;
         }
-        return bajaClase($clase->idClase);
     }
+    return $todoOk;
 }
 
 ?>

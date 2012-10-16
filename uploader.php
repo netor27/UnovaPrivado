@@ -112,6 +112,7 @@ function crearClase($idUsuario, $idCurso, $uuid, $idTema, $fileName, $fileType) 
             require_once 'modulos/cdn/modelos/cdnModelo.php';
             $file = $filePath . $fileName;
 
+            $fileName = substr($fileName, 0, 150);
             //Le agregamos al nombre del archivo un codigo aleatorio de 5 caracteres
             $fileName = getUniqueCode(15) . "_" . $fileName;
 

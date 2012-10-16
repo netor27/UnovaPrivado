@@ -345,7 +345,7 @@ function eliminar() {
                 //Obtenemos todas la clases que pertenecen a este usuario, borramos del cdn los archivos
                 //y borramos lo demás por cascada
                 require_once 'modulos/cursos/modelos/ClaseModelo.php';
-                if (borrarClasesConArchivosDeUsuario($idUsuario) > 0) {
+                if (borrarClasesConArchivosDeUsuario($idUsuario)) {
                     require_once 'modulos/usuarios/modelos/usuarioModelo.php';
                     if (eliminarUsuario($idUsuario) > 0) {
                         setSessionMessage("<h4 class='success'>Se eliminó correctamente el usuario</h4>");
