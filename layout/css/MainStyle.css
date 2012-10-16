@@ -8,7 +8,6 @@ body{
     margin:0px; 
     padding:0px; 
     border:0px none;  
-    overflow-x: hidden;
 }
 
 .left{ 
@@ -169,7 +168,7 @@ h6{ margin:0;   padding:0px 0px  0px 0px;;  color:#30377a;  font-weight:100;    
     z-index: 100; 
     border: solid #333; 
     margin-top: 47px;
-     border-radius: 7px;
+    border-radius: 7px;
     -webkit-border-radius: 7px;
     -moz-border-radius: 7px;
     /* Sombra   */
@@ -288,9 +287,6 @@ h6{ margin:0;   padding:0px 0px  0px 0px;;  color:#30377a;  font-weight:100;    
     background-color: white;
     overflow: hidden;
     padding: 5px 5px 5px 5px;   
-    border-radius: 7px;
-    -webkit-border-radius: 7px;
-    -moz-border-radius: 7px;
 }
 .cursoMenuElement:hover{    
     overflow: hidden;
@@ -312,11 +308,10 @@ h6{ margin:0;   padding:0px 0px  0px 0px;;  color:#30377a;  font-weight:100;    
 }
 
 /* Body */
-#e_site{    position: relative; top:50px; width: 960px;   margin: 0 auto;   background: #E6E6DA;  z-index: 1; min-height: 500px; }
+#e_site{    
+    position: relative; top:50px; width: 960px;   margin: 0 auto;   background: #E6E6DA;  z-index: 1; min-height: 500px; 
+}
 .contenido{ 
-    overflow: hidden;
-    margin: 0px auto 20px;
-    min-height: 450px;
 }
 
 
@@ -351,7 +346,7 @@ h6{ margin:0;   padding:0px 0px  0px 0px;;  color:#30377a;  font-weight:100;    
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4794BF', endColorstr='#316482');
     background: -webkit-gradient(linear, left top, left bottom, from(#4794BF), to(#316482));
     background: -moz-linear-gradient(top, #4794BF, #316482);
-    
+
     border: 1px solid #316482 ;
     color: white ;
     font-size: 14px;
