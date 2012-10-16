@@ -22,7 +22,7 @@ require_once('layout/headers/headCierre.php');
             <!--Sidebar content-->
             <div class="row-fluid">
                 <div class="span12">
-                    <a class="btn btn-large btn-primary span12" href="/cursos">Cursos</a>
+                    <a class="btn btn-large span12" href="/cursos">Cursos</a>
                 </div>
             </div>
             <div class="row-fluid"><div class="span12"></div></div>

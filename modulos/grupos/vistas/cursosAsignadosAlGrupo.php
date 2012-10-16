@@ -81,7 +81,7 @@ require_once('layout/headers/headCierre.php');
                         <ul>
                             <?php
                             if ($pagina > 1)
-                                echo '<li><a href="/grupos/cursos/asignados/' . $idCurso . '&p=' . ($pagina - 1) . '">«</a></li>';
+                                echo '<li><a href="/grupos/cursos/asignados/' . $idCurso . '&p=' . ($pagina - 1) . '&pc=' . $paginaCursos . '">«</a></li>';
                             else
                                 echo '<li class="disabled"><a href="#">«</a></li>';
 
@@ -89,11 +89,11 @@ require_once('layout/headers/headCierre.php');
                                 if ($i == $pagina)
                                     echo '<li class="active"><a href="#">' . $i . '</a></li>';
                                 else
-                                    echo '<li><a href="/grupos/cursos/asignados/' . $idCurso . '&p=' . $i . '">' . $i . '</a></li>';
+                                    echo '<li><a href="/grupos/cursos/asignados/' . $idCurso . '&p=' . $i . '&pc=' . $paginaCursos . '">' . $i . '</a></li>';
                             }
 
                             if ($pagina < $maxPagina)
-                                echo '<li><a href="/grupos/cursos/asignados/' . $idCurso . '&p=' . ($pagina + 1) . '">»</a></li>';
+                                echo '<li><a href="/grupos/cursos/asignados/' . $idCurso . '&p=' . ($pagina + 1) . '&pc=' . $paginaCursos . '">»</a></li>';
                             else
                                 echo '<li class="disabled"><a href="#">»</a></li>';
                             ?>
@@ -112,9 +112,9 @@ require_once('layout/headers/headCierre.php');
         ?>
         <div class="row-fluid">
             <div class="span3">
-                <a class="btn btn-inverse btn-small" href="/">
+                <a class="btn btn-inverse btn-small" href="/cursos&p=<?php echo $paginaCursos; ?>">
                     <i class="icon-white icon-arrow-left"></i>
-                    Regresar al inicio
+                    Regresar a la lista de cursos
                 </a>
             </div>
         </div>

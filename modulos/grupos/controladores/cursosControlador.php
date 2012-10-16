@@ -8,14 +8,18 @@ function asignados() {
                 require_once 'modulos/cursos/modelos/CursoModelo.php';
                 $curso = getCurso($idCurso);
                 $offset = 0;
-                $numRows = 5;
-                $pagina = 1;
+                $numRows = 6;
+                $pagina = 1;                
                 if (isset($_GET['p'])) {
                     if (is_numeric($_GET['p'])) {
                         $pagina = intval($_GET['p']);
                         echo "pagina = " . $pagina . '<br>';
                         $offset = $numRows * ($pagina - 1);
                     }
+                }
+                $paginaCursos = 1;
+                if(isset($_GET['pc']) && is_numeric($_GET['pc'])){
+                    $paginaCursos = $_GET['pc'];
                 }
                 require_once 'modulos/grupos/modelos/grupoModelo.php';
                 $res = getGruposAsignadosAlCurso($idCurso, $offset, $numRows);

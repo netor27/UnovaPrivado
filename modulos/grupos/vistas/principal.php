@@ -21,7 +21,7 @@ require_once('layout/headers/headCierre.php');
                 <div style="padding-top: 20px;">
                     <a href="/grupos/grupo/agregar" class="btn btn-primary">
                         <i class="icon-white icon-plus"></i>
-                        Agregar grupo(s)
+                        Agregar un grupo
                     </a>
                 </div>
             </div>

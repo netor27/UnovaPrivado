@@ -8,7 +8,6 @@ require_once('layout/headers/headCierre.php');
 <div class="contenido">
     <div class="left centerText" style="width: 890px">
         <h1 class="centerText">Crea un curso</h1>    
-        <h5>Tu curso será creado pero no publicado hasta que lo decidas.</h5>
         <br><br>
         <?php
         if (isset($error) && $error != "") {
