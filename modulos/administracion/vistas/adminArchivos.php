@@ -30,7 +30,7 @@ require_once('layout/headers/headCierre.php');
                     echo '<tr>';
                     echo '<td><a href="/administracion/archivos/detallesContenedor/' . $container['name'] . '" >' . $container['name'] . '</a></td>';
                     echo '<td>' . $container["count"] . '</td>';
-                    echo '<td>' . bytesToString($container["bytes"]) . '</td>';
+                    echo '<td>' . bytesToString($container["bytes"],4) . '</td>';
                     echo '<td>$' . bytesToDollars($container["bytes"]) . '</td>';
                     echo '</tr>';
                 }

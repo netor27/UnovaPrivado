@@ -7,7 +7,7 @@ require_once('layout/headers/headCierre.php');
 <div class="contenido">
     <h2>
         <?php
-        echo 'Contenedor => ' . $container->name . '<br>' . $container->object_count . '  archivos<br>' . bytesToString($container->bytes_used) . " usados";
+        echo 'Contenedor => ' . $container->name . '<br>' . $container->object_count . '  archivos<br>' . bytesToString($container->bytes_used,4) . " usados";
         ?>
     </h2>
     <h4 class="right"><a href="/administracion/archivos">Regresar</a></h4>
@@ -36,7 +36,7 @@ require_once('layout/headers/headCierre.php');
                 foreach ($objects as $object) {
                     echo '<tr>';
                     echo '<td><a href="' . $object->public_uri() . '" >' . $object->name . '</a></td>';
-                    echo '<td>' . bytesToString($object->content_length) . '</td>';
+                    echo '<td>' . bytesToString($object->content_length,4) . '</td>';
                     echo '<td>$' . bytesToDollars($object->content_length) . '</td>';
                     echo '<td>' . date('Y-m-d   H:i',strtotime($object->last_modified)) . '</td>';
                     echo '<td>' . $object->content_type . '</td>';

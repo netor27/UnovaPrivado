@@ -201,19 +201,19 @@ function removeBadHtmlTags($badHtml) {
     return $pureHtml;
 }
 
-function bytesToString($bytes) {
+function bytesToString($bytes, $decimales) {
     if ($bytes < 1000) {
         //mostramos en bytes
         return $bytes . " bytes";
     } else if ($bytes < 1000000) {
         //mostramos en KB
-        return round($bytes / 1000, 4) . " KB";
+        return round($bytes / 1000, $decimales) . " KB";
     } else if ($bytes < 1000000000) {
         //mostramos en MB
-        return round($bytes / 1000000, 4) . " MB";
+        return round($bytes / 1000000, $decimales) . " MB";
     } else {
         //mostramos en GB
-        return round($bytes / 1000000000, 4) . " GB";
+        return round($bytes / 1000000000, $decimales) . " GB";
     }
 }
 

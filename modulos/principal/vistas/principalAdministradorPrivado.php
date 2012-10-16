@@ -58,10 +58,10 @@ require_once('layout/headers/headCierre.php');
             </div>
             <div class="row-fluid">
                 <div class="span12">
-                    <div class="span6">
+                    <div class="span5">
                         <h3>Usuarios</h3>
                     </div>
-                    <div class="span4 offset1">
+                    <div class="span6 offset1">
                         <h3><?php echo $numUsuarios . " / " . $maxUsuarios; ?></h3>
                     </div>
                     <div class="span12">
@@ -87,11 +87,11 @@ require_once('layout/headers/headCierre.php');
             </div>
             <div class="row-fluid">
                 <div class="span12">
-                    <div class="span6">
+                    <div class="span5">
                         <h3>Espacio en disco</h3>
                     </div>
-                    <div class="span4 offset1">
-                        <h3><?php echo $discoUsado . " / " . $maxDisco; ?>GB</h3>
+                    <div class="span6 offset1">
+                        <h3><?php echo bytesToString($discoUsadoEnBytes,1) . " / " . $maxDisco; ?>GB</h3>
                     </div>
                     <div class="span12">
                         <?php
@@ -116,11 +116,11 @@ require_once('layout/headers/headCierre.php');
             </div>
             <div class="row-fluid">
                 <div class="span12">
-                    <div class="span6">
+                    <div class="span5">
                         <h3>Ancho de banda</h3>
                     </div>
-                    <div class="span4 offset1">
-                        <h3><?php echo $anchoUsado . " / " . $maxAncho; ?>GB</h3>
+                    <div class="span6 offset1">
+                        <h3><?php echo bytesToString($anchoUsadoEnBytes,1) . " / " . $maxAncho; ?>GB</h3>
                     </div>
                     <div class="span12">
                         <?php
