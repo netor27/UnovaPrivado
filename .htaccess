@@ -5,15 +5,6 @@ AddType video/webm .webm
 
 RewriteEngine On
 
-RewriteCond %{HTTP_HOST} ^www\.unova\.mx$ [NC]
-RewriteRule ^(.*)$ http://unova.co/$1 [L,R=301]
-
-RewriteCond %{HTTP_HOST} ^www\.unova\.co$ [NC]
-RewriteRule ^(.*)$ http://unova.co/$1 [L,R=301]
-
-RewriteCond %{HTTP_HOST} ^unova\.mx$ [NC]
-RewriteRule ^(.*)$ http://unova.co/$1 [L,R=301]
-
 RewriteBase /
 
 RewriteRule ^curso/([a-zA-Z0-9_.]+)/([0-9]+)$ clases.php?a=tomarClase&curso=$1&clase=$2 [L]
