@@ -1,5 +1,5 @@
 <?php
 
-define("DOMINIO_PRIVADO", "http://privado.localhost");
+define("DOMINIO_PRIVADO", "http://betaprivado.unova.co");
 
 ?>
