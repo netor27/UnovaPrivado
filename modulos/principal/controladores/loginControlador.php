@@ -30,8 +30,9 @@ function loginSubmit() {
                 setcookie("usrcookie", $usuario, time() + $tiempo,'/');
                 setcookie("clvcookie", md5($password), time() + $tiempo,'/');                
             }
-            setSessionMessage("<h4 class='success'>¡Bienvenido " . getUsuarioActual()->nombreUsuario . "!</h4>");
-            redirect($pagina);
+            //setSessionMessage("<h4 class='success'>¡Bienvenido " . getUsuarioActual()->nombreUsuario . "!</h4>");
+            echo '<br>Buen login';
+            //redirect($pagina);
         }
     } else {
         $msgLogin = "Los datos no son válidos.<br>";
