@@ -104,7 +104,7 @@ require_once('layout/headers/headCierre.php');
                                                 <span class="caret"></span>
                                             </a>
                                             <ul class="dropdown-menu">
-                                                <li><a class="borrarCurso" id="<?php echo $curso->idCurso; ?>"><i class="icon-fire"></i> Eliminar</a></li>
+                                                <li><a class="borrarCurso" id="<?php echo $curso->idCurso; ?>"><i class="icon-fire"></i> Eliminar curso</a></li>
                                             </ul>
                                         </div>
                                     </div>
