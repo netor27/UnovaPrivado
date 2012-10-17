@@ -33,7 +33,7 @@
 $runmode = array(
     'no-daemon' => false,
     'help' => false,
-    'write-initd' => true,
+    'write-initd' => false,
 );
 
 // Scan command line attributes for allowed arguments
