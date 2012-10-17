@@ -47,7 +47,8 @@ function actualizarIdSession($idUsuario) {
     $stmt = $conex->prepare("UPDATE usuario SET sessionId = :sessionId WHERE idUsuario = :idUsuario");
     $stmt->bindParam(':sessionId', $sessionId);
     $stmt->bindParam(':idUsuario', $idUsuario);
-    return($stmt->execute());
+    if(!$stmt->execute())
+        print_r($stmt->errorInfo());
 }
 
 function validateSessionIdUsuario($idUsuario, $sessionId) {
