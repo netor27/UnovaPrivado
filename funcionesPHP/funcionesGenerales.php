@@ -50,6 +50,7 @@ function validarUniqueSession() {
     if (isset($_SESSION['usuario'])) {
         require_once 'modulos/principal/modelos/loginModelo.php';
         $sessionId = session_id();
+        echo "SessionId= " . $sessionId;
         $idUsuario = $_SESSION['usuario']->idUsuario;
         if (validateSessionIdUsuario($idUsuario, $sessionId)) {
             return true;
