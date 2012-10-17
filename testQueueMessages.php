@@ -2,7 +2,7 @@
 
 // register Pheanstalk class loader
 require_once('lib/php/beanstalkd/ColaMensajes.php');
-$colaMensajes = new ColaMensajes("transformarvideos");
+$colaMensajes = new ColaMensajes("videosPrivado");
 
 
 $accion;

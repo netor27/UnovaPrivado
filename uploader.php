@@ -103,7 +103,7 @@ function crearClase($idUsuario, $idCurso, $uuid, $idTema, $fileName, $fileType) 
             $json = json_encode($params);
             
             require_once 'lib/php/beanstalkd/ColaMensajes.php';
-            $colaMensajes = new ColaMensajes("transformarvideos");
+            $colaMensajes = new ColaMensajes("videosPrivado");
             $colaMensajes->push($json);
             return $clase;
         } else {

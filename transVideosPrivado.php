@@ -33,7 +33,7 @@
 $runmode = array(
     'no-daemon' => false,
     'help' => false,
-    'write-initd' => false,
+    'write-initd' => true,
 );
 
 // Scan command line attributes for allowed arguments
@@ -63,7 +63,7 @@ require_once 'System/Daemon.php';
 
 // Setup
 $options = array(
-    'appName' => 'transviddaemon',
+    'appName' => 'transvidpriv',
     'appDir' => dirname(__FILE__),
     'appDescription' => 'Revisa la cola de videos por transformar y si hay algo lo transforma',
     'authorName' => 'Ernesto Rubio F',
@@ -115,7 +115,7 @@ while (!System_Daemon::isDying() && $runningOkay) {
     // System_Daemon::info('{appName}  in %s %s/300', $a, $b);
     try {
         require_once 'lib/php/beanstalkd/ColaMensajes.php';
-        $colaMensajes = new ColaMensajes("transformarvideos");
+        $colaMensajes = new ColaMensajes("videosPrivado");
 
         $job = $colaMensajes->pop();
         if ($job == "") {
@@ -128,6 +128,7 @@ while (!System_Daemon::isDying() && $runningOkay) {
             if ($auxRes == 1) {
                 System_Daemon::notice('Video transformado correctamente');                
             }else{
+                $colaMensajes->push($json);
                 System_Daemon::info("ERROR! el resultado es " . $auxRes);
             }
             $colaMensajes->deleteJob($job);
