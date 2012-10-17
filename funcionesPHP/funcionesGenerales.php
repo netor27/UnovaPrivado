@@ -49,9 +49,10 @@ function tipoUsuario() {
 function validarUniqueSession() {
     if (isset($_SESSION['usuario'])) {
         require_once 'modulos/principal/modelos/loginModelo.php';
-        $sessionId = session_id();
-        echo "SessionId= " . $sessionId;
+        $sessionId = session_id();        
         $idUsuario = $_SESSION['usuario']->idUsuario;
+        echo "SessionId= " . $sessionId;
+        echo "<br>idUsuario= ". $idUsuario;
         if (validateSessionIdUsuario($idUsuario, $sessionId)) {
             return true;
         } else {
