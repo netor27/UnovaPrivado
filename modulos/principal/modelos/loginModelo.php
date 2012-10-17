@@ -42,6 +42,8 @@ function actualizarIdSession($idUsuario) {
     $sessionId = session_id();
     require_once ('bd/conex.php');
     global $conex;
+    echo "SessionId= ".$sessionId;
+    echo "<br>idUsuario = ".$idUsuario;
     $stmt = $conex->prepare("UPDATE usuario SET sessionId = :sessionId WHERE idUsuario = :idUsuario");
     $stmt->bindParam(':sessionId', $sessionId);
     $stmt->bindParam(':idUsuario', $idUsuario);
