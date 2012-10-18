@@ -80,11 +80,11 @@ function getContainerName($tipoArchivo) {
         case 2:
             return "documentos";
             break;
-//        case 4:
-//            return  "archivos";
-//            break;
+        case 4:
+            return  "audio";
+            break;
         default:
-            return NULL;
+            return "default";
             break;
     }
 }

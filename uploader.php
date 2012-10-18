@@ -27,135 +27,49 @@ switch ($_SERVER['REQUEST_METHOD']) {
         if (isset($_REQUEST['_method']) && $_REQUEST['_method'] === 'DELETE') {
             $upload_handler->delete();
         } else {
-            if (isset($_POST['uuid']) && isset($_POST['idUsuario']) && isset($_POST['idCurso']) && isset($_POST['idTema'])) {
-                $info = $upload_handler->post();                
-                $file = $info[0];
-                
-                //Tamaño en bytes
-                $sizeInBytes = $file->size;
-                
-                $uuid = $_POST['uuid'];
+            $info = array();
+            $file = new stdClass();
+            //validamos los datos del POST
+            if (isset($_POST['idUsuario']) && isset($_POST['idCurso']) && isset($_POST['idTema'])) {
+                require_once 'modulos/usuarios/clases/Usuario.php';
+                require_once 'funcionesPHP/funcionesGenerales.php';
+                session_start();
+                $usuario = getUsuarioActual();
+
                 $idUsuario = $_POST['idUsuario'];
                 $idCurso = $_POST['idCurso'];
                 $idTema = $_POST['idTema'];
 
-                $clase = crearClase($idUsuario, $idCurso, $uuid, $idTema, $file->name, $file->type);
-                if (!is_null($clase)) {
-                    //$file->url = $clase->archivo;
-                    $file->url = "#";
-                    $file->delete_url = "#";
-                    $file->error = "";
-                    $file->errorDetalle = "";
+                //validamos un usuario correcto
+                if (isset($usuario) && $idUsuario == $usuario->idUsuario) {                
+                    $info = $upload_handler->post();
+                    $file = $info[0];
+                    if (!isset($file->error)) {
+                        //No hubo error en la subida de los archivos
+                        require_once 'modulos/cursos/modelos/ClaseModelo.php';
+                        $res = crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $file->name, $file->type);
+                        if ($res['resultado']) {                        
+                            $file->url = $res['url'];
+                            $file->delete_url = "#";
+                            $file->error = "";
+                        } else {
+                            $file->error = $res['mensaje'];
+                        }
+                    } 
                 } else {
-                    $file->error = " ";
-                    $file->errorDetalle = "Ocurri&oacute; un error al agregar el contenido. Intenta de nuevo más tarde";
+                    //error de login
+                    $file->error = "Debes iniciar sesión para agregar contenido";
                 }
-                $info[0] = $file;
-                writeJSON($info);
+            } else {
+                //error de datos
+                $file->error = "Los datos recibidos no son válidos";
             }
+            $info[0] = $file;
+            writeJSON($info);
         }
         break;
     default:
         header('HTTP/1.1 405 Method Not Allowed');
-}
-
-function crearClase($idUsuario, $idCurso, $uuid, $idTema, $fileName, $fileType) {
-    require_once 'modulos/cursos/clases/Clase.php';
-    require_once 'modulos/cursos/modelos/ClaseModelo.php';
-    require_once 'modulos/usuarios/modelos/usuarioModelo.php';
-    require_once 'modulos/cursos/modelos/CursoModelo.php';
-    require_once 'modulos/cursos/modelos/TemaModelo.php';
-    $filePath = "archivos/temporal/uploaderFiles/";
-
-    if (getIdUsuarioDeCurso($idCurso) == $idUsuario && getIdUsuarioFromUuid($uuid) == $idUsuario && $idCurso == getIdCursoPerteneciente($idTema)) {
-        //Validamos que el curso sea del usuario, que el uuid pertenezca a este usuario y que el tema sea del curso        
-        $clase = new Clase();
-        $clase->idTema = $idTema;
-        //Revisamos que el nombre del archivo no pase de 50 caractéres
-        if (strlen($fileName) > 45) {
-            $auxFileName = substr($fileName, 0, 50);
-            if (!rename($filePath . $fileName, $filePath . $auxFileName)) {
-                //Ocurrió un error al renombrar el archivo
-                die('Ocurrió un error al subir el archivo');
-            }
-            $fileName = $auxFileName;
-        }
-
-
-        $clase->titulo = $fileName;
-        $clase->idTipoClase = getTipoClase($fileType);
-
-        if ($clase->idTipoClase == 0) {
-            $clase->transformado = 0;
-            $clase->usoDeDisco = 0;
-            $clase->duracion = "00:00";
-            $idClase = altaClase($clase);
-            //Si es video creamos la clase con la bandera que todavía no se transforma
-            //guardamos en la cola que falta transformar este video
-            
-            //$url = "http://localhost/videos.php";
-            $file = $filePath . $fileName;
-            $params = array(
-                "idClase" => $idClase,
-                "file" => $file,
-                "fileType" => $fileType
-            );
-            $json = json_encode($params);
-            
-            require_once 'lib/php/beanstalkd/ColaMensajes.php';
-            $colaMensajes = new ColaMensajes("videosPrivado");
-            $colaMensajes->push($json);
-            return $clase;
-        } else {
-            $clase->transformado = 1;
-            //Si es de otro tipo, lo subimos al CDN de rackspace y creamos la clase
-            require_once 'modulos/cdn/modelos/cdnModelo.php';
-            $file = $filePath . $fileName;
-
-            $fileName = substr($fileName, 0, 150);
-            //Le agregamos al nombre del archivo un codigo aleatorio de 5 caracteres
-            $fileName = getUniqueCode(15) . "_" . $fileName;
-
-            $res = crearArchivoCDN($file, $fileName, $clase->idTipoClase);
-
-            if ($res != NULL) {
-                //Si se creo correctamene el archivo CDN, creamos la clase y borramos el archivo local
-                $uri = $res['uri'];
-                $size = $res['size'];
-                $clase->archivo = $uri;
-                $clase->usoDeDisco = $size;
-                altaClase($clase);
-                require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
-                deltaVariableDeProducto("usoActualAnchoDeBanda", $size);
-                
-                return $clase;
-            } else {
-                //Si ocurrió un error, se borra y regresamos false
-                unlink($file);
-                return NULL;
-            }
-        }
-    } else {
-        //Hay errores en la integridad usuario <-> curso
-        //borramos el archivo
-        unlink("archivos/temporal/uploaderFiles/" . $fileName);
-        return NULL;
-    }
-}
-
-function getTipoClase($fileType) {
-    //Si es video
-    if (stristr($fileType, "video")) {
-        return 0;
-    }
-
-    if (stristr($fileType, "presentation") || stristr($fileType, "powerpoint")) {
-        return 1;
-    }
-
-    if (stristr($fileType, "word") || stristr($fileType, "pdf")) {
-        return 2;
-    }
 }
 
 function writeJSON($info) {

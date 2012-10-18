@@ -76,16 +76,18 @@ function actualizaOrdenClase($idClase, $idTema, $orden) {
     return $stmt->execute();
 }
 
-function actualizaArchivosDespuesTransformacion($idClase, $archivo, $archivo2, $usoDeDisco) {
+function actualizaArchivosDespuesTransformacion($idClase, $archivo, $archivo2, $usoDeDisco, $duration) {
     require_once 'bd/conex.php';
     global $conex;
     $stmt = $conex->prepare("UPDATE clase 
-                            SET transformado = 1, archivo = :archivo , archivo2 = :archivo2, usoDeDisco = :usoDeDisco
+                            SET transformado = 1, archivo = :archivo , archivo2 = :archivo2, 
+                            usoDeDisco = :usoDeDisco, duracion = :duracion
                             WHERE idClase = :idClase");
     $stmt->bindParam(':archivo', $archivo);
     $stmt->bindParam(':archivo2', $archivo2);
     $stmt->bindParam(':usoDeDisco', $usoDeDisco);
     $stmt->bindParam(':idClase', $idClase);
+    $stmt->bindParam(':duracion', $duration);
     return $stmt->execute();
 }
 
@@ -258,6 +260,110 @@ function borrarClasesConArchivosDeUsuario($idUsuario) {
         }
     }
     return $todoOk;
+}
+
+function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType) {
+    require_once 'modulos/usuarios/modelos/usuarioModelo.php';
+    require_once 'modulos/cursos/modelos/CursoModelo.php';
+    require_once 'modulos/cursos/modelos/TemaModelo.php';
+    $filePath = "archivos/temporal/uploaderFiles/";
+    
+    $res = array();
+    //Validamos que el curso sea del usuario y que el tema sea del curso        
+    if (getIdUsuarioDeCurso($idCurso) == $idUsuario && $idCurso == getIdCursoPerteneciente($idTema)) {
+        //Revisamos que el nombre del archivo no pase de 50 caractéres
+        if (strlen($fileName) > 50) {
+            $auxFileName = substr($fileName, 0, 50);
+            if (!rename($filePath . $fileName, $filePath . $auxFileName)) {
+                //Ocurrió un error al renombrar el archivo
+                $res['resultado'] = false;
+                $res['mensaje'] = "El nombre del archivo no es válido";
+            }
+            $fileName = $auxFileName;
+        }
+        
+        $pathInfo = pathinfo($filePath.$fileName);
+        $clase = new Clase();
+        $clase->idTema = $idTema;
+        $clase->titulo = $pathInfo['filename'];
+        $clase->idTipoClase = getTipoClase($fileType);
+
+        if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
+            //Si es video o audio creamos la clase con la bandera que todavía no se transforma
+            //guardamos en la cola que falta transformar este video
+            $clase->transformado = 0;
+            $clase->usoDeDisco = 0;
+            $clase->duracion = "00:00";
+            $idClase = altaClase($clase);
+            
+            //agregamos en la base de datos que hay que transformar este video
+            $file = $filePath . $fileName;            
+            require_once 'modulos/transformador/modelos/archivoPorTransformarModelo.php';
+            $idArchivo = altaArchivoPorTransformar($clase->idTipoClase, $idClase, $file);
+            
+            //guardamos este id en la cola de transformacion
+            require_once 'lib/php/beanstalkd/ColaMensajes.php';
+            $colaMensajes = new ColaMensajes("colatrans");
+            $colaMensajes->push($idArchivo);
+            $res['resultado'] = true;
+            $res['url'] = $file;
+        } else {
+            $clase->transformado = 1;
+            //Si es de otro tipo, lo subimos al CDN de rackspace y creamos la clase
+            require_once 'modulos/cdn/modelos/cdnModelo.php';
+            $file = $filePath . $fileName;
+            $pathInfo = pathinfo($file);
+            
+            //Le agregamos al nombre del archivo un codigo aleatorio de 5 caracteres
+            $fileName = substr($pathInfo['filename'], 0, 150) . "_" . getUniqueCode(7) . "." . $pathInfo['extension'];
+            $res = crearArchivoCDN($file, $fileName, $clase->idTipoClase);
+            if ($res != NULL) {
+                //Si se creo correctamene el archivo CDN, creamos la clase y borramos el archivo local
+                $uri = $res['uri'];
+                $size = $res['size'];
+                $clase->archivo = $uri;
+                $clase->usoDeDisco = $size;
+                altaClase($clase);
+                require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
+                deltaVariableDeProducto("usoActualAnchoDeBanda", $size);
+                $res['resultado'] = true;
+                $res['url'] = $clase->archivo;
+            } else {
+                //Si ocurrió un error, se borra y regresamos false
+                unlink($file);
+                $res['resultado'] = false;
+                $res['mensaje'] = "Ocurrió un error al guardar tu archivo en nuestros servidores. Intenta de nuevo más tarde-";
+            }
+        }
+    } else {
+        //Hay errores en la integridad usuario <-> curso
+        //borramos el archivo
+        unlink($filePath . $fileName);
+        $res['resultado'] = false;
+        $res['mensaje'] = "No tienes permisos para modificar este curso";
+    }
+    return $res;
+}
+
+function getTipoClase($fileType) {
+    //Si es video
+    if (stristr($fileType, "video")) {
+        return 0;
+    }
+
+    if (stristr($fileType, "presentation") || stristr($fileType, "powerpoint")) {
+        return 1;
+    }
+
+    if (stristr($fileType, "word") || stristr($fileType, "pdf")) {
+        return 2;
+    }
+
+    //tipo de clase 3 son las tarjetas de aprendizaje, no es un archivo
+
+    if (stristr($fileType, "audio")) {
+        return 4;
+    }
 }
 
 ?>

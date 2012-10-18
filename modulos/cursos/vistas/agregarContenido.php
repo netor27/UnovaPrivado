@@ -5,16 +5,8 @@ require_once('layout/headers/headCierre.php');
 ?>
 
 <div class="contenido">
-    <div id="videoSubidoDialog" title="Transferencia completa">
-        <p>Tu video se ha sido subido correctamente y se está transformando.Te enviaremos un correo electrónico cuando este listo</p>
-    </div>
-    <div id="dialog">
-        
-    </div>
-
     <div class="left centerText" style="width: 100%;">
-        <h1 class="centerText">Agrega contenido a tu curso</h1>    
-        <br>
+        <h3 class="centerText">Agrega contenido a tu curso</h3>    
         <?php
         if (isset($error) && $error != "") {
             echo '<h5 class="error centerText">' . $error . '</h5>';
@@ -23,9 +15,9 @@ require_once('layout/headers/headCierre.php');
             echo '<h5 class="info centerText">' . $info . '</h5>';
         }
         ?>
-        <h2>
+        <h4>
             Sube tus archivos y se creará automáticamente una clase por cada uno de ellos
-        </h2>
+        </h4>
         <h5 class="notice" style="font-weight: bold">
             Recuerda que si cambias o cierras esta página, tu descarga se cancelará
         </h5>
@@ -50,19 +42,10 @@ require_once('layout/headers/headCierre.php');
                             <span>Agregar archivos...</span>
                             <input type="file" name="files[]" multiple>
                         </span>
-                        <button type="submit" class="btn btn-primary start">
-                            <i class="icon-upload icon-white"></i>
-                            <span>Iniciar la carga</span>
-                        </button>
                         <button type="reset" class="btn btn-warning cancel">
                             <i class="icon-ban-circle icon-white"></i>
                             <span>Cancelar la carga</span>
                         </button>
-                        <button type="button" class="btn btn-danger delete">
-                            <i class="icon-trash icon-white"></i>
-                            <span>Borrar</span>
-                        </button>
-                        <input type="checkbox" class="toggle">
                     </div>
                     <div class="span5">                    
                         <div class="progress progress-success progress-striped active fade">
@@ -76,7 +59,6 @@ require_once('layout/headers/headCierre.php');
                 <input type="hidden" name="idUsuario" value="<?php echo getUsuarioActual()->idUsuario; ?>">
                 <input type="hidden" name="idCurso" value="<?php echo $idCurso; ?>">
                 <input type="hidden" name="idTema" value="<?php echo $idTema; ?>">
-                <input type="hidden" name="uuid" value="<?php echo getUsuarioActual()->uuid; ?>">
             </form>
         </div>
     </div>

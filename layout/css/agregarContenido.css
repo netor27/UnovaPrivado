@@ -13,3 +13,10 @@
     border-style: dashed; 
     border-color: #038081;
 }
+
+.delete input{
+    display:none;
+}
+.delete button{
+    display:none;
+}

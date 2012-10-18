@@ -13,14 +13,17 @@ class ColaMensajes {
         $this->tubeName = $tube;
     }
 
-    function push($data) {
-        $this->pheanstalk->put($data);
+    function push($data, $priority = 1024, $delay = 0, $ttr = 4000) {
+        try {
+            return $this->pheanstalk->put($data, $priority, $delay, $ttr);
+        } catch (Exception $e) {
+            return -1;
+        }
     }
 
-    function pop() {
-        // $job->getData()
+    function pop($timeout = 300) {
         try {
-            $job = $this->pheanstalk->reserveFromTube("transformarvideos", 100);
+            $job = $this->pheanstalk->reserveFromTube($this->tubeName, $timeout);
             return $job;
         } catch (Exception $e) {
             return null;
@@ -28,11 +31,21 @@ class ColaMensajes {
     }
 
     function deleteJob($job) {
-        $this->pheanstalk->delete($job);
+        try {
+            $this->pheanstalk->delete($job);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     function printStats() {
-        $this->pheanstalk->printTubeStats($this->tubeName);
+        try {
+            $this->pheanstalk->printTubeStats($this->tubeName);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
 }

@@ -63,9 +63,9 @@ require_once 'System/Daemon.php';
 
 // Setup
 $options = array(
-    'appName' => 'transvidpriv',
+    'appName' => 'filetrans',
     'appDir' => dirname(__FILE__),
-    'appDescription' => 'Revisa la cola de videos por transformar y si hay algo lo transforma',
+    'appDescription' => 'Revisa la cola de archivos por transformar y si hay algo lo transforma',
     'authorName' => 'Ernesto Rubio F',
     'authorEmail' => 'neto.r27@gmail.com',
     'sysMaxExecutionTime' => '0',
@@ -103,34 +103,24 @@ if (!$runmode['write-initd']) {
 // This variable gives your own code the ability to breakdown the daemon:
 $runningOkay = true;
 
-// While checks on 3 things in this case:
+// While checks on 2 things in this case:
 // - That the Daemon Class hasn't reported it's dying
 // - That your own code has been running Okay
-// - That we're not executing more than 3 runs
 while (!System_Daemon::isDying() && $runningOkay) {
-    //System_Daemon::info("entrando al while");
-    // What mode are we in?
-    // $mode = '"' . (System_Daemon::isInBackground() ? '' : 'non-' ) .
-    //         'daemon" mode';
-    // System_Daemon::info('{appName}  in %s %s/300', $a, $b);
     try {
         require_once 'lib/php/beanstalkd/ColaMensajes.php';
-        $colaMensajes = new ColaMensajes("videosPrivado");
-
+        $colaMensajes = new ColaMensajes("colatrans");
+        System_Daemon::info("Se va a hacer el pop");
         $job = $colaMensajes->pop();
         if ($job == "") {
             //Time out
-            //System_Daemon::info("Time out!");
+            System_Daemon::info("Time out!");
         } else {
-            $json = $job->getData();
-            require_once 'modulos/videos/controladores/videoControlador.php';
-            $auxRes = transformar($json);
-            if ($auxRes == 1) {
-                System_Daemon::notice('Video transformado correctamente');                
-            }else{
-                $colaMensajes->push($json);
-                System_Daemon::info("ERROR! el resultado es " . $auxRes);
-            }
+            $idArchivo = $job->getData();
+            System_Daemon::info("Job Encontrado con idArchivo = " . $idArchivo);
+            require_once 'modulos/transformador/controladores/transformadorControlador.php';            
+            $auxRes = transformarArchivo($idArchivo);
+            System_Daemon::notice($auxRes);
             $colaMensajes->deleteJob($job);
         }
     } catch (Exception $e) {

@@ -9,8 +9,8 @@ $(document).ready(function() {
         autoOpen: false
     });
     $( "#dialog" ).dialog({
-        height: 160,
-        width: 400,
+        height: 360,
+        width: 500,
         modal: true,
         autoOpen: false
     });
@@ -25,30 +25,25 @@ $(document).ready(function() {
         sequentialUploads: true,
         maxFileSize: 1500000000,
         autoUpload: true,
-        acceptFileTypes: /(\.|\/)(pdf|doc|docx|ppt|pptx|mov|mp4|wmv|avi|3gp|avi|flv|mpg|mpeg|mpe)$/i        
+        acceptFileTypes: /(\.|\/)(pdf|doc|docx|ppt|pptx|mov|mp4|wmv|avi|3gp|avi|flv|mpg|mpeg|mpe|mp3|wav|wma|ogg)$/i        
     });
     
     $('#fileupload').bind('fileuploaddone', 
-        function (e, data) {             
-            var resultado = data.result[0].errorDetalle;
-            if(resultado.length > 0){
-                $("#dialog").html("<p class='error'>" + resultado + "</p>");
-                $( "#dialog" ).dialog('open');
-            }                        
+        function (e, data) {          
             $.each(data.files, function (index, file) {
                 if(file.type.indexOf("video") != -1){
-                    $( "#videoSubidoDialog" ).dialog('open');
+                    bootbox.alert("<strong>Tu video se ha sido subido correctamente y se está transformando.</strong><br>Te enviaremos un correo electrónico cuando este listo");
                 }
             });
         }
         ); 
             
-//    $('#fileupload').bind('fileuploadadd', 
-//        function (e, data) {
-//            $("#dialog").html("<h3>Carga iniciada</h3><p>Recuerda que si cambias o cierras esta página, tu descarga se cancelará</p>");
-//            $( "#dialog" ).dialog('open');
-//        }
-//        );  
+    //    $('#fileupload').bind('fileuploadadd', 
+    //        function (e, data) {
+    //            $("#dialog").html("<h3>Carga iniciada</h3><p>Recuerda que si cambias o cierras esta página, tu descarga se cancelará</p>");
+    //            $( "#dialog" ).dialog('open');
+    //        }
+    //        );  
             
     // Upload server status check for browsers with CORS support:
     if ($.support.cors) {

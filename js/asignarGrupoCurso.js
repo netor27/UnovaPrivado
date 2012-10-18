@@ -102,7 +102,7 @@ $(function() {
                 },
                 success: function(data) {
                     var str = data.toString();
-                    if(str.indexOf("ok") != -1){                    
+                    if(str.indexOf("ok") != -1){                 
                         bootbox.alert("Se actualizaron los datos correctamente");
                     }else{ 
                         bootbox.alert("Ocurrió un error al actualizar los datos. <br>Intenta de nuevo más tarde");

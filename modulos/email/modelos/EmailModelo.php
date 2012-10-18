@@ -28,15 +28,15 @@ function sendMailConSendGrid($text, $html, $subject, $from, $to) {
     $message->setTo($to);
     $message->addPart($text, 'text/plain');
     
-
     // send message 
     $recipients = $swift->send($message, $failures);
     if ($recipients <= 0) {
-        echo "Something went wrong - ";
-        print_r($failures);
+        //echo "Something went wrong - ";
+        //print_r($failures);
         $recipients = 0;
+        return false;
     }
-    return $recipients;
+    return true;
 }
 
 function sendMailSMTP($text, $html, $subject, $from, $to) {

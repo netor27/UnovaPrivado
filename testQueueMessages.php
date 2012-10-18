@@ -2,7 +2,7 @@
 
 // register Pheanstalk class loader
 require_once('lib/php/beanstalkd/ColaMensajes.php');
-$colaMensajes = new ColaMensajes("videosPrivado");
+$colaMensajes = new ColaMensajes("colatrans");
 
 
 $accion;
@@ -12,14 +12,15 @@ if (!isset($_GET['a'])) {
     $accion = $_GET['a'];
 }
 
-if ($accion == "publicar") {
-    $colaMensajes->push("Estos son los datos del job");
+if ($accion == "publicar") {    
+    $colaMensajes->push("".rand(0, 200));
+    echo 'se publico un job<br>';
 }
 
 if ($accion == "leer") {
     $job = $colaMensajes->pop();
     if ($job == "") {
-        echo 'no hay datos en job, suponemos time_out';        
+        echo 'no hay datos en job, suponemos time_out<br>';        
     }else{
         echo $job->getData() . '<br><br>';
         $colaMensajes->deleteJob($job);

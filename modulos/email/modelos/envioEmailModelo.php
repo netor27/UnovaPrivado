@@ -1,6 +1,7 @@
 <?php
 
 require_once 'modulos/email/modelos/EmailModelo.php';
+define("EMAIL_ADVICE_ERRORS","contacto@unova.mx");
 define("EMAIL_FROM", "Unova@unova.mx");
 define("HEADER", '<html>
         <head>
@@ -269,34 +270,12 @@ function enviarMailResumenSemanal($email, $nombreUsuario, $numAlumnos, $numPregu
     return sendMail($text, $html, "Tu resumen semanal en Unova", EMAIL_FROM, $email);
 }
 
-//function enviarMailAlumnoSuscrito($email, $tituloCurso, $urlCurso) {
-//    $text = 'Felicidades, tienes un nuevo alumno en tu curso "' . $tituloCurso . '".\n\n
-//        Recuerda ver los comentarios y calificaciones de tus alumnos, adem&aacute;s, si te es posible, responder
-//        a las preguntas que te hagan.\n\n
-//        Esto lo puedes hacer en el siguiente enlace:\n\n' . $urlCurso . '\n\n
-//        Gracias, equipo Unova.';
-//    $html = HEADER . '
-//        <h1>Nuevo alumno inscrito</h1>
-//        <p>Felicidades, tienes un nuevo alumno en tu curso "' . $tituloCurso . '".</p>
-//        <p>Recuerda ver los comentarios y calificaciones de tus alumnos, adem&aacute;s, si te es posible, responder
-//        a las preguntas que te hagan.</p>
-//        <p>Esto lo puedes hacer en el siguiente enlace:</p>
-//        <p><a href="' . $urlCurso . '">' . $urlCurso . '</a></p>
-//        ' . FOOTER;
-//    return sendMail($text, $html, "Nuevo alumno suscrito", EMAIL_FROM, $email);
-//}
-//function enviarMailPreguntaEnCurso($email, $tituloCurso, $urlCurso, $pregunta) {
-//    $text = 'Te han hecho una nueva pregunta en tu curso "' . $tituloCurso . '":\n\n
-//        ' . $pregunta . '\n\n
-//        Para contestarla sigue este enlace:\n\n
-//        ' . $urlCurso . '\n\n
-//        Gracias, equipo Unova.';
-//    $html = HEADER . '
-//        <h1>Te han hecho una nueva pregunta en tu curso "' . $tituloCurso . '":</h1>
-//        <h2>' . $pregunta . '</h2>
-//        <p>Para contestarla sigue este enlace:</p>
-//        <p><a href="' . $urlCurso . '">' . $urlCurso . '</a></p>
-//        ' . FOOTER;
-//    return sendMail($text, $html, "Te han hecho una nueva pregunta", EMAIL_FROM, $email);
-//}
+function enviarMailErrorTransformacion($mensaje) {
+    $email = EMAIL_ADVICE_ERRORS;
+    $text = 'Ocurrio un error en el procedimiento de transformacion\n\n'.$mensaje;
+    $html = HEADER . '
+        <h3>Ocurrio un error en el procedimiento de transformacion</h3>
+        <br><br>'.$mensaje . '<br><br>' . FOOTER;
+    return sendMail($text, $html, "Error en transformacion", EMAIL_FROM, $email);
+}
 ?>
