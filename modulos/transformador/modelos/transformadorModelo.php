@@ -17,7 +17,7 @@ function transformarVideo($file) {
     $outputFileMp4 = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_" . $uniqueCode . ".mp4";
     $outputFileOgv = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_" . $uniqueCode . ".ogv";
 
-    $cmd = 'avconv -i "' . $file . '" -c:v libx264 -c:a copy "' . $outputFileMp4 . '" -c:v libtheora -c:a libvorbis "' . $outputFileOgv . '"';
+    $cmd = 'avconv -i "' . $file . '" -c:v libx264 -c:a copy "' . $outputFileMp4 . '" -c:v libtheora -c:a libvorbis "' . $outputFileOgv . '" 2>&1';
     //putLog($cmd);
     ob_start();
     passthru($cmd, $return_var);
@@ -38,7 +38,7 @@ function transformarAudio($file) {
     $outputFileMp3 = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_" . $uniqueCode . ".mp3";
     $outputFileOgg = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_" . $uniqueCode . ".ogg";
 
-    $cmd = 'avconv -i "' . $file . '" "' . $outputFileMp3 . '" -c libvorbis -ar 44100 -b 200k "' . $outputFileOgg . '"';
+    $cmd = 'avconv -i "' . $file . '" "' . $outputFileMp3 . '" -c libvorbis -ar 44100 -b 200k "' . $outputFileOgg . '" 2>&1';
     //putLog($cmd);
     ob_start();
     passthru($cmd, $return_var);
@@ -51,7 +51,7 @@ function transformarAudio($file) {
 function obtenerDuracion($file) {
     //Obtener la duración
     ob_start();
-    passthru('avconv -i "' . $file . '"');
+    passthru('avconv -i "' . $file . '" 2>&1');
     $duration = ob_get_contents();
     ob_end_clean();
 

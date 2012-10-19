@@ -29,7 +29,7 @@ if (using_ie()) {
 //echo "mensaje = " . $archivo['mensaje'] . '<br>';
 
 ob_start();
-passthru('avconv -i "archivos/temporal/uploaderFiles/podcast Androi" 2>&1');
+passthru('avconv -i "archivos/temporal/uploaderFiles/Module Main Menu.mov" 2>&1');
 $duration = ob_get_contents();
 ob_end_clean();
 
