@@ -99,6 +99,6 @@ if (isset($usuarioHead)) {
     <?php
 }
 ?>
-<div class="element right ease3">
+<div class="element right ease3 crearCursoElement">
     <a class="link" href="/cursos/curso/crearCurso" >Crear un curso</a>
 </div>

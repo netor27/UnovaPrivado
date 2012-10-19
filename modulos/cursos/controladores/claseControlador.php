@@ -158,8 +158,8 @@ function tomarClase() {
                         if (deltaVariableDeProducto("usoActualAnchoDeBanda", $usoEnDisco)) {
                             require_once 'modulos/cursos/vistas/tomarClaseVideo.php';
                         } else {
-                            //setSessionMessage("<h4 class='error'>Ocurrió un error al cargar el video.</h4>");
-                            //redirect('/curso/' . $curso->uniqueUrl);
+                            setSessionMessage("<h4 class='error'>Ocurrió un error al cargar el video.</h4>");
+                            redirect('/curso/' . $curso->uniqueUrl);
                         }
                     } else {
                         setSessionMessage("<h4 class='error'>Este video aún se está transformando. Espera unos minutos</h4>");
@@ -180,6 +180,26 @@ function tomarClase() {
                     break;
                 case 3:
                     require_once 'modulos/cursos/vistas/tomarClaseTarjetas.php';
+                    break;
+                case 4:
+                    if ($clase->transformado == 1) {
+                        //dividimos el uso de disco entre dos, porque en la base de datos
+                        //esta almacenado en uso de disco la suma del archivo mp4 y el ogv.
+                        //No siempre el peso de los 2 es igual, pero es lo más cercano sin 
+                        //necesitar otra columna en la bd ni tener que identificar que navegador es.
+                        $usoEnDisco = $clase->usoDeDisco / 2;
+                        //aquí aumentamos el ancho de banda utilizado
+                        require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
+                        if (deltaVariableDeProducto("usoActualAnchoDeBanda", $usoEnDisco)) {
+                            require_once 'modulos/cursos/vistas/tomarClaseAudio.php';
+                        } else {
+                            setSessionMessage("<h4 class='error'>Ocurrió un error al cargar el video.</h4>");
+                            redirect('/curso/' . $curso->uniqueUrl);
+                        }
+                    } else {
+                        setSessionMessage("<h4 class='error'>Este video aún se está transformando. Espera unos minutos</h4>");
+                        redirect('/curso/' . $curso->uniqueUrl);
+                    }
                     break;
             }
         } else {

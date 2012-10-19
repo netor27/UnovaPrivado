@@ -65,6 +65,8 @@ require_once('layout/headers/headCierreTomarClase.php');
     <video id="videoPrincipal" class="videoClass" style="position: relative; top: <?php echo $videoData['top'] . '%'; ?>; left: <?php echo $videoData['left'] . '%'; ?>; width: <?php echo $videoData['width'] . '%'; ?>; height: <?php echo $videoData['height'] . '%'; ?>;">
         <source src="<?php echo $clase->archivo; ?>" type="video/mp4"></source>      
         <source src="<?php echo $clase->archivo2; ?>" type="video/ogg"></source>      
+        Tu navegador no es compatible con las características de este sitio. Te recomendamos descargar google chrome
+        <a href="http://www.google.com/intl/es/chrome/browser/"> desde aquí</a>
     </video>  
     <div id="footnotediv">
 

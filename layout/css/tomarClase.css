@@ -2,6 +2,10 @@
     padding-right: 40px;
 }
 
+.crearCursoElement{
+    display:none;
+}
+
 #flechitaClases{
     display: none; 
     background-image: url(../imagenes/flechita.png);

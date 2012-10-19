@@ -78,23 +78,33 @@ require_once ('layout/headers/headCierre.php');
                                     <p class="descripcion">
                                         <?php echo $curso->descripcionCorta; ?>
                                     </p>
-                                    <div class="row-fluid">
-                                        <div class="btn-group span9">
-                                            <a class="btn btn-small btn-primary" ><i class="icon-pencil icon-white"></i> </a>
-                                            <a class="btn  btn-small btn-primary dropdown-toggle" data-toggle="dropdown" ><span class="caret"></span></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="/cursos/curso/alumnos/<?php echo $curso->idCurso . "&pc=" . $pagina; ?>"><i class="icon-user"></i> Editar usuarios inscritos</a></li>
-                                                <li><a href="/grupos/cursos/asignados/<?php echo $curso->idCurso; ?>"><i class="icon-globe"></i> Editar grupos asignados</a></li>
-                                            </ul>
-                                        </div>                                            
-                                        <div class="btn-group span3">
-                                            <a class="btn btn-small btn-danger" ><i class="icon-trash icon-white"></i></a>
-                                            <a class="btn  btn-small btn-danger dropdown-toggle" data-toggle="dropdown" ><span class="caret"></span></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="borrarCurso" id="<?php echo $curso->idCurso; ?>"><i class="icon-fire"></i> Eliminar</a></li>
-                                            </ul>
+                                    <?php
+                                    if (tipoUsuario() == "administradorPrivado") {
+                                        ?>
+                                        <div class="row-fluid">
+                                            <div class="btn-group span9">
+                                                <a class="btn  btn-small btn-primary dropdown-toggle" data-toggle="dropdown" >
+                                                    <i class="icon-pencil icon-white"></i>
+                                                    <span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="/cursos/curso/alumnos/<?php echo $curso->idCurso . "&pc=" . $pagina; ?>"><i class="icon-user"></i> Editar usuarios inscritos</a></li>
+                                                    <li><a href="/grupos/cursos/asignados/<?php echo $curso->idCurso; ?>"><i class="icon-globe"></i> Editar grupos asignados</a></li>
+                                                </ul>
+                                            </div>                                            
+                                            <div class="btn-group span3">
+                                                <a class="btn  btn-small btn-danger dropdown-toggle" data-toggle="dropdown" >
+                                                    <i class="icon-trash icon-white"></i>
+                                                    <span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="borrarCurso" id="<?php echo $curso->idCurso; ?>"><i class="icon-fire"></i> Eliminar</a></li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
                             </div>
                             <?php

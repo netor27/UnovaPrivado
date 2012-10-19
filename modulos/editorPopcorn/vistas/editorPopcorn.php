@@ -11,8 +11,19 @@ if (isset($var['videos']))
     $videos = $var['videos'];
 if (isset($var['links']))
     $links = $var['links'];
-if (isset($var['videoData']))
+
+$top = 0;
+$left = 0;
+$width = 100;
+$height = 100;
+
+if (isset($var['videoData'])) {
     $videoData = $var['videoData'];
+    $top = $videoData['top'];
+    $left = $videoData['left'];
+    $width = $videoData['width'];
+    $height = $videoData['height'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -95,7 +106,7 @@ if (isset($links))
             </div>
         </div>
         <div id="editorContainment">
-            <div id="videoContainer" class="draggable resizable ui-widget-content" style="position: absolute; top: <?php echo $videoData['top'] . '%'; ?>; left: <?php echo $videoData['left'] . '%'; ?>; width: <?php echo $videoData['width'] . '%'; ?>; height: <?php echo $videoData['height'] . '%'; ?>;">				
+            <div id="videoContainer" class="draggable resizable ui-widget-content" style="position: absolute; top: <?php echo $top . '%'; ?>; left: <?php echo $left . '%'; ?>; width: <?php echo $width . '%'; ?>; height: <?php echo $height . '%'; ?>;">				
                 <video id="videoPrincipal" class="videoClass">
                     <source src="<?php echo $clase->archivo; ?>" type="video/mp4">
                     <source src="<?php echo $clase->archivo2; ?>" type="video/ogg">

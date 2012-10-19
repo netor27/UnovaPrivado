@@ -4,9 +4,10 @@ var $videoVisible = true;
 
 $(function(){
     if(layout == "desktop"){
-        $(".videoClass").bind("contextmenu", function(e) {
+        $("body").bind("contextmenu", function(e) {
             e.preventDefault();
         });
+        
         $("#menuClasesLink").click(function(e){   
             //cambiamos la flecha
             if($("#flechaClases").hasClass('flechaAbajo')){
