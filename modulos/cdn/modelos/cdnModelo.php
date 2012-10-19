@@ -27,8 +27,8 @@ function crearArchivoCDN($file, $fileName, $tipoArchivo) {
 
 function deleteArchivoCdn($fileName, $tipoArchivo) {
     require_once 'modulos/principal/modelos/variablesDeProductoModelo.php';
+    $containerName = getContainerName($tipoArchivo);
     try {
-        $containerName = getContainerName($tipoArchivo);
         $conn = getConnection();        
         $container = $conn->get_container($containerName);
         if ($container->delete_object($fileName)) {
@@ -42,7 +42,7 @@ function deleteArchivoCdn($fileName, $tipoArchivo) {
     } catch (Exception $e) {
         //no se borró el archivo del cdn.
         //Se guarda como pendiente de borrar
-        agregarArchivoPendientePorBorrar($fileName);
+        agregarArchivoPendientePorBorrar($containerName."/".$fileName);
         return false;
     }
 }

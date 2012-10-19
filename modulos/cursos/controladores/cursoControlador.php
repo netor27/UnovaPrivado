@@ -35,8 +35,8 @@ function crearCurso() {
         if (validarAdministradorPrivado() ||
                 tipoUsuario() == "administrador" ||
                 tipoUsuario() == "profesor") {
-            $titulo ="";
-            $descripcion="";
+            $titulo = "";
+            $descripcion = "";
             require_once 'modulos/cursos/vistas/crearCurso.php';
         } else {
             goToIndex();
@@ -47,13 +47,13 @@ function crearCurso() {
 function crearCursoSubmit() {
     if (validarAdministradorPrivado() ||
             tipoUsuario() == "administrador" ||
-            tipoUsuario() == "profesor" ) {
+            tipoUsuario() == "profesor") {
         if (isset($_POST['titulo']) && isset($_POST['descripcionCorta'])) {
             $descripcionCorta = removeBadHtmlTags(trim($_POST['descripcionCorta']));
             $titulo = removeBadHtmlTags(trim($_POST['titulo']));
 
-            if (strlen($titulo) >= 10 && strlen($titulo) <= 100 && 
-                    strlen($descripcionCorta) >= 10 && 
+            if (strlen($titulo) >= 10 && strlen($titulo) <= 100 &&
+                    strlen($descripcionCorta) >= 10 &&
                     strlen($descripcionCorta) <= 140) {
                 require_once 'modulos/cursos/clases/Curso.php';
                 $curso = new Curso();
@@ -77,7 +77,7 @@ function crearCursoSubmit() {
                 }
             } else {
                 $msgForma = "Los datos que introduciste no son válidos.";
-                
+
                 require_once 'modulos/cursos/vistas/crearCurso.php';
             }
         } else {
@@ -294,7 +294,7 @@ function detalles() {
 function tomarCurso() {
     require_once 'modulos/cursos/modelos/CursoModelo.php';
     require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
-    
+
     $cursoUrl = $_GET['i'];
     $curso = getCursoFromUniqueUrl($cursoUrl);
 
@@ -491,7 +491,7 @@ function cambiarImagenSubmit() {
                         //borramos la imagen temporal
                         unlink($file);
                         require_once 'modulos/cdn/modelos/cdnModelo.php';
-                        $res = crearArchivoCDN($dest, $destName, -1);                        
+                        $res = crearArchivoCDN($dest, $destName, -1);
                         $oldUri = $cursoParaModificar->imagen;
                         if ($res != NULL) {
                             $uri = $res['uri'];
@@ -644,7 +644,7 @@ function alumnos() {
                 $numRows = 18;
                 $pagina = 1;
                 $paginaCursos = 1;
-                if(isset($_GET['pc']) && is_numeric($_GET['pc'])){
+                if (isset($_GET['pc']) && is_numeric($_GET['pc'])) {
                     $paginaCursos = $_GET['pc'];
                 }
                 if (isset($_GET['p']) && is_numeric($_GET['p'])) {
@@ -658,7 +658,7 @@ function alumnos() {
                 $numAlumnos = $res['n'];
                 $maxPagina = ceil($numAlumnos / $numRows);
                 if ($pagina != 1 && $pagina > $maxPagina) {
-                    redirect("/cursos/curso/alumnos/" . $idCurso . "&pc=" . $paginaCursos . "&p=". $maxPagina);
+                    redirect("/cursos/curso/alumnos/" . $idCurso . "&pc=" . $paginaCursos . "&p=" . $maxPagina);
                 } else {
                     require_once 'modulos/cursos/vistas/listaAlumnosDeCurso.php';
                 }
@@ -680,14 +680,22 @@ function eliminar() {
             if (isset($_GET['i']) && is_numeric($_GET['i'])) {
                 $idCurso = intval($_GET['i']);
                 require_once 'modulos/cursos/modelos/CursoModelo.php';
-                $n = bajaCurso($idCurso);
-                if ($n > 0) {
-                    if ($n > 1)
-                        setSessionMessage("<h4 class='success'>Se eliminaron con éxito " . $n . " cursos</h4>");
-                    else
-                        setSessionMessage("<h4 class='success'>Se eliminó con éxito 1 curso</h4>");
-                }else {
-                    setSessionMessage("<h4 class='error'>Ocurrió un error al eliminar</h4>");
+                $idUsuario = getIdUsuarioDeCurso($idCurso);
+                //Debido a los archivos en el cdn no podemos borrar las clases por cascada,
+                //pero si los cursos y temas.
+                //Obtenemos todas la clases que pertenecen a este curso, borramos del cdn los archivos y las clases,
+                //y borramos lo demás por cascada
+
+                require_once 'modulos/cursos/modelos/ClaseModelo.php';
+                $res = borrarClasesConArchivosDeCurso($idCurso);
+                if ($res['res']) {
+                    if (bajaCurso($idCurso) > 0) {
+                        setSessionMessage("<h4 class='success'>Se eliminó con éxito el curso</h4>");
+                    } else {
+                        setSessionMessage("<h4 class='error'>Ocurrió un error al eliminar</h4>");
+                    }
+                } else {
+                    setSessionMessage("<h4 class='error'>" . $res['error'] . "</h4>");
                 }
             } else {
                 setSessionMessage("<h4 class='error'>Ocurrió un error</h4>");

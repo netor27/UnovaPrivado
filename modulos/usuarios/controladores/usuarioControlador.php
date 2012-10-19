@@ -345,15 +345,16 @@ function eliminar() {
                 //Obtenemos todas la clases que pertenecen a este usuario, borramos del cdn los archivos
                 //y borramos lo demás por cascada
                 require_once 'modulos/cursos/modelos/ClaseModelo.php';
-                if (borrarClasesConArchivosDeUsuario($idUsuario)) {
+                $res = borrarClasesConArchivosDeUsuario($idUsuario);
+                if ($res['res']) {
                     require_once 'modulos/usuarios/modelos/usuarioModelo.php';
                     if (eliminarUsuario($idUsuario) > 0) {
                         setSessionMessage("<h4 class='success'>Se eliminó correctamente el usuario</h4>");
                     } else {
                         setSessionMessage("<h4 class='error'>Ocurrió un error al eliminar al usuario</h4>");
                     }
-                }else{
-                    setSessionMessage("<h4 class='error'>Ocurrió un error al eliminar las clases del usuario</h4>");
+                } else {
+                    setSessionMessage("<h4 class='error'>" . $res['error'] . "</h4>");
                 }
             } else {
                 setSessionMessage("<h4 class='error'>No puedes borrar tu propio usuario</h4>");

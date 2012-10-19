@@ -19,8 +19,8 @@ function borrarClase() {
                         $splitted = explode("/", $clase->archivo);
                         $fileName = $splitted[sizeof($splitted) - 1];
                         deleteArchivoCdn($fileName, $clase->idTipoClase);
-                        if ($clase->idTipoClase == 0) {
-                            //si es video borramos el archivo2
+                        if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
+                            //si es video o audio borramos el archivo2
                             $splitted = explode("/", $clase->archivo2);
                             $fileName = $splitted[sizeof($splitted) - 1];
                             deleteArchivoCdn($fileName, $clase->idTipoClase);

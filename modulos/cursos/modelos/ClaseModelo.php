@@ -234,32 +234,85 @@ function borrarClasesConArchivosDeUsuario($idUsuario) {
     $rows = $stmt->fetchAll();
     $clase = null;
     $todoOk = true;
+    $error = "";
     foreach ($rows as $row) {
         $clase = new Clase();
         $clase->archivo = $row['archivo'];
         $clase->archivo2 = $row['archivo2'];
-        $clase->tipoClase = $row['idTipoClase'];
+        $clase->idTipoClase = $row['idTipoClase'];
         $clase->idClase = $row['idClase'];
         $clase->transformado = $row['transformado'];
         if ($clase->transformado == 1) {
             require_once 'modulos/cdn/modelos/cdnModelo.php';
             $splitted = explode("/", $row['archivo']);
             $fileName = $splitted[sizeof($splitted) - 1];
-            
+
             deleteArchivoCdn($fileName, $clase->idTipoClase);
-            if ($clase->idTipoClase == 0) {
+            if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
+                //si es video o audio borramos el archivo2
+                $splitted = explode("/", $clase->archivo2);
+                $fileName = $splitted[sizeof($splitted) - 1];
+                deleteArchivoCdn($fileName, $clase->idTipoClase);
+            }
+            if (bajaClase($clase->idClase) == 0) {
+                $todoOk = false;
+                $error = "Ocurrió un error al borrar la clase";
+            }
+        } else {
+            $todoOk = false;
+            $error = "No puedes borrar el curso mientras uno de sus archivos se está transformando";
+        }
+    }
+    return array(
+        "res" => $todoOk,
+        "error" => $error);
+}
+
+function borrarClasesConArchivosDeCurso($idCurso) {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("SELECT c.idClase, c.archivo, c.archivo2, c.idTipoClase, c.transformado
+                            FROM clase c, tema t
+                            WHERE c.idTema = t.idTema 
+                            AND t.idCurso = :idCurso");
+    $stmt->bindParam(':idCurso', $idCurso);
+    if (!$stmt->execute())
+        print_r($stmt->errorInfo());
+    $rows = $stmt->fetchAll();
+    $clase = null;
+    $todoOk = true;
+    $error = "";
+    foreach ($rows as $row) {
+        $clase = new Clase();
+        $clase->archivo = $row['archivo'];
+        $clase->archivo2 = $row['archivo2'];
+        $clase->idTipoClase = $row['idTipoClase'];
+        $clase->idClase = $row['idClase'];
+        $clase->transformado = $row['transformado'];
+        if ($clase->transformado == 1) {
+            require_once 'modulos/cdn/modelos/cdnModelo.php';
+            $splitted = explode("/", $row['archivo']);
+            $fileName = $splitted[sizeof($splitted) - 1];
+
+            deleteArchivoCdn($fileName, $clase->idTipoClase);
+            if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
                 //si es video borramos el archivo2
                 $splitted = explode("/", $clase->archivo2);
                 $fileName = $splitted[sizeof($splitted) - 1];
                 deleteArchivoCdn($fileName, $clase->idTipoClase);
             }
-            if (bajaClase($clase->idClase) == 0)
+            if (bajaClase($clase->idClase) == 0) {
                 $todoOk = false;
-        }else{
+                $error = "Ocurrió un error al borrar la clase";
+            }
+        } else {
             $todoOk = false;
+            $error = "No puedes borrar el curso mientras uno de sus archivos se está transformando";
         }
     }
-    return $todoOk;
+    return array(
+        "res" => $todoOk,
+        "error" => $error);
 }
 
 function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType) {
@@ -267,7 +320,7 @@ function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType
     require_once 'modulos/cursos/modelos/CursoModelo.php';
     require_once 'modulos/cursos/modelos/TemaModelo.php';
     $filePath = "archivos/temporal/uploaderFiles/";
-    
+
     $res = array();
     //Validamos que el curso sea del usuario y que el tema sea del curso        
     if (getIdUsuarioDeCurso($idCurso) == $idUsuario && $idCurso == getIdCursoPerteneciente($idTema)) {
@@ -281,8 +334,8 @@ function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType
             }
             $fileName = $auxFileName;
         }
-        
-        $pathInfo = pathinfo($filePath.$fileName);
+
+        $pathInfo = pathinfo($filePath . $fileName);
         $clase = new Clase();
         $clase->idTema = $idTema;
         $clase->titulo = $pathInfo['filename'];
@@ -295,12 +348,12 @@ function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType
             $clase->usoDeDisco = 0;
             $clase->duracion = "00:00";
             $idClase = altaClase($clase);
-            
+
             //agregamos en la base de datos que hay que transformar este video
-            $file = $filePath . $fileName;            
+            $file = $filePath . $fileName;
             require_once 'modulos/transformador/modelos/archivoPorTransformarModelo.php';
             $idArchivo = altaArchivoPorTransformar($clase->idTipoClase, $idClase, $file);
-            
+
             //guardamos este id en la cola de transformacion
             require_once 'lib/php/beanstalkd/ColaMensajes.php';
             $colaMensajes = new ColaMensajes("colatrans");
@@ -313,7 +366,7 @@ function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType
             require_once 'modulos/cdn/modelos/cdnModelo.php';
             $file = $filePath . $fileName;
             $pathInfo = pathinfo($file);
-            
+
             //Le agregamos al nombre del archivo un codigo aleatorio de 5 caracteres
             $fileName = substr($pathInfo['filename'], 0, 150) . "_" . getUniqueCode(7) . "." . $pathInfo['extension'];
             $res = crearArchivoCDN($file, $fileName, $clase->idTipoClase);
