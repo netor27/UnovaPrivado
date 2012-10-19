@@ -17,14 +17,17 @@ function transformarArchivo($idArchivo) {
     switch ($idTipoClase) {
         case 0:
             //es un video
+            modificarArchivoEstadoMensaje($idArchivo, "Identificado", "Es un archivo de video, se procedera a transformar");
             $res = transformarVideo($archivo['archivo']);
             break;
         case 4:
+            modificarArchivoEstadoMensaje($idArchivo, "Identificado", "Es un archivo de audio, se procedera a transformar");
             $res = transformarAudio($archivo['archivo']);
             //es audio
             break;
     }
     if (isset($res)) {
+        modificarArchivoEstadoMensaje($idArchivo, "Transformado", "La transformacion fue correcta");
         $archivoMp = $res['outputFileMp'];
         $archivoOg = $res['outputFileOg'];
         $duration = $res['duration'];
@@ -37,6 +40,8 @@ function transformarArchivo($idArchivo) {
             //Hay que subir los dos archivos al CDN
             require_once 'modulos/cdn/modelos/cdnModelo.php';
 
+            modificarArchivoEstadoMensaje($idArchivo, "Por subir", "Antes de subir los archivos al CDN");
+            
             //Subimos al cdn el archivo mp
             $path = pathinfo($archivoMp);
             $fileNameMp = $path['basename'];
@@ -47,9 +52,8 @@ function transformarArchivo($idArchivo) {
             $fileNameOg = $path['basename'];
             $resOg = crearArchivoCDN($archivoOg, $fileNameOg, $idTipoClase);
 
-            
-
             if (isset($resMp) && isset($resOg)) {
+                modificarArchivoEstadoMensaje($idArchivo, "Subidos", "Los archivos se subieron correctamente");
                 $uriMp = $resMp['uri'];
                 $uriOg = $resOg['uri'];
                 $size = floatval($resMp['size']) + floatval($resOg['size']);
