@@ -9,7 +9,7 @@ function getCursosInscrito($idUsuario, $offset, $numRows) {
     $stmt = $conex->prepare("SELECT c.idCurso, c.titulo, c.uniqueUrl, c.imagen, uc.fechaInscripcion
                                  FROM curso c, usuariocurso uc
                                  WHERE uc.idUsuario = :idUsuario AND c.idCurso = uc.idCurso
-                                 ORDER BY uc.fechaInscripcion 
+                                 ORDER BY c.titulo ASC
                                  LIMIT $offset, $numRows");
     $stmt->bindParam(':idUsuario', $idUsuario);
 
@@ -40,7 +40,7 @@ function getCursosInstructor($idUsuario, $offset, $numRows) {
     $stmt = $conex->prepare("SELECT c.idCurso, c.titulo, c.uniqueUrl, c.imagen, c.fechaPublicacion
                                  FROM curso c
                                  WHERE c.idUsuario = :idUsuario 
-                                 ORDER BY c.fechaCreacion
+                                 ORDER BY c.titulo ASC
                                  LIMIT $offset, $numRows");
     $stmt->bindParam(':idUsuario', $idUsuario);
 
