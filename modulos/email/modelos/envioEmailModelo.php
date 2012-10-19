@@ -152,20 +152,30 @@ function enviarMailSuscripcionUsuario($email, $urlReestablecer) {
     return sendMail($text, $html, utf8_encode("Bienvenido a Unova"), EMAIL_FROM, $email);
 }
 
-function enviarMailTransformacionVideoCompleta($email, $tituloCurso, $tituloClase, $urlCurso) {
-    $text = 'Transformaci&oacute;n de video completa,\n\n
-        El video de tu clase "' . utf8_encode($tituloClase) . '" perteneciente a tu curso "' . utf8_encode($tituloCurso) . '"\n
+function enviarMailTransformacionVideoCompleta($email, $tituloCurso, $tituloClase, $urlCurso, $idTipoClase) {
+    $txtTipo = "";
+    switch($idTipoClase){
+        case 0://video
+            $txtTipo = "video";
+            break;
+        case 4://audio
+            $txtTipo = "audio";
+            break;
+    }
+    
+    $text = 'Transformaci&oacute;n de '.$txtTipo.' completa,\n\n
+        El '.$txtTipo.' de tu clase "' . utf8_encode($tituloClase) . '" perteneciente a tu curso "' . utf8_encode($tituloCurso) . '"\n
         ha sido transformado satisfactoriamente.\n
         Ya esta disponible en l&iacute;nea en la p&aacute;gina de tu curso:\n
         ' . $urlCurso . '\n\n
         Gracias, equipo Unova.';
     $html = HEADER . '
-        <h1 style="font-size:18px">Transformaci&oacute;n de video completa</h1>
+        <h1 style="font-size:18px">Transformaci&oacute;n de '.$txtTipo.' completa</h1>
         <table bgcolor="#f1f1ee" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
                 <tbody>
                     <tr valign="top">
                         <td style="font-size:13px;margin: 10px; padding: 10px;">
-                            <p style="padding:10px;margin:0">El video de tu clase "' . utf8_encode($tituloClase) . '" perteneciente a tu curso "' . utf8_encode($tituloCurso) . '" ha sido transformado satisfactoriamente.</p>
+                            <p style="padding:10px;margin:0">El '.$txtTipo.' de tu clase "' . utf8_encode($tituloClase) . '" perteneciente a tu curso "' . utf8_encode($tituloCurso) . '" ha sido transformado satisfactoriamente.</p>
                             <p style="padding:10px;margin:0">Ya esta disponible en l&iacute;nea en la p&aacute;gina de tu curso:</p>
                             <p style="padding:10px;margin:0"><a href="' . $urlCurso . '">' . $urlCurso . '</a></p>
                         </td>
@@ -173,7 +183,7 @@ function enviarMailTransformacionVideoCompleta($email, $tituloCurso, $tituloClas
                 </tbody>
             </table>
         ' . FOOTER;
-    return sendMail($text, $html, utf8_encode("Transformación de video completa"), EMAIL_FROM, $email);
+    return sendMail($text, $html, utf8_encode("Transformación de ".$txtTipo." completa"), EMAIL_FROM, $email);
 }
 
 function enviarMailSuscripcionCurso($email, $tituloCurso, $imagenCurso, $urlCurso) {

@@ -110,11 +110,11 @@ while (!System_Daemon::isDying() && $runningOkay) {
     try {
         require_once 'lib/php/beanstalkd/ColaMensajes.php';
         $colaMensajes = new ColaMensajes("colatrans");
-        System_Daemon::info("Se va a hacer el pop");
+        //System_Daemon::info("Se va a hacer el pop");
         $job = $colaMensajes->pop();
         if ($job == "") {
             //Time out
-            System_Daemon::info("Time out!");
+            //System_Daemon::info("Time out!");
         } else {
             $idArchivo = $job->getData();
             System_Daemon::info("Job Encontrado con idArchivo = " . $idArchivo);

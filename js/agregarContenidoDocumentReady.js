@@ -33,6 +33,9 @@ $(document).ready(function() {
                 if(file.type.indexOf("video") != -1){
                     bootbox.alert("<strong>Tu video se ha sido subido correctamente y se está transformando.</strong><br>Te enviaremos un correo electrónico cuando este listo");
                 }
+                if(file.type.indexOf("audio") != -1){
+                    bootbox.alert("<strong>Tu archivo de audio se ha sido subido correctamente y se está transformando.</strong><br>Te enviaremos un correo electrónico cuando este listo");
+                }
             });
         }
         ); 

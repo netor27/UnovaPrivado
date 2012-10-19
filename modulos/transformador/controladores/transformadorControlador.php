@@ -9,11 +9,12 @@ function transformarArchivo($idArchivo) {
     //$archivo['idArchivo'];
     //$archivo['idTipoClase'];
     $idClase = $archivo['idClase'];
+    $idTipoClase = $archivo['idTipoClase'];
     //$archivo['archivo'];
 
     require_once 'modulos/transformador/modelos/transformadorModelo.php';
 
-    switch ($archivo['idTipoClase']) {
+    switch ($idTipoClase) {
         case 0:
             //es un video
             $res = transformarVideo($archivo['archivo']);
@@ -35,17 +36,16 @@ function transformarArchivo($idArchivo) {
 
             //Hay que subir los dos archivos al CDN
             require_once 'modulos/cdn/modelos/cdnModelo.php';
-            $tipoArchivo = $archivo['idTipoClase'];
 
             //Subimos al cdn el archivo mp
             $path = pathinfo($archivoMp);
             $fileNameMp = $path['basename'];
-            $resMp = crearArchivoCDN($archivoMp, $fileNameMp, $tipoArchivo);
+            $resMp = crearArchivoCDN($archivoMp, $fileNameMp, $idTipoClase);
 
             //Subimos al cdn el archivo og
             $path = pathinfo($archivoOg);
             $fileNameOg = $path['basename'];
-            $resOg = crearArchivoCDN($archivoOg, $fileNameOg, $tipoArchivo);
+            $resOg = crearArchivoCDN($archivoOg, $fileNameOg, $idTipoClase);
 
             
 
@@ -66,7 +66,7 @@ function transformarArchivo($idArchivo) {
                     $usuario = getUsuarioDeCurso($curso->idCurso);
                     require_once 'modulos/email/modelos/envioEmailModelo.php';
                     $clase = getClase($idClase);
-                    if (enviarMailTransformacionVideoCompleta($usuario->email, $curso->titulo, $clase->titulo, DOMINIO_PRIVADO . '/curso/' . $curso->uniqueUrl)) {
+                    if (enviarMailTransformacionVideoCompleta($usuario->email, $curso->titulo, $clase->titulo, DOMINIO_PRIVADO . '/curso/' . $curso->uniqueUrl, $idTipoClase)) {
                         //todo paso bien, eliminamos la tupla de la bd
                         bajaArchivoPorTransformar($idArchivo);
                         return "Archivo transformado correctamente " . $archivo['archivo'];
