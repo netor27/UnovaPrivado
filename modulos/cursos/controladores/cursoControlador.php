@@ -464,8 +464,8 @@ function cambiarImagen() {
 function cambiarImagenSubmit() {
     if (validarUsuarioLoggeadoParaSubmits()) {
         if (isset($_FILES['imagen']) && isset($_GET['i'])) {
-            $anchoImagen = 100;
-            $altoImagen = 100;
+            $anchoImagen = 200;
+            $altoImagen = 200;
 
             require_once 'modulos/cursos/modelos/CursoModelo.php';
             $idCurso = $_GET['i'];
@@ -474,7 +474,7 @@ function cambiarImagenSubmit() {
                 if ((($_FILES["imagen"]["type"] == "image/jpeg")
                         || ($_FILES["imagen"]["type"] == "image/pjpeg")
                         || ($_FILES["imagen"]["type"] == "image/png"))
-                        && ($_FILES["imagen"]["size"] < 500000)) {
+                        && ($_FILES["imagen"]["size"] < 2500000)) {
                     require_once 'funcionesPHP/CropImage.php';
                     //guardamos la imagen en el formato original
                     $file = "archivos/temporal/" . $_FILES["imagen"]["name"];

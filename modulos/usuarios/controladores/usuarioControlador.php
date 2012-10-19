@@ -161,7 +161,7 @@ function cambiarImagenSubmit() {
                     || ($_FILES["imagen"]["type"] == "image/jpeg")
                     || ($_FILES["imagen"]["type"] == "image/pjpeg")
                     || ($_FILES["imagen"]["type"] == "image/png"))
-                    && ($_FILES["imagen"]["size"] < 5000000)) {
+                    && ($_FILES["imagen"]["size"] < 25000000)) {
                 require_once 'funcionesPHP/CropImage.php';
                 //guardamos la imagen en el formato original
                 $file = "archivos/temporal/" . $_FILES["imagen"]["name"];

@@ -148,7 +148,8 @@ require_once('layout/headers/headCierre.php');
         {% } %}
     </script>
 
-
+    <div id="keepAlive">        
+    </div>
 </div>
 <?php
 require_once('layout/foot.php');

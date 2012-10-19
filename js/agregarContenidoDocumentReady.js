@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
     
     //Inicializar los dialogs
@@ -57,4 +56,15 @@ $(document).ready(function() {
             .appendTo('#fileupload');
         });
     } 
+    
+    var primera = true;
+    var imagen = "/layout/imagenes/1x1.gif?d=";
+    function KeepAlive(){
+        var d = new Date();
+        var rand = d.getTime();
+        $("#keepAlive").html("<img src='" + imagen + "?d=" + rand + "'>");        
+    }
+    setInterval(KeepAlive, '600000');
+    
+    
 });
