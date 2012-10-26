@@ -209,19 +209,28 @@ require_once('layout/headers/headCierre.php');
                 ?>
             </div>
             <div id="calificacion" class="whiteBox" style="width: 95%">
-                Calificación total del curso<br>
+                Calificación total del curso
+                <br>
                 <div id="cursoStars">
+
                     <?php
-                    for ($i = 1; $i <= 5; $i++) {
-                        if ($curso->rating == $i)
-                            echo '<input title="' . $i . '" name="adv2" type="radio" disabled="disabled" class="wow" checked="checked"/>';
-                        else
-                            echo '<input title="' . $i . '" name="adv2" type="radio" disabled="disabled" class="wow"/>';
+                    $primera = true;
+                    for ($i = 1; $i <= 20; $i++) {
+                        if (($i / 4) < $curso->rating) {
+                            echo '<input title="' . $i . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}"/>';
+                        } else {
+                            if ($primera) {
+                                echo '<input title="' . $i . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}" checked="checked"/>';
+                                $primera = false;
+                            } else {
+                                echo '<input title="' . $i . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}"/>';
+                            }
+                        }
                     }
                     ?>
                 </div>
                 <?php
-                if (tipoUsuario() != "administrador") {
+                if ($esAlumno) {
                     ?>
                     <br>
                     Tu calificación del curso<br>
@@ -257,7 +266,7 @@ require_once('layout/headers/headCierre.php');
                 </div>
             </div>
             <input type="hidden" id="iu" name="iu" value="<?php echo $usuario->idUsuario; ?>">
-            <input type="hidden" id="ic" name="ic" value="<?php echo $curso->idCurso;?>">
+            <input type="hidden" id="ic" name="ic" value="<?php echo $curso->idCurso; ?>">
         </div>
     </div>
 

@@ -5,12 +5,13 @@ require_once 'modulos/cursos/clases/Curso.php';
 function altaCurso($curso) {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("INSERT into curso (idUsuario, titulo, uniqueUrl, descripcionCorta, fechaCreacion) 
-                             values (:idUsuario, :titulo, :uniqueUrl, :descripcionCorta, NOW())");
+    $stmt = $conex->prepare("INSERT into curso (idUsuario, titulo, uniqueUrl, descripcionCorta, fechaCreacion, publicado) 
+                             values (:idUsuario, :titulo, :uniqueUrl, :descripcionCorta, NOW(), :publicado)");
     $stmt->bindParam(':idUsuario', $curso->idUsuario);
     $stmt->bindParam(':titulo', $curso->titulo);
     $stmt->bindParam(':uniqueUrl', $curso->uniqueUrl);
     $stmt->bindParam(':descripcionCorta', $curso->descripcionCorta);
+    $stmt->bindParam(':publicado', $curso->publicado);
     $id = -1;
     $val = $stmt->execute();
     if ($val) {

@@ -60,7 +60,7 @@ function crearCursoSubmit() {
                 $curso->titulo = $titulo;
                 $curso->descripcionCorta = $descripcionCorta;
                 $curso->idUsuario = getUsuarioActual()->idUsuario;
-
+                $curso->publicado = 1;
                 require_once 'funcionesPHP/uniqueUrlGenerator.php';
                 $curso->uniqueUrl = getCursoUniqueUrl($titulo);
 
@@ -89,42 +89,78 @@ function crearCursoSubmit() {
     }
 }
 
-function editarCurso() {
+function detalles() {
     require_once 'modulos/cursos/modelos/CursoModelo.php';
 
     $cursoUrl = $_GET['i'];
-    $cursoParaModificar = getCursoFromUniqueUrl($cursoUrl);
+    $curso = getCursoFromUniqueUrl($cursoUrl);
 
-    //Para el socialmedia container
-    $titulo = $cursoParaModificar->titulo;
-    $imageThumbnail = $cursoParaModificar->imagen;
-    $descripcion = $cursoParaModificar->descripcionCorta;
-
-
-    if ($cursoParaModificar->idUsuario == getUsuarioActual()->idUsuario) {
-        require_once 'modulos/cursos/modelos/ClaseModelo.php';
-        $temas = getTemas($cursoParaModificar->idCurso);
-        $clases = getClases($cursoParaModificar->idCurso);
-        $duracion = 0;
-        if (isset($clases)) {
-            foreach ($clases as $clase) {
-                if ($clase->idTipoClase == 0)
-                    $duracion += transformaMMSStoMinutes($clase->duracion);
+    if (is_null($curso)) {
+        //si el curso no existe mandarlo a index
+        setSessionMessage("<h4 class='error'>El curso que intentas ver no existe</h4>");
+        redirect("/");
+    } else {
+        $usuario = getUsuarioActual();
+        //Verficiar si es el dueño del curso y lo mandamos a edición
+        if ($curso->idUsuario == $usuario->idUsuario) {
+            editarCurso($curso, $usuario);
+        } else {
+            require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
+            //Revisamos si el usuario ya esta tomando este curso      
+            $esAlumno = esUsuarioUnAlumnoDelCurso($usuario->idUsuario, $curso->idCurso);
+            if ($esAlumno || tipoUsuario() == "administrador" || tipoUsuario() == "administradorPrivado") {
+                //Si ya es un alumno o es un administrador, mostramos la página donde toma las clases
+                tomarCurso($curso, $usuario, $esAlumno);
+            } else {
+                //No esta suscrito al curso, mostramos el error               
+                setSessionMessage("<h4 class='error'>Lo sentimos, no estas inscrito a este curso.</h4>");
+                goToIndex();
             }
         }
-
-        $comentarios = getComentarios($cursoParaModificar->idCurso);
-        $preguntas = getPreguntas($cursoParaModificar->idCurso);
-        $usuarioDelCurso = getUsuarioDeCurso($cursoParaModificar->idCurso);
-        $tiposClase = getTiposClase();
-        $tituloPagina = substr($cursoParaModificar->titulo, 0, 50);
-        $numAlumnos = getNumeroDeAlumnos($cursoParaModificar->idCurso);
-        require_once 'modulos/cursos/vistas/editarCurso.php';
-    } else {
-        //El usuario no es dueño de este curso, no lo puede modificar
-        setSessionMessage("<h4 class='error'>No puedes modificar este curso</h4>");
-        goToIndex();
     }
+}
+
+function tomarCurso($curso, $usuario, $esAlumno) {
+    $temas = getTemas($curso->idCurso);
+    $clases = getClases($curso->idCurso);
+    $duracion = 0;
+    if (isset($clases)) {
+        foreach ($clases as $clase) {
+            if ($clase->idTipoClase == 0)
+                $duracion += $clase->duracion;
+        }
+    }
+    $comentarios = getComentarios($curso->idCurso);
+    $preguntas = getPreguntas($curso->idCurso);
+    $usuarioDelCurso = getUsuarioDeCurso($curso->idCurso);
+    require_once 'modulos/cursos/modelos/ClaseModelo.php';
+    $tiposClase = getTiposClase();
+    if($esAlumno)
+        $ratingUsuario = getRatingUsuario($usuario->idUsuario, $curso->idCurso);
+    $numAlumnos = getNumeroDeAlumnos($curso->idCurso);
+    $tituloPagina = substr($curso->titulo, 0, 50);
+    require_once 'modulos/cursos/vistas/tomarCurso.php';
+}
+
+function editarCurso($curso, $usuario) {
+    require_once 'modulos/cursos/modelos/ClaseModelo.php';
+    $temas = getTemas($cursoParaModificar->idCurso);
+    $clases = getClases($cursoParaModificar->idCurso);
+    $duracion = 0;
+    if (isset($clases)) {
+        foreach ($clases as $clase) {
+            if ($clase->idTipoClase == 0)
+                $duracion += transformaMMSStoMinutes($clase->duracion);
+        }
+    }
+
+    $comentarios = getComentarios($cursoParaModificar->idCurso);
+    $preguntas = getPreguntas($cursoParaModificar->idCurso);
+    $usuarioDelCurso = getUsuarioDeCurso($cursoParaModificar->idCurso);
+    $tiposClase = getTiposClase();
+    $tituloPagina = substr($cursoParaModificar->titulo, 0, 50);
+    $numAlumnos = getNumeroDeAlumnos($cursoParaModificar->idCurso);
+    require_once 'modulos/cursos/vistas/editarCurso.php';
 }
 
 function editarInformacionCurso() {
@@ -193,143 +229,6 @@ function editarInformacionCursoSubmit() {
         }
     } else {
         goToIndex();
-    }
-}
-
-function detalles() {
-    require_once 'modulos/cursos/modelos/CursoModelo.php';
-    //$idCurso = $_GET['i'];
-    //obtenemos el curso y el usuario actual
-    //$curso = getCurso($idCurso);
-    $cursoUrl = $_GET['i'];
-
-    $curso = getCursoFromUniqueUrl($cursoUrl);
-
-    //Para socialmedia container
-    $titulo = $curso->titulo;
-    $imageThumbnail = $curso->imagen;
-    $descripcion = $curso->descripcionCorta;
-
-
-    if (is_null($curso)) {
-        //si el curso no existe mandarlo a index
-        setSessionMessage("<h4 class='error'>El curso que intentas ver no existe</h4>");
-        redirect("/");
-    } else {
-        $usuario = getUsuarioActual();
-        if (!is_null($usuario)) {
-            //si hay usuario loggeado, verficiar si es el dueño
-            if ($curso->idUsuario == $usuario->idUsuario) {
-                //Si el usuario loggeado es el dueño del curso, lo enviamos a la página de edición.                        
-                //$url = "/cursos/curso/editarCurso/" . $curso->idCurso;
-                //redirect($url);
-                editarCurso();
-            } else {
-                if ($curso->publicado == 1) {
-                    //revisamos que ya haya sido publicado
-                    //si no es el dueño
-                    require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
-                    //Revisamos si el usuario ya esta tomando este curso          
-
-                    if (esUsuarioUnAlumnoDelCurso($usuario->idUsuario, $curso->idCurso) ||
-                            tipoUsuario() == "administrador") {
-                        //Si ya es un alumno, mostramos la página donde toma las clases
-                        // o si es un administrador
-                        tomarCurso();
-                    } else {
-                        //Si no, mostramos la página donde se suscribe
-                        $usuarioDelCurso = getUsuarioDeCurso($curso->idCurso);
-                        $numAlumnos = getNumeroDeAlumnos($curso->idCurso);
-                        $temas = getTemas($curso->idCurso);
-                        $clases = getClases($curso->idCurso);
-                        $duracion = 0;
-                        if (isset($clases)) {
-                            foreach ($clases as $clase) {
-                                if ($clase->idTipoClase == 0)
-                                    $duracion += $clase->duracion;
-                            }
-                        }
-                        $comentarios = getComentarios($curso->idCurso);
-                        $preguntas = getPreguntas($curso->idCurso);
-                        $usuarioDelCurso = getUsuarioDeCurso($curso->idCurso);
-                        $tituloPagina = substr($curso->titulo, 0, 50);
-                        require_once 'modulos/cursos/vistas/detallesCurso.php';
-                    }
-                } else if (tipoUsuario() == "administrador") {
-                    tomarCurso();
-                } else {
-                    //si no ha sido publicado lo mandamos a index
-                    setSessionMessage("<h4 class='error'>El curso que intentas ver no existe</h4>");
-                    redirect("/");
-                }
-            }
-        } else {
-            if ($curso->publicado == 0) {
-                //si no ha sido publicado lo mandamos a index
-                setSessionMessage("<h4 class='error'>El curso que intentas ver no existe</h4>");
-                redirect("/");
-            } else {
-                $usuarioDelCurso = getUsuarioDeCurso($curso->idCurso);
-                $numAlumnos = getNumeroDeAlumnos($curso->idCurso);
-                $temas = getTemas($curso->idCurso);
-                $clases = getClases($curso->idCurso);
-                $duracion = 0;
-                if (isset($clases)) {
-                    foreach ($clases as $clase) {
-                        if ($clase->idTipoClase == 0)
-                            $duracion += $clase->duracion;
-                    }
-                }
-                $comentarios = getComentarios($curso->idCurso);
-                $preguntas = getPreguntas($curso->idCurso);
-                $usuarioDelCurso = getUsuarioDeCurso($curso->idCurso);
-                //si no hay usuario loggeado mostramos la página donde se suscribe
-                $tituloPagina = substr($curso->titulo, 0, 50);
-                require_once 'modulos/cursos/vistas/detallesCurso.php';
-            }
-        }
-    }
-}
-
-function tomarCurso() {
-    require_once 'modulos/cursos/modelos/CursoModelo.php';
-    require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
-
-    $cursoUrl = $_GET['i'];
-    $curso = getCursoFromUniqueUrl($cursoUrl);
-
-    //Para socialmedia container
-    $titulo = $curso->titulo;
-    $imageThumbnail = $curso->imagen;
-    $descripcion = $curso->descripcionCorta;
-
-    $usuario = getUsuarioActual();
-    if (is_null($usuario)) {
-        detalles();
-    } else {
-        if (esUsuarioUnAlumnoDelCurso($usuario->idUsuario, $curso->idCurso) ||
-                tipoUsuario() == "administrador") {
-            $temas = getTemas($curso->idCurso);
-            $clases = getClases($curso->idCurso);
-            $duracion = 0;
-            if (isset($clases)) {
-                foreach ($clases as $clase) {
-                    if ($clase->idTipoClase == 0)
-                        $duracion += $clase->duracion;
-                }
-            }
-            $comentarios = getComentarios($curso->idCurso);
-            $preguntas = getPreguntas($curso->idCurso);
-            $usuarioDelCurso = getUsuarioDeCurso($curso->idCurso);
-            require_once 'modulos/cursos/modelos/ClaseModelo.php';
-            $tiposClase = getTiposClase();
-            $ratingUsuario = getRatingUsuario($usuario->idUsuario, $curso->idCurso);
-            $numAlumnos = getNumeroDeAlumnos($curso->idCurso);
-            $tituloPagina = substr($curso->titulo, 0, 50);
-            require_once 'modulos/cursos/vistas/tomarCurso.php';
-        } else {
-            detalles();
-        }
     }
 }
 

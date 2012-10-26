@@ -346,8 +346,7 @@ function setRatingUsuario($idUsuario, $idCurso, $rating) {
     //Ahora, hacemos el update de la variable rating de la tabla curso
     $stmt = $conex->prepare("SELECT count(rating) as cuenta, sum(rating) as suma
                             FROM puntuacion
-                            WHERE idUsuario = :idUsuario AND idCurso = :idCurso");
-    $stmt->bindParam(':idUsuario', $idUsuario);
+                            WHERE idCurso = :idCurso");
     $stmt->bindParam(':idCurso', $idCurso);
     $stmt->execute();
 
