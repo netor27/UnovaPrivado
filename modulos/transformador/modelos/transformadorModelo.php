@@ -15,9 +15,9 @@ function transformarVideo($file) {
     $uniqueCode = getUniqueCode(7);
 
     $outputFileMp4 = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_" . $uniqueCode . ".mp4";
-    $outputFileOgv = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_" . $uniqueCode . ".ogv";
+    $outputFileOgv = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_" . $uniqueCode . ".webm";
 
-    $cmd = 'avconv -i "' . $file . '" -c:v libx264 -c:a copy "' . $outputFileMp4 . '" -c:v libtheora -c:a libvorbis "' . $outputFileOgv . '"';
+    $cmd = 'avconv -i "' . $file . '" -c:v libx264 -c:a libvo_aacenc "' . $outputFileMp4 . '" -c:v libvpx -c:a libvorbis "' . $outputFileOgv . '"';
     //putLog($cmd);
     ob_start();
     passthru($cmd, $return_var);
