@@ -142,7 +142,7 @@ function tomarCurso($curso, $usuario, $esAlumno) {
     require_once 'modulos/cursos/vistas/tomarCurso.php';
 }
 
-function editarCurso($curso, $usuario) {
+function editarCurso($cursoParaModificar, $usuario) {
     require_once 'modulos/cursos/modelos/ClaseModelo.php';
     $temas = getTemas($cursoParaModificar->idCurso);
     $clases = getClases($cursoParaModificar->idCurso);
