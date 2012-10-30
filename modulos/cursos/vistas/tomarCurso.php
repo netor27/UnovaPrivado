@@ -135,7 +135,6 @@ require_once('layout/headers/headCierre.php');
                         }
                         ?>
                     </div>
-                    <br><br>
                     <div id="comentar">
                         <form id="comentarioForm" action="/cursos/curso/comentarCurso/<?php echo $curso->idCurso; ?>" method="POST" class="comentarioForm">
                             <h3>Deja tu comentario</h3>
@@ -182,7 +181,6 @@ require_once('layout/headers/headCierre.php');
                         }
                         ?>
                     </div>
-                    <br><br>
                     <div id="preguntar">
                         <form id="preguntarForm" action="/cursos/curso/preguntarCurso/<?php echo $curso->idCurso; ?>" method="POST" class="preguntarForm">
                             <h3>Haz una pregunta al profesor</h3>
@@ -199,7 +197,7 @@ require_once('layout/headers/headCierre.php');
         <div id="rightContainer" class="right">
             <div id="numInscritos" class="whiteBox" style="width: 95%; text-align: center">
                 <?php
-                if ($curso->numeroDeAlumnos == 1) {
+                if ($numAlumnos == 1) {
                     echo "Este curso tiene <span> 1 </span> alumno inscrito";
                 } else {
                     echo "Este curso tiene <span>" . $numAlumnos . "</span> alumnos inscritos";
@@ -215,15 +213,17 @@ require_once('layout/headers/headCierre.php');
 
                     <?php
                     $primera = true;
+                    $aux = 0;
                     for ($i = 1; $i <= 20; $i++) {
+                        $aux = ceil($i / 4);
                         if (($i / 4) < $curso->rating) {
-                            echo '<input title="' . $i . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}"/>';
+                            echo '<input title="' . $aux . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}"/>';
                         } else {
-                            if ($primera) {
-                                echo '<input title="' . $i . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}" checked="checked"/>';
+                            if ($primera && $curso->rating > 0) {
+                                echo '<input title="' . $aux . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}" checked="checked"/>';
                                 $primera = false;
                             } else {
-                                echo '<input title="' . $i . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}"/>';
+                                echo '<input title="' . $aux . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}"/>';
                             }
                         }
                     }
