@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set('America/Mexico_City');
+
 require_once 'modulos/usuarios/clases/Usuario.php';
 require_once 'funcionesPHP/funcionesGenerales.php';
 require_once 'funcionesPHP/CargarInformacionSession.php';
