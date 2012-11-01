@@ -43,7 +43,7 @@ require_once('layout/headers/headCierre.php');
                     <div class="control-group">
                         <div class="controls">
                             <label class="checkbox">
-                                <input type="checkbox"> 
+                                <input type="checkbox" name="recuerdame"> 
                                 <?php
                                 switch (getTipoLayout()) {
                                     case 'desktop':

@@ -1,6 +1,6 @@
 <?php
 
-function loginUsuario($email, $password) {
+function loginUsuario($email, $password, $setCookies) {
     require_once ('bd/conex.php');
     $numeroTuplas = 0;
     global $conex;
@@ -27,6 +27,12 @@ function loginUsuario($email, $password) {
         $_SESSION['usuario'] = $usuario;
         $_SESSION['contador'] = 1;
 
+        if ($setCookies) {
+            $tiempo = 2592000;//tiempo que va a durar la cookie, alrededor de 30 días
+            setcookie("usrcookiePrv", $email, time() + $tiempo, '/');
+            setcookie("clvcookiePrv", $password, time() + $tiempo, '/');
+        }
+
         //actualizamos en la base de datos el sessionId actual
         actualizarIdSession($usuario->idUsuario);
 
@@ -42,8 +48,8 @@ function actualizarIdSession($idUsuario) {
     $sessionId = session_id();
     require_once ('bd/conex.php');
     global $conex;
-    echo "SessionId= ".$sessionId;
-    echo "<br>idUsuario = ".$idUsuario;
+    echo "SessionId= " . $sessionId;
+    echo "<br>idUsuario = " . $idUsuario;
     $stmt = $conex->prepare("UPDATE usuario SET sessionId = :sessionId WHERE idUsuario = :idUsuario");
     $stmt->bindParam(':sessionId', $sessionId);
     $stmt->bindParam(':idUsuario', $idUsuario);
@@ -72,10 +78,10 @@ function salir() {
         $_SESSION['usuario'] = null;
         session_destroy();
         //Si cerró sesión, matamos las cookies
-        unset($_COOKIE['usrcookie']);
-        unset($_COOKIE['clvcookie']);
-        setcookie("usrcookie", "logout", 1, '/');
-        setcookie("clvcookie", "logout", 1, '/');
+        unset($_COOKIE['usrcookiePrv']);
+        unset($_COOKIE['clvcookiePrv']);
+        setcookie("usrcookiePrv", "logout", 1, '/');
+        setcookie("clvcookiePrv", "logout", 1, '/');
         $log = true;
     }
     return $log;

@@ -78,10 +78,10 @@ function getUsuarioActual() {
         return $_SESSION['usuario'];
     } else {
         //no hay usuario en session, verificamos si hay cookies guardadas
-        if (isset($_COOKIE['usrcookie']) && isset($_COOKIE['clvcookie'])) {
+        if (isset($_COOKIE['usrcookiePrv']) && isset($_COOKIE['clvcookiePrv'])) {
             //hay cookies, tratamos de hacer login
             require_once 'modulos/principal/modelos/loginModelo.php';
-            if (loginUsuario($_COOKIE['usrcookie'], $_COOKIE['clvcookie']) == 1) {
+            if (loginUsuario($_COOKIE['usrcookiePrv'], $_COOKIE['clvcookiePrv'], false) == 1) {
                 //hay buen login
                 return $_SESSION['usuario'];
             } else {
