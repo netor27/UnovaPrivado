@@ -60,13 +60,18 @@ $(document).ready(function() {
         });
     } 
     
-    var primera = true;
-    var imagen = "/layout/imagenes/1x1.gif?d=";
     function KeepAlive(){
-        var d = new Date();
-        var rand = d.getTime();
-        $("#keepAlive").html("<img src='" + imagen + "?d=" + rand + "'>");        
+        $.ajax({
+            type: "get",
+            url: "/index.php?a=mantenerSesionAbierta" ,
+            dataType: "text",
+            success: function(data) {
+                var str = data.toString();
+                console.log(str);
+            }
+        });
     }
+    KeepAlive();
     setInterval(KeepAlive, '600000');
     
     

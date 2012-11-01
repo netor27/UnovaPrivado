@@ -42,4 +42,9 @@ function principal() {
     }
 }
 
+function mantenerSesionAbierta(){
+    $usuario = getUsuarioActual();
+    echo "Solicitud " . date("h:i:s a") . " " . 'Usuario: ' . $usuario->nombreUsuario;
+}
+
 ?>
