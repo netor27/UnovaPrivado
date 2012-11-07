@@ -143,7 +143,6 @@ function editarInformacionSubmit() {
 function cambiarImagen() {
     if (validarUsuarioLoggeado()) {
         require_once 'modulos/usuarios/modelos/usuarioModelo.php';
-
         $usuarioCambiar = getUsuario(getUsuarioActual()->idUsuario);
         require_once 'modulos/usuarios/vistas/editarImagen.php';
     }
@@ -161,38 +160,28 @@ function cambiarImagenSubmit() {
                     || ($_FILES["imagen"]["type"] == "image/jpeg")
                     || ($_FILES["imagen"]["type"] == "image/pjpeg")
                     || ($_FILES["imagen"]["type"] == "image/png"))
-                    && ($_FILES["imagen"]["size"] < 50000000)) {
+                    && ($_FILES["imagen"]["size"] < 10485760)) {//tamaño maximo de imagen de 10MB                
                 require_once 'funcionesPHP/CropImage.php';
                 //guardamos la imagen en el formato original
                 $file = "archivos/temporal/" . $_FILES["imagen"]["name"];
 
                 move_uploaded_file($_FILES["imagen"]["tmp_name"], $file);
-
                 $path = pathinfo($file);
                 $uniqueCode = getUniqueCode(5);
                 $destName = $uniqueCode . "_perfil_" . $usuarioCambiar->idUsuario . "." . $path['extension'];
-                $dest = $path['dirname'] . "/" . $destName;
+                $dest = "archivos/avatar/" . $destName;
 
                 if (cropImage($file, $dest, $altoImagen, $anchoImagen)) {
                     //Se hizo el crop correctamente
                     //borramos la imagen temporal
                     unlink($file);
-                    require_once 'modulos/cdn/modelos/cdnModelo.php';
-                    $res = crearArchivoCDN($dest, $destName, -1);
-                    if ($res != NULL) {
-                        $uri = $res['uri'];
-                        $usuarioCambiar->avatar = $uri;
-                        //actualizamos la información en la bd                
-                        actualizaAvatar($usuarioCambiar);
-                        require_once 'funcionesPHP/CargarInformacionSession.php';
-                        cargarUsuarioSession();
-                        setSessionMessage("<h4 class='success'>Haz cambiado tu imagen correctamente. Espera unos minutos para ver el cambio</h4>");
-                        redirect("/usuario/" . $usuarioCambiar->uniqueUrl);
-                    } else {
-                        //Ocurrió un error al subir al cdn
-                        setSessionMessage("<h4 class='error'>Error cdn</h4>");
-                        redirect("/usuarios/usuario/cambiarImagen");
-                    }
+                    $usuarioCambiar->avatar = $dest;
+                    //actualizamos la información en la bd                
+                    actualizaAvatar($usuarioCambiar);
+                    require_once 'funcionesPHP/CargarInformacionSession.php';
+                    cargarUsuarioSession();
+                    setSessionMessage("<h4 class='success'>Haz cambiado tu imagen correctamente. Espera unos minutos para ver el cambio</h4>");
+                    redirect("/usuario/" . $usuarioCambiar->uniqueUrl);
                 } else {
                     //Error al hacer el crop
                     //borramos la imagen temporal
@@ -202,7 +191,7 @@ function cambiarImagenSubmit() {
                 }
             } else {
                 //El archivo no es válido o es demasiado grande
-                setSessionMessage("<h4 class='error'>No es una imagen válida.</h4>");
+                setSessionMessage("<h4 class='error'>No es una imagen válida. El tamaño máximo es de 10MB</h4>");
                 redirect("/usuarios/usuario/cambiarImagen");
             }
         }

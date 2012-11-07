@@ -202,18 +202,18 @@ function removeBadHtmlTags($badHtml) {
 }
 
 function bytesToString($bytes, $decimales) {
-    if ($bytes < 1000) {
+    if ($bytes < 1024) {
         //mostramos en bytes
         return $bytes . " bytes";
-    } else if ($bytes < 1000000) {
+    } else if ($bytes < 1048576) {
         //mostramos en KB
         return round($bytes / 1000, $decimales) . " KB";
-    } else if ($bytes < 1000000000) {
+    } else if ($bytes < 1073741824) {
         //mostramos en MB
-        return round($bytes / 1000000, $decimales) . " MB";
+        return round($bytes / 1048576, $decimales) . " MB";
     } else {
         //mostramos en GB
-        return round($bytes / 1000000000, $decimales) . " GB";
+        return round($bytes / 1073741824, $decimales) . " GB";
     }
 }
 
