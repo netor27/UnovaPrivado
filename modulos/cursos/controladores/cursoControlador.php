@@ -135,7 +135,7 @@ function tomarCurso($curso, $usuario, $esAlumno) {
     $usuarioDelCurso = getUsuarioDeCurso($curso->idCurso);
     require_once 'modulos/cursos/modelos/ClaseModelo.php';
     $tiposClase = getTiposClase();
-    if($esAlumno)
+    if ($esAlumno)
         $ratingUsuario = getRatingUsuario($usuario->idUsuario, $curso->idCurso);
     $numAlumnos = getNumeroDeAlumnos($curso->idCurso);
     $tituloPagina = substr($curso->titulo, 0, 50);
@@ -373,55 +373,45 @@ function cambiarImagenSubmit() {
                 if ((($_FILES["imagen"]["type"] == "image/jpeg")
                         || ($_FILES["imagen"]["type"] == "image/pjpeg")
                         || ($_FILES["imagen"]["type"] == "image/png"))
-                        && ($_FILES["imagen"]["size"] < 5000000)) {
+                        && ($_FILES["imagen"]["size"] < 10485760)) {//tamaño maximo de imagen de 10MB
                     require_once 'funcionesPHP/CropImage.php';
                     //guardamos la imagen en el formato original
                     $file = "archivos/temporal/" . $_FILES["imagen"]["name"];
 
                     move_uploaded_file($_FILES["imagen"]["tmp_name"], $file);
-
                     $path = pathinfo($file);
                     $uniqueCode = getUniqueCode(5);
                     $destName = $uniqueCode . "_curso_" . $cursoParaModificar->idCurso . "." . $path['extension'];
-                    $dest = $path['dirname'] . "/" . $destName;
+                    $dest = "archivos/imagenCurso/" . $destName;
 
                     if (cropImage($file, $dest, $altoImagen, $anchoImagen)) {
                         //Se hizo el crop correctamente                    
                         //borramos la imagen temporal
                         unlink($file);
-                        require_once 'modulos/cdn/modelos/cdnModelo.php';
-                        $res = crearArchivoCDN($dest, $destName, -1);
-                        $oldUri = $cursoParaModificar->imagen;
-                        if ($res != NULL) {
-                            $uri = $res['uri'];
-                            $cursoParaModificar->imagen = $uri;
-                            if (actualizaImagenCurso($cursoParaModificar)) {
-                                //Se actualizó correctamente la bd, borramos el archivo anterior del cdn
-                                if (strpos($oldUri, "http") !== false) {
-                                    //Si el oldUri contiene http, significa que esta en cloud files, lo borramos. 
-                                    $splitted = explode("/", $oldUri);
-                                    $fileName = $splitted[sizeof($splitted) - 1];
-                                    deleteArchivoCdn($fileName, -1);
-                                }
-                                require_once 'funcionesPHP/CargarInformacionSession.php';
-                                cargarCursosSession();
-                                setSessionMessage("<h4 class='success'>Cambiaste correctamente tu imagen</h4>");
-                                redirect("/curso/" . $cursoParaModificar->uniqueUrl);
-                            } else {
-                                //error en bd
-                                setSessionMessage("<h4 class='error'>Error bd</h4>");
-                                redirect("/cursos/curso/cambiarImagen/" . $cursoParaModificar->idCurso);
-                            }
+                        if (!strpos($cursoParaModificar->imagen, "Predefinida")) {
+                            $count = 1;
+                            $aux = str_replace("/archivos", "archivos", $cursoParaModificar->imagen, $count); //quitar la / del inicio
+                            unlink($aux);
+                            echo 'se borro ' . $cursoParaModificar->imagen .'<br>';
+                        }else{
+                            echo 'no se borro ' . $cursoParaModificar->imagen .'<br>';
+                        }
+
+                        $cursoParaModificar->imagen = "/" . $dest;
+                        if (actualizaImagenCurso($cursoParaModificar)) {
+                            require_once 'funcionesPHP/CargarInformacionSession.php';
+                            cargarCursosSession();
+                            setSessionMessage("<h4 class='success'>Cambiaste correctamente tu imagen</h4>");
+                            redirect("/curso/" . $cursoParaModificar->uniqueUrl);
                         } else {
-                            //Ocurrió un error al subir al cdn
-                            setSessionMessage("<h4 class='error'>Error cdn</h4>");
+                            //error en bd
+                            setSessionMessage("<h4 class='error'>Error bd</h4>");
                             redirect("/cursos/curso/cambiarImagen/" . $cursoParaModificar->idCurso);
                         }
                     } else {
                         //borramos la imagen temporal
                         unlink($file);
                         //No se pudo hacer el "crop" de la imagen
-                        //echo "no se pudo hacer el crop de la imagen";
                         setSessionMessage("<h4 class='error'>Ocurrió un error al procesar tu imagen. Intenta de nuevo más tarde</h4>");
                         redirect("/cursos/curso/cambiarImagen/" . $cursoParaModificar->idCurso);
                     }

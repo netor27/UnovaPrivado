@@ -175,21 +175,27 @@ function cambiarImagenSubmit() {
                     //Se hizo el crop correctamente
                     //borramos la imagen temporal
                     unlink($file);
-                    echo strpos($usuarioCambiar->avatar, "avatarPredefinido");
-                    if (strpos($usuarioCambiar->avatar, "avatarPredefinido") >= 0) {
+                    echo $usuarioCambiar->avatar . '<br>';
+                    
+                    if (!strpos($usuarioCambiar->avatar, "avatarPredefinido")) {
                         $count = 1;
                         $aux = str_replace("/archivos", "archivos", $usuarioCambiar->avatar, $count); //quitar la / del inicio
-                        echo $aux;
+                        //echo $aux;
                         //Si no es un avatar predefinido lo borramos
                         unlink($aux);
                     }
                     $usuarioCambiar->avatar = "/" . $dest;
                     //actualizamos la información en la bd                
-                    actualizaAvatar($usuarioCambiar);
-                    require_once 'funcionesPHP/CargarInformacionSession.php';
-                    cargarUsuarioSession();
-                    //setSessionMessage("<h4 class='success'>Haz cambiado tu imagen correctamente. Espera unos minutos para ver el cambio</h4>");
-                    //redirect("/usuario/" . $usuarioCambiar->uniqueUrl);
+                    if (actualizaAvatar($usuarioCambiar)) {
+                        require_once 'funcionesPHP/CargarInformacionSession.php';
+                        cargarUsuarioSession();
+                        setSessionMessage("<h4 class='success'>Haz cambiado tu imagen correctamente. Espera unos minutos para ver el cambio</h4>");
+                        redirect("/usuario/" . $usuarioCambiar->uniqueUrl);
+                    } else {
+                        //error en bd
+                        setSessionMessage("<h4 class='error'>Error al actualizar la base de datos</h4>");
+                        redirect("/usuarios/usuario/cambiarImagen");
+                    }
                 } else {
                     //Error al hacer el crop
                     //borramos la imagen temporal
