@@ -175,13 +175,21 @@ function cambiarImagenSubmit() {
                     //Se hizo el crop correctamente
                     //borramos la imagen temporal
                     unlink($file);
-                    $usuarioCambiar->avatar = $dest;
+                    echo strpos($usuarioCambiar->avatar, "avatarPredefinido");
+                    if (strpos($usuarioCambiar->avatar, "avatarPredefinido") >= 0) {
+                        $count = 1;
+                        $aux = str_replace("/archivos", "archivos", $usuarioCambiar->avatar, $count); //quitar la / del inicio
+                        echo $aux;
+                        //Si no es un avatar predefinido lo borramos
+                        unlink($aux);
+                    }
+                    $usuarioCambiar->avatar = "/" . $dest;
                     //actualizamos la información en la bd                
                     actualizaAvatar($usuarioCambiar);
                     require_once 'funcionesPHP/CargarInformacionSession.php';
                     cargarUsuarioSession();
-                    setSessionMessage("<h4 class='success'>Haz cambiado tu imagen correctamente. Espera unos minutos para ver el cambio</h4>");
-                    redirect("/usuario/" . $usuarioCambiar->uniqueUrl);
+                    //setSessionMessage("<h4 class='success'>Haz cambiado tu imagen correctamente. Espera unos minutos para ver el cambio</h4>");
+                    //redirect("/usuario/" . $usuarioCambiar->uniqueUrl);
                 } else {
                     //Error al hacer el crop
                     //borramos la imagen temporal
