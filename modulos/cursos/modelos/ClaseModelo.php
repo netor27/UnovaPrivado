@@ -319,74 +319,73 @@ function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType
     require_once 'modulos/usuarios/modelos/usuarioModelo.php';
     require_once 'modulos/cursos/modelos/CursoModelo.php';
     require_once 'modulos/cursos/modelos/TemaModelo.php';
-    $filePath = "archivos/temporal/uploaderFiles/";
 
     $res = array();
     //Validamos que el curso sea del usuario y que el tema sea del curso        
     if (getIdUsuarioDeCurso($idCurso) == $idUsuario && $idCurso == getIdCursoPerteneciente($idTema)) {
-        //Revisamos que el nombre del archivo no pase de 50 caractéres
-        if (strlen($fileName) > 50) {
-            $auxFileName = substr($fileName, 0, 50);
-            if (!rename($filePath . $fileName, $filePath . $auxFileName)) {
-                //Ocurrió un error al renombrar el archivo
-                $res['resultado'] = false;
-                $res['mensaje'] = "El nombre del archivo no es válido";
-            }
-            $fileName = $auxFileName;
-        }
-
+        $filePath = "archivos/temporal/uploaderFiles/";
+        //Guardamos el nombre original del archivo para establecerlo como titulo
         $pathInfo = pathinfo($filePath . $fileName);
-        $clase = new Clase();
-        $clase->idTema = $idTema;
-        $clase->titulo = $pathInfo['filename'];
-        $clase->idTipoClase = getTipoClase($fileType);
+        $titulo = $pathInfo['filename'];
 
-        if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
-            //Si es video o audio creamos la clase con la bandera que todavía no se transforma
-            //guardamos en la cola que falta transformar este video
-            $clase->transformado = 0;
-            $clase->usoDeDisco = 0;
-            $clase->duracion = "00:00";
-            $idClase = altaClase($clase);
-
-            //agregamos en la base de datos que hay que transformar este video
-            $file = $filePath . $fileName;
-            require_once 'modulos/transformador/modelos/archivoPorTransformarModelo.php';
-            $idArchivo = altaArchivoPorTransformar($clase->idTipoClase, $idClase, $file);
-
-            //guardamos este id en la cola de transformacion
-            require_once 'lib/php/beanstalkd/ColaMensajes.php';
-            $colaMensajes = new ColaMensajes("colatrans");
-            $colaMensajes->push($idArchivo);
-            $res['resultado'] = true;
-            $res['url'] = $file;
-        } else {
-            $clase->transformado = 1;
-            //Si es de otro tipo, lo subimos al CDN de rackspace y creamos la clase
-            require_once 'modulos/cdn/modelos/cdnModelo.php';
+        require_once 'funcionesPHP/funcionesParaArchivos.php';
+        if (agregarUniqueCodeAlNombreDelArchivo($filePath, $fileName)) {
             $file = $filePath . $fileName;
             $pathInfo = pathinfo($file);
+            $clase = new Clase();
+            $clase->idTema = $idTema;
+            $clase->titulo = $titulo;
+            $clase->idTipoClase = getTipoClase($fileType);
 
-            //Le agregamos al nombre del archivo un codigo aleatorio de 5 caracteres
-            $fileName = substr($pathInfo['filename'], 0, 150) . "_" . getUniqueCode(7) . "." . $pathInfo['extension'];
-            $res = crearArchivoCDN($file, $fileName, $clase->idTipoClase);
-            if ($res != NULL) {
-                //Si se creo correctamene el archivo CDN, creamos la clase y borramos el archivo local
-                $uri = $res['uri'];
-                $size = $res['size'];
-                $clase->archivo = $uri;
-                $clase->usoDeDisco = $size;
-                altaClase($clase);
-                require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
-                deltaVariableDeProducto("usoActualAnchoDeBanda", $size);
+            if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
+                //Si es video o audio creamos la clase con la bandera que todavía no se transforma
+                //guardamos en la cola que falta transformar este video
+                $clase->transformado = 0;
+                $clase->usoDeDisco = 0;
+                $clase->duracion = "00:00";
+                $idClase = altaClase($clase);
+
+                //agregamos en la base de datos que hay que transformar este video                
+                require_once 'modulos/transformador/modelos/archivoPorTransformarModelo.php';
+                $idArchivo = altaArchivoPorTransformar($clase->idTipoClase, $idClase, $file);
+
+                //guardamos este id en la cola de transformacion
+                require_once 'lib/php/beanstalkd/ColaMensajes.php';
+                $colaMensajes = new ColaMensajes("colatrans");
+                $colaMensajes->push($idArchivo);
                 $res['resultado'] = true;
-                $res['url'] = $clase->archivo;
+                $res['url'] = "#";
             } else {
-                //Si ocurrió un error, se borra y regresamos false
-                unlink($file);
-                $res['resultado'] = false;
-                $res['mensaje'] = "Ocurrió un error al guardar tu archivo en nuestros servidores. Intenta de nuevo más tarde-";
+                $clase->transformado = 1;
+                //directorio para guardar los documentos
+                $filePathNuevo = "archivos/documentos/";
+                //renombramos el archivo y con esto se mueve a la carpeta de documentos
+                $nombreNuevo = $filePathNuevo . $fileName;
+                if (rename($file, $nombreNuevo)) {
+                    //Si se creo correctamene el archivo CDN, creamos la clase y borramos el archivo local
+                    $size = filesize($nombreNuevo);
+                    if ($size < 0) {
+                        $size = fsize($nombreNuevo);
+                    }
+                    $clase->archivo = $nombreNuevo;
+                    $clase->usoDeDisco = $size;
+                    altaClase($clase);
+                    require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
+                    deltaVariableDeProducto("usoActualAnchoDeBanda", $size);
+                    $res['resultado'] = true;
+                    $res['url'] = "#";
+                } else {
+                    //Si ocurrió un error, se borra y regresamos false
+                    unlink($file);
+                    $res['resultado'] = false;
+                    $res['mensaje'] = "Ocurrió un error al guardar tu archivo en nuestros servidores. Intenta de nuevo más tarde";
+                }
             }
+        } else {
+            //Si ocurrió un error, se borra y regresamos false
+            unlink($filePath . $fileName);
+            $res['resultado'] = false;
+            $res['mensaje'] = "El nombre del archivo no es válido";
         }
     } else {
         //Hay errores en la integridad usuario <-> curso

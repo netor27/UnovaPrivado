@@ -3,6 +3,8 @@ AddType audio/ogg .ogg
 AddType video/mp4 .mp4 
 AddType video/webm .webm 
 
+Options -Indexes
+
 RewriteEngine On
 
 RewriteCond %{HTTP_HOST} ^demo\.unova\.co$ [NC]

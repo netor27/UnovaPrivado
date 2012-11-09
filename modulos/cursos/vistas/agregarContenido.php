@@ -57,6 +57,7 @@ require_once('layout/headers/headCierre.php');
                 <br>
                 <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
                 <input type="hidden" name="idUsuario" value="<?php echo getUsuarioActual()->idUsuario; ?>">
+                <input type="hidden" name="uuid" value="<?php echo getUsuarioActual()->uuid; ?>">
                 <input type="hidden" name="idCurso" value="<?php echo $idCurso; ?>">
                 <input type="hidden" name="idTema" value="<?php echo $idTema; ?>">
             </form>

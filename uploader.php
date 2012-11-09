@@ -30,16 +30,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
             $info = array();
             $file = new stdClass();
             //validamos los datos del POST
-            if (isset($_POST['idUsuario']) && isset($_POST['idCurso']) && isset($_POST['idTema'])) {
+            if (isset($_POST['idUsuario']) && isset($_POST['idCurso']) && isset($_POST['idTema']) && isset($_POST['uuid'])) {
                 require_once 'modulos/usuarios/clases/Usuario.php';
                 require_once 'funcionesPHP/funcionesGenerales.php';
                 session_start();
-                $usuario = getUsuarioActual();
-
+                $uuid = $_POST['uuid'];
+                
+                require_once 'modulos/usuarios/modelos/usuarioModelo.php';
+                $usuario = getUsuarioFromUuid($uuid);
                 $idUsuario = $_POST['idUsuario'];
                 $idCurso = $_POST['idCurso'];
                 $idTema = $_POST['idTema'];
-
+                
                 //validamos un usuario correcto
                 if (isset($usuario) && $idUsuario == $usuario->idUsuario) {                
                     $info = $upload_handler->post();
@@ -58,7 +60,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     } 
                 } else {
                     //error de login
-                    $file->error = "Debes iniciar sesión para agregar contenido";
+                    $file->error = "Tus datos de sesión son incorrectos";
                 }
             } else {
                 //error de datos
