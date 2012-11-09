@@ -80,4 +80,19 @@ function getIdCursoPerteneciente($idTema) {
     }
 }
 
+function getSiguienteOrdenEnTema($idTema){
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("SELECT max(orden) as n 
+                            FROM clase
+                            WHERE idTema = :idTema");
+    $stmt->bindParam(":idTema", $idTema);
+    $n = 0;
+    if($stmt->execute()){
+        $row = $stmt->fetch();
+        $n = $row['n'];
+    }
+    return $n;
+}
+
 ?>

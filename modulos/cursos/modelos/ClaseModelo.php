@@ -5,8 +5,8 @@ require_once 'modulos/cursos/clases/Clase.php';
 function altaClase($clase) {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("INSERT INTO clase (idTema, titulo, idTipoClase, archivo, transformado, usoDeDisco, duracion)
-                             VALUES(:idTema, :titulo, :tipoClase, :archivo, :transformado, :usoDeDisco, :duracion)");
+    $stmt = $conex->prepare("INSERT INTO clase (idTema, titulo, idTipoClase, archivo, transformado, usoDeDisco, duracion, orden)
+                             VALUES(:idTema, :titulo, :tipoClase, :archivo, :transformado, :usoDeDisco, :duracion, :orden)");
     $stmt->bindParam(':idTema', $clase->idTema);
     $stmt->bindParam(':titulo', $clase->titulo);
     $stmt->bindParam(':tipoClase', $clase->idTipoClase);
@@ -14,6 +14,7 @@ function altaClase($clase) {
     $stmt->bindParam(':transformado', $clase->transformado);
     $stmt->bindParam(':usoDeDisco', $clase->usoDeDisco);
     $stmt->bindParam(':duracion', $clase->duracion);
+    $stmt->bindParam(':orden', $clase->orden);
     $id = -1;
     if ($stmt->execute())
         $id = $conex->lastInsertId();
@@ -337,6 +338,7 @@ function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType
                 $clase->transformado = 0;
                 $clase->usoDeDisco = 0;
                 $clase->duracion = "00:00";
+                $clase->orden = getSiguienteOrdenEnTema($idTema) + 1;
                 $idClase = altaClase($clase);
 
                 //agregamos en la base de datos que hay que transformar este video                
@@ -360,6 +362,7 @@ function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType
                     $size = getFileSize($nombreNuevo);
                     $clase->archivo = "/" . $nombreNuevo;
                     $clase->usoDeDisco = $size;
+                    $clase->orden = getSiguienteOrdenEnTema($idTema) + 1;
                     altaClase($clase);
                     require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
                     deltaVariableDeProducto("usoActualAnchoDeBanda", $size);
