@@ -14,16 +14,12 @@ function borrarClase() {
                         //Error al dar de baja la clase
                         echo "<div><h3 class='error'> Ocurrió un error al borrar la clase. Intenta de nuevo más tarde.</h3></div>";
                     } else {
-                        //Si fue satisfactorio, borramos el archivo del cdn
-                        require_once 'modulos/cdn/modelos/cdnModelo.php';
-                        $splitted = explode("/", $clase->archivo);
-                        $fileName = $splitted[sizeof($splitted) - 1];
-                        deleteArchivoCdn($fileName, $clase->idTipoClase);
+                        //Si fue satisfactorio, borramos el archivo
+                        require_once 'funcionesPHP/funcionesParaArchivos.php';
+                        borrarArchivo($clase->archivo);
                         if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
                             //si es video o audio borramos el archivo2
-                            $splitted = explode("/", $clase->archivo2);
-                            $fileName = $splitted[sizeof($splitted) - 1];
-                            deleteArchivoCdn($fileName, $clase->idTipoClase);
+                            borrarArchivo($clase->archivo2);
                         }
                         echo "<div><h3 class='success'>Se borró la clase correctamente</h3></div>";
                     }

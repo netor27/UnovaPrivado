@@ -243,16 +243,13 @@ function borrarClasesConArchivosDeUsuario($idUsuario) {
         $clase->idClase = $row['idClase'];
         $clase->transformado = $row['transformado'];
         if ($clase->transformado == 1) {
-            require_once 'modulos/cdn/modelos/cdnModelo.php';
-            $splitted = explode("/", $row['archivo']);
-            $fileName = $splitted[sizeof($splitted) - 1];
-
-            deleteArchivoCdn($fileName, $clase->idTipoClase);
+            $fileName = $clase->archivo;
+            require_once 'funcionesPHP/funcionesParaArchivos.php';
+            borrarArchivo($fileName);
             if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
                 //si es video o audio borramos el archivo2
-                $splitted = explode("/", $clase->archivo2);
-                $fileName = $splitted[sizeof($splitted) - 1];
-                deleteArchivoCdn($fileName, $clase->idTipoClase);
+                $fileName = $clase->archivo2;
+                borrarArchivo($fileName);
             }
             if (bajaClase($clase->idClase) == 0) {
                 $todoOk = false;
@@ -290,16 +287,13 @@ function borrarClasesConArchivosDeCurso($idCurso) {
         $clase->idClase = $row['idClase'];
         $clase->transformado = $row['transformado'];
         if ($clase->transformado == 1) {
-            require_once 'modulos/cdn/modelos/cdnModelo.php';
-            $splitted = explode("/", $row['archivo']);
-            $fileName = $splitted[sizeof($splitted) - 1];
-
-            deleteArchivoCdn($fileName, $clase->idTipoClase);
+            require_once 'funcionesPHP/funcionesParaArchivos.php';
+            $fileName = $clase->archivo;
+            borrarArchivo($fileName);
             if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
                 //si es video borramos el archivo2
-                $splitted = explode("/", $clase->archivo2);
-                $fileName = $splitted[sizeof($splitted) - 1];
-                deleteArchivoCdn($fileName, $clase->idTipoClase);
+                $fileName = $clase->archivo2;
+                borrarArchivo($fileName);
             }
             if (bajaClase($clase->idClase) == 0) {
                 $todoOk = false;
@@ -363,11 +357,8 @@ function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType
                 $nombreNuevo = $filePathNuevo . $fileName;
                 if (rename($file, $nombreNuevo)) {
                     //Si se creo correctamene el archivo CDN, creamos la clase y borramos el archivo local
-                    $size = filesize($nombreNuevo);
-                    if ($size < 0) {
-                        $size = fsize($nombreNuevo);
-                    }
-                    $clase->archivo = $nombreNuevo;
+                    $size = getFileSize($nombreNuevo);
+                    $clase->archivo = "/" . $nombreNuevo;
                     $clase->usoDeDisco = $size;
                     altaClase($clase);
                     require_once('modulos/principal/modelos/variablesDeProductoModelo.php');

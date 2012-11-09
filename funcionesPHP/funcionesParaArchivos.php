@@ -22,6 +22,13 @@ function agregarUniqueCodeAlNombreDelArchivo(&$filePath, &$fileName, $maxLength 
     return rename($file, $filePath . $fileName);
 }
 
+function getFileSize($file) {
+    $size = filesize($file);
+    if ($size < 0) {
+        $size = fsize($file);
+    }
+}
+
 function fsize($file) {
     // filesize will only return the lower 32 bits of
     // the file's size! Make it unsigned.
@@ -53,6 +60,16 @@ function fsize($file) {
 
     // add the lower 32 bit to our PHP_INT_MAX multiplier
     return ((float) ($i) * (PHP_INT_MAX + 1)) + $fmod;
+}
+
+function borrarArchivo($fileName) {
+    $fileName = substr($fileName, 1); //Eliminamos la primera / del nombre del archivo
+    if (!unlink($fileName)) {
+        //no se borró el archivo
+        //Se guarda como pendiente de borrar.
+        require_once 'modulos/principal/modelos/variablesDeProductoModelo.php';
+        agregarArchivoPendientePorBorrar($fileName);
+    }
 }
 
 ?>

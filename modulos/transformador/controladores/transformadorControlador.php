@@ -13,17 +13,18 @@ function transformarArchivo($idArchivo) {
     //$archivo['archivo'];
 
     require_once 'modulos/transformador/modelos/transformadorModelo.php';
-
     switch ($idTipoClase) {
         case 0:
             //es un video
             modificarArchivoEstadoMensaje($idArchivo, "Identificado", "Es un archivo de video, se procedera a transformar");
             $res = transformarVideo($archivo['archivo']);
+            $filePath = "archivos/video/";
             break;
         case 4:
+            //es audio
             modificarArchivoEstadoMensaje($idArchivo, "Identificado", "Es un archivo de audio, se procedera a transformar");
             $res = transformarAudio($archivo['archivo']);
-            //es audio
+            $filePath = "archivos/audio/";
             break;
     }
     if (isset($res)) {
@@ -34,31 +35,28 @@ function transformarArchivo($idArchivo) {
         $returnVar = $res['return_var'];
         if ($returnVar == 0) {
             //se transformaron los 2 archivos correctamente, borramos el original
-            if (file_exists($archivo['archivo']))
+            if (file_exists($archivo['archivo'])) {
                 unlink($archivo['archivo']);
-
-            //Hay que subir los dos archivos al CDN
-            require_once 'modulos/cdn/modelos/cdnModelo.php';
-
-            modificarArchivoEstadoMensaje($idArchivo, "Por subir", "Antes de subir los archivos al CDN");
-            
-            //Subimos al cdn el archivo mp
+            }
+            modificarArchivoEstadoMensaje($idArchivo, "Por mover", "Antes de mover a la carpeta archivos/video");
+            //Cambiamos el archivo de carpeta a archivos/video o archivos/audio
             $path = pathinfo($archivoMp);
-            $fileNameMp = $path['basename'];
-            $resMp = crearArchivoCDN($archivoMp, $fileNameMp, $idTipoClase);
+            $archivoNuevoMp = $filePath . $path['basename'];
+            $resMp = rename($archivoMp, $archivoNuevoMp);
 
-            //Subimos al cdn el archivo og
+            //Cambiamos el otro archivo de carpeta a archivos/video o archivos/audio
             $path = pathinfo($archivoOg);
-            $fileNameOg = $path['basename'];
-            $resOg = crearArchivoCDN($archivoOg, $fileNameOg, $idTipoClase);
+            $archivoNuevoOg = $filePath . $path['basename'];
+            $resOg = rename($archivoOg, $archivoNuevoOg);
 
-            if (isset($resMp) && isset($resOg)) {
-                modificarArchivoEstadoMensaje($idArchivo, "Subidos", "Los archivos se subieron correctamente");
-                $uriMp = $resMp['uri'];
-                $uriOg = $resOg['uri'];
-                $size = floatval($resMp['size']) + floatval($resOg['size']);
+            if ($resMp && $resOg) {
+                modificarArchivoEstadoMensaje($idArchivo, "Se movieron", "Los archivos se movieron correctamente");
+                require_once 'funcionesPHP/funcionesParaArchivos.php';
+                $size = getFileSize($archivoNuevoMp) + getFileSize($archivoNuevoOg);
 
                 require_once 'modulos/cursos/modelos/ClaseModelo.php';
+                $uriMp = "/" . $archivoNuevoMp;
+                $uriOg = "/" . $archivoNuevoOg;
                 if (actualizaArchivosDespuesTransformacion($archivo['idClase'], $uriMp, $uriOg, $size, $duration)) {
                     //actualizamos el ancho de banda utilizado
                     require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
@@ -87,14 +85,14 @@ function transformarArchivo($idArchivo) {
             } else {
                 //no se subió alguno de los archivos al cdn
                 $msg = "";
-                if (isset($resMp)) {
-                    $msg .= "El archivo mp se subió bien, " . $resMp['uri'];
+                if (!$resMp) {
+                    $msg .= "El archivo mp NO se movió, " . $archivoMp;
                 }
-                if (isset($resOg)) {
-                    $msg .= "El archivo og se subió bien, " . $resOg['uri'];
+                if (!$resOg) {
+                    $msg .= "El archivo og NO se movió, " . $archivoOg;
                 }
-                establecerEstadoArchivoEnBd($idArchivo, "Error al subir al CDN", "Alguno de los archivos no se subió al cdn. log= " . $msg);
-                return "Todo se hizo correctamente pero no se envio el mail idArchivo=" . $idArchivo;
+                establecerEstadoArchivoEnBd($idArchivo, "Error al mover los archivos", "Alguno de los archivos no se movieron. log= " . $msg);
+                return "No se movieron los archivos a las carpetas correspondientes " . $idArchivo;
             }
         } else {
             //ocurrió un error, si exite alguno de los archivos, lo borramos.            

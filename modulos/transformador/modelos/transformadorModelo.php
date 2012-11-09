@@ -11,11 +11,8 @@ function transformarVideo($file) {
     $duration = obtenerDuracion($file);
     $pathInfo = pathinfo($file);
 
-    require_once 'funcionesPHP/funcionesGenerales.php';
-    $uniqueCode = getUniqueCode(7);
-
-    $outputFileMp4 = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_" . $uniqueCode . ".mp4";
-    $outputFileOgv = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_" . $uniqueCode . ".webm";
+    $outputFileMp4 = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . ".mp4";
+    $outputFileOgv = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . ".webm";
 
     $cmd = 'avconv -i "' . $file . '" -c:v libx264 -c:a libvo_aacenc "' . $outputFileMp4 . '" -c:v libvpx -c:a libvorbis "' . $outputFileOgv . '"';
     //putLog($cmd);
@@ -32,11 +29,8 @@ function transformarAudio($file) {
     $duration = obtenerDuracion($file);
     $pathInfo = pathinfo($file);
 
-    require_once 'funcionesPHP/funcionesGenerales.php';
-    $uniqueCode = getUniqueCode(7);
-
-    $outputFileMp3 = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_" . $uniqueCode . ".mp3";
-    $outputFileOgg = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_" . $uniqueCode . ".ogg";
+    $outputFileMp3 = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . ".mp3";
+    $outputFileOgg = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . ".ogg";
 
     $cmd = 'avconv -i "' . $file . '" "' . $outputFileMp3 . '" -c libvorbis -ar 44100 -b 200k "' . $outputFileOgg . '"';
     //putLog($cmd);
