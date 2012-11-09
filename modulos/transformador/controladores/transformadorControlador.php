@@ -34,10 +34,6 @@ function transformarArchivo($idArchivo) {
         $duration = $res['duration'];
         $returnVar = $res['return_var'];
         if ($returnVar == 0) {
-            //se transformaron los 2 archivos correctamente, borramos el original
-            if (file_exists($archivo['archivo'])) {
-                unlink($archivo['archivo']);
-            }
             modificarArchivoEstadoMensaje($idArchivo, "Por mover", "Antes de mover a la carpeta archivos/video");
             //Cambiamos el archivo de carpeta a archivos/video o archivos/audio
             $path = pathinfo($archivoMp);
@@ -71,6 +67,10 @@ function transformarArchivo($idArchivo) {
                     if (enviarMailTransformacionVideoCompleta($usuario->email, $curso->titulo, $clase->titulo, DOMINIO_PRIVADO . '/curso/' . $curso->uniqueUrl, $idTipoClase)) {
                         //todo paso bien, eliminamos la tupla de la bd
                         bajaArchivoPorTransformar($idArchivo);
+                        //se transformaron los 2 archivos correctamente, borramos el original
+                        if (file_exists($archivo['archivo'])) {
+                            unlink($archivo['archivo']);
+                        }
                         return "Archivo transformado correctamente " . $archivo['archivo'];
                     } else {
                         //no se envió el mail, pero se transformó correctamente
@@ -100,7 +100,6 @@ function transformarArchivo($idArchivo) {
                 unlink($archivoMp);
             if (file_exists($archivoOg))
                 unlink($archivoOg);
-
             establecerEstadoArchivoEnBd($idArchivo, "No transformado", "Ocurrio un error al momento de transformar el archivo " . $archivo['archivo'] . ", return_value=" . $returnVar);
             return "Error en la transformación del archivo, return_value=" . $returnVar;
         }

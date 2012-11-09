@@ -358,7 +358,7 @@ function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType
                 //renombramos el archivo y con esto se mueve a la carpeta de documentos
                 $nombreNuevo = $filePathNuevo . $fileName;
                 if (rename($file, $nombreNuevo)) {
-                    //Si se creo correctamene el archivo CDN, creamos la clase y borramos el archivo local
+                    //Si se movio correctamente, creamos la clase
                     $size = getFileSize($nombreNuevo);
                     $clase->archivo = "/" . $nombreNuevo;
                     $clase->usoDeDisco = $size;

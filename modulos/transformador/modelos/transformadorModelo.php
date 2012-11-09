@@ -12,9 +12,15 @@ function transformarVideo($file) {
     $pathInfo = pathinfo($file);
 
     $outputFileMp4 = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . ".mp4";
+    if (file_exists($outputFileMp4)) {
+        $outputFileMp4 = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_.mp4";
+    }
     $outputFileOgv = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . ".webm";
+    if (file_exists($outputFileOgv)) {
+        $outputFileOgv = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_.webm";
+    }
 
-    $cmd = 'avconv -i "' . $file . '" -c:v libx264 -c:a libvo_aacenc "' . $outputFileMp4 . '" -c:v libvpx -c:a libvorbis "' . $outputFileOgv . '"';
+    $cmd = 'ffmpeg -i "' . $file . '" -acodec libvo_aacenc -vcodec libx264 "' . $outputFileMp4 . '" -vcodec libvpx -acodec libvorbis "' . $outputFileOgv . '"';
     //putLog($cmd);
     ob_start();
     passthru($cmd, $return_var);
@@ -30,9 +36,15 @@ function transformarAudio($file) {
     $pathInfo = pathinfo($file);
 
     $outputFileMp3 = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . ".mp3";
+    if(file_exists($outputFileMp3)){
+        $outputFileMp3 = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_.mp3";
+    }
     $outputFileOgg = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . ".ogg";
+    if(file_exists($outputFileOgg)){
+        $outputFileOgg = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_.ogg";
+    }
 
-    $cmd = 'avconv -i "' . $file . '" "' . $outputFileMp3 . '" -c libvorbis -ar 44100 -b 200k "' . $outputFileOgg . '"';
+    $cmd = 'ffmpeg -i "' . $file . '" "' . $outputFileMp3 . '" -acodec libvorbis -ar 44100 -b 200k "' . $outputFileOgg . '"';
     //putLog($cmd);
     ob_start();
     passthru($cmd, $return_var);
@@ -45,7 +57,7 @@ function transformarAudio($file) {
 function obtenerDuracion($file) {
     //Obtener la duración
     ob_start();
-    passthru('avconv -i "' . $file . '" 2>&1');
+    passthru('ffmpeg -i "' . $file . '" 2>&1');
     $duration = ob_get_contents();
     ob_end_clean();
 

@@ -27,6 +27,7 @@ function getFileSize($file) {
     if ($size < 0) {
         $size = fsize($file);
     }
+    return $size;
 }
 
 function fsize($file) {
