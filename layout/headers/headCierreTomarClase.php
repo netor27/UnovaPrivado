@@ -8,6 +8,12 @@
         <div id="top-bar">
             <a href="/" class="logo left" id="logo"> <img src="/layout/imagenes/Unova_Logo_135x47.png"></a>
             <div style="margin-left: 20px;">
+                <div  class="element left ease3">
+                    <a href="/curso/<?php echo $curso->uniqueUrl; ?>" class="link" id="menuSiguienteClase" > 
+                        <img src="/layout/imagenes/regresar.png">
+                        Regresar al curso
+                    </a>                    
+                </div>
                 <div  class="element left ease3" style="width:190px;">
                     <?php
                     if (getTipoLayout() == "desktop") {

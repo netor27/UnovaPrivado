@@ -1,6 +1,7 @@
 <?php
 require_once('layout/headers/headInicio.php');
 require_once('layout/headers/headTomarClase.php');
+require_once('layout/headers/headTomarClasePopcorn.php');
 ?>
 <link rel="stylesheet" href="/layout/css/tomarClaseVideo.css" />
 
@@ -62,7 +63,7 @@ require_once('layout/headers/headCierreTomarClase.php');
 </div>
 
 <div id="editorContainment">
-    <video id="videoPrincipal" class="videoClass" style="position: relative; top: <?php echo $videoData['top'] . '%'; ?>; left: <?php echo $videoData['left'] . '%'; ?>; width: <?php echo $videoData['width'] . '%'; ?>; height: <?php echo $videoData['height'] . '%'; ?>;">
+    <video id="mediaPopcorn" class="videoClass" style="position: relative; top: <?php echo $videoData['top'] . '%'; ?>; left: <?php echo $videoData['left'] . '%'; ?>; width: <?php echo $videoData['width'] . '%'; ?>; height: <?php echo $videoData['height'] . '%'; ?>;">
         <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/1" type="video/mp4"></source>      
         <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/2" type="video/ogg"></source>      
         Tu navegador no es compatible con las características de este sitio. Te recomendamos descargar google chrome

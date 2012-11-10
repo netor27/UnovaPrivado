@@ -1,6 +1,7 @@
 <?php
 require_once('layout/headers/headInicio.php');
 require_once('layout/headers/headTomarClase.php');
+require_once('layout/headers/headTomarClasePopcorn.php');
 ?>
 <link rel="stylesheet" href="/layout/css/tomarClaseAudio.css" />
 
@@ -65,7 +66,7 @@ require_once('layout/headers/headCierreTomarClase.php');
     <div class="row-fluid"><div class="span12"></div></div>
     <div class="row-fluid">
         <div class="span4 offset4">
-            <audio id="audioPrincipal" controls="controls">        
+            <audio id="mediaPopcorn" controls="controls">        
                 <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/1" type="audio/mpeg">
                 <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/2" type="audio/ogg">
                 Tu navegador no es compatible con las características de este sitio. Te recomendamos descargar google chrome

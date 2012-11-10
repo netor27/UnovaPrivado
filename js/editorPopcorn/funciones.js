@@ -74,7 +74,8 @@ function guardar(u, uuid, cu, cl){
             }
         }
     });  
-    
+    $containmentWidth = $("#editorContainment").width();
+    $containmentHeight  = $("#editorContainment").height();
     
     var videoData = {
         top: $("#videoContainer").position().top * 100 / $containmentHeight,

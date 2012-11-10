@@ -1,8 +1,7 @@
-AddType video/ogg .ogv 
-AddType audio/ogg .ogg 
-AddType video/mp4 .mp4 
-AddType video/webm .webm 
+# enable xsendfile
+XSendFile On
 
+#Con esto evitamos que se listen los subdirectorios
 Options -Indexes
 
 RewriteEngine On

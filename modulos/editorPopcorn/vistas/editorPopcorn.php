@@ -12,10 +12,7 @@ if (isset($var['videos']))
 if (isset($var['links']))
     $links = $var['links'];
 
-$top = 0;
-$left = 0;
-$width = 100;
-$height = 100;
+
 
 if (isset($var['videoData'])) {
     $videoData = $var['videoData'];
@@ -23,6 +20,11 @@ if (isset($var['videoData'])) {
     $left = $videoData['left'];
     $width = $videoData['width'];
     $height = $videoData['height'];
+} else {
+    $top = 20;
+    $left = 25;
+    $width = 50;
+    $height = 50;
 }
 ?>
 
@@ -107,7 +109,7 @@ if (isset($links))
         </div>
         <div id="editorContainment">
             <div id="videoContainer" class="draggable resizable ui-widget-content" style="position: absolute; top: <?php echo $top . '%'; ?>; left: <?php echo $left . '%'; ?>; width: <?php echo $width . '%'; ?>; height: <?php echo $height . '%'; ?>;">				
-                <video id="videoPrincipal" class="videoClass">
+                <video id="mediaPopcorn" class="videoClass">
                     <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/1" type="video/mp4">
                     <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/2" type="video/ogg">
                 </video>

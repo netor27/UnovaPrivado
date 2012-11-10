@@ -14,8 +14,8 @@ $(function(){
             var w = $("#videoContainer").width();
             var h = $("#videoContainer").height();
             //console.log("h="+h+" w=" +w);
-            $("#videoPrincipal").width(w);
-            $("#videoPrincipal").height(h);
+            $("#mediaPopcorn").width(w);
+            $("#mediaPopcorn").height(h);
         }
     });	
     $(".videoClass").bind("contextmenu", function(e) {
@@ -28,7 +28,7 @@ Popcorn( function() {
 });
 
 function inicializarPopcorn(){
-    $popPrincipal = Popcorn('#videoPrincipal');
+    $popPrincipal = Popcorn('#mediaPopcorn');
     $popPrincipal.controls(false);
     $popPrincipal.volume(0.5);
     $popPrincipal.autoplay(true);

@@ -22,7 +22,6 @@
         <script src="/js/jquery-ui-1.8.17.custom.min.js"></script>
         <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
         <script src="/lib/bootstrap/js/bootbox.min.js"></script>
-        <script src="/js/popcorn-complete.min.js"></script>        
         <script src="/js/funciones.js"></script>	
         <script src="/js/DocumentReady.js"></script>
 
