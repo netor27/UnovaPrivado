@@ -13,7 +13,7 @@ require_once('layout/headers/headCierreTomarClase.php');
 
         <div id="cursoTabs">
             <h2>Descarga el archivo con el siguiente link</h2>
-            <h3><?php echo '<a style="text-decoration: underline;" href="' . $clase->archivo . '">' . $clase->titulo . '</a>'; ?></h3>
+            <h3><?php echo '<a style="text-decoration: underline;" href="/archivos/descarga/archivoDeClase/' . $clase->idClase . '">' . $clase->titulo . '</a>'; ?></h3>
         </div>
 
     </div>

@@ -108,8 +108,8 @@ if (isset($links))
         <div id="editorContainment">
             <div id="videoContainer" class="draggable resizable ui-widget-content" style="position: absolute; top: <?php echo $top . '%'; ?>; left: <?php echo $left . '%'; ?>; width: <?php echo $width . '%'; ?>; height: <?php echo $height . '%'; ?>;">				
                 <video id="videoPrincipal" class="videoClass">
-                    <source src="<?php echo $clase->archivo; ?>" type="video/mp4">
-                    <source src="<?php echo $clase->archivo2; ?>" type="video/ogg">
+                    <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/1" type="video/mp4">
+                    <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/2" type="video/ogg">
                 </video>
             </div>
             <div id="footnotediv">

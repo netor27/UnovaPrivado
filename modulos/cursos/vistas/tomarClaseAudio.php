@@ -15,7 +15,7 @@ if (isset($var['textos'])) {
     foreach ($textos as $texto) {
         ?>
                         agregarTextoDiv( '<?php echo $texto['texto']; ?>','<?php echo $texto['inicio']; ?>','<?php echo $texto['fin']; ?>','<?php echo $texto['color']; ?>','<?php echo $texto['top']; ?>','<?php echo $texto['left']; ?>','<?php echo $texto['width']; ?>','<?php echo $texto['height']; ?>');
-                                                
+                                                        
         <?php
     }
 }
@@ -66,8 +66,8 @@ require_once('layout/headers/headCierreTomarClase.php');
     <div class="row-fluid">
         <div class="span4 offset4">
             <audio id="audioPrincipal" controls="controls">        
-                <source src="<?php echo $clase->archivo; ?>" type="audio/mpeg">
-                <source src="<?php echo $clase->archivo2; ?>" type="audio/ogg">
+                <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/1" type="audio/mpeg">
+                <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/2" type="audio/ogg">
                 Tu navegador no es compatible con las características de este sitio. Te recomendamos descargar google chrome
                 <a href="http://www.google.com/intl/es/chrome/browser/"> desde aquí</a>
             </audio>

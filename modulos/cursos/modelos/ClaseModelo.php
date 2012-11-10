@@ -360,7 +360,7 @@ function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType
                 if (rename($file, $nombreNuevo)) {
                     //Si se movio correctamente, creamos la clase
                     $size = getFileSize($nombreNuevo);
-                    $clase->archivo = "/" . $nombreNuevo;
+                    $clase->archivo = $nombreNuevo;
                     $clase->usoDeDisco = $size;
                     $clase->orden = getSiguienteOrdenEnTema($idTema) + 1;
                     altaClase($clase);

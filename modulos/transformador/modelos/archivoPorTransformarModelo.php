@@ -4,7 +4,7 @@ require_once 'bd/conex.php';
 
 function altaArchivoPorTransformar($idTipoClase, $idClase, $archivo) {
     global $conex;
-    $stmt = $conex->prepare("INSERT INTO archivo(idTipoClase, idClase, archivo, estado, mensaje)
+    $stmt = $conex->prepare("INSERT INTO archivoportransformar(idTipoClase, idClase, archivo, estado, mensaje)
                                   VALUES(:idTipoClase, :idClase, :archivo, 'sin transformar', 'Insert inicial')");
     $stmt->bindParam(":idTipoClase", $idTipoClase);
     $stmt->bindParam(":idClase", $idClase);
@@ -20,14 +20,14 @@ function altaArchivoPorTransformar($idTipoClase, $idClase, $archivo) {
 
 function bajaArchivoPorTransformar($id){
     global $conex;
-    $stmt = $conex->prepare("DELETE FROM archivo WHERE idArchivo = :id");
+    $stmt = $conex->prepare("DELETE FROM archivoportransformar WHERE idArchivo = :id");
     $stmt->bindParam(":id",$id);
     return $stmt->execute();
 }
 
 function modificarArchivoEstadoMensaje($id, $estado, $mensaje) {
     global $conex;
-    $stmt = $conex->prepare("UPDATE archivo SET estado = :estado, mensaje = :mensaje
+    $stmt = $conex->prepare("UPDATE archivoportransformar SET estado = :estado, mensaje = :mensaje
                             WHERE idArchivo = :id");
     $stmt->bindParam(":estado", $estado);
     $stmt->bindParam(":mensaje", $mensaje);
@@ -37,7 +37,7 @@ function modificarArchivoEstadoMensaje($id, $estado, $mensaje) {
 
 function getArchivoPorTransformar($id){
     global $conex;
-    $stmt = $conex->prepare("SELECT * from archivo WHERE idArchivo = :id");
+    $stmt = $conex->prepare("SELECT * from archivoportransformar WHERE idArchivo = :id");
     $stmt->bindParam(":id", $id);
     if($stmt->execute()){
         $row = $stmt->fetch();

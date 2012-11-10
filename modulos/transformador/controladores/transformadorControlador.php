@@ -51,8 +51,8 @@ function transformarArchivo($idArchivo) {
                 $size = getFileSize($archivoNuevoMp) + getFileSize($archivoNuevoOg);
 
                 require_once 'modulos/cursos/modelos/ClaseModelo.php';
-                $uriMp = "/" . $archivoNuevoMp;
-                $uriOg = "/" . $archivoNuevoOg;
+                $uriMp = $archivoNuevoMp;
+                $uriOg = $archivoNuevoOg;
                 if (actualizaArchivosDespuesTransformacion($archivo['idClase'], $uriMp, $uriOg, $size, $duration)) {
                     //actualizamos el ancho de banda utilizado
                     require_once('modulos/principal/modelos/variablesDeProductoModelo.php');

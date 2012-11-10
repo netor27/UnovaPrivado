@@ -64,7 +64,6 @@ function fsize($file) {
 }
 
 function borrarArchivo($fileName) {
-    $fileName = substr($fileName, 1); //Eliminamos la primera / del nombre del archivo
     if (!unlink($fileName)) {
         //no se borró el archivo
         //Se guarda como pendiente de borrar.
