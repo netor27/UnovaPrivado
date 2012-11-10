@@ -1,9 +1,5 @@
 $(function(){
     if(layout == "desktop"){
-//        $("body").bind("contextmenu", function(e) {
-//            e.preventDefault();
-//        });
-        
         $("#menuClasesLink").click(function(e){
             //cambiamos la flecha
             if($("#flechaClases").hasClass('flechaAbajo')){
@@ -28,12 +24,15 @@ $(function(){
             }
             return true;
         });
+    //$("body").bind("contextmenu", function(e) {
+    //            e.preventDefault();
+    //        });
     }else {
-        //bind para dispositivos con pantalla tactil
-        //NO SIRVE NINGÚN LINK SI HAY UN VIDEO ABAJO
-        //SI EL VIDEO SE ESCONDE Y LUEGO SE MUESTRA YA NO
-        //FUNCIONA. POR ESO SE QUITO ESTA FUNCIONALIDAD
-        //
+    //bind para dispositivos con pantalla tactil
+    //NO SIRVE NINGÚN LINK SI HAY UN VIDEO ABAJO
+    //SI EL VIDEO SE ESCONDE Y LUEGO SE MUESTRA YA NO
+    //FUNCIONA. POR ESO SE QUITO ESTA FUNCIONALIDAD
+    //
     }
 });
 
