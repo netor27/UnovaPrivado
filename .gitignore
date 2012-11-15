@@ -1,3 +1,35 @@
-/nbproject/private/
-nohup.out
+# Netbeans project folder #
+/nbproject/
+
+#archivos de audio, video, documentos, extraMedia, avatar, imagencurso
+/archivos/audio/*
+/archivos/avatar/*
+/archivos/documentos/*
+/archivos/extraMedia/*
+/archivos/imagenCurso/*
+/archivos/video/*
+
+#tomamos en cuenta los dummy.file para no perder los directorios
+!/archivos/audio/dummy.file
+!/archivos/avatar/dummy.file
+!/archivos/documentos/dummy.file
+!/archivos/extraMedia/dummy.file
+!/archivos/imagenCurso/dummy.file
+!/archivos/video/dummy.file
+
+
+# OS generated files #
+######################
+*.lock
+*~
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+*.out
+*.swp
 
