@@ -22,8 +22,6 @@ require_once('layout/headers/headCierre.php');
                         $msgLogin = "Ocurrió un error con tu sesión";
                         break;
                 }
-            }else{
-                $msgLogin = "Debes iniciar sesión para acceder a esta página";
             }
             if (isset($msgLogin)) {
                 ?>
