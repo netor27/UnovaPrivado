@@ -13,10 +13,19 @@ require_once('layout/headers/headCierre.php');
                 <legend>Iniciar sesión</legend>
             </div>
             <?php
+            if(isset($_GET['e'])){
+                switch($_GET['e']){
+                    case '1':
+                        $msgLogin = "<strong>Alguien utilizó tus datos para iniciar sesión.</strong><br> Te recomendamos iniciar sesión y cambiar tu contraseña";
+                        break;
+                    default:
+                        $msgLogin = "Ocurrió un error con tu sesión";
+                        break;
+                }
+            }
             if (isset($msgLogin)) {
                 ?>
-                <div class="row-fluid">
-                    
+                <div class="row-fluid">                    
                         <div class="alert alert-error">
                             <button type="button" class="close" data-dismiss="alert">×</button>
                             <strong>¡Error!</strong> <?php echo $msgLogin?>

@@ -579,4 +579,7 @@ function establecerPassword() {
     require_once 'modulos/usuarios/vistas/reestablecerPassword.php';
 }
 
+function validarLoginUnicoAjax(){
+    echo 'valid session';
+}
 ?>
