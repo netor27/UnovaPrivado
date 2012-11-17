@@ -29,17 +29,17 @@ if (isset($var['videoData'])) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html >
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
         <title>Editor Unova</title>
 
         <link rel="stylesheet" media="screen" type="text/css" href="/lib/js/colorPicker/colorpicker.css" />
-        <link type="text/css" href="/layout/css/redmond/jquery-ui-1.8.17.custom.css" rel="stylesheet" />	
+        <link rel="stylesheet" href="/lib/js/jquery-ui/ui-lightness/jquery-ui-1.9.1.custom.css" />
         <link type="text/css" href="/layout/css/editorPopcorn.css" rel="stylesheet" />	
         
         <script src="/lib/js/jquery-1.8.2.min.js"></script>		
-        <script src="/lib/js/jquery-ui-1.9.1.custom.min.js"></script>
+        <script src="/lib/js/jquery-ui/jquery-ui-1.9.1.custom.min.js"></script>
         <script src="/lib/js/popcorn-complete.min.js"></script>
 
         <script src="/lib/js/colorPicker/colorpicker.js"></script>
