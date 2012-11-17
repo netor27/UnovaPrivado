@@ -20,3 +20,9 @@
 .delete button{
     display:none;
 }
+
+.table{
+    border: solid;
+    border-style: solid;
+    border-color: #233E6A;
+}

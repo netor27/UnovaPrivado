@@ -32,18 +32,20 @@ if (isset($var['videoData'])) {
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-        <title>Editor de video</title>
-
-        <script src="/lib/js/jquery-1.7.2.min.js"></script>		
-        <script src="/lib/js/jquery-ui-1.8.17.custom.min.js"></script>
-        <script src="/lib/js/popcorn-complete.min.js"></script>
+        <title>Editor Unova</title>
 
         <link rel="stylesheet" media="screen" type="text/css" href="/lib/js/colorPicker/colorpicker.css" />
-        <script type="text/javascript" src="/lib/js/colorPicker/colorpicker.js"></script>
+        <link type="text/css" href="/layout/css/redmond/jquery-ui-1.8.17.custom.css" rel="stylesheet" />	
+        <link type="text/css" href="/layout/css/editorPopcorn.css" rel="stylesheet" />	
+        
+        <script src="/lib/js/jquery-1.8.2.min.js"></script>		
+        <script src="/lib/js/jquery-ui-1.9.1.custom.min.js"></script>
+        <script src="/lib/js/popcorn-complete.min.js"></script>
 
+        <script src="/lib/js/colorPicker/colorpicker.js"></script>
         <script src="/lib/js/tiny_mce/jquery.tinymce.js"></script>
-
-        <script src="/js/editorPopcorn/funciones.js"></script>
+        
+        <script src="/js/editorPopcorn/funcionesPopcorn.js"></script>
 
         <script src="/js/editorPopcorn/agregarImagen.js"></script>
         <script src="/js/editorPopcorn/agregarTexto.js"></script>
@@ -51,142 +53,139 @@ if (isset($var['videoData'])) {
         <script src="/js/editorPopcorn/agregarLink.js"></script>
 
         <script src="/js/editorPopcorn/cargarPopcorn.js"></script>
-        <script src="/js/funciones.js"></script>
+        <script src="/js/funciones.js"></script>        
 
-        <link type="text/css" href="/layout/css/redmond/jquery-ui-1.8.17.custom.css" rel="stylesheet" />	
-        <link type="text/css" href="/layout/css/editorPopcorn.css" rel="stylesheet" />	
+<script language="javascript">
 
-        <script language="javascript">
+    function showHideControles(){
+        $("#controlesContainer").toggle("slow");
+        $(".toggleControles").toggle();
+    }
+</script>
 
-            function showHideControles(){
-                $("#controlesContainer").toggle("slow");
-                $(".toggleControles").toggle();
-            }
-        </script>
-
-        <script languague="javascript">
-            function cargarElementosGuardados(){
+<script languague="javascript">
+    function cargarElementosGuardados(){
 <?php
 if (isset($textos))
     foreach ($textos as $texto) {
         ?>
-                        cargarTextoEnArreglo( '<?php echo $texto['texto']; ?>','<?php echo $texto['inicio']; ?>','<?php echo $texto['fin']; ?>','<?php echo $texto['color']; ?>','<?php echo $texto['top']; ?>','<?php echo $texto['left']; ?>','<?php echo $texto['width']; ?>','<?php echo $texto['height']; ?>');
+                cargarTextoEnArreglo( '<?php echo $texto['texto']; ?>','<?php echo $texto['inicio']; ?>','<?php echo $texto['fin']; ?>','<?php echo $texto['color']; ?>','<?php echo $texto['top']; ?>','<?php echo $texto['left']; ?>','<?php echo $texto['width']; ?>','<?php echo $texto['height']; ?>');
         <?php
     }
 if (isset($imagenes))
     foreach ($imagenes as $imagen) {
         ?>
-                        cargarImagenEnArreglo('<?php echo $imagen['urlImagen']; ?>','<?php echo $imagen['inicio']; ?>','<?php echo $imagen['fin']; ?>','<?php echo $imagen['color']; ?>','<?php echo $imagen['top']; ?>','<?php echo $imagen['left']; ?>','<?php echo $imagen['width']; ?>','<?php echo $imagen['height']; ?>');
+                cargarImagenEnArreglo('<?php echo $imagen['urlImagen']; ?>','<?php echo $imagen['inicio']; ?>','<?php echo $imagen['fin']; ?>','<?php echo $imagen['color']; ?>','<?php echo $imagen['top']; ?>','<?php echo $imagen['left']; ?>','<?php echo $imagen['width']; ?>','<?php echo $imagen['height']; ?>');
         <?php
     }
 if (isset($videos))
     foreach ($videos as $video) {
         ?>
-                        cargarVideoEnArreglo('<?php echo $video['urlVideo']; ?>','<?php echo $video['inicio']; ?>','<?php echo $video['fin']; ?>','<?php echo $video['color']; ?>','<?php echo $video['top']; ?>','<?php echo $video['left']; ?>','<?php echo $video['width']; ?>','<?php echo $video['height']; ?>');
+                cargarVideoEnArreglo('<?php echo $video['urlVideo']; ?>','<?php echo $video['inicio']; ?>','<?php echo $video['fin']; ?>','<?php echo $video['color']; ?>','<?php echo $video['top']; ?>','<?php echo $video['left']; ?>','<?php echo $video['width']; ?>','<?php echo $video['height']; ?>');
         <?php
     }
 if (isset($links))
     foreach ($links as $link) {
         ?>
-                        cargarLinkEnArreglo('<?php echo $link['texto']; ?>','<?php echo $link['url']; ?>','<?php echo $link['inicio']; ?>','<?php echo $link['fin']; ?>','<?php echo $link['color']; ?>','<?php echo $link['top']; ?>','<?php echo $link['left']; ?>','<?php echo $link['width']; ?>','<?php echo $link['height']; ?>');
+                cargarLinkEnArreglo('<?php echo $link['texto']; ?>','<?php echo $link['url']; ?>','<?php echo $link['inicio']; ?>','<?php echo $link['fin']; ?>','<?php echo $link['color']; ?>','<?php echo $link['top']; ?>','<?php echo $link['left']; ?>','<?php echo $link['width']; ?>','<?php echo $link['height']; ?>');
         <?php
     }
 ?>
-    }
-        </script>
-    </head>
-    <body>
-        <div id="modalDialog">
+}
+</script>
+</head>
+<body>
+    <div id="modalDialog">
+
+    </div>
+    <div id="e-bar" class="ui-corner-left">
+        <div id="top-bar">
+            <a  class="logo left" id="logo"> <img src="/layout/imagenes/Unova_Logo_135x47.png"></a>
+            <a href="/curso/<?php echo $curso->uniqueUrl; ?>" class="element right ease3">Salir</a>
+            <a  onclick="guardar(<?php echo $usuario->idUsuario . ",'" . $usuario->uuid . "'," . $idCurso . "," . $idClase; ?>)" class="element right ease3">Guardar</a>
 
         </div>
-        <div id="e-bar" class="ui-corner-left">
-            <div id="top-bar">
-                <a  class="logo left" id="logo"> <img src="/layout/imagenes/Unova_Logo_135x47.png"></a>
-                <a href="/curso/<?php echo $curso->uniqueUrl; ?>" class="element right ease3">Salir</a>
-                <a  onclick="guardar(<?php echo $usuario->idUsuario . ",'" . $usuario->uuid . "'," . $idCurso . "," . $idClase; ?>)" class="element right ease3">Guardar</a>
+    </div>
+    <div id="editorContainment">
+        <div id="videoContainer" class="draggable resizable ui-widget-content" style="position: absolute; top: <?php echo $top . '%'; ?>; left: <?php echo $left . '%'; ?>; width: <?php echo $width . '%'; ?>; height: <?php echo $height . '%'; ?>;">				
+            <video id="mediaPopcorn" class="videoClass">
+                <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/1" type="video/mp4">
+                <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/2" type="video/ogg">
+            </video>
+        </div>
+        <div id="footnotediv">
+        </div>
 
+
+
+
+        <?php
+        require_once 'modulos/editorPopcorn/vistas/formaAgregarTexto.php';
+        require_once 'modulos/editorPopcorn/vistas/formaAgregarImagen.php';
+        require_once 'modulos/editorPopcorn/vistas/formaAgregarVideo.php';
+        require_once 'modulos/editorPopcorn/vistas/formaAgregarLink.php';
+        ?>
+        <div id="toolboxContainer">
+            <div id="ShowHideToolbox" class="ui-state-hover ui-corner-all">
+                <img class="showHideToolboxButton" src="/layout/imagenes/Agregar.png" >
+                <img class="showHideToolboxButton" src="/layout/imagenes/AgregarMenos.png" style="display:none;">
+            </div>
+            <div id="toolbox" class="ui-state-highlight ui-corner-all" style="display:none;">                
+                <a  onClick="mostrarDialogoInsertarTexto()" title="Agregar texto" class="ui-corner-all">
+                    <img src="/layout/imagenes/agregarTexto.png">
+                </a><br>
+                <a   onClick="mostrarDialogoInsertarImagen()" title="Agregar imagen" class="ui-corner-all">
+                    <img src="/layout/imagenes/agregarImagen.png">
+                </a><br>
+                <a  onClick="mostrarDialogoInsertarVideo()" title="Agregar video" class="ui-corner-all">
+                    <img src="/layout/imagenes/agregarVideo.png">
+                </a><br>
+                <a  onClick="mostrarDialogoInsertarLink()" title="Agregar página web" class="ui-corner-all">
+                    <img src="/layout/imagenes/agregarPagina.png">
+                </a>
             </div>
         </div>
-        <div id="editorContainment">
-            <div id="videoContainer" class="draggable resizable ui-widget-content" style="position: absolute; top: <?php echo $top . '%'; ?>; left: <?php echo $left . '%'; ?>; width: <?php echo $width . '%'; ?>; height: <?php echo $height . '%'; ?>;">				
-                <video id="mediaPopcorn" class="videoClass">
-                    <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/1" type="video/mp4">
-                    <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/2" type="video/ogg">
-                </video>
+
+        <div id="footer">
+            <div id="ShowHideControles">
+                <a   onclick="showHideControles()">
+                    <div title="Mostrar controles" class="ui-state-default ui-corner-all littleBox toggleControles" style="display:none;">
+                        >>
+                    </div>
+                    <div title="Ocultar controles"  class="ui-state-default ui-corner-all littleBox toggleControles" style="" >
+                        <<
+                    </div>
+                </a>
+
             </div>
-            <div id="footnotediv">
-            </div>
+            <div id="controlesContainer" class="ui-widget-header ui-corner-all">	
 
-
-
-
-            <?php
-            require_once 'modulos/editorPopcorn/vistas/formaAgregarTexto.php';
-            require_once 'modulos/editorPopcorn/vistas/formaAgregarImagen.php';
-            require_once 'modulos/editorPopcorn/vistas/formaAgregarVideo.php';
-            require_once 'modulos/editorPopcorn/vistas/formaAgregarLink.php';
-            ?>
-            <div id="toolboxContainer">
-                <div id="ShowHideToolbox" class="ui-state-hover ui-corner-all">
-                    <img class="showHideToolboxButton" src="/layout/imagenes/Agregar.png" >
-                    <img class="showHideToolboxButton" src="/layout/imagenes/AgregarMenos.png" style="display:none;">
-                </div>
-                <div id="toolbox" class="ui-state-highlight ui-corner-all" style="display:none;">                
-                    <a  onClick="mostrarDialogoInsertarTexto()" title="Agregar texto" class="ui-corner-all">
-                        <img src="/layout/imagenes/agregarTexto.png">
-                    </a><br>
-                    <a   onClick="mostrarDialogoInsertarImagen()" title="Agregar imagen" class="ui-corner-all">
-                        <img src="/layout/imagenes/agregarImagen.png">
-                    </a><br>
-                    <a  onClick="mostrarDialogoInsertarVideo()" title="Agregar video" class="ui-corner-all">
-                        <img src="/layout/imagenes/agregarVideo.png">
-                    </a><br>
-                    <a  onClick="mostrarDialogoInsertarLink()" title="Agregar página web" class="ui-corner-all">
-                        <img src="/layout/imagenes/agregarPagina.png">
+                <div id="controles">
+                    <a  onclick="playVideo()" title="Play"  >
+                        <div class="ui-state-default ui-corner-all littleBox" >
+                            <span class="ui-icon ui-icon-play" style="float:left;margin: 0 4px;">
+                                Play
+                            </span>
+                        </div>
+                    </a>
+                    <a  onclick="pauseVideo()" title="Pause">
+                        <div class="ui-state-default ui-corner-all littleBox">
+                            <span class="ui-icon ui-icon-pause" style="float:left;margin: 0 4px;">
+                                Pause
+                            </span>
+                        </div>
                     </a>
                 </div>
-            </div>
+                <div id="sliderContainer">
 
-            <div id="footer">
-                <div id="ShowHideControles">
-                    <a   onclick="showHideControles()">
-                        <div title="Mostrar controles" class="ui-state-default ui-corner-all littleBox toggleControles" style="display:none;">
-                            >>
-                        </div>
-                        <div title="Ocultar controles"  class="ui-state-default ui-corner-all littleBox toggleControles" style="" >
-                            <<
-                        </div>
-                    </a>
-
-                </div>
-                <div id="controlesContainer" class="ui-widget-header ui-corner-all">	
-
-                    <div id="controles">
-                        <a  onclick="playVideo()" title="Play"  >
-                            <div class="ui-state-default ui-corner-all littleBox" >
-                                <span class="ui-icon ui-icon-play" style="float:left;margin: 0 4px;">
-                                    Play
-                                </span>
-                            </div>
-                        </a>
-                        <a  onclick="pauseVideo()" title="Pause">
-                            <div class="ui-state-default ui-corner-all littleBox">
-                                <span class="ui-icon ui-icon-pause" style="float:left;margin: 0 4px;">
-                                    Pause
-                                </span>
-                            </div>
-                        </a>
-                    </div>
-                    <div id="sliderContainer">
-
-                        <div id="controlTiempo"></div>
-                        <div id="slider"></div>
-                    </div>
+                    <div id="controlTiempo"></div>
+                    <div id="slider"></div>
                 </div>
             </div>
         </div>
+    </div>
 
 
-    </body>
+</body>
 </html>
 

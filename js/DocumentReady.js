@@ -1,5 +1,4 @@
-$(document).ready(function(){
-    
+$(document).ready(function(){    
     if(layout == "desktop"){
         //Agregar los eventos de click a los links del topnav
         $("#menuPerfilLink").click(function(e){                 

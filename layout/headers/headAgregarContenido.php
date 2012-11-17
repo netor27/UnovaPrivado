@@ -1,7 +1,4 @@
-<link rel="stylesheet" href="/layout/css/jqueryFileUpload/bootstrap-image-gallery.min.css">
-<link rel="stylesheet" href="/layout/css/jqueryFileUpload/bootstrap-responsive.min.css">
-<link rel="stylesheet" href="/layout/css/jqueryFileUpload/bootstrap.min.css">
-<link rel="stylesheet" href="/layout/css/jqueryFileUpload/jquery.fileupload-ui.css">
+<link rel="stylesheet" href="/lib/js/jqueryFileUpload/jquery.fileupload-ui.css">
 
 <link rel="stylesheet" href="/layout/css/agregarContenido.css">
 

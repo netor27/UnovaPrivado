@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es-es" xml:lang="es-es">
+<html lang="es" xml:lang="es">
     <head>
         <meta name="google" value="notranslate">
         <meta charset="utf-8" />
@@ -19,9 +19,8 @@
         <link rel="stylesheet" href="/layout/css/noticeBoxes.css" />
         <link rel="stylesheet" href="/layout/css/MainStyle.css" />        
         
-        
-        <script src="/lib/js/jquery-1.7.2.min.js"></script>	
-        <script src="/lib/js/jquery-ui-1.8.17.custom.min.js"></script>
+        <script src="/lib/js/jquery-1.8.2.min.js"></script>	
+        <script src="/lib/js/jquery-ui-1.9.1.custom.min.js"></script>
         <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
         <script src="/lib/bootstrap/js/bootbox.min.js"></script>
         <script src="/js/funciones.js"></script>	
