@@ -35,14 +35,16 @@ if (isset($var['backgroundColor'])) {
 ?>
 
 <!DOCTYPE html>
-<html >
+<html lang="es" xml:lang="es">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <meta charset="utf-8" />
         <title>Editor Unova</title>
 
         <link rel="stylesheet" media="screen" type="text/css" href="/lib/js/colorPicker/colorpicker.css" />
         <link rel="stylesheet" href="/lib/js/jquery-ui/ui-lightness/jquery-ui-1.9.1.custom.css" />
+        <link type="text/css" href="/layout/css/headerEditor.css" rel="stylesheet" />	
         <link type="text/css" href="/layout/css/editorPopcorn.css" rel="stylesheet" />	
+
 
         <script src="/lib/js/jquery-1.8.2.min.js"></script>		
         <script src="/lib/js/jquery-ui/jquery-ui-1.9.1.custom.min.js"></script>
@@ -62,7 +64,6 @@ if (isset($var['backgroundColor'])) {
         <script src="/js/funciones.js"></script>        
 
         <script language="javascript">
-
             function showHideControles(){
                 $("#controlesContainer").toggle("slow");
                 $(".toggleControles").toggle();
@@ -75,33 +76,33 @@ if (isset($var['backgroundColor'])) {
 if (isset($textos))
     foreach ($textos as $texto) {
         ?>
-                                cargarTextoEnArreglo( '<?php echo $texto['texto']; ?>','<?php echo $texto['inicio']; ?>','<?php echo $texto['fin']; ?>','<?php echo $texto['color']; ?>','<?php echo $texto['top']; ?>','<?php echo $texto['left']; ?>','<?php echo $texto['width']; ?>','<?php echo $texto['height']; ?>');
+                        cargarTextoEnArreglo( '<?php echo $texto['texto']; ?>','<?php echo $texto['inicio']; ?>','<?php echo $texto['fin']; ?>','<?php echo $texto['color']; ?>','<?php echo $texto['top']; ?>','<?php echo $texto['left']; ?>','<?php echo $texto['width']; ?>','<?php echo $texto['height']; ?>');
         <?php
     }
 if (isset($imagenes))
     foreach ($imagenes as $imagen) {
         ?>
-                                cargarImagenEnArreglo('<?php echo $imagen['urlImagen']; ?>','<?php echo $imagen['inicio']; ?>','<?php echo $imagen['fin']; ?>','<?php echo $imagen['color']; ?>','<?php echo $imagen['top']; ?>','<?php echo $imagen['left']; ?>','<?php echo $imagen['width']; ?>','<?php echo $imagen['height']; ?>');
+                        cargarImagenEnArreglo('<?php echo $imagen['urlImagen']; ?>','<?php echo $imagen['inicio']; ?>','<?php echo $imagen['fin']; ?>','<?php echo $imagen['color']; ?>','<?php echo $imagen['top']; ?>','<?php echo $imagen['left']; ?>','<?php echo $imagen['width']; ?>','<?php echo $imagen['height']; ?>');
         <?php
     }
 if (isset($videos))
     foreach ($videos as $video) {
         ?>
-                                cargarVideoEnArreglo('<?php echo $video['urlVideo']; ?>','<?php echo $video['inicio']; ?>','<?php echo $video['fin']; ?>','<?php echo $video['color']; ?>','<?php echo $video['top']; ?>','<?php echo $video['left']; ?>','<?php echo $video['width']; ?>','<?php echo $video['height']; ?>');
+                        cargarVideoEnArreglo('<?php echo $video['urlVideo']; ?>','<?php echo $video['inicio']; ?>','<?php echo $video['fin']; ?>','<?php echo $video['color']; ?>','<?php echo $video['top']; ?>','<?php echo $video['left']; ?>','<?php echo $video['width']; ?>','<?php echo $video['height']; ?>');
         <?php
     }
 if (isset($links))
     foreach ($links as $link) {
         ?>
-                                cargarLinkEnArreglo('<?php echo $link['texto']; ?>','<?php echo $link['url']; ?>','<?php echo $link['inicio']; ?>','<?php echo $link['fin']; ?>','<?php echo $link['color']; ?>','<?php echo $link['top']; ?>','<?php echo $link['left']; ?>','<?php echo $link['width']; ?>','<?php echo $link['height']; ?>');
+                        cargarLinkEnArreglo('<?php echo $link['texto']; ?>','<?php echo $link['url']; ?>','<?php echo $link['inicio']; ?>','<?php echo $link['fin']; ?>','<?php echo $link['color']; ?>','<?php echo $link['top']; ?>','<?php echo $link['left']; ?>','<?php echo $link['width']; ?>','<?php echo $link['height']; ?>');
         <?php
     }
 ?>
-            }
+    }
         </script>
         <script>
-            var iu = <?php echo $usuario->idUsuario;?>;
-            var uuid = "<?php echo $usuario->uuid;?>";
+            var iu = <?php echo $usuario->idUsuario; ?>;
+            var uuid = "<?php echo $usuario->uuid; ?>";
             var ic = <?php echo $idCurso; ?>;
             var icl = <?php echo $idClase; ?>;
         </script>
@@ -113,9 +114,26 @@ if (isset($links))
         <div id="e-bar" class="ui-corner-left">
             <div id="top-bar">
                 <a  class="logo left" id="logo"> <img src="/layout/imagenes/Unova_Logo_135x47.png"></a>
+                <div class="element right ease3">
+                    <a  class="link" >
+                        <div id="menuCursosLink">
+                            <span class="left">Menú</span>  
+                            <div id="flechaCursos" class="flechaAbajo left"></div>
+                        </div>
+                    </a>         
+                    <div id="cursos_menu">
+                        <div id="flechitaCursos"></div>
+                        <a href="#">
+                            <div class="cursoMenuElement">
+                                <div class="">Guardar</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
                 <a href="/curso/<?php echo $curso->uniqueUrl; ?>" class="element right ease3">Salir</a>                
                 <a id="btnGuardar" class="element right ease3">Guardar</a>
-                <a ></a>
             </div>
         </div>
         <div id="editorContainment" style="background-color: <?php echo $backgroundColor; ?>">
