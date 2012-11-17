@@ -16,7 +16,8 @@ $(function(){
             //console.log("h="+h+" w=" +w);
             $("#mediaPopcorn").width(w);
             $("#mediaPopcorn").height(h);
-        }
+        },
+        containment: "#editorContainment"
     });	
     $(".videoClass").bind("contextmenu", function(e) {
         e.preventDefault();

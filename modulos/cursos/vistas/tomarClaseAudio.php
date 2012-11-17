@@ -2,21 +2,37 @@
 require_once('layout/headers/headInicio.php');
 require_once('layout/headers/headTomarClase.php');
 require_once('layout/headers/headTomarClasePopcorn.php');
+
+$json = $clase->codigo;
+$var = json_decode($json, true);
+
+if (isset($var['videoData'])) {
+    $videoData = $var['videoData'];
+} else {
+    $videoData = array();
+    $videoData['top'] = 0;
+    $videoData['left'] = 0;
+    $videoData['width'] = 100;
+    $videoData['height'] = 100;
+}
+
+if (isset($var['backgroundColor'])) {
+    $backgroundColor = $var['backgroundColor'];
+} else {
+    $backgroundColor = "#000";
+}
 ?>
 <link rel="stylesheet" href="/layout/css/tomarClaseAudio.css" />
 
 <script languague="javascript">
     function cargarElementosGuardados(){
 <?php
-$json = $clase->codigo;
-
-$var = json_decode($json, true);
 if (isset($var['textos'])) {
     $textos = $var['textos'];
     foreach ($textos as $texto) {
         ?>
                         agregarTextoDiv( '<?php echo $texto['texto']; ?>','<?php echo $texto['inicio']; ?>','<?php echo $texto['fin']; ?>','<?php echo $texto['color']; ?>','<?php echo $texto['top']; ?>','<?php echo $texto['left']; ?>','<?php echo $texto['width']; ?>','<?php echo $texto['height']; ?>');
-                                                        
+                                                                                                
         <?php
     }
 }
@@ -44,15 +60,6 @@ if (isset($var['links'])) {
         <?php
     }
 }
-if (isset($var['videoData'])) {
-    $videoData = $var['videoData'];
-} else {
-    $videoData = array();
-    $videoData['top'] = 0;
-    $videoData['left'] = 0;
-    $videoData['width'] = 100;
-    $videoData['height'] = 100;
-}
 ?>
     }
 </script>
@@ -78,7 +85,7 @@ require_once('layout/headers/headCierreTomarClase.php');
 
 </div>
 
-<div id="editorContainment">
+<div id="editorContainment" style="background-color: <?php echo $backgroundColor; ?>">
 
     <div id="footnotediv">
 

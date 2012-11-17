@@ -40,7 +40,7 @@ div{
 }
 #top-bar{
     margin: auto;
-    width: 800px;
+    width: 940px;
     color: #333;
 }
 
@@ -234,4 +234,8 @@ div{
     position: fixed;
     top: 50px;
     bottom: 0%;
+}
+
+#videoContainer .ui-icon{
+    background-image: url(../../lib/js/jquery-ui/ui-lightness/images/ui-icons_ffffff_256x240.png);
 }

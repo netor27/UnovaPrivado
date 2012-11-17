@@ -11,6 +11,11 @@ $(function(){
         });
     
     cargarElementosGuardados();
+    
+    $("#btnGuardar").click(
+        function(){
+            guardar(iu, uuid, ic, icl)
+        });
 });
 
 function getUnidadPx(unidad){
