@@ -7,27 +7,31 @@
  * 
  */
 function transformarVideo($file) {
-    $return_var = -1;
-    $duration = obtenerDuracion($file);
-    $pathInfo = pathinfo($file);
+    if (file_exists($file)) {
+        $return_var = -1;
+        $duration = obtenerDuracion($file);
+        $pathInfo = pathinfo($file);
 
-    $outputFileMp4 = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . ".mp4";
-    if (file_exists($outputFileMp4)) {
-        $outputFileMp4 = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_.mp4";
+        $outputFileMp4 = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . ".mp4";
+        if (file_exists($outputFileMp4)) {
+            $outputFileMp4 = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_.mp4";
+        }
+        $outputFileOgv = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . ".webm";
+        if (file_exists($outputFileOgv)) {
+            $outputFileOgv = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_.webm";
+        }
+
+        $cmd = 'ffmpeg -i "' . $file . '" -acodec libvo_aacenc -vcodec libx264 "' . $outputFileMp4 . '" -vcodec libvpx -acodec libvorbis "' . $outputFileOgv . '"';
+        //putLog($cmd);
+        ob_start();
+        passthru($cmd, $return_var);
+        $aux = ob_get_contents();
+        ob_end_clean();
+
+        return array("return_var" => $return_var, "duration" => $duration, "outputFileMp" => $outputFileMp4, "outputFileOg" => $outputFileOgv);
+    }else{
+        return array("return_var" => -2, "error" => "El archivo no existe");
     }
-    $outputFileOgv = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . ".webm";
-    if (file_exists($outputFileOgv)) {
-        $outputFileOgv = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_.webm";
-    }
-
-    $cmd = 'ffmpeg -i "' . $file . '" -acodec libvo_aacenc -vcodec libx264 "' . $outputFileMp4 . '" -vcodec libvpx -acodec libvorbis "' . $outputFileOgv . '"';
-    //putLog($cmd);
-    ob_start();
-    passthru($cmd, $return_var);
-    $aux = ob_get_contents();
-    ob_end_clean();
-
-    return array("return_var" => $return_var, "duration" => $duration, "outputFileMp" => $outputFileMp4, "outputFileOg" => $outputFileOgv);
 }
 
 function transformarAudio($file) {
@@ -36,11 +40,11 @@ function transformarAudio($file) {
     $pathInfo = pathinfo($file);
 
     $outputFileMp3 = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . ".mp3";
-    if(file_exists($outputFileMp3)){
+    if (file_exists($outputFileMp3)) {
         $outputFileMp3 = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_.mp3";
     }
     $outputFileOgg = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . ".ogg";
-    if(file_exists($outputFileOgg)){
+    if (file_exists($outputFileOgg)) {
         $outputFileOgg = $pathInfo['dirname'] . "/" . $pathInfo['filename'] . "_.ogg";
     }
 

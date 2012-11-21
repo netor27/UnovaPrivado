@@ -4,7 +4,6 @@
 require_once('lib/php/beanstalkd/ColaMensajes.php');
 $colaMensajes = new ColaMensajes("colatrans");
 
-
 $accion;
 if (!isset($_GET['a'])) {
     $accion = "status";
