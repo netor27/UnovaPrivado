@@ -6,9 +6,10 @@ $(function(){
     
     $("#dialog-form-imagen").dialog({
         autoOpen: false,
-        height:650,
+        height:450,
         width: 550,
         modal: true,
+        resizable: false,
         buttons:{
             "Aceptar": function(){
                 if(editarImagenBandera){
@@ -19,15 +20,15 @@ $(function(){
                 
                 $(this).dialog("close");
                 $("#urlImagen").val("");
+                $('#imagenTabs').tabs('select', 0);
             },
             "Cancelar": function(){
                 $(this).dialog("close");
+                $('#imagenTabs').tabs('select', 0);
             }
         }
     });	 
-    $('#imagenAccordion').accordion({
-        autoHeight: false
-    });
+    $('#imagenTabs').tabs();
     
     $("#colorHiddenImagen").val("#FFFFFF");
     $('#colorSelectorImagen').ColorPicker({

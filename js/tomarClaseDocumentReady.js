@@ -24,9 +24,6 @@ $(function(){
             }
             return true;
         });
-    //$("body").bind("contextmenu", function(e) {
-    //            e.preventDefault();
-    //        });
     }else {
     //bind para dispositivos con pantalla tactil
     //NO SIRVE NINGÚN LINK SI HAY UN VIDEO ABAJO

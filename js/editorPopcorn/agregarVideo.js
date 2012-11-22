@@ -6,9 +6,10 @@ $(function(){
     
     $("#dialog-form-video").dialog({
         autoOpen: false,
-        height:650,
+        height:450,
         width: 550,
         modal: true,
+        resizable: false,
         buttons:{
             "Aceptar": function(){
                 if(editarVideoBandera){
@@ -19,15 +20,15 @@ $(function(){
                 
                 $(this).dialog("close");
                 $("#urlVideo").val("");
+                $('#videoTabs').tabs('select', 0);
             },
             "Cancelar": function(){
                 $(this).dialog("close");
+                $('#videoTabs').tabs('select', 0);
             }
         }
     });	 
-    $('#videoAccordion').accordion({
-        autoHeight: false
-    });
+    $('#videoTabs').tabs();
     
     $("#colorHiddenVideo").val("#FFFFFF");
     $('#colorSelectorVideo').ColorPicker({

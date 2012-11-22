@@ -13,7 +13,7 @@ require_once('layout/headers/headCierre.php');
                 <br>
                 <a href="/cursos/curso/cambiarImagen/<?php echo $cursoParaModificar->idCurso; ?>">Cambiar imagen</a>
             </div>            
-            <div id="cursoHeader_info" class="left" style="width:630px">
+            <div id="cursoHeader_info" class="left" style="width:500px">
                 <div id="cursoHeader_info_titulo">
                     <h1 itemprop="name"><?php echo $cursoParaModificar->titulo; ?></h1>
                 </div>
@@ -44,7 +44,7 @@ require_once('layout/headers/headCierre.php');
         </div>
         <div id="cursoHeader_right" class="right">
             <a href="/cursos/curso/editarInformacionCurso/<?php echo $cursoParaModificar->idCurso; ?>" >
-                <div class="blueButton">Editar información del curso</div>
+                <div class="btn btn-info">Editar información del curso</div>
             </a>
         </div>
         
@@ -72,10 +72,10 @@ require_once('layout/headers/headCierre.php');
             if (isset($temas)) {
                 ?>
                 <div class="right">
-                    <a href="/temas/tema/agregarTema/<?php echo $cursoParaModificar->idCurso; ?>" class="blueButton">Agregar un tema</a>
+                    <a href="/temas/tema/agregarTema/<?php echo $cursoParaModificar->idCurso; ?>" class="btn">Agregar un tema</a>
                 </div> 
                 <div class="centerText" style="padding: 10px;">
-                    <a href="/cursos/curso/agregarContenido/<?php echo $cursoParaModificar->idCurso; ?>" class="blueButton" id="agregarContenido">Agregar contenido</a>
+                    <a href="/cursos/curso/agregarContenido/<?php echo $cursoParaModificar->idCurso; ?>" class="btn btn-large btn-primary" id="agregarContenido">Agregar contenido</a>
                 </div>
                 <p>
                     Arrastra y suelta las clases para ordenarlas

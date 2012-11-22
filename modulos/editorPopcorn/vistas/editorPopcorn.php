@@ -59,6 +59,8 @@ if (isset($var['backgroundColor'])) {
         <script src="/js/editorPopcorn/agregarTexto.js"></script>
         <script src="/js/editorPopcorn/agregarVideo.js"></script>
         <script src="/js/editorPopcorn/agregarLink.js"></script>
+        
+        <script src="/js/editorPopcorn/cambiarColorFondo.js"></script>
 
         <script src="/js/editorPopcorn/cargarPopcorn.js"></script>
         <script src="/js/funciones.js"></script>        
@@ -105,39 +107,83 @@ if (isset($links))
             var uuid = "<?php echo $usuario->uuid; ?>";
             var ic = <?php echo $idCurso; ?>;
             var icl = <?php echo $idClase; ?>;
+            var urlCurso = "<?php echo "/curso/" . $curso->uniqueUrl; ?>";
         </script>
     </head>
     <body>
         <div id="modalDialog">
 
         </div>
-        <div id="e-bar" class="ui-corner-left">
+        <div id="e_bar">
             <div id="top-bar">
                 <a  class="logo left" id="logo"> <img src="/layout/imagenes/Unova_Logo_135x47.png"></a>
-                <div class="element right ease3">
-                    <a  class="link" >
-                        <div id="menuCursosLink">
+                <div class="element left ease3">
+                    <a class="link">
+                        <div id="menuLink">
                             <span class="left">Menú</span>  
-                            <div id="flechaCursos" class="flechaAbajo left"></div>
+                            <div id="flechaMenu" class="flechaAbajo left"></div>
                         </div>
                     </a>         
-                    <div id="cursos_menu">
-                        <div id="flechitaCursos"></div>
-                        <a href="#">
-                            <div class="cursoMenuElement">
-                                <div class="">Guardar</div>
-                            </div>
-                        </a>
+                    <div id="menu">
+                        <div id="flechitaMenu"></div>
+                        <div id="menuLinks">
+                            <a id="btnGuardar">
+                                <div class="menuElement">
+                                    <div class="">Guardar</div>
+                                </div>
+                            </a>
+                            <a id="btnSalir">
+                                <div class="menuElement">
+                                    <div class="">Salir</div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
-
-
-                <a href="/curso/<?php echo $curso->uniqueUrl; ?>" class="element right ease3">Salir</a>                
-                <a id="btnGuardar" class="element right ease3">Guardar</a>
+                <div class="element left ease3">
+                    <a class="link">
+                        <div id="menuAgregarLink">
+                            <span class="left">Editar</span>  
+                            <div id="flechaMenu" class="flechaAbajo left"></div>
+                        </div>
+                    </a>         
+                    <div id="menuAgregar">
+                        <div id="flechitaMenuAgregar"></div>
+                        <div id="menuAgregarLinks">
+                            <a id="btnCambiarColor" onclick="mostrarDialogoCambiarColorFondo()">
+                                <div class="menuElement">
+                                    <div class="">Cambiar color fondo</div>
+                                </div>
+                            </a>
+                            <a id="btnAgregarTexto" onClick="mostrarDialogoInsertarTexto()">
+                                <div class="menuAgregarElement">
+                                    <div class="">
+                                        <span>Agregar texto</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a id="btnAgregarImagen" onClick="mostrarDialogoInsertarImagen()">
+                                <div class="menuAgregarElement">
+                                    <div class=""><span>Agregar imagen</span></div>
+                                </div>
+                            </a>
+                            <a id="btnAgregarVideo" onClick="mostrarDialogoInsertarVideo()">
+                                <div class="menuAgregarElement">
+                                    <div class=""><span>Agregar video</span></div>
+                                </div>
+                            </a>
+                            <a id="btnAgregarPagina" onClick="mostrarDialogoInsertarLink()">
+                                <div class="menuAgregarElement">
+                                    <div class=""><span>Agregar página web</span></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="editorContainment" style="background-color: <?php echo $backgroundColor; ?>">
-            <div id="videoContainer" class="draggable resizable ui-widget-content" style="background:transparent; position: absolute; top: <?php echo $top . '%'; ?>; left: <?php echo $left . '%'; ?>; width: <?php echo $width . '%'; ?>; height: <?php echo $height . '%'; ?>;">				
+            <div id="videoContainer" class="draggable resizable ui-widget-content" style="z-index:-10; background:transparent; position: absolute; top: <?php echo $top . '%'; ?>; left: <?php echo $left . '%'; ?>; width: <?php echo $width . '%'; ?>; height: <?php echo $height . '%'; ?>;">				
                 <video id="mediaPopcorn" class="videoClass">
                     <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/1" type="video/mp4">
                     <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/2" type="video/ogg">
@@ -150,28 +196,8 @@ if (isset($links))
             require_once 'modulos/editorPopcorn/vistas/formaAgregarImagen.php';
             require_once 'modulos/editorPopcorn/vistas/formaAgregarVideo.php';
             require_once 'modulos/editorPopcorn/vistas/formaAgregarLink.php';
+            require_once 'modulos/editorPopcorn/vistas/formaCambiarColor.php';
             ?>
-            <div id="toolboxContainer">
-                <div id="ShowHideToolbox" class="ui-state-hover ui-corner-all">
-                    <img class="showHideToolboxButton" src="/layout/imagenes/Agregar.png" >
-                    <img class="showHideToolboxButton" src="/layout/imagenes/AgregarMenos.png" style="display:none;">
-                </div>
-                <div id="toolbox" class="ui-state-highlight ui-corner-all" style="display:none;">                
-                    <a  onClick="mostrarDialogoInsertarTexto()" title="Agregar texto" class="ui-corner-all">
-                        <img src="/layout/imagenes/agregarTexto.png">
-                    </a><br>
-                    <a   onClick="mostrarDialogoInsertarImagen()" title="Agregar imagen" class="ui-corner-all">
-                        <img src="/layout/imagenes/agregarImagen.png">
-                    </a><br>
-                    <a  onClick="mostrarDialogoInsertarVideo()" title="Agregar video" class="ui-corner-all">
-                        <img src="/layout/imagenes/agregarVideo.png">
-                    </a><br>
-                    <a  onClick="mostrarDialogoInsertarLink()" title="Agregar página web" class="ui-corner-all">
-                        <img src="/layout/imagenes/agregarPagina.png">
-                    </a>
-                </div>
-            </div>
-
             <div id="footer">
                 <div id="ShowHideControles">
                     <a   onclick="showHideControles()">

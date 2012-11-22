@@ -24,16 +24,19 @@ div{
     float: right;
     display: block;
 }
+.centerText{    
+    text-align: center;
+}
 
-#e-bar {
+#e_bar {
     color: white;
     background: #333 url('images/headerbg.png') 50% 50% repeat-x;
     position: fixed;
+    top: 0px;
+    left: 0px;
     width: 100%;
-    top:0%;
-    right:0%;
     z-index: 10;
-    overflow: hidden;
+    height: 50px;
     box-shadow: rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
     -webkit-box-shadow: rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
     -moz-box-shadow: rgba(31, 31, 31, 0.816406) 0px;
@@ -50,15 +53,17 @@ div{
 }
 #top-bar .logo {
     width: 135px;
-    padding-left: 35px;
+    padding-right: 100px;
 }
 #top-bar .element {
+    width: 150px;
+}
+#top-bar .element .link {
     line-height: 47px;
-    padding: 0 40px;
     color: white;
     font-size: 14px;
-    font-weight: bold;
-
+    font-weight: normal;
+    cursor: pointer;
 }
 
 .littleBox{
@@ -78,17 +83,6 @@ div{
     width:100%;
     height:100%;
     border: none;
-}
-
-#toolboxContainer{
-    position: fixed;
-    height: 200px;
-    left:0%;
-    top: 20%;
-    z-index:99;
-}
-#toolbox{
-
 }
 
 #footer{
@@ -128,7 +122,7 @@ div{
 .elementButtons{
     float: right;
     display: block;
-    position: relative;
+    position: absolute;
     top: 0%;
     right:0%;    
     z-index: 9;
@@ -155,9 +149,7 @@ div{
     width:auto; 
     height:auto; 
     display:block;
-    float:left;
     padding: 3px;
-    text-wrap: normal;
 }
 
 .imagenAgregada{
@@ -219,11 +211,10 @@ div{
     height: 100%;
 }
 
-
 .error,
 .notice,
 .success,
-.info { padding: 0.8em; margin-bottom: 1em; }
+.info {  }
 
 .error {color: #8a1f11;  }
 .success       { color: #264409; }
@@ -238,4 +229,139 @@ div{
 
 #videoContainer .ui-icon{
     background-image: url(../../lib/js/jquery-ui/ui-lightness/images/ui-icons_ffffff_256x240.png);
+}
+
+.flechaArriba {
+    display: block;
+    width: 13px;
+    height: 13px;
+    background: url('../imagenes/up.png') no-repeat;
+    margin-left: 6px;
+    margin-top: 17px;
+}
+
+.flechaAbajo {
+    display: block;
+    width: 13px;
+    height: 13px;
+    background: url('../imagenes/down.png') no-repeat;
+    margin-left: 6px;
+    margin-top: 16px;
+}
+
+#menu {
+    display: none;
+    text-align: left;
+    position: relative;
+    right: 55px;
+    top: 12px;
+    background-color: white;
+    color: black;
+    min-width: 150px;
+    z-index: 100;
+    border: solid #333;
+    margin-top: 47px;
+    border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    box-shadow: rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
+    -webkit-box-shadow: rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
+    -moz-box-shadow: rgba(31, 31, 31, 0.816406) 0px;
+}
+#flechitaMenu {
+    background-image: url(../imagenes/flechita.png);
+    background-repeat: no-repeat;
+    background-size: auto;
+    height: 11px;
+    position: absolute;
+    top: -11px;
+    width: 20px;
+    left: 68px;
+}
+#menuElement{
+    overflow: hidden;
+    padding: 5px 5px 5px 5px;
+}
+#menu a {
+    float: left;
+    color: #006187;
+    font-weight: bolder;
+    font-size: 14px;
+    width: 100%;
+    padding: 10px 0px 10px 10px;
+}
+#menu a:hover{
+    background-color: #006187;
+    color:white;    
+    font-weight: 100;
+    font-size: 14px;
+    font-weight: bolder;
+    text-decoration: none;
+}
+#menuLinks{
+    overflow-y: auto;
+    overflow-x: hidden;
+    cursor: pointer;
+}
+
+
+#menuAgregar {
+    display: none;
+    text-align: left;
+    position: relative;
+    right: 55px;
+    top: 12px;
+    background-color: white;
+    color: black;
+    min-width: 150px;
+    z-index: 100;
+    border: solid #333;
+    margin-top: 47px;
+    border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    box-shadow: rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
+    -webkit-box-shadow: rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
+    -moz-box-shadow: rgba(31, 31, 31, 0.816406) 0px;
+}
+#flechitaMenuAgregar {
+    background-image: url(../imagenes/flechita.png);
+    background-repeat: no-repeat;
+    background-size: auto;
+    height: 11px;
+    position: absolute;
+    top: -11px;
+    width: 20px;
+    left: 68px;
+}
+#menuAgregarElement{
+    overflow: hidden;
+    padding: 5px 5px 5px 5px;
+}
+#menuAgregar a {
+    float: left;
+    color: #006187;
+    font-weight: bolder;
+    font-size: 14px;
+    width: 100%;
+    padding: 10px 0px 10px 10px;
+}
+#menuAgregar a:hover{
+    background-color: #006187;
+    color:white;    
+    font-weight: 100;
+    font-size: 14px;
+    font-weight: bolder;
+    text-decoration: none;
+}
+#menuAgregarLinks{
+    overflow-y: auto;
+    overflow-x: hidden;
+    cursor: pointer;
+}
+
+#btnCambiarColor{
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: #233E6A;
 }

@@ -1,4 +1,41 @@
 $(function(){
+    
+    $('#menuLink').click(function(){
+        //cambiamos la flecha
+        if($("#flechaMenu").hasClass('flechaAbajo')){
+            $("#flechaMenu").removeClass('flechaAbajo');
+            $("#flechaMenu").addClass('flechaArriba');  
+        }else{
+            $("#flechaMenu").removeClass('flechaArriba');
+            $("#flechaMenu").addClass('flechaAbajo');
+        }
+        $("#menu").toggle("swing"); 
+    });
+    
+    $('#menuAgregarLink').click(function(){
+        //cambiamos la flecha
+        if($("#flechaMenuAgregar").hasClass('flechaAbajo')){
+            $("#flechaMenuAgregar").removeClass('flechaAbajo');
+            $("#flechaMenuAgregar").addClass('flechaArriba');  
+        }else{
+            $("#flechaMenuAgregar").removeClass('flechaArriba');
+            $("#flechaMenuAgregar").addClass('flechaAbajo');
+        }
+        $("#menuAgregar").toggle("swing"); 
+    });
+    
+    //Evento en todo el body que cierra el menu 
+    $(document).mouseup(function(e){       
+        var id = $(e.target).parents("div").attr("id");
+        if(id != "menuLink"){
+            cerrarMenu();
+        }        
+        if(id != "menuAgregarLink"){
+            cerrarMenuAgregar();
+        }   
+    });
+    
+    
     //Para evitar que al presionar enter se cierre el dialogo
     $('form').submit(function(e){
         return false;
@@ -14,9 +51,48 @@ $(function(){
     
     $("#btnGuardar").click(
         function(){
-            guardar(iu, uuid, ic, icl)
+            guardar(iu, uuid, ic, icl,false)
+        });
+    $("#btnSalir").click(
+        function(){
+            $("#modalDialog").html("<h1>Estás apunto de salir</h1>");
+            $( "#modalDialog" ).dialog({
+                height: 250,
+                width: 500,
+                draggable: true,
+                resizable: false,
+                modal: true,
+                buttons:{ 
+                    "Guardar y Salir": function(){
+                        guardar(iu, uuid, ic, icl,true);
+                        
+                    },
+                    "Salir sin guardar": function(){
+                        salir();
+                    },
+                    "Cancelar":function(){
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        });
+        
+    $("#btnCambiarColor").click(function(){
+            
         });
 });
+
+function cerrarMenu(){
+    $("#menu").hide("swing");
+    $("#flechaMenu").removeClass("flechaArriba");
+    $("#flechaMenu").addClass("flechaAbajo");
+}
+
+function cerrarMenuAgregar(){
+    $("#menuAgregar").hide("swing");
+    $("#flechaMenuAgregar").removeClass("flechaArriba");
+    $("#flechaMenuAgregar").addClass("flechaAbajo");
+}
 
 function getUnidadPx(unidad){
     var aux = ""+unidad;
@@ -64,24 +140,24 @@ function stringToSeconds(str){
 }
 
 //Guardar los datos
-function guardar(u, uuid, cu, cl){    
+function guardar(u, uuid, cu, cl, salirDespuesDeGuardar){    
     pauseVideo();
     
-    $("#modalDialog").html("<div style='float:left;'><p>Guardando...</p><p>Espera un momento</p><br></div><img style=' float:right; width:50px;' src='/layout/imagenes/loading.gif'>");
+    $("#modalDialog").html("<h1>Guardando, espera un momento...</h1><br><img style='width:50px;' src='/layout/imagenes/loading.gif'>");
     $( "#modalDialog" ).dialog({
-        height: 230,
-        draggable: false,
+        height: 250,
+        width: 500,
+        draggable: true,
         resizable: false,
         modal: true,
-        buttons:{
-            "Aceptar": function(){
-                $(this).dialog("close");
-            }
-        }
+        buttons:{ }
     });  
-    $containmentWidth = $("#editorContainment").width();
-    $containmentHeight  = $("#editorContainment").height();
     
+    backgroundColor = $("#editorContainment").css("background-color");
+    console.log(backgroundColor);
+    
+    $containmentWidth = $("#editorContainment").width();
+    $containmentHeight  = $("#editorContainment").height();    
     var videoData = {
         top: $("#videoContainer").position().top * 100 / $containmentHeight,
         left: $("#videoContainer").position().left * 100 / $containmentWidth,
@@ -97,6 +173,7 @@ function guardar(u, uuid, cu, cl){
         uuid: uuid,
         cu: cu,
         cl: cl,
+        backgroundColor : backgroundColor,
         videoData: videoData,
         textos:  textos,
         imagenes: imagenes,
@@ -110,13 +187,32 @@ function guardar(u, uuid, cu, cl){
         url: '/cursos/clase/guardarEdicionVideo',
         data: data
     }).done(function( html ) {
-        var res = jQuery.parseJSON(html);
-        
+        var res = jQuery.parseJSON(html);        
         if(res.resultado == "error"){
             $("#modalDialog").html("<h3 class='error'>&iexcl;Error!</h3><br>"+res.mensaje);
         }else{
-            $("#modalDialog").html("<h3 class='success'>&iexcl;Bien!</h3><br>"+res.mensaje);
-        }
-        $("#modalDialog").dialog("open");
+            console.log('antes de salir');
+            if(salirDespuesDeGuardar){
+                salir();
+            }else{
+                $("#modalDialog").html("<h1 class=''>"+res.mensaje+"</h3>");
+                $( "#modalDialog" ).dialog({
+                    height: 250,
+                    width: 500,
+                    draggable: true,
+                    resizable: false,
+                    modal: true,
+                    buttons:{ 
+                        "Aceptar": function(){
+                            $(this).dialog("close");
+                        }
+                    }
+                }); 
+            }
+        } 
     });
+}
+
+function salir(){
+    redirect(urlCurso);
 }

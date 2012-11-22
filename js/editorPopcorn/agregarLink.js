@@ -6,9 +6,10 @@ $(function(){
     
     $("#dialog-form-link").dialog({
         autoOpen: false,
-        height:650,
+        height:450,
         width: 550,
         modal: true,
+        resizable: false,
         buttons:{
             "Aceptar": function(){
                 if(editarLinkBandera){
@@ -20,9 +21,11 @@ $(function(){
                 $(this).dialog("close");
                 $('#urlLink').val("");
                 $('#textoLink').val("");
+                $('#linkTabs').tabs('select', 0);
             },
             "Cancelar": function(){
                 $(this).dialog("close");
+                $('#linkTabs').tabs('select', 0);
             }
         }
     });	
@@ -41,9 +44,7 @@ $(function(){
     $("#tiempoInicioLink").blur(validarTiemposLink);
     $("#tiempoFinLink").blur(validarTiemposLink);
     
-    $('#linkAccordion').accordion({
-        autoHeight: false
-    });
+    $('#linkTabs').tabs();
 });
 
 function mostrarDialogoInsertarLink(){

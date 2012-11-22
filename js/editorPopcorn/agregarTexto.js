@@ -2,13 +2,13 @@ var textos = [];
 var editarTextoBandera = false;
 var idEditar = -1;
 
-$(function(){
-    
+$(function(){    
     $("#dialog-form-texto").dialog({
         autoOpen: false,
-        height:650,
+        height:510,
         width: 550,
         modal: true,
+        resizable: false,
         buttons:{
             "Aceptar": function(){
                 if(editarTextoBandera){
@@ -19,9 +19,11 @@ $(function(){
                 
                 $(this).dialog("close");
                 $('#textoTinyMce').html("");
+                $('#textTabs').tabs('select', 0);
             },
             "Cancelar": function(){
                 $(this).dialog("close");
+                $('#textTabs').tabs('select', 0);
             }
         }
     });	
@@ -57,9 +59,7 @@ $(function(){
         theme_advanced_statusbar_location : "bottom"
     });  
     
-    $('#textAccordion').accordion({
-        autoHeight: false
-    });
+    $('#textTabs').tabs();
 });
 
 function mostrarDialogoInsertarTexto(){
@@ -134,8 +134,14 @@ function mostrarDialogoEditarTexto(idTexto){
         values: [ inicio, fin ],
         slide: function( event, ui ) {
             //console.log( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ]);
-            if(ui.values[0] == ui.values[1])
-                ui.values[1] = ui.values[1]+1;
+            if(ui.values[0] == ui.values[1]){
+                if(ui.values[1] == 0){
+                    ui.values[1] = 1;
+                }
+                if(ui.values[0] == totalTime){
+                   ui.values[0] = totalTime - 1;
+                }
+            }
             $('#tiempoInicioTexto').val(transformaSegundos(ui.values[ 0 ]));
             $('#tiempoFinTexto').val(transformaSegundos(ui.values[ 1 ]));
         }
@@ -170,8 +176,8 @@ function editarTexto(){
 
 function agregarTextoDiv(indice, texto, inicio, fin, color, top, left, width, height){
     
-    var textoDiv = '<div id="texto_'+indice+'" class="ui-corner-all textoAgregado stack draggable" style="overflow:auto; background-color: '+color+'; position: fixed; top: '+getUnidadPx(top)+'; left: '+getUnidadPx(left)+'; width: '+getUnidadPx(width)+'; height: '+getUnidadPx(height)+';">' +
-    '<div id="content_'+indice+'" style="width:90%; height:90%; padding:5px;">'+
+    var textoDiv = '<div id="texto_'+indice+'" class="ui-corner-all textoAgregado stack draggable" style="overflow-y:auto; background-color: '+color+'; position: fixed; top: '+getUnidadPx(top)+'; left: '+getUnidadPx(left)+'; width: '+getUnidadPx(width)+'; height: '+getUnidadPx(height)+';">' +
+    '<div id="content_'+indice+'" style="padding:5px; width:100%; height:100%;">'+
     '<div class="elementButtons">' +
     '<a href="#" onclick=mostrarDialogoEditarTexto('+indice+')>'+
     '<div class="ui-state-default ui-corner-all littleBox">' +

@@ -5,7 +5,7 @@
     padding: 30px 0px 0px 0px;
 }
 #cursoHeader_img{
-    padding:0px 30px 30px 0px;
+    padding: 0px 30px 5px 0px;
 }
 #cursoHeader_info{
 
@@ -20,8 +20,6 @@
 }
 
 #cursoTabs{
-    margin-top: 20px;
-    overflow: hidden;
 }
 .temaHeader{
     float:left;
@@ -126,8 +124,6 @@
 }
 
 #agregarContenido{
-    font-size: 25px;
-    margin-top: 75px;
 }
 
 a:hover{

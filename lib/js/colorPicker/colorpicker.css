@@ -71,8 +71,8 @@
 	background-color: transparent;
 	border: 1px solid transparent;
 	position: absolute;
-	font-size: 10px;
-	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px !important;
+	font-family: Arial, Helvetica, sans-serif !important;
 	color: #898989;
 	top: 4px;
 	right: 11px;

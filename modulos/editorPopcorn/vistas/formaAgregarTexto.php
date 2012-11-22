@@ -1,14 +1,17 @@
 <div id="dialog-form-texto" title="Cuadro de Texto">
-    <div id="textAccordion">
-        <h3><a >Texto</a></h3>
-        <div>
+    <div id="textTabs">
+        <ul>
+            <li><a href="#textoTab">Texto</a></li>
+            <li><a href="#tiempoTab">Tiempo</a></li>
+            <li><a href="#colorFondoTab">Color de fondo</a></li>
+        </ul>
+        
+        <div id="textoTab">
             <div style="height: 320px;">
                 <textarea id="textoTinyMce"></textarea>
             </div>
-        </div>
-        
-        <h3><a >Tiempo</a></h3>
-        <div>
+        </div>        
+        <div id="tiempoTab">
             <table>
                 <tr>
                     <td><label for="Tiempo Inicial">Tiempo inicial</label></td>
@@ -20,9 +23,8 @@
                 </tr> 
             </table>
             <div id="tiempoRangeSliderTexto"></div>
-        </div>
-        <h3><a >Color de fondo</a></h3>
-        <div>
+        </div>        
+        <div id="colorFondoTab">
             <div id="colorSelectorTexto" ></div>
             <input type="hidden" name="colorHidden" id="colorHiddenTexto"/>
             <br><br>
