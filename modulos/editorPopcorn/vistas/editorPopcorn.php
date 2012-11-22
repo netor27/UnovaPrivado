@@ -59,7 +59,7 @@ if (isset($var['backgroundColor'])) {
         <script src="/js/editorPopcorn/agregarTexto.js"></script>
         <script src="/js/editorPopcorn/agregarVideo.js"></script>
         <script src="/js/editorPopcorn/agregarLink.js"></script>
-        
+
         <script src="/js/editorPopcorn/cambiarColorFondo.js"></script>
 
         <script src="/js/editorPopcorn/cargarPopcorn.js"></script>
@@ -103,11 +103,12 @@ if (isset($links))
     }
         </script>
         <script>
-            var iu = <?php echo $usuario->idUsuario; ?>;
-            var uuid = "<?php echo $usuario->uuid; ?>";
-            var ic = <?php echo $idCurso; ?>;
-            var icl = <?php echo $idClase; ?>;
-            var urlCurso = "<?php echo "/curso/" . $curso->uniqueUrl; ?>";
+        var iu = <?php echo $usuario->idUsuario; ?>;
+        var uuid = "<?php echo $usuario->uuid; ?>";
+        var ic = <?php echo $idCurso; ?>;
+        var icl = <?php echo $idClase; ?>;
+        var urlCurso = "<?php echo "/curso/" . $curso->uniqueUrl; ?>";
+        var $esAudio = <?php if ($clase->idTipoClase == 0) echo "false"; else echo "true"; ?>;
         </script>
     </head>
     <body>
@@ -184,10 +185,23 @@ if (isset($links))
         </div>
         <div id="editorContainment" style="background-color: <?php echo $backgroundColor; ?>">
             <div id="videoContainer" class="draggable resizable ui-widget-content" style="z-index:-10; background:transparent; position: absolute; top: <?php echo $top . '%'; ?>; left: <?php echo $left . '%'; ?>; width: <?php echo $width . '%'; ?>; height: <?php echo $height . '%'; ?>;">				
-                <video id="mediaPopcorn" class="videoClass">
-                    <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/1" type="video/mp4">
-                    <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/2" type="video/ogg">
-                </video>
+                <?php
+                if ($clase->idTipoClase == 0) {
+                    ?>
+                    <video id="mediaPopcorn" class="videoClass">
+                        <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/1" type="video/mp4">
+                        <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/2" type="video/ogg">
+                    </video>
+                    <?php
+                } else if ($clase->idTipoClase == 4) {
+                    ?>
+                    <audio id="mediaPopcorn" class="videoClass">
+                        <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/1" type="video/mp3">
+                        <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/2" type="video/ogg">
+                    </audio>
+                    <?php
+                }
+                ?>
             </div>
             <div id="footnotediv">
             </div>

@@ -1,13 +1,13 @@
 <link rel="stylesheet" href="/lib/js/jqueryFileUpload/jquery.fileupload-ui.css">
-
 <link rel="stylesheet" href="/layout/css/agregarContenido.css">
+
+<script src="/lib/js/jquery-ui/jquery-ui-1.9.1.custom.min.js"></script>
 
 <script src="/lib/js/jqueryFileUpload/tmpl.min.js"></script>
 <script src="/lib/js/jqueryFileUpload/load-image.min.js"></script>
 <script src="/lib/js/jqueryFileUpload/canvas-to-blob.min.js"></script>
 <script src="/lib/js/jqueryFileUpload/bootstrap.min.js"></script>
 <script src="/lib/js/jqueryFileUpload/bootstrap-image-gallery.min.js"></script>
-
 
 <script src="/lib/js/jqueryFileUpload/jquery.iframe-transport.js"></script>
 <script src="/lib/js/jqueryFileUpload/jquery.fileupload.js"></script>

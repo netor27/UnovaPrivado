@@ -1,19 +1,5 @@
 $(document).ready(function() {
     
-    //Inicializar los dialogs
-    $( "#videoSubidoDialog" ).dialog({
-        height: 160,
-        width: 400,
-        modal: true,
-        autoOpen: false
-    });
-    $( "#dialog" ).dialog({
-        height: 360,
-        width: 500,
-        modal: true,
-        autoOpen: false
-    });
-    
     //Cambiamos la forma en la que el navegador ejecuta el drag y el drop
     $(document).bind('drop dragover', function (e) {
         e.preventDefault();

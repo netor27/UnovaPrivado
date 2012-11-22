@@ -127,9 +127,9 @@ require_once('layout/headers/headCierre.php');
                                             </div>
                                             <div class="claseLinks right showOnHover">   
                                                 <?php
-                                                if ($clases[$j]->idTipoClase == 0) {
+                                                if ($clases[$j]->idTipoClase == 0 || $clases[$j]->idTipoClase == 4) {
                                                     ?>
-                                                    <a href="/cursos/clase/editorVideo/<?php echo $cursoParaModificar->idCurso . "/" . $clases[$j]->idClase; ?>">Agregar interactividad al video</a>
+                                                    <a href="/cursos/clase/editor/<?php echo $cursoParaModificar->idCurso . "/" . $clases[$j]->idClase; ?>">Agregar interactividad</a>
                                                     <?php
                                                 }
                                                 ?>

@@ -5,9 +5,9 @@ $(function(){
     validarSesion();
     var segundos  = 30;
     setInterval(validarSesion, segundos * 1000);
-    $("body").bind("contextmenu", function(e) {
-        e.preventDefault();
-    });
+//    $("body").bind("contextmenu", function(e) {
+//        e.preventDefault();
+//    });
 });
 
 function validarSesion(){

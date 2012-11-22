@@ -196,7 +196,8 @@ function agregarLinkDiv(indice, texto, url, inicio, fin, color, top, left, width
             links[indice].top = ui.offset.top * 100 / $containmentHeight;
             links[indice].left = ui.offset.left * 100 / $containmentWidth;            
         //logLinksAgregados();
-        }
+        },
+        snap: true
     });
     $("#link_"+indice).resizable({
         minHeight: 50,

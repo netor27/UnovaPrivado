@@ -7,7 +7,8 @@ var $containmentHeight = 100;
 $(function(){
     //Configuración inicial    
     $("#videoContainer").draggable({
-        containment: "#editorContainment"
+        containment: "#editorContainment",
+        snap: true
     });
     $("#videoContainer").resizable({
         resize: function(event, ui) {
@@ -17,6 +18,8 @@ $(function(){
             $("#mediaPopcorn").width(w);
             $("#mediaPopcorn").height(h);
         },
+        minHeight: 30,
+        minWidth: 250,
         containment: "#editorContainment"
     });	
     $(".videoClass").bind("contextmenu", function(e) {
@@ -30,7 +33,7 @@ Popcorn( function() {
 
 function inicializarPopcorn(){
     $popPrincipal = Popcorn('#mediaPopcorn');
-    $popPrincipal.controls(false);
+    $popPrincipal.controls($esAudio);
     $popPrincipal.volume(0.5);
     $popPrincipal.autoplay(true);
 

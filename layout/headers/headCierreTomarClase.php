@@ -48,13 +48,13 @@
                                                     echo '<img src="/layout/imagenes/video.png">';
                                                     break;
                                                 case 1:
-                                                    echo '<img src="/layout/imagenes/document.png">';
-                                                    break;
-                                                case 2:
                                                     echo '<img src="/layout/imagenes/presentation.png">';
                                                     break;
-                                                default:
+                                                case 2:
                                                     echo '<img src="/layout/imagenes/document.png">';
+                                                    break;
+                                                default:
+                                                    echo '<img src="/layout/imagenes/video.png">';
                                                     break;
                                             }
                                             echo '<span class="left">' . $claseF->titulo . '</span>';
