@@ -42,6 +42,7 @@
 
 }
 #editorContainment{
+    z-index: -20;
     width: 100%;
     display: block;
     position: fixed;
