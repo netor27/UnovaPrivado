@@ -15,7 +15,12 @@
                     <br><br>
                     <button class="button" id="buttonUpload" onclick="return ajaxImageFileUpload();">Subir imagen</button>
                     <br><br>
-                    <img id="loadingUploadImage" src="/layout/imagenes/loading.gif" style="display:none; width: 50px;">
+                    <div id="loadingUploadImage">
+                        <h4>Tu imagen se esta subiendo...</h4>
+                        <br>
+                        <img src="/layout/imagenes/loading.gif" style="display:none; width: 50px;">
+                    </div>
+                    
                 </form>
                 <br><br>
                 <label>Ó puedes escribir el link a la imagen:</label>
