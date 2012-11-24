@@ -15,10 +15,10 @@
                     <br><br>
                     <button class="button" id="buttonUpload" onclick="return ajaxImageFileUpload();">Subir imagen</button>
                     <br><br>
-                    <div id="loadingUploadImage">
+                    <div id="loadingUploadImage" style="display: none;">
                         <h4>Tu imagen se esta subiendo...</h4>
                         <br>
-                        <img src="/layout/imagenes/loading.gif" style="display:none; width: 50px;">
+                        <img src="/layout/imagenes/loading.gif" style="width: 50px;">
                     </div>
                     
                 </form>
