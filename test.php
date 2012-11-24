@@ -1,20 +1,30 @@
 <?php
-$path = "/";
-if(isset($_POST['path'])){
-    $path = $_POST['path'];
+
+if (isset($_POST['dato'])) {
+    print_r($_POST);
+    echo '<br><br><br>Imagen:<br>';
+    print_r($_FILES['imagen']);
+} else {
+    ?>
+    <script src="lib/js/ajaxFileUpload/webtoolkit.aim.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        
+    </script>
+
+    <form action="subirArchivos.php?a=subirImagen" method="post" enctype="multipart/form-data">
+        <div>
+            <label>Name:</label>
+            <input name="dato" type="text" />
+        </div>
+        <div>
+            <label>File:</label>
+            <input name="imagen" type="file" />
+        </div>
+        <div>
+            <input type="submit" value="SUBMIT" />
+        </div>
+    </form>
+    <?php
+
 }
-
-
-require_once 'funcionesPHP/funcionesGenerales.php';
-echo 'Path ' . $path . '<br><br>';
-print_r(pathinfo($path));
-echo '<br>';
-echo 'Espacio total en disco = ' . bytesToString(disk_total_space($path),4). '<br>';
-echo 'Espacio disponible     = ' . bytesToString(disk_free_space($path),4).'<br>';
-?>
-
-<br><br><br>
-<form action="test.php" method="post">
-    <input type="text" name="path"/>
-</form>
 ?>

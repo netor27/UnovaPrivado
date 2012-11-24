@@ -1,40 +1,27 @@
 $(function(){
     
-    $('#menuLink').click(function(){
+    $('#menuLink').hover(function(){
         //cambiamos la flecha
-        if($("#flechaMenu").hasClass('flechaAbajo')){
-            $("#flechaMenu").removeClass('flechaAbajo');
-            $("#flechaMenu").addClass('flechaArriba');  
-        }else{
-            $("#flechaMenu").removeClass('flechaArriba');
-            $("#flechaMenu").addClass('flechaAbajo');
-        }
-        $("#menu").toggle("swing"); 
-    });
+        $("#flechaMenu").removeClass('flechaAbajo');
+        $("#flechaMenu").addClass('flechaArriba');  
+        $("#menu").show("swing"); 
+        cerrarMenuAgregar();
+    },function(){
+        
+        });
     
-    $('#menuAgregarLink').click(function(){
-        //cambiamos la flecha
-        if($("#flechaMenuAgregar").hasClass('flechaAbajo')){
-            $("#flechaMenuAgregar").removeClass('flechaAbajo');
-            $("#flechaMenuAgregar").addClass('flechaArriba');  
-        }else{
-            $("#flechaMenuAgregar").removeClass('flechaArriba');
-            $("#flechaMenuAgregar").addClass('flechaAbajo');
-        }
-        $("#menuAgregar").toggle("swing"); 
-    });
-    
-    //Evento en todo el body que cierra el menu 
-    $(document).mouseup(function(e){       
-        var id = $(e.target).parents("div").attr("id");
-        if(id != "menuLink"){
-            cerrarMenu();
-        }        
-        if(id != "menuAgregarLink"){
-            cerrarMenuAgregar();
-        }   
-    });
-    
+    $('#menuAgregarLink').hover(function(){
+        //hover in, mostramos el menu
+        $("#flechaMenuAgregar").removeClass('flechaAbajo');
+        $("#flechaMenuAgregar").addClass('flechaArriba');  
+        $("#menuAgregar").show("swing"); 
+        cerrarMenu();
+    },
+    function(){
+        //        //hover out, escondemos el menu
+        //        $("#flechaMenuAgregar").removeClass('flechaArriba');
+        //        $("#flechaMenuAgregar").addClass('flechaAbajo');
+        });
     
     //Para evitar que al presionar enter se cierre el dialogo
     $('form').submit(function(e){
@@ -76,22 +63,35 @@ $(function(){
                 }
             });
         });
-        
-    $("#btnCambiarColor").click(function(){
-            
-        });
+    $(document).mouseup(function(e){       
+        var id = $(e.target).parents("div").attr("id");
+        if(id != "menuLink"){
+            cerrarMenu();
+        }        
+        if(id != "menuAgregarLink"){
+            cerrarMenuAgregar();
+        }   
+    });
+    $("#editorContainment").hover(function(){
+        cerrarMenu();
+        cerrarMenuAgregar();
+    });
 });
 
 function cerrarMenu(){
-    $("#menu").hide("swing");
-    $("#flechaMenu").removeClass("flechaArriba");
-    $("#flechaMenu").addClass("flechaAbajo");
+    if($("#flechaMenu").hasClass("flechaArriba")){
+        $("#menu").hide("swing");
+        $("#flechaMenu").removeClass("flechaArriba");
+        $("#flechaMenu").addClass("flechaAbajo");
+    }
 }
 
 function cerrarMenuAgregar(){
-    $("#menuAgregar").hide("swing");
-    $("#flechaMenuAgregar").removeClass("flechaArriba");
-    $("#flechaMenuAgregar").addClass("flechaAbajo");
+    if($("#flechaMenuAgregar").hasClass("flechaArriba")){
+        $("#menuAgregar").hide("swing");
+        $("#flechaMenuAgregar").removeClass("flechaArriba");
+        $("#flechaMenuAgregar").addClass("flechaAbajo");
+    }
 }
 
 function getUnidadPx(unidad){

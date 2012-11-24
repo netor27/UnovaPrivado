@@ -7,7 +7,7 @@ $(function(){
     $("#dialog-form-imagen").dialog({
         autoOpen: false,
         height:450,
-        width: 550,
+        width: 650,
         modal: true,
         resizable: false,
         buttons:{
@@ -46,6 +46,12 @@ $(function(){
 });
 
 function mostrarDialogoInsertarImagen(){
+    
+    //mostramos la forma como nueva
+    $("#loadingUploadImage").hide();    
+    $("#resultadoDeSubirImagen").hide();
+    $("#resultadoDeSubirImagen").html("");
+    $("#formaSubirImagen").show();
     
     editarImagenBandera = false;    
     pauseVideo();
@@ -89,7 +95,7 @@ function agregarImagen(){
     var fin = $("#tiempoFinImagen").val();
     var color = $("#colorHiddenImagen").val();
     
-    agregarImagenDiv(imagenes.length, urlImagen, inicio, fin, color, 50, 50, 20, 10);
+    agregarImagenDiv(imagenes.length, urlImagen, inicio, fin, color, 50, 50, 16, 9);
     cargarImagenEnArreglo(urlImagen, inicio, fin, color, 50, 50, 20, 10);
 }
 
@@ -287,9 +293,51 @@ function validarTiemposImagen(){
     if($fin > $videoDuration)
         $fin = $videoDuration;
     
-    $("#tiempoRangeSliderImagen").slider( "option", "values", [$ini,$fin] );
-    
+    $("#tiempoRangeSliderImagen").slider( "option", "values", [$ini,$fin] );    
     $("#tiempoInicioImagen").val(transformaSegundos($ini));
     $("#tiempoFinImagen").val(transformaSegundos($fin));
 }
 
+function ajaxImageFileUpload(){
+    //starting setting some animation when the ajax starts and completes
+    $("#loadingUploadImage")
+    .ajaxStart(function(){
+        $(this).show();
+    })
+    .ajaxComplete(function(){
+        $(this).hide();
+    });
+    var data = {
+        u: iu,
+        uuid: uuid,
+        cu: ic,
+        cl: icl
+    }
+   
+    $.ajaxFileUpload({
+        url:'/subirArchivos.php?a=subirImagen', 
+        secureuri:false,
+        fileElementId:'fileToUploadImage',
+        dataType: 'json',
+        data: data,
+        success: function (data, status){
+            console.log("success");
+            console.log(data);
+            if(typeof(data.error) != 'undefined'){
+                if(data.error != ''){
+                    alert(data.error);
+                }else{
+                    $("#formaSubirImagen").hide();
+                    var domImg = "<h3>Tu imagen se subió correctamente</h3><br><img src='"+data.link+"' style='width:200px;'/>";
+                    $("#resultadoDeSubirImagen").html(domImg);
+                    $("#resultadoDeSubirImagen").show();
+                    $("#urlImagen").val(data.link);
+                }
+            }
+        },
+        error: function (data, status, e){
+            alert(e);
+        }
+    })
+    return false;
+}  

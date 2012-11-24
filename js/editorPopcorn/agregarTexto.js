@@ -219,7 +219,7 @@ function agregarTextoDiv(indice, texto, inicio, fin, color, top, left, width, he
             $containmentHeight  = $("#editorContainment").height();
             textos[indice].top = ui.offset.top * 100 / $containmentHeight;
             textos[indice].left = ui.offset.left * 100 / $containmentWidth;            
-            logTextosAgregados();   
+            //logTextosAgregados();   
         },
         snap: true
     });

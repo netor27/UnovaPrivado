@@ -1,4 +1,4 @@
-<div id="dialog-form-link" title="Agregar un link">
+<div id="dialog-form-link" title="Agregar un link"  style="display:none;">
     <div id="linkTabs">
          <ul>
             <li><a href="#linkTab">Página web</a></li>

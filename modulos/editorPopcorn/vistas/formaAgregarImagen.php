@@ -1,18 +1,30 @@
-<div id="dialog-form-imagen" title="Agregar una imagen">
+<div id="dialog-form-imagen" title="Agregar una imagen" style="display:none;">
     <div id="imagenTabs">
         <ul>
             <li><a href="#imagenTab">Imagen</a></li>
             <li><a href="#tiempoTab">Tiempo</a></li>
             <li><a href="#colorFondoTab">Color de fondo</a></li>
         </ul>
-        
-        <div id="imagenTab">
-            <label>Url de la imagen:</label>
-            <input type="text" name="url" id="urlImagen" class="text ui-widget-content ui-corner-all" style="width:92%;"/>
 
+        <div id="imagenTab">
+            <div id="formaSubirImagen">
+                <h3>Para agregar una imagen, puedes subirla o escribir el link a la imagen</h3>
+                <label>Subir la imagen</label>
+                <form name="form" action="" method="POST" enctype="multipart/form-data">
+                    <input id="fileToUploadImage" type="file" name="imagen" class="input">
+                    <br><br>
+                    <button class="button" id="buttonUpload" onclick="return ajaxImageFileUpload();">Subir imagen</button>
+                    <br><br>
+                    <img id="loadingUploadImage" src="/layout/imagenes/loading.gif" style="display:none; width: 50px;">
+                </form>
+                <br><br>
+                <label>Ó puedes escribir el link a la imagen:</label>
+                <input placeholder=" Link a la imagen" type="text" name="url" id="urlImagen" class="text ui-widget-content ui-corner-all" style="width:92%;"/>
+            </div>
+            <div id="resultadoDeSubirImagen" style="display:none;">
+            </div>
         </div>
 
-        
         <div id="tiempoTab">
             <table>
                 <tr>
@@ -26,7 +38,7 @@
             </table>
             <div id="tiempoRangeSliderImagen"></div>
         </div>
-        
+
         <div id="colorFondoTab">
             <div id="colorSelectorImagen" ></div>
             <input type="hidden" name="colorHidden" id="colorHiddenImagen"/>
@@ -34,6 +46,6 @@
             <label>Color seleccionado:</label>
             <div id="colorSeleccionadoImagen" class="colorButton"></div>
         </div>
-        
+
     </div>
 </div>	

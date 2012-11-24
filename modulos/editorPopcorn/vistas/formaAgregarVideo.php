@@ -1,4 +1,4 @@
-<div id="dialog-form-video" title="Agregar un video">
+<div id="dialog-form-video" title="Agregar un video"  style="display:none;">
     <div id="videoTabs">
         <ul>
             <li><a href="#videoTab">Video</a></li>

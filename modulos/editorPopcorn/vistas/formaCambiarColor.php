@@ -1,4 +1,4 @@
-<div id="dialog-form-colorFondo" title="Cambiar color de fondo">
+<div id="dialog-form-colorFondo" title="Cambiar color de fondo"  style="display:none;">
 
     <h3><a >Color de fondo</a></h3>
     <div>

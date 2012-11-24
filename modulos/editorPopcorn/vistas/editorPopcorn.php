@@ -44,9 +44,9 @@ if (isset($var['backgroundColor'])) {
         <link rel="stylesheet" href="/lib/js/jquery-ui/ui-lightness/jquery-ui-1.9.1.custom.css" />
         <link type="text/css" href="/layout/css/headerEditor.css" rel="stylesheet" />	
         <link type="text/css" href="/layout/css/editorPopcorn.css" rel="stylesheet" />	
-
-
+        
         <script src="/lib/js/jquery-1.8.2.min.js"></script>		
+        <script src="/lib/js/ajaxFileUpload/ajaxfileupload.js"></script>
         <script src="/lib/js/jquery-ui/jquery-ui-1.9.1.custom.min.js"></script>
         <script src="/lib/js/popcorn-complete.min.js"></script>
 
@@ -64,7 +64,7 @@ if (isset($var['backgroundColor'])) {
 
         <script src="/js/editorPopcorn/cargarPopcorn.js"></script>
         <script src="/js/funciones.js"></script>        
-
+        
         <script language="javascript">
             function showHideControles(){
                 $("#controlesContainer").toggle("slow");
@@ -145,7 +145,7 @@ if (isset($links))
                     <a class="link">
                         <div id="menuAgregarLink">
                             <span class="left">Editar</span>  
-                            <div id="flechaMenu" class="flechaAbajo left"></div>
+                            <div id="flechaMenuAgregar" class="flechaAbajo left"></div>
                         </div>
                     </a>         
                     <div id="menuAgregar">

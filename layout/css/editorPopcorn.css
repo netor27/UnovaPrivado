@@ -365,3 +365,7 @@ div{
     border-bottom-width: 2px;
     border-bottom-color: #233E6A;
 }
+
+#slider .ui-widget-header{
+    background: rgb(59,104,255);
+}
