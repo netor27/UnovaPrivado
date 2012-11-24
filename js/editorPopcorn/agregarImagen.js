@@ -95,7 +95,7 @@ function agregarImagen(){
     var fin = $("#tiempoFinImagen").val();
     var color = $("#colorHiddenImagen").val();
     
-    agregarImagenDiv(imagenes.length, urlImagen, inicio, fin, color, 50, 50, 16, 9);
+    agregarImagenDiv(imagenes.length, urlImagen, inicio, fin, color, 50, 50, 20, 20);
     cargarImagenEnArreglo(urlImagen, inicio, fin, color, 50, 50, 20, 10);
 }
 
