@@ -98,96 +98,98 @@ require_once('layout/headers/headCierre.php');
                 ?>
             </div>
 
-            <div id="cursoTabs">
-                <ul>
-                    <li><a href="#tabs-1">Comentarios</a></li>
-                    <li><a href="#tabs-2">Preguntas</a></li>
+            <div id="cursoTabs" class="well">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tabs-1" data-toggle="tab" >Comentarios</a></li>
+                    <li><a href="#tabs-2" data-toggle="tab">Preguntas</a></li>
                 </ul>
-                <div id="tabs-1">
-                    <div id="comentariosContainer" >
+                <div class="tab-content">
+                    <div id="tabs-1" class="tab-pane active">
+                        <div id="comentariosContainer" >
 
-                        <?php
-                        if (isset($comentarios)) {
-                            echo '<ul id="pageMeComments" class="pageMe">';
-                            foreach ($comentarios as $comentario) {
-                                echo '<li>';
-                                if ($comentario->idUsuario == $curso->idUsuario)
-                                    echo '<div class="comentarioContainer blueBox"  style="width:97%">';
-                                else
-                                    echo '<div class="comentarioContainer whiteBox"  style="width:97%">';
-                                echo '<div class="comentarioAvatar"><img src="' . $comentario->avatar . '"></div>';
-                                echo '<div class="comentarioUsuario"><a href="/usuario/' . $comentario->uniqueUrlUsuario . '">' . $comentario->nombreUsuario . '</a></div>';
-                                echo '<div class="comentarioFecha">' . transformaDateDDMMAAAA(strtotime($comentario->fecha)) . '</div>';
-                                echo '<br><div class="comentario">' . $comentario->texto . '</div>';
-                                echo '</div>';
-                                echo '</li>';
-                            }
-                            echo '</ul>';
-                        }else {
-                            ?>
-                            <div id="pageMeComments">
-
-                            </div>
-                            <div id="noComments">
-                                <h3>No hay comentarios</h3>
-                            </div>
                             <?php
-                        }
-                        ?>
-                    </div>
-                    <div id="comentar">
-                        <form id="comentarioForm" action="/cursos/curso/comentarCurso/<?php echo $curso->idCurso; ?>" method="POST" class="comentarioForm">
-                            <h3>Deja tu comentario</h3>
-                            <textarea id="comentario" name="comentario"></textarea><br>
-                            <input id="comentarButton" type="submit" value=" Comentar ">                            
-                            <img id="loadingComment" src="/layout/imagenes/loading.gif">
-                        </form>
-
-                    </div>
-                </div>
-                <div id="tabs-2">
-                    <div id="preguntasContainer">
-                        <?php
-                        if (isset($preguntas)) {
-                            echo '<ul id="pageMePreguntas" class="pageMe">';
-                            foreach ($preguntas as $pregunta) {
-                                echo '<li>';
-                                echo '<div class="preguntaContainer whiteBox">';
-                                echo '<div class="comentarioAvatar"><img src="' . $pregunta->avatar . '"></div>';
-                                echo '<div class="comentarioUsuario"><a href="/usuario/' . $pregunta->uniqueUrlUsuario . '">' . $pregunta->nombreUsuario . '</a></div>';
-                                echo '<div class="comentarioFecha">' . transformaDateDDMMAAAA(strtotime($pregunta->fecha)) . '</div>';
-                                echo '<br><div class="comentario">' . $pregunta->pregunta . '</div>';
-                                if (isset($pregunta->respuesta)) {
-                                    echo '<br><div class="respuesta blueBox" style="width: 95%;">';
-                                    echo '<div class="comentarioAvatar"><img src="' . $usuarioDelCurso->avatar . '"></div>';
-                                    echo '<div class="comentarioUsuario"><a href="/usuario/' . $usuarioDelCurso->uniqueUrl . '">' . $usuarioDelCurso->nombreUsuario . '</a></div>';
-                                    echo '<div class="comentarioFecha">' . transformaDateDDMMAAAA(strtotime($pregunta->fechaRespuesta)) . '</div>';
-                                    echo '<br><div class="comentario">' . $pregunta->respuesta . '</div>';
+                            if (isset($comentarios)) {
+                                echo '<ul id="pageMeComments" class="pageMe">';
+                                foreach ($comentarios as $comentario) {
+                                    echo '<li>';
+                                    if ($comentario->idUsuario == $curso->idUsuario)
+                                        echo '<div class="comentarioContainer blueBox"  style="width:97%">';
+                                    else
+                                        echo '<div class="comentarioContainer whiteBox"  style="width:97%">';
+                                    echo '<div class="comentarioAvatar"><img src="' . $comentario->avatar . '"></div>';
+                                    echo '<div class="comentarioUsuario"><a href="/usuario/' . $comentario->uniqueUrlUsuario . '">' . $comentario->nombreUsuario . '</a></div>';
+                                    echo '<div class="comentarioFecha">' . transformaDateDDMMAAAA(strtotime($comentario->fecha)) . '</div>';
+                                    echo '<br><div class="comentario">' . $comentario->texto . '</div>';
                                     echo '</div>';
+                                    echo '</li>';
                                 }
-                                echo '</div>';
-                                echo '</li>';
-                            }
-                            echo '</ul>';
-                        } else {
-                            ?>
-                            <div id="pageMePreguntas">
+                                echo '</ul>';
+                            }else {
+                                ?>
+                                <div id="pageMeComments">
 
-                            </div>
-                            <div id="noPreguntas">
-                                <h3>No hay preguntas</h3>
-                            </div>
-                            <?php
-                        }
-                        ?>
+                                </div>
+                                <div id="noComments">
+                                    <h3>No hay comentarios</h3>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                        <div id="comentar">
+                            <form id="comentarioForm" action="/cursos/curso/comentarCurso/<?php echo $curso->idCurso; ?>" method="POST" class="comentarioForm">
+                                <h3>Deja tu comentario</h3>
+                                <textarea id="comentario" name="comentario"></textarea><br>
+                                <input id="comentarButton" type="submit" value=" Comentar ">                            
+                                <img id="loadingComment" src="/layout/imagenes/loading.gif">
+                            </form>
+
+                        </div>
                     </div>
-                    <div id="preguntar">
-                        <form id="preguntarForm" action="/cursos/curso/preguntarCurso/<?php echo $curso->idCurso; ?>" method="POST" class="preguntarForm">
-                            <h3>Haz una pregunta al profesor</h3>
-                            <textarea id="pregunta" name="pregunta"></textarea><br>
-                            <input id="preguntarButton" type="submit" value=" Preguntar ">
-                            <img id="loadingPregunta" src="/layout/imagenes/loading.gif">
-                        </form>
+                    <div id="tabs-2" class="tab-pane" >
+                        <div id="preguntasContainer">
+                            <?php
+                            if (isset($preguntas)) {
+                                echo '<ul id="pageMePreguntas" class="pageMe">';
+                                foreach ($preguntas as $pregunta) {
+                                    echo '<li>';
+                                    echo '<div class="preguntaContainer whiteBox" style="width:97%;">';
+                                    echo '<div class="comentarioAvatar"><img src="' . $pregunta->avatar . '"></div>';
+                                    echo '<div class="comentarioUsuario"><a href="/usuario/' . $pregunta->uniqueUrlUsuario . '">' . $pregunta->nombreUsuario . '</a></div>';
+                                    echo '<div class="comentarioFecha">' . transformaDateDDMMAAAA(strtotime($pregunta->fecha)) . '</div>';
+                                    echo '<br><div class="comentario">' . $pregunta->pregunta . '</div>';
+                                    if (isset($pregunta->respuesta)) {
+                                        echo '<br><div class="respuesta blueBox" style="width: 95%;">';
+                                        echo '<div class="comentarioAvatar"><img src="' . $usuarioDelCurso->avatar . '"></div>';
+                                        echo '<div class="comentarioUsuario"><a href="/usuario/' . $usuarioDelCurso->uniqueUrl . '">' . $usuarioDelCurso->nombreUsuario . '</a></div>';
+                                        echo '<div class="comentarioFecha">' . transformaDateDDMMAAAA(strtotime($pregunta->fechaRespuesta)) . '</div>';
+                                        echo '<br><div class="comentario">' . $pregunta->respuesta . '</div>';
+                                        echo '</div>';
+                                    }
+                                    echo '</div>';
+                                    echo '</li>';
+                                }
+                                echo '</ul>';
+                            } else {
+                                ?>
+                                <div id="pageMePreguntas">
+
+                                </div>
+                                <div id="noPreguntas">
+                                    <h3>No hay preguntas</h3>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                        <div id="preguntar">
+                            <form id="preguntarForm" action="/cursos/curso/preguntarCurso/<?php echo $curso->idCurso; ?>" method="POST" class="preguntarForm">
+                                <h3>Haz una pregunta al profesor</h3>
+                                <textarea id="pregunta" name="pregunta"></textarea><br>
+                                <input id="preguntarButton" type="submit" value=" Preguntar ">
+                                <img id="loadingPregunta" src="/layout/imagenes/loading.gif">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

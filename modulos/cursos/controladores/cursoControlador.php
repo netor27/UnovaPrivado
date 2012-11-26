@@ -255,9 +255,9 @@ function comentarCurso() {
                 $comentario->nombreUsuario = $usuario->nombreUsuario;
                 echo '<li class="page1">';
                 if ($comentario->idUsuario == $curso->idUsuario)
-                    echo '<div class="comentarioContainer blueBox">';
+                    echo '<div class="comentarioContainer blueBox" style="width:97%;">';
                 else
-                    echo '<div class="comentarioContainer whiteBox">';
+                    echo '<div class="comentarioContainer whiteBox" style="width:97%;">';
                 echo '<div class="comentarioAvatar"><img src="' . $comentario->avatar . '"></div>';
                 echo '<div class="comentarioUsuario"><a href="/usuario/' . $comentario->uniqueUrlUsuario . '">' . $comentario->nombreUsuario . '</a></div>';
                 echo '<div class="comentarioFecha"> Hace unos segundos</div>';
@@ -292,7 +292,7 @@ function preguntarCurso() {
                 $pregunta->avatar = $usuario->avatar;
                 $pregunta->nombreUsuario = $usuario->nombreUsuario;
                 echo '<li class="page1">';
-                echo '<div class="preguntaContainer whiteBox">';
+                echo '<div class="preguntaContainer whiteBox" style="width:97%;">';
                 echo '<div class="comentarioAvatar"><img src="' . $pregunta->avatar . '"></div>';
                 echo '<div class="comentarioUsuario"><a href="/usuario/' . $pregunta->uniqueUrlUsuario . '">' . $pregunta->nombreUsuario . '</a></div>';
                 echo '<div class="comentarioFecha"> Hace unos segundos</div>';

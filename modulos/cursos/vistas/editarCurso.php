@@ -74,7 +74,7 @@ require_once('layout/headers/headCierre.php');
                 <div class="right">
                     <a href="/temas/tema/agregarTema/<?php echo $cursoParaModificar->idCurso; ?>" class="btn">Agregar un tema</a>
                 </div> 
-                <div class="centerText" style="padding: 10px;">
+                <div class="centerText" >
                     <a href="/cursos/curso/agregarContenido/<?php echo $cursoParaModificar->idCurso; ?>" class="btn btn-large btn-primary" id="agregarContenido">Agregar contenido</a>
                 </div>
                 <p>
@@ -163,8 +163,9 @@ require_once('layout/headers/headCierre.php');
         </div>
         <div id="tabs-2">
             <div class="right">
-                <a href="/cursos/curso/editarInformacionCurso/<?php echo $cursoParaModificar->idCurso; ?>" class="blueButton">Editar esta información</a>
+                <a href="/cursos/curso/editarInformacionCurso/<?php echo $cursoParaModificar->idCurso; ?>" class="btn">Editar esta información</a>
             </div>
+            <br>
             <div id="descripcion" style="margin-top:30px;">
                 <h2 style="padding-left: 20px;">Descripción corta</h2>   
                 <div id="descripcionContent">
@@ -193,9 +194,9 @@ require_once('layout/headers/headCierre.php');
                 foreach ($comentarios as $comentario) {
                     echo '<li>';
                     if ($comentario->idUsuario == $cursoParaModificar->idUsuario)
-                        echo '<div class="comentarioContainer blueBox">';
+                        echo '<div class="comentarioContainer blueBox" style="width:97%;">';
                     else
-                        echo '<div class="comentarioContainer whiteBox">';
+                        echo '<div class="comentarioContainer whiteBox" style="width:97%;">';
                     echo '<div class="comentarioAvatar"><img src="' . $comentario->avatar . '"></div>';
                     echo '<div class="comentarioUsuario"><a href="/usuario/' . $comentario->uniqueUrlUsuario . '">' . $comentario->nombreUsuario . '</a></div>';
                     echo '<div class="comentarioFecha">' . transformaDateDDMMAAAA(strtotime($comentario->fecha)) . '</div>';
@@ -206,7 +207,7 @@ require_once('layout/headers/headCierre.php');
                 echo '</ul>';
             }else {
                 ?>
-                <div class="whiteBox"><h3>No hay comentarios</h3></div>
+                <div class="whiteBox"><h2 style="padding-left:20px;">No hay comentarios</h2></div>
                 <?php
             }
             ?>
@@ -217,7 +218,7 @@ require_once('layout/headers/headCierre.php');
                 echo '<ul id="pageMePreguntas" class="pageMe">';
                 foreach ($preguntas as $pregunta) {
                     echo '<li>';
-                    echo '<div class="preguntaContainer whiteBox">';
+                    echo '<div class="preguntaContainer whiteBox" style="width:97%;">';
                     echo '<div class="comentarioAvatar"><img src="' . $pregunta->avatar . '"></div>';
                     echo '<div class="comentarioUsuario"><a href="/usuario/' . $pregunta->uniqueUrlUsuario . '">' . $pregunta->nombreUsuario . '</a></div>';
                     echo '<br><div class="comentario">' . $pregunta->pregunta . '</div>';
@@ -241,7 +242,7 @@ require_once('layout/headers/headCierre.php');
                 echo '</ul>';
             } else {
                 ?>
-                <div class="whiteBox"><h3>No hay preguntas</h3></div>
+                <div class="whiteBox"><h2 style="padding-left:20px;">No hay preguntas</h2></div>
                 <?php
             }
             ?>

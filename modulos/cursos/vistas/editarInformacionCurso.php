@@ -4,58 +4,58 @@ require_once('layout/headers/headTinyMCE.php');
 require_once('layout/headers/headCrearCurso.php');
 require_once('layout/headers/headCierre.php');
 ?>
-
-
 <div class="contenido">
-    <div class="left centerText" style="width: 890px">
-        <h1 class="centerText">Editar información del curso</h1>  
-        <br><br>
-        <?php
-        if (isset($error) && $error != "") {
-            echo '<h5 class="error centerText">' . $error . '</h5>';
-        }
-        if (isset($info) && $info != "") {
-            echo '<h5 class="info centerText">' . $info . '</h5>';
-        }
-        ?>
-        <div id="formDiv" style="width:700px;" >  
-            <form method="post" id="customForm" action="/cursos/curso/editarInformacionCursoSubmit/<?php echo $cursoParaModificar->idCurso; ?>">  
-                <p>
-                <div>  
-                    <label for="titulo">Título</label>  
-                    <input id="titulo" name="titulo" type="text" style="width:350px;" value="<?php echo $cursoParaModificar->titulo; ?>"/>                          
-                    <span id="tituloInfo">Título de tu curso</span>  
-                </div>  
-                </p>
-                <p>
-                </p>
-                <p>
-                <div>  
-                    <label for="descripcionCorta">Descripción Corta</label>  
-                    <textarea id="descripcionCorta" name="descripcionCorta"><?php echo $cursoParaModificar->descripcionCorta; ?></textarea>                        
-                    <br>
-                    <span id="descripcionCortaInfo">Escribe una descripción corta de tu curso.</span>  
-                </div>  
-                </p>
-                <p>
-                <div>  
-                    <label for="descripcion">Descripción</label>  
-                    <textarea id="descripcion" name="descripcion"><?php echo $cursoParaModificar->descripcion; ?></textarea>                        
-                    <br>
-                    <span id="descripcionInfo">Escribe una descripción corta de tu curso.</span>  
-                </div>  
-                </p>
-                <p>
-                <div>  
-                    <input id="send" name="send" type="submit" value="  Aceptar  " />  
-                </div> 
-                </p>
-
-            </form>  
-
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12"></div>
+        </div>
+        <div class="well span12 ">
+            <div class="row-fluid">
+                <legend>Editar información del curso</legend>
+            </div>
+             <?php
+            if (isset($msgForma)) {
+                ?>
+                <div class="row-fluid">
+                    <div class="alert alert-error">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>¡Error! </strong> <?php echo $msgForma; ?>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+            <div class="row-fluid">
+                <form method="post" id="customForm" class="form-horizontal" action="/cursos/curso/editarInformacionCursoSubmit/<?php echo $cursoParaModificar->idCurso; ?>">
+                    <div class="control-group">
+                        <label class="control-label" for="inputTitulo">Título del curso</label>
+                        <div class="controls">
+                            <input class="span5" type="text" id="inputTitulo" name="titulo" value="<?php echo $cursoParaModificar->titulo; ?>">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputDescripcion">Descripción corta</label>
+                        <div class="controls">
+                            <textarea class="span10" id="inputDescripcion" name="descripcionCorta" rows="5"><?php echo $cursoParaModificar->descripcionCorta; ?></textarea>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputDescripcion">Descripción</label>
+                        <div class="controls">
+                            <textarea id="descripcion" name="descripcion"><?php echo $cursoParaModificar->descripcion; ?></textarea>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-primary">Aceptar los cambios</button>  
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 <?php
 require_once('layout/foot.php');
 ?>

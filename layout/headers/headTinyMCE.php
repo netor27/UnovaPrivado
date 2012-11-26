@@ -9,8 +9,8 @@
         skin:"o2k7",    
         skin_variant:"silver",
         plugins : "emotions,spellchecker,advhr,insertdatetime,preview", 
-        width : "640",        
-        height : "540",
+        width : "631",        
+        height : "240",
                 
         // Theme options - button# indicated the row# only
         theme_advanced_buttons1 : "undo,redo,|,cut,copy,paste,|,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,|,bullist,numlist,|,link,preview",

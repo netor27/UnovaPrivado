@@ -1,19 +1,6 @@
 $(function(){
     $('.wow').rating();
     
-    //Inicializar los dialogs
-    $( "#modalDialog" ).dialog({
-        height: 160,
-        width: 400,
-        modal: true,
-        autoOpen: false,
-        buttons: {
-            Aceptar: function() {
-                $( this ).dialog( "close" );
-            }
-        }
-    });
-    
     $('.calificar').rating({
         callback: function(value, link){        
             if(value == undefined)
@@ -25,16 +12,11 @@ $(function(){
                 type: 'get',
                 url: url,             
                 success: function(data) {
-                    $( "#modalDialog" ).attr("title", "Calificación enviada");
-                    $( "#modalDialog" ).html("<p>"+data+"</p>");
-                    
-                    $( "#modalDialog" ).dialog("open");
+                    bootbox.alert("<strong>Calificación enviada</strong><br><p>"+data+"</p>");
                 }
             }); 
         }
     });
-    
-    $("#cursoTabs").tabs();
     
     $('#pageMeComments').quickPager({
         pageSize: 5
@@ -48,8 +30,7 @@ $(function(){
         success: function(data) {        
             $("#loadingComment").hide();
             if(data.indexOf("error") == -1){
-                $( "#modalDialog" ).html("Gracias por tu comentario");
-                $( "#modalDialog" ).dialog("open");
+                bootbox.alert("<strong>Gracias por tu cometnario</strong>");
                 $("#pageMeComments").prepend(data);
                 $("#noComments").html("");
             }else{
@@ -85,8 +66,7 @@ $(function(){
         success: function(data) { 
             $("#loadingPregunta").hide();
             if(data.indexOf("error") == -1){
-                $( "#modalDialog" ).html("Tu pregunta ha sido enviada al profesor");
-                $( "#modalDialog" ).dialog("open");
+                bootbox.alert("<strong>Tu pregunta ha sido enviada la profesor.</strong>");
                 $("#pageMePreguntas").prepend(data);
                 $("#noPreguntas").html("");                
             }else{
