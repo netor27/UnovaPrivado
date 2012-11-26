@@ -139,8 +139,8 @@ require_once('layout/headers/headCierre.php');
                         <div id="comentar">
                             <form id="comentarioForm" action="/cursos/curso/comentarCurso/<?php echo $curso->idCurso; ?>" method="POST" class="comentarioForm">
                                 <h3>Deja tu comentario</h3>
-                                <textarea id="comentario" name="comentario"></textarea><br>
-                                <input id="comentarButton" type="submit" value=" Comentar ">                            
+                                <textarea id="comentario" name="comentario" style="width: 535px;"></textarea><br>
+                                <input id="comentarButton" type="submit" class="btn btn-primary right" value=" Enviar comentario ">                            
                                 <img id="loadingComment" src="/layout/imagenes/loading.gif">
                             </form>
 
@@ -185,8 +185,8 @@ require_once('layout/headers/headCierre.php');
                         <div id="preguntar">
                             <form id="preguntarForm" action="/cursos/curso/preguntarCurso/<?php echo $curso->idCurso; ?>" method="POST" class="preguntarForm">
                                 <h3>Haz una pregunta al profesor</h3>
-                                <textarea id="pregunta" name="pregunta"></textarea><br>
-                                <input id="preguntarButton" type="submit" value=" Preguntar ">
+                                <textarea id="pregunta" name="pregunta" style="width: 535px;"></textarea><br>
+                                <input id="preguntarButton" class="btn btn-primary right" type="submit" value=" Enviar pregunta ">
                                 <img id="loadingPregunta" src="/layout/imagenes/loading.gif">
                             </form>
                         </div>
