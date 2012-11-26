@@ -21,13 +21,20 @@ $(function(){
                 $(this).dialog("close");
                 $("#urlImagen").val("");
                 $('#imagenTabs').tabs('select', 0);
+                $('#colorSeleccionadoImagen').html("");                
             },
             "Cancelar": function(){
                 $(this).dialog("close");
                 $('#imagenTabs').tabs('select', 0);
+                $('#colorSeleccionadoImagen').html("");
             }
         }
     });	 
+    
+    //validamos el tiempo que escriben en el campo de Imagen
+    $("#tiempoInicioImagen").blur(validarTiemposImagen);
+    $("#tiempoFinImagen").blur(validarTiemposImagen);
+    
     $('#imagenTabs').tabs();
     
     $("#colorHiddenImagen").val("#FFFFFF");
@@ -36,13 +43,16 @@ $(function(){
         flat: true,
         onChange: function (hsb, hex, rgb) {
             $('#colorSeleccionadoImagen').css('backgroundColor', '#' + hex);
+            $('#colorSeleccionadoImagen').html("");
             $("#colorHiddenImagen").val('#'+hex);
         }
     });
     
-    //validamos el tiempo que escriben en el campo de Imagen
-    $("#tiempoInicioImagen").blur(validarTiemposImagen);
-    $("#tiempoFinImagen").blur(validarTiemposImagen);
+    $("#sinColorImagen").click(function(){
+        $('#colorSeleccionadoImagen').css('backgroundColor', 'transparent');
+        $('#colorSeleccionadoImagen').html("Sin color");
+        $("#colorHiddenImagen").val('transparent');        
+    });    
 });
 
 function mostrarDialogoInsertarImagen(){

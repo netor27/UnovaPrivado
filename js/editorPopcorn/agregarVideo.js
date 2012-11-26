@@ -21,10 +21,12 @@ $(function(){
                 $(this).dialog("close");
                 $("#urlVideo").val("");
                 $('#videoTabs').tabs('select', 0);
+                $('#colorSeleccionadoVideo').html("");
             },
             "Cancelar": function(){
                 $(this).dialog("close");
                 $('#videoTabs').tabs('select', 0);
+                $('#colorSeleccionadoVideo').html("");
             }
         }
     });	 
@@ -36,6 +38,7 @@ $(function(){
         flat: true,
         onChange: function (hsb, hex, rgb) {
             $('#colorSeleccionadoVideo').css('backgroundColor', '#' + hex);
+            $('#colorSeleccionadoVideo').html("");
             $("#colorHiddenVideo").val('#'+hex);
         }
     });
@@ -43,6 +46,12 @@ $(function(){
     //validamos el tiempo que escriben en el campo de Video
     $("#tiempoInicioVideo").blur(validarTiemposVideo);
     $("#tiempoFinVideo").blur(validarTiemposVideo);
+    
+    $("#sinColorVideo").click(function(){
+        $('#colorSeleccionadoVideo').css('backgroundColor', 'transparent');
+        $('#colorSeleccionadoVideo').html("Sin color");
+        $("#colorHiddenVideo").val('transparent');        
+    });
 });
 
 function mostrarDialogoInsertarVideo(){

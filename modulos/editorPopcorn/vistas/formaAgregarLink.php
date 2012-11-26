@@ -1,11 +1,11 @@
 <div id="dialog-form-link" title="Agregar un link"  style="display:none;">
     <div id="linkTabs">
-         <ul>
+        <ul>
             <li><a href="#linkTab">Página web</a></li>
             <li><a href="#tiempoTab">Tiempo</a></li>
             <li><a href="#colorFondoTab">Color de fondo</a></li>
         </ul>
-        
+
         <div id="linkTab">
             <label>Texto: </label><br>
             <input type="text" name="url" id="textoLink" class="text ui-widget-content ui-corner-all"  style="width:97%;"/>
@@ -14,7 +14,7 @@
             <input type="text" name="url" id="urlLink" class="text ui-widget-content ui-corner-all"  style="width:97%;"/>
         </div>
 
-        
+
         <div id="tiempoTab">
             <table>
                 <tr>
@@ -28,14 +28,17 @@
             </table>
             <div id="tiempoRangeSliderLink"></div>
         </div>
-        
+
         <div id="colorFondoTab">
             <div id="colorSelectorLink" ></div>
             <input type="hidden" name="colorHidden" id="colorHiddenLink"/>
             <br><br>
-            <label>Color seleccionado:</label>
-            <div id="colorSeleccionadoLink" class="colorButton"></div>
+            <div class="colorSeleccionado">
+                <div style="width: 200px;">
+                    <label>Color seleccionado:</label>
+                    <div id="colorSeleccionadoLink" class="colorButton"></div>
+                </div>
+                <button id="sinColorLink" style="margin-left: 70px;">Sin color de fondo</button>
+            </div>
         </div>
-
-    </div>
-</div>	
+    </div>	

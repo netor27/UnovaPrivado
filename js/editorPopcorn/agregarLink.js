@@ -22,10 +22,12 @@ $(function(){
                 $('#urlLink').val("");
                 $('#textoLink').val("");
                 $('#linkTabs').tabs('select', 0);
+                $('#colorSeleccionadoLink').html("");
             },
             "Cancelar": function(){
                 $(this).dialog("close");
                 $('#linkTabs').tabs('select', 0);
+                $('#colorSeleccionadoLink').html("");
             }
         }
     });	
@@ -36,6 +38,7 @@ $(function(){
         flat: true,
         onChange: function (hsb, hex, rgb) {
             $('#colorSeleccionadoLink').css('backgroundColor', '#' + hex);
+            $('#colorSeleccionadoLink').html("");
             $("#colorHiddenLink").val('#'+hex);
         }
     });
@@ -45,6 +48,12 @@ $(function(){
     $("#tiempoFinLink").blur(validarTiemposLink);
     
     $('#linkTabs').tabs();
+    
+    $("#sinColorLink").click(function(){
+        $('#colorSeleccionadoLink').css('backgroundColor', 'transparent');
+        $('#colorSeleccionadoLink').html("Sin color");
+        $("#colorHiddenLink").val('transparent');        
+    });
 });
 
 function mostrarDialogoInsertarLink(){

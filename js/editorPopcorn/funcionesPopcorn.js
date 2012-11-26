@@ -110,6 +110,11 @@ function getUnidadPx(unidad){
 function cambiarColorPicker(hex, id){
     $("#colorSelector"+id).ColorPickerSetColor(hex);
     $('#colorSeleccionado'+id).css('backgroundColor', hex);
+    if(hex == "transparent"){
+        $('#colorSeleccionado'+id).html("Sin color");
+    }else{
+        $('#colorSeleccionado'+id).html("");
+    }
     $('#colorHidden'+id).val(hex);
 }
 

@@ -29,9 +29,13 @@
             <div id="colorSelectorVideo" ></div>
             <input type="hidden" name="colorHidden" id="colorHiddenVideo"/>
             <br><br>
-            <label>Color seleccionado:</label>
-            <div id="colorSeleccionadoVideo" class="colorButton"></div>
+            <div class="colorSeleccionado">
+                <div style="width: 200px;">
+                    <label>Color seleccionado:</label>
+                    <div id="colorSeleccionadoVideo" class="colorButton"></div>
+                </div>
+                <button id="sinColorVideo" style="margin-left: 70px;">Sin color de fondo</button>
+            </div>            
         </div>
-
     </div>
 </div>	

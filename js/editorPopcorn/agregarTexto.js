@@ -20,10 +20,13 @@ $(function(){
                 $(this).dialog("close");
                 $('#textoTinyMce').html("");
                 $('#textTabs').tabs('select', 0);
+                $('#colorSeleccionadoTexto').html("");
             },
             "Cancelar": function(){
                 $(this).dialog("close");
+                $('#textoTinyMce').html("");
                 $('#textTabs').tabs('select', 0);
+                $('#colorSeleccionadoTexto').html("");
             }
         }
     });	
@@ -34,6 +37,7 @@ $(function(){
         flat: true,
         onChange: function (hsb, hex, rgb) {
             $('#colorSeleccionadoTexto').css('backgroundColor', '#' + hex);
+            $('#colorSeleccionadoTexto').html("");
             $("#colorHiddenTexto").val('#'+hex);
         }
     });
@@ -60,6 +64,12 @@ $(function(){
     });  
     
     $('#textTabs').tabs();
+    
+    $("#sinColorTexto").click(function(){
+        $('#colorSeleccionadoTexto').css('backgroundColor', 'transparent');
+        $('#colorSeleccionadoTexto').html("Sin color");
+        $("#colorHiddenTexto").val('transparent');        
+    });
 });
 
 function mostrarDialogoInsertarTexto(){
@@ -137,7 +147,7 @@ function mostrarDialogoEditarTexto(idTexto){
                     ui.values[1] = 1;
                 }
                 if(ui.values[0] == totalTime){
-                   ui.values[0] = totalTime - 1;
+                    ui.values[0] = totalTime - 1;
                 }
             }
             $('#tiempoInicioTexto').val(transformaSegundos(ui.values[ 0 ]));

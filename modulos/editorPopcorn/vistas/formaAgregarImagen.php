@@ -20,7 +20,7 @@
                         <br>
                         <img src="/layout/imagenes/loading.gif" style="width: 50px;">
                     </div>
-                    
+
                 </form>
                 <br><br>
                 <label>Ó puedes escribir el link a la imagen:</label>
@@ -48,9 +48,13 @@
             <div id="colorSelectorImagen" ></div>
             <input type="hidden" name="colorHidden" id="colorHiddenImagen"/>
             <br><br>
-            <label>Color seleccionado:</label>
-            <div id="colorSeleccionadoImagen" class="colorButton"></div>
+            <div class="colorSeleccionado">
+                <div style="width: 200px;">
+                    <label>Color seleccionado:</label>
+                    <div id="colorSeleccionadoImagen" class="colorButton"></div>
+                </div>
+                <button id="sinColorImagen" style="margin-left: 70px;">Sin color de fondo</button>
+            </div>
         </div>
-
     </div>
 </div>	

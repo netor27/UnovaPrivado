@@ -5,7 +5,7 @@
             <li><a href="#tiempoTab">Tiempo</a></li>
             <li><a href="#colorFondoTab">Color de fondo</a></li>
         </ul>
-        
+
         <div id="textoTab">
             <div style="height: 320px;">
                 <textarea id="textoTinyMce"></textarea>
@@ -28,9 +28,13 @@
             <div id="colorSelectorTexto" ></div>
             <input type="hidden" name="colorHidden" id="colorHiddenTexto"/>
             <br><br>
-            <label>Color seleccionado:</label>
-            <div id="colorSeleccionadoTexto" class="colorButton"></div>
-        </div>
-        
+            <div class="colorSeleccionado">
+                <div style="width: 200px;">
+                    <label>Color seleccionado:</label>
+                    <div id="colorSeleccionadoTexto" class="colorButton"></div>
+                </div>
+                <button id="sinColorTexto" style="margin-left: 70px;">Sin color de fondo</button>
+            </div>
+        </div>        
     </div>
 </div>	
