@@ -1,30 +1,16 @@
 <?php
 
-if (isset($_POST['dato'])) {
-    print_r($_POST);
-    echo '<br><br><br>Imagen:<br>';
-    print_r($_FILES['imagen']);
-} else {
-    ?>
-    <script src="lib/js/ajaxFileUpload/webtoolkit.aim.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        
-    </script>
+$idClase = $_GET['idClase'];
+$path = "archivos/extraMedia/" . $idClase . "/";
 
-    <form action="subirArchivos.php?a=subirImagen" method="post" enctype="multipart/form-data">
-        <div>
-            <label>Name:</label>
-            <input name="dato" type="text" />
-        </div>
-        <div>
-            <label>File:</label>
-            <input name="imagen" type="file" />
-        </div>
-        <div>
-            <input type="submit" value="SUBMIT" />
-        </div>
-    </form>
-    <?php
+$i = 0;
+echo 'Archivos en ' . $path . ':<br><br>';
 
+$pathInfo = null;
+
+foreach(glob($path . "*") as $file){
+    echo $i . " => ". $file . '<br>';
+    $pathInfo = pathinfo($file);
+    echo "File Name = " . $pathInfo['filename'] . '<br>';
 }
 ?>

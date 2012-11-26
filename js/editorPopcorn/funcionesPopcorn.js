@@ -76,6 +76,10 @@ $(function(){
         cerrarMenu();
         cerrarMenuAgregar();
     });
+    
+    //Para mantener la sesión abierta
+    KeepAlive();
+    setInterval(KeepAlive, '600000');
 });
 
 function cerrarMenu(){

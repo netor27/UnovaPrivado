@@ -45,20 +45,6 @@ $(document).ready(function() {
             .appendTo('#fileupload');
         });
     } 
-    
-    function KeepAlive(){
-        $.ajax({
-            type: "get",
-            url: "/index.php?a=mantenerSesionAbierta" ,
-            dataType: "text",
-            success: function(data) {
-                var str = data.toString();
-                console.log(str);
-            }
-        });
-    }
     KeepAlive();
     setInterval(KeepAlive, '600000');
-    
-    
 });

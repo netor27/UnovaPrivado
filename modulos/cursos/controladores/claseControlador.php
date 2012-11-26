@@ -265,6 +265,17 @@ function guardarEdicionVideo() {
 
                 $json = json_encode($_POST);
                 $json = str_replace("'", "", $json);
+                //revisamos que los archivos que se subieron para esta clase aún se utilizen
+                $path = "archivos/extraMedia/" . $idClase . "/";
+                $pathInfo = null;
+                foreach (glob($path . "*") as $file) {
+                    $pathInfo = pathinfo($file);
+                    //tenemos que revisar que el string $pathInfo['filename'] debe estar en $json
+                   if(strpos($json,$pathInfo['filename']) === false){
+                       //el archivo ya ho esta en json, ya no es utilizado, lo borramos
+                       unlink($file);
+                   }
+                }
 
                 if (actualizaCodigoClase($idClase, $json)) {
                     $resultado = "ok";
