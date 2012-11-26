@@ -52,14 +52,12 @@ function mostrarDialogoInsertarVideo(){
     var totalTime = getTotalTime();
     $('#tiempoInicioVideo').val(transformaSegundos(currentTime));
     $('#tiempoFinVideo').val(transformaSegundos(currentTime + 10));
-    //console.log("mostrar Dialogo Insertar Video");
     $('#tiempoRangeSliderVideo').slider({
         range: true,
         min: 0,
         max: totalTime,
         values: [ currentTime, currentTime + 10 ],
         slide: function( event, ui ) {
-            //console.log( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ]);
             if(ui.values[0] == ui.values[1])
                 ui.values[1] = ui.values[1]+1;
             $('#tiempoInicioVideo').val(transformaSegundos(ui.values[ 0 ]));
@@ -115,7 +113,6 @@ function mostrarDialogoEditarVideo(idVideo){
         max: totalTime,
         values: [ inicio, fin ],
         slide: function( event, ui ) {
-            //console.log( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ]);
             if(ui.values[0] == ui.values[1])
                 ui.values[1] = ui.values[1]+1;
             $('#tiempoInicioVideo').val(transformaSegundos(ui.values[ 0 ]));
@@ -255,27 +252,8 @@ function eliminarVideos(){
 
 function cargarVideos(){    
     var i;    
-    //console.log("Se cargaran "+ videos.length +" videos");
-    //logVideosAgregadas();
     for(i=0;i<videos.length;i++){
         agregarVideoDiv(i, videos[i].urlVideo, videos[i].inicio, videos[i].fin, videos[i].color, videos[i].top, videos[i].left, videos[i].width, videos[i].height);
-    }
-}
-
-function logVideosAgregadas(){
-    var i;
-    if(videos.length > 0){
-        console.log("Videos agregados:")
-        for(i=0;i<videos.length;i++){
-            console.log(i+")");
-            console.log(videos[i].urlVideo);
-            console.log(" --Tiempo{"+videos[i].inicio+" - "+videos[i].fin+"} ");
-            console.log(" --Color"+videos[i].color);
-            console.log(" --Posicion{t="+videos[i].top+", l="+videos[i].left+"} ");
-            console.log(" --Tamano{w="+videos[i].width+", h="+videos[i].height+"} ");
-        }
-    }else{
-        console.log("No hay videos");
     }
 }
 

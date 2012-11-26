@@ -59,14 +59,12 @@ function mostrarDialogoInsertarImagen(){
     var totalTime = getTotalTime();
     $('#tiempoInicioImagen').val(transformaSegundos(currentTime));
     $('#tiempoFinImagen').val(transformaSegundos(currentTime + 10));
-    //console.log("mostrar Dialogo Insertar Imagen");
     $('#tiempoRangeSliderImagen').slider({
         range: true,
         min: 0,
         max: totalTime,
         values: [ currentTime, currentTime + 10 ],
         slide: function( event, ui ) {
-            //console.log( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ]);
             if(ui.values[0] == ui.values[1])
                 ui.values[1] = ui.values[1]+1;
             $('#tiempoInicioImagen').val(transformaSegundos(ui.values[ 0 ]));
@@ -121,7 +119,6 @@ function mostrarDialogoEditarImagen(idImagen){
         max: totalTime,
         values: [ inicio, fin ],
         slide: function( event, ui ) {
-            //console.log( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ]);
             if(ui.values[0] == ui.values[1])
                 ui.values[1] = ui.values[1]+1;
             $('#tiempoInicioImagen').val(transformaSegundos(ui.values[ 0 ]));
@@ -247,27 +244,8 @@ function eliminarImagenes(){
 
 function cargarImagenes(){    
     var i;    
-    //console.log("Se cargaran "+ imagenes.length +" imagenes");
-    //logImagenesAgregadas();
     for(i=0;i<imagenes.length;i++){
         agregarImagenDiv(i, imagenes[i].urlImagen, imagenes[i].inicio, imagenes[i].fin, imagenes[i].color, imagenes[i].top, imagenes[i].left, imagenes[i].width, imagenes[i].height);
-    }
-}
-
-function logImagenesAgregadas(){
-    var i;
-    if(imagenes.length > 0){
-        console.log("Imagenes agregados:")
-        for(i=0;i<imagenes.length;i++){
-            console.log(i+")");
-            console.log(imagenes[i].urlImagen);
-            console.log(" --Tiempo{"+imagenes[i].inicio+" - "+imagenes[i].fin+"} ");
-            console.log(" --Color"+imagenes[i].color);
-            console.log(" --Posicion{t="+imagenes[i].top+", l="+imagenes[i].left+"} ");
-            console.log(" --Tamano{w="+imagenes[i].width+", h="+imagenes[i].height+"} ");
-        }
-    }else{
-        console.log("No hay imagenes");
     }
 }
 
@@ -321,8 +299,6 @@ function ajaxImageFileUpload(){
         dataType: 'json',
         data: data,
         success: function (data, status){
-            console.log("success");
-            console.log(data);
             if(typeof(data.error) != 'undefined'){
                 if(data.error != ''){
                     alert(data.error);

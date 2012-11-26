@@ -121,7 +121,6 @@ function mostrarImagen(urlImagen){
     $('.infodiv').show();
     hideStripes();
     var currentTime = pop.currentTime();
-    console.log(currentTime);
 	
     pop.footnote({
         start: currentTime,
@@ -141,13 +140,9 @@ function mostrarImagen(urlImagen){
 }
 
 function mostrarWikiInfo(pagina){
-    console.log("Entre a la funcion mostrarWikiInfo() con la pagina = " + pagina);
-   
     $('.infodiv').show();
     hideStripes();
     var currentTime = pop.currentTime();
-    console.log(currentTime);
-	
     pop.wikipedia({
         start: currentTime,
         end: currentTime+0.5,
@@ -171,7 +166,6 @@ function mostrarSitioWeb(pagina){
     $('.webpages-a').css("min-height","900px");
     hideStripes();
     var currentTime = pop.currentTime();
-    console.log(currentTime);
     pop.footnote({
         start: currentTime,
         end: currentTime+0.5,

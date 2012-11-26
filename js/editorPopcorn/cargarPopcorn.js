@@ -14,7 +14,6 @@ $(function(){
         resize: function(event, ui) {
             var w = $("#videoContainer").width();
             var h = $("#videoContainer").height();
-            //console.log("h="+h+" w=" +w);
             $("#mediaPopcorn").width(w);
             $("#mediaPopcorn").height(h);
         },
@@ -45,7 +44,6 @@ function inicializarPopcorn(){
 
     $popPrincipal.on("playing", function() {    	
         $videoDuration = $popPrincipal.duration();
-        //console.log("inicializare el slider con min = 0 y max = "+$videoDuration);
         //Configuración del slider
         $( "#slider" ).slider({
             range: "min",
@@ -53,7 +51,6 @@ function inicializarPopcorn(){
             min: 0,
             max: $videoDuration,
             slide: function( event, ui ) {				
-                //console.log("El valor del slider es = " + ui.value);
                 $popPrincipal.currentTime(ui.value);	
             }
         });

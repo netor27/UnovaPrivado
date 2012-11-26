@@ -18,7 +18,6 @@ $(function(){
                 "icon"  : "icon-warning-sign icon-white",
                 "callback": function() {
                     $url = "/usuarios.php?c=cursos&a=eliminarInscripcion&ic="+curso+"&iu="+id+"&origen=listaAlumnos"+"&pagina="+pagina;
-                    //console.log($url);
                     redirect($url);
                 }
             }, {

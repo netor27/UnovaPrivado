@@ -39,7 +39,6 @@ $(function() {
     //agregar por doble click
     $('#listaGrupos').dblclick(function(){
         var $id = $('#listaGrupos option:selected').attr("value");
-        console.log("id= "+ $id);
         var bandera = false;
         $('#listaInscritos option').each(function(i) {
             if($id == this.value){
@@ -53,7 +52,6 @@ $(function() {
   
     $("#btnAgregar").click(function(){
         var $id = $('#listaGrupos option:selected').attr("value");
-        console.log("id= "+ $id);
         var bandera = false;
         $('#listaGrupos option').each(function(i) {
             if($id == this.value){
@@ -62,9 +60,7 @@ $(function() {
         });        
         if(!bandera){
             $('#listaGrupos option:selected').clone().appendTo('#listaInscritos');
-        }/*else{
-            console.log("no se agregará el usuario, ya existe");
-        }*/   
+        }
     });
   
     $("#btnQuitar").click(function(){
@@ -77,7 +73,6 @@ $(function() {
     $('#listaInscritos').dblclick(function(){
         var valor = $('#listaInscritos option:selected').attr("value");
         gruposQuitar.push(valor);        
-        console.log("Se quitara " + valor);
         $('#listaInscritos option:selected').remove();
     });
   
@@ -87,8 +82,6 @@ $(function() {
             $('#listaInscritos option').each(function(i) {
                 gruposInscribir.push(this.value);
             });
-            //var serializado = mySelections.serialize();
-            //console.log(usuariosInscribir);
             $("#btnGuardar").html("Guardando...");
             $("#btnGuardar").addClass("disabled");
             $.ajax({

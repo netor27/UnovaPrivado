@@ -9,7 +9,6 @@ $(function(){
                 "icon"  : "icon-warning-sign icon-white",
                 "callback": function() {
                     $url = "/grupos/cursos/eliminarGrupoDeCurso:ig="+id+"&ic="+curso+"&pagina="+pagina;
-                    //console.log($url);
                     redirect($url);
                 }
             }, {

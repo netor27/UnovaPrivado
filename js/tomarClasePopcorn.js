@@ -21,9 +21,9 @@ function validarSesion(){
         success: function(data) {
             var str = data.toString();
             if(str.indexOf("valid session") != -1){  
-                console.log("Es una sesión válida");
+                //Es una sesión válida
             }else{
-                console.log("Ya no es una sesión válida. Redireccionando..");
+                //Ya no es una sesión válida. Redireccionando..
                 redirect("/?e=1&msg=sesionNoValida");
             }
         }

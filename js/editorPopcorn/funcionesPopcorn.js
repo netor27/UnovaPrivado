@@ -108,7 +108,6 @@ function getUnidadPx(unidad){
 }
 
 function cambiarColorPicker(hex, id){
-    console.log("Cambiando Color picker "+id+" con hex = "+hex);
     $("#colorSelector"+id).ColorPickerSetColor(hex);
     $('#colorSeleccionado'+id).css('backgroundColor', hex);
     $('#colorHidden'+id).val(hex);
@@ -158,7 +157,6 @@ function guardar(u, uuid, cu, cl, salirDespuesDeGuardar){
     });  
     
     backgroundColor = $("#editorContainment").css("background-color");
-    console.log(backgroundColor);
     
     $containmentWidth = $("#editorContainment").width();
     $containmentHeight  = $("#editorContainment").height();    
@@ -168,9 +166,6 @@ function guardar(u, uuid, cu, cl, salirDespuesDeGuardar){
         width: $("#videoContainer").width() * 100 / $containmentWidth,
         height: $("#videoContainer").height() * 100 / $containmentHeight
     }
-    console.log(videoData['height']);
-    
-    logLinksAgregados();
     
     var data = {
         u: u,
@@ -195,7 +190,6 @@ function guardar(u, uuid, cu, cl, salirDespuesDeGuardar){
         if(res.resultado == "error"){
             $("#modalDialog").html("<h3 class='error'>&iexcl;Error!</h3><br>"+res.mensaje);
         }else{
-            console.log('antes de salir');
             if(salirDespuesDeGuardar){
                 salir();
             }else{

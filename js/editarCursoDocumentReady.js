@@ -55,7 +55,6 @@ $(function(){
                             if(str.indexOf("ok") != -1){                    
                                 parent.remove();
                             }else{      
-                                console.log("error");                                
                                 $( "#modalDialog" ).html(data);
                                 $( "#modalDialog" ).dialog({
                                     height: 230,

@@ -38,7 +38,6 @@ $(function() {
   
     $("#btnAgregar").click(function(){
         var $id = $('#listaUsuarios option:selected').attr("value");
-        console.log("id= "+ $id);
         var bandera = false;
         $('#listaInscritos option').each(function(i) {
             if($id == this.value){
@@ -47,15 +46,12 @@ $(function() {
         });        
         if(!bandera){
             $('#listaUsuarios option:selected').clone().appendTo('#listaInscritos');
-        }/*else{
-            console.log("no se agregará el usuario, ya existe");
-        }*/   
+        }
     });
     
     //dobleclick para agregar
     $('#listaUsuarios').dblclick(function(){
         var $id = $('#listaUsuarios option:selected').attr("value");
-        console.log("id= "+ $id);
         var bandera = false;
         $('#listaInscritos option').each(function(i) {
             if($id == this.value){
@@ -64,9 +60,7 @@ $(function() {
         });        
         if(!bandera){
             $('#listaUsuarios option:selected').clone().appendTo('#listaInscritos');
-        }/*else{
-            console.log("no se agregará el usuario, ya existe");
-        }*/ 
+        }
     });
   
     $("#btnQuitar").click(function(){
@@ -90,8 +84,6 @@ $(function() {
             });
             $("#btnGuardar").html("Guardando...");
             $("#btnGuardar").addClass("disabled");
-            //var serializado = mySelections.serialize();
-            //console.log(usuariosInscribir);
             $.ajax({
                 type: "post",
                 url: "/usuarios/cursos/asignarUsuarios" ,

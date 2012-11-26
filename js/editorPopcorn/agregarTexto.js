@@ -75,7 +75,6 @@ function mostrarDialogoInsertarTexto(){
         max: totalTime,
         values: [ currentTime, currentTime + 10 ],
         slide: function( event, ui ) {
-            //console.log( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ]);
             if(ui.values[0] == ui.values[1])
                 ui.values[1] = ui.values[1]+1;
             $('#tiempoInicioTexto').val(transformaSegundos(ui.values[ 0 ]));
@@ -133,7 +132,6 @@ function mostrarDialogoEditarTexto(idTexto){
         max: totalTime,
         values: [ inicio, fin ],
         slide: function( event, ui ) {
-            //console.log( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ]);
             if(ui.values[0] == ui.values[1]){
                 if(ui.values[1] == 0){
                     ui.values[1] = 1;
@@ -219,7 +217,6 @@ function agregarTextoDiv(indice, texto, inicio, fin, color, top, left, width, he
             $containmentHeight  = $("#editorContainment").height();
             textos[indice].top = ui.offset.top * 100 / $containmentHeight;
             textos[indice].left = ui.offset.left * 100 / $containmentWidth;            
-            //logTextosAgregados();   
         },
         snap: true
     });
@@ -234,7 +231,6 @@ function agregarTextoDiv(indice, texto, inicio, fin, color, top, left, width, he
             $containmentHeight  = $("#editorContainment").height();
             textos[indice].height = ui.size.height * 100/ $containmentHeight;
             textos[indice].width = ui.size.width * 100 / $containmentWidth;
-        //logTextosAgregados();
         }
     });
 }
@@ -272,27 +268,8 @@ function eliminarTextos(){
 
 function cargarTextos(){    
     var i;    
-    //console.log("Se cargaran "+ textos.length +" textos");
-    //logTextosAgregados();
     for(i=0;i<textos.length;i++){
         agregarTextoDiv(i, textos[i].texto, textos[i].inicio, textos[i].fin, textos[i].color, textos[i].top, textos[i].left, textos[i].width, textos[i].height);
-    }
-}
-
-function logTextosAgregados(){
-    var i;
-    if(textos.length > 0){
-        console.log("Textos agregados:")
-        for(i=0;i<textos.length;i++){
-            console.log(i+")");
-            console.log(textos[i].texto);
-            console.log(" --Tiempo{"+textos[i].inicio+" - "+textos[i].fin+"} ");
-            console.log(" --Color"+textos[i].color);
-            console.log(" --Posicion{t="+textos[i].top+", l="+textos[i].left+"} ");
-            console.log(" --Tamano{w="+textos[i].width+", h="+textos[i].height+"} ");
-        }
-    }else{
-        console.log("No hay textos");
     }
 }
 

@@ -117,7 +117,6 @@ function mostrarDialogoEditarLink(idLink){
         max: totalTime,
         values: [ inicio, fin ],
         slide: function( event, ui ) {
-            //console.log( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ]);
             if(ui.values[0] == ui.values[1])
                 ui.values[1] = ui.values[1]+1;
             $('#tiempoInicioLink').val(transformaSegundos(ui.values[ 0 ]));
@@ -195,7 +194,6 @@ function agregarLinkDiv(indice, texto, url, inicio, fin, color, top, left, width
             $containmentHeight  = $("#editorContainment").height();            
             links[indice].top = ui.offset.top * 100 / $containmentHeight;
             links[indice].left = ui.offset.left * 100 / $containmentWidth;            
-        //logLinksAgregados();
         },
         snap: true
     });
@@ -208,9 +206,8 @@ function agregarLinkDiv(indice, texto, url, inicio, fin, color, top, left, width
             var indice = id.split("_")[1];
             $containmentWidth = $("#editorContainment").width();
             $containmentHeight  = $("#editorContainment").height();
-            links[indice].width = ui.size.width * 100 / $containmentWidth;;
-            links[indice].height = ui.size.height * 100/ $containmentHeight;;
-        //logLinksAgregados();
+            links[indice].width = ui.size.width * 100 / $containmentWidth;
+            links[indice].height = ui.size.height * 100/ $containmentHeight;
         }
     });
 }
@@ -248,28 +245,8 @@ function eliminarLinks(){
 
 function cargarLinks(){    
     var i;    
-    //console.log("Se cargaran "+ textos.length +" textos");
-    //logTextosAgregados();
     for(i=0;i<links.length;i++){
         agregarLinkDiv(i, decode_utf8(links[i].texto), links[i].url, links[i].inicio, links[i].fin, links[i].color, links[i].top, links[i].left, links[i].width, links[i].height);
-    }
-}
-
-function logLinksAgregados(){
-    var i;
-    if(links.length > 0){
-        console.log("Links agregados:")
-        for(i=0;i<links.length;i++){
-            console.log(i+")");
-            console.log(links[i].texto);
-            console.log(" --Url "+links[i].url);
-            console.log(" --Tiempo{"+links[i].inicio+" - "+links[i].fin+"} ");
-            console.log(" --Color"+links[i].color);
-            console.log(" --Posicion{t="+links[i].top+", l="+links[i].left+"} ");
-            console.log(" --Tamano{w="+links[i].width+", h="+links[i].height+"} ");
-        }
-    }else{
-        console.log("No hay links");
     }
 }
 

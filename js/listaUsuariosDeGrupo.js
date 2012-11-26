@@ -18,7 +18,6 @@ $(function(){
                 "icon"  : "icon-warning-sign icon-white",
                 "callback": function() {
                     $url = "/grupos/usuarios/eliminarInscripcion:ig="+grupo+"&iu="+id+"&pagina="+pagina;
-                    //console.log($url);
                     redirect($url);
                 }
             }, {

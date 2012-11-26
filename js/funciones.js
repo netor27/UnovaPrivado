@@ -27,8 +27,7 @@ function KeepAlive(){
         url: "/index.php?a=mantenerSesionAbierta" ,
         dataType: "text",
         success: function(data) {
-            var str = data.toString();
-            console.log(str);
+            //Se realizó correctamente
         }
     });
 }
