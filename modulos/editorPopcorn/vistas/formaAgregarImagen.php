@@ -20,12 +20,26 @@
                         <br>
                         <img src="/layout/imagenes/loading.gif" style="width: 50px;">
                     </div>
-
                 </form>
                 <br><br>
                 <label>Ó puedes escribir el link a la imagen:</label>
                 <input placeholder=" Link a la imagen" type="text" name="url" id="urlImagen" class="text ui-widget-content ui-corner-all" style="width:92%;"/>
             </div>
+            <div id="formaElegirForma">
+                <label>Selecciona una forma predefinda</label>
+                <div>
+                    <div id="formasContainer" style="overflow: hidden;">
+                        <?php
+                        foreach ($formasPredefinidas as $formaPredefinida) {
+                            echo '<div class="formaPredefinida ui-corner-all" url="' . $formaPredefinida . '">
+                                <img src="' . $formaPredefinida . '">
+                                    
+                                  </div>';
+                        }
+                        ?>                    
+                    </div>
+                </div>
+            </div>            
             <div id="resultadoDeSubirImagen" style="display:none;">
             </div>
         </div>

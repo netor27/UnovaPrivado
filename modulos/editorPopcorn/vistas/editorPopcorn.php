@@ -44,7 +44,7 @@ if (isset($var['backgroundColor'])) {
         <link rel="stylesheet" href="/lib/js/jquery-ui/ui-lightness/jquery-ui-1.9.1.custom.css" />
         <link type="text/css" href="/layout/css/headerEditor.css" rel="stylesheet" />	
         <link type="text/css" href="/layout/css/editorPopcorn.css" rel="stylesheet" />	
-        
+
         <script src="/lib/js/jquery-1.8.2.min.js"></script>		
         <script src="/lib/js/ajaxFileUpload/ajaxfileupload.js"></script>
         <script src="/lib/js/jquery-ui/jquery-ui-1.9.1.custom.min.js"></script>
@@ -64,7 +64,7 @@ if (isset($var['backgroundColor'])) {
 
         <script src="/js/editorPopcorn/cargarPopcorn.js"></script>
         <script src="/js/funciones.js"></script>        
-        
+
         <script language="javascript">
             function showHideControles(){
                 $("#controlesContainer").toggle("slow");
@@ -83,8 +83,13 @@ if (isset($textos))
     }
 if (isset($imagenes))
     foreach ($imagenes as $imagen) {
+        if (isset($imagen['tipo'])) {
+            $tipo = $imagen['tipo'];
+        } else {
+            $tipo = "imagen";
+        }
         ?>
-                        cargarImagenEnArreglo('<?php echo $imagen['urlImagen']; ?>','<?php echo $imagen['inicio']; ?>','<?php echo $imagen['fin']; ?>','<?php echo $imagen['color']; ?>','<?php echo $imagen['top']; ?>','<?php echo $imagen['left']; ?>','<?php echo $imagen['width']; ?>','<?php echo $imagen['height']; ?>');
+                        cargarImagenEnArreglo('<?php echo $imagen['urlImagen']; ?>','<?php echo $imagen['inicio']; ?>','<?php echo $imagen['fin']; ?>','<?php echo $imagen['color']; ?>','<?php echo $imagen['top']; ?>','<?php echo $imagen['left']; ?>','<?php echo $imagen['width']; ?>','<?php echo $imagen['height']; ?>','<?php echo $tipo; ?>');
         <?php
     }
 if (isset($videos))
@@ -103,12 +108,12 @@ if (isset($links))
     }
         </script>
         <script>
-        var iu = <?php echo $usuario->idUsuario; ?>;
-        var uuid = "<?php echo $usuario->uuid; ?>";
-        var ic = <?php echo $idCurso; ?>;
-        var icl = <?php echo $idClase; ?>;
-        var urlCurso = "<?php echo "/curso/" . $curso->uniqueUrl; ?>";
-        var $esAudio = <?php if ($clase->idTipoClase == 0) echo "false"; else echo "true"; ?>;
+            var iu = <?php echo $usuario->idUsuario; ?>;
+            var uuid = "<?php echo $usuario->uuid; ?>";
+            var ic = <?php echo $idCurso; ?>;
+            var icl = <?php echo $idClase; ?>;
+            var urlCurso = "<?php echo "/curso/" . $curso->uniqueUrl; ?>";
+            var $esAudio = <?php if ($clase->idTipoClase == 0) echo "false"; else echo "true"; ?>;
         </script>
     </head>
     <body>
@@ -163,9 +168,14 @@ if (isset($links))
                                     </div>
                                 </div>
                             </a>
-                            <a id="btnAgregarImagen" onClick="mostrarDialogoInsertarImagen()">
+                            <a id="btnAgregarImagen" onClick="mostrarDialogoInsertarImagen('imagen')">
                                 <div class="menuAgregarElement">
                                     <div class=""><span>Agregar imagen</span></div>
+                                </div>
+                            </a>
+                            <a id="btnAgregarForma" onClick="mostrarDialogoInsertarImagen('formas')">
+                                <div class="menuAgregarElement">
+                                    <div class=""><span>Agregar forma predefinida</span></div>
                                 </div>
                             </a>
                             <a id="btnAgregarVideo" onClick="mostrarDialogoInsertarVideo()">

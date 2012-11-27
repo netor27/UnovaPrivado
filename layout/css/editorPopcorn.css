@@ -370,3 +370,29 @@ div{
 #slider .ui-widget-header{
     background: rgb(59,104,255);
 }
+
+.formaPredefinida{
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    float: left;
+    background: #FFFFFF;
+    cursor: pointer;
+    border: 1px solid #DDD;
+}
+
+.formaSelected{
+    border-color: #F6A828;
+}
+
+.formaPredefinida:hover{
+    border-color: #08C;
+    -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+    -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+    box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+}
+
+.formaPredefinida img{
+    width: 98%;
+    height: 98%;
+}

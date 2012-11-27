@@ -224,6 +224,14 @@ function editor() {
                     //aquí aumentamos el ancho de banda utilizado
                     require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
                     if (deltaVariableDeProducto("usoActualAnchoDeBanda", $usoEnDisco)) {
+                        //obtenemos las formas predefinidas
+                        $formasPredefinidas = array();
+                        $path = "archivos/formasPredefinidas/";
+                        $i = 0;
+                        foreach (glob($path . "*") as $file) {
+                            $formasPredefinidas[$i] = "/".$file;
+                            $i++;
+                        }
                         require_once 'modulos/editorPopcorn/vistas/editorPopcorn.php';
                     } else {
                         setSessionMessage("<h4 class='error'>Ocurrió un error al cargar el video.</h4>");
@@ -271,10 +279,10 @@ function guardarEdicionVideo() {
                 foreach (glob($path . "*") as $file) {
                     $pathInfo = pathinfo($file);
                     //tenemos que revisar que el string $pathInfo['filename'] debe estar en $json
-                   if(strpos($json,$pathInfo['filename']) === false){
-                       //el archivo ya ho esta en json, ya no es utilizado, lo borramos
-                       unlink($file);
-                   }
+                    if (strpos($json, $pathInfo['filename']) === false) {
+                        //el archivo ya ho esta en json, ya no es utilizado, lo borramos
+                        unlink($file);
+                    }
                 }
 
                 if (actualizaCodigoClase($idClase, $json)) {

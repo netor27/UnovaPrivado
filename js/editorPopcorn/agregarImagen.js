@@ -1,9 +1,9 @@
 var imagenes = [];
 var editarImagenBandera = false;
 var idEditarImagen = -1;
+var formaBandera = false;
 
-$(function(){
-    
+$(function(){    
     $("#dialog-form-imagen").dialog({
         autoOpen: false,
         height:450,
@@ -27,6 +27,7 @@ $(function(){
                 $(this).dialog("close");
                 $('#imagenTabs').tabs('select', 0);
                 $('#colorSeleccionadoImagen').html("");
+                $("#urlImagen").val("");
             }
         }
     });	 
@@ -52,16 +53,33 @@ $(function(){
         $('#colorSeleccionadoImagen').css('backgroundColor', 'transparent');
         $('#colorSeleccionadoImagen').html("Sin color");
         $("#colorHiddenImagen").val('transparent');        
-    });    
+    });   
+    
+    $(".formaPredefinida").click(function(){
+        var url = $(this).attr("url");
+        $("#urlImagen").val(url);
+        $(".formaPredefinida").removeClass("formaSelected");
+        $(this).addClass("formaSelected");
+    });
 });
 
-function mostrarDialogoInsertarImagen(){
+function mostrarDialogoInsertarImagen(tipo){
+    
+    if(tipo == "imagen"){
+        $("#formaSubirImagen").show();
+        $("#formaElegirForma").hide();
+        formaBandera = false;        
+    }else if(tipo == "formas"){        
+        $("#formaElegirForma").show();
+        $("#formaSubirImagen").hide();
+        formaBandera = true;
+    }
     
     //mostramos la forma como nueva
     $("#loadingUploadImage").hide();    
     $("#resultadoDeSubirImagen").hide();
     $("#resultadoDeSubirImagen").html("");
-    $("#formaSubirImagen").show();
+    
     
     editarImagenBandera = false;    
     pauseVideo();
@@ -84,7 +102,7 @@ function mostrarDialogoInsertarImagen(){
     $("#dialog-form-imagen").dialog("open");
 }
 
-function cargarImagenEnArreglo(urlImagen, inicio, fin, color, top, left, width, height){
+function cargarImagenEnArreglo(urlImagen, inicio, fin, color, top, left, width, height,tipo){
     imagenes.push({
         urlImagen : urlImagen,
         inicio : inicio,
@@ -93,7 +111,8 @@ function cargarImagenEnArreglo(urlImagen, inicio, fin, color, top, left, width, 
         top : top,
         left : left,
         height : height,
-        width: width
+        width: width,
+        tipo: tipo
     }); 
 }
 
@@ -103,11 +122,28 @@ function agregarImagen(){
     var fin = $("#tiempoFinImagen").val();
     var color = $("#colorHiddenImagen").val();
     
-    agregarImagenDiv(imagenes.length, urlImagen, inicio, fin, color, 50, 50, 20, 20);
-    cargarImagenEnArreglo(urlImagen, inicio, fin, color, 50, 50, 20, 10);
+    var tipo = "";
+    if(formaBandera)
+        tipo = "formas";
+    else
+        tipo = "imagen";    
+    
+    agregarImagenDiv(imagenes.length, urlImagen, inicio, fin, color, 50, 50, 20, 20, tipo);
+    cargarImagenEnArreglo(urlImagen, inicio, fin, color, 50, 50, 20, 10, tipo);
 }
 
-function mostrarDialogoEditarImagen(idImagen){
+function mostrarDialogoEditarImagen(idImagen, tipo){
+    
+    if(tipo == "imagen"){
+        $("#formaSubirImagen").show();
+        $("#formaElegirForma").hide();
+        formaBandera = false;        
+    }else if(tipo == "formas"){        
+        $("#formaElegirForma").show();
+        $("#formaSubirImagen").hide();
+        formaBandera = true;
+    }
+    
     editarImagenBandera = true;
     idEditarImagen = idImagen;
     pauseVideo();
@@ -156,16 +192,22 @@ function editarImagen(){
     width = width * 100 / $containmentWidth;
     height = height * 100/ $containmentHeight;
     
-    agregarImagenDiv(imagenes.length, urlImagen, inicio, fin, color, position.top, position.left, width, height);
-    cargarImagenEnArreglo(urlImagen, inicio, fin, color, position.top, position.left, width, height);
+    var tipo = "";
+    if(formaBandera)
+        tipo = "formas";
+    else
+        tipo = "imagen";    
+    
+    agregarImagenDiv(imagenes.length, urlImagen, inicio, fin, color, position.top, position.left, width, height, tipo);
+    cargarImagenEnArreglo(urlImagen, inicio, fin, color, position.top, position.left, width, height, tipo);
     
     borrarImagen(idEditarImagen);
 }
 
-function agregarImagenDiv(indice, urlImagen, inicio, fin, color, top, left, width, height){
+function agregarImagenDiv(indice, urlImagen, inicio, fin, color, top, left, width, height, tipo){
     var textoDiv = '<div id="imagen_'+indice+'" class="ui-corner-all imagenAgregada  stack draggable" style="background-color: '+color+'; position: fixed; top: '+getUnidadPx(top)+'; left: '+getUnidadPx(left)+'; width: '+getUnidadPx(width)+'; height: '+getUnidadPx(height)+';">' +
     '<div class="elementButtons">' +
-    '<a href="#" onclick=mostrarDialogoEditarImagen('+indice+')>'+
+    '<a href="#" onclick=mostrarDialogoEditarImagen('+indice+',"'+tipo+'")>'+
     '<div class="ui-state-default ui-corner-all littleBox">' +
     '<span class="ui-icon ui-icon-wrench" >' +
     'Editar' +
@@ -255,7 +297,7 @@ function eliminarImagenes(){
 function cargarImagenes(){    
     var i;    
     for(i=0;i<imagenes.length;i++){
-        agregarImagenDiv(i, imagenes[i].urlImagen, imagenes[i].inicio, imagenes[i].fin, imagenes[i].color, imagenes[i].top, imagenes[i].left, imagenes[i].width, imagenes[i].height);
+        agregarImagenDiv(i, imagenes[i].urlImagen, imagenes[i].inicio, imagenes[i].fin, imagenes[i].color, imagenes[i].top, imagenes[i].left, imagenes[i].width, imagenes[i].height, imagenes[i].tipo);
     }
 }
 
