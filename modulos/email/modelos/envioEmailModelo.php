@@ -70,7 +70,7 @@ function enviarMailBienvenida($email, $nombreUsuario, $urlConfirmacion) {
         ' . $urlConfirmacion;
     $html = HEADER . '
         <h1 style="font-size:18px">Bienvenido a Unova, ' . utf8_encode($nombreUsuario) . '</h1>
-            <table bgcolor="#f1f1ee" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
+            <table bgcolor="#ffffff" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
                 <tbody>
                     <tr valign="top">
                         <td style="font-size:13px;margin: 10px; padding: 10px;">
@@ -93,7 +93,7 @@ function enviarMailConfirmacion($email, $urlConfirmacion) {
         Gracias, equipo Unova.';
     $html = HEADER . '
         <h1 style="font-size:18px">Confirmaci&oacute;n de cuenta</h1>
-        <table bgcolor="#f1f1ee" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
+        <table bgcolor="#ffffff" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
                 <tbody>
                     <tr valign="top">
                         <td style="font-size:13px;margin: 10px; padding: 10px;">
@@ -115,7 +115,7 @@ function enviarMailOlvidePassword($email, $urlReestablecer) {
         Gracias, equipo Unova.';
     $html = HEADER . '
         <h1 style="font-size:18px">Reestablecer contrase&ntilde;a</h1>
-        <table bgcolor="#f1f1ee" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
+        <table bgcolor="#ffffff" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
                 <tbody>
                     <tr valign="top">
                         <td style="font-size:13px;margin: 10px; padding: 10px;">
@@ -137,7 +137,7 @@ function enviarMailSuscripcionUsuario($email, $urlReestablecer) {
         Gracias, equipo Unova.';
     $html = HEADER . '
         <h1 style="font-size:18px">Bienvenido a Unova</h1>
-        <table bgcolor="#f1f1ee" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
+        <table bgcolor="#ffffff" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
                 <tbody>
                     <tr valign="top">
                         <td style="font-size:13px;margin: 10px; padding: 10px;">
@@ -171,7 +171,7 @@ function enviarMailTransformacionVideoCompleta($email, $tituloCurso, $tituloClas
         Gracias, equipo Unova.';
     $html = HEADER . '
         <h1 style="font-size:18px">Transformaci&oacute;n de '.$txtTipo.' completa</h1>
-        <table bgcolor="#f1f1ee" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
+        <table bgcolor="#ffffff" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
                 <tbody>
                     <tr valign="top">
                         <td style="font-size:13px;margin: 10px; padding: 10px;">
@@ -194,7 +194,7 @@ function enviarMailSuscripcionCurso($email, $tituloCurso, $imagenCurso, $urlCurs
         Gracias, equipo Unova.';
     $html = HEADER . '
         <h1 style="font-size:18px">Haz quedado inscrito al curso "' . utf8_encode($tituloCurso) . '"</h1>
-        <table bgcolor="#f1f1ee" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
+        <table bgcolor="#ffffff" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
                 <tbody>
                     <tr valign="top">
                         <td valign="top" style="width:110px;text-align:center">
@@ -223,7 +223,7 @@ function enviarMailRespuestaPregunta($email, $tituloCurso, $urlCurso, $pregunta,
         Equipo Unova.';
     $html = HEADER . '
         <h1  style="font-size:18px">Tu pregunta en el curso "' . utf8_encode($tituloCurso) . '" ha sido respondida </h1>
-        <table bgcolor="#f1f1ee" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
+        <table bgcolor="#ffffff" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
                 <tbody>
                     <tr valign="top">
                         <td style="font-size:13px;margin: 10px; padding: 10px;">
@@ -256,7 +256,7 @@ function enviarMailResumenSemanal($email, $nombreUsuario, $numAlumnos, $numPregu
         ';
     $html = HEADER . '
         <h1 style="font-size:18px">' . utf8_encode($nombreUsuario) . ', este es tu resumen semanal en Unova</h1>
-        <table bgcolor="#f1f1ee" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
+        <table bgcolor="#ffffff" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
             <tbody>                                            
                 <tr valign="top" style="text-align: center;">
                     <td style="font-size:18px;margin: 10px; padding: 10px; width: 50%;">
