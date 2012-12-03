@@ -1,16 +1,17 @@
 <?php
 
-$idClase = $_GET['idClase'];
-$path = "archivos/extraMedia/" . $idClase . "/";
-
+require_once 'modulos/cursos/modelos/ClaseModelo.php';
+$idUsuario = $_GET['usuario'];
 $i = 0;
-echo 'Archivos en ' . $path . ':<br><br>';
-
-$pathInfo = null;
-
-foreach(glob($path . "*") as $file){
-    echo $i . " => ". $file . '<br>';
-    $pathInfo = pathinfo($file);
-    echo "File Name = " . $pathInfo['filename'] . '<br>';
+$total = 0;
+for ($i = 80; $i < 100; $i++) {
+    $idClase = $i;
+    if (registrarClaseTomada($idUsuario, $idClase)) {
+        echo 'Se registro correctamente <br>';
+        $total++;
+    } else {
+        echo 'No se registro <br>';
+    }    
 }
+echo '<br>Se agregaron ' . $total . ' registros';
 ?>

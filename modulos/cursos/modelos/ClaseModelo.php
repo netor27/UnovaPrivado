@@ -412,4 +412,14 @@ function getTipoClase($fileType) {
     }
 }
 
+function registrarClaseTomada($idUsuario, $idClase){
+     require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("INSERT INTO tomoclase (fecha, idUsuario, idClase)
+                             VALUES(NOW(), :idUsuario, :idClase)");
+    $stmt->bindParam(':idUsuario', $idUsuario);
+    $stmt->bindParam(':idClase', $idClase);
+    return $stmt->execute();
+}
+
 ?>
