@@ -43,7 +43,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $idTema = $_POST['idTema'];
                 
                 //validamos un usuario correcto
-                if (isset($usuario) && $idUsuario == $usuario->idUsuario) {                
+                if (isset($usuario) && $idUsuario == $usuario->idUsuario) {
                     $info = $upload_handler->post();
                     $file = $info[0];
                     if (!isset($file->error)) {

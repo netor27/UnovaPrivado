@@ -1,7 +1,7 @@
 <?php
 
 require_once 'modulos/email/modelos/EmailModelo.php';
-define("EMAIL_ADVICE_ERRORS","contacto@unova.mx");
+define("EMAIL_ADVICE_ERRORS","neto.r27@gmail.com");
 define("EMAIL_FROM", "Unova@unova.mx");
 define("HEADER", '<html>
         <head>
@@ -280,12 +280,12 @@ function enviarMailResumenSemanal($email, $nombreUsuario, $numAlumnos, $numPregu
     return sendMail($text, $html, "Tu resumen semanal en Unova", EMAIL_FROM, $email);
 }
 
-function enviarMailErrorTransformacion($mensaje) {
+function enviarMailErrorTransformacion($mensaje, $subject) {
     $email = EMAIL_ADVICE_ERRORS;
     $text = 'Ocurrio un error en el procedimiento de transformacion\n\n'.$mensaje;
     $html = HEADER . '
         <h3>Ocurrio un error en el procedimiento de transformacion</h3>
-        <br><br>'.$mensaje . '<br><br>' . FOOTER;
-    return sendMail($text, $html, "Error en transformacion", EMAIL_FROM, $email);
+        <br><br>'.$mensaje . '<br><br><br>' . FOOTER;
+    return sendMail($text, $html, $subject, EMAIL_FROM, $email);
 }
 ?>

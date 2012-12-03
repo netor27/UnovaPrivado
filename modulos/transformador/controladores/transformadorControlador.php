@@ -117,9 +117,12 @@ function transformarArchivo($idArchivo) {
 
 function establecerEstadoArchivoEnBd($idArchivo, $estado, $mensaje) {
     //enviamos un mail para avisar que algo pasó mal
-    require_once 'modulos/email/modelos/envioEmailModelo.php';
-    $msg = "IdArchivo = " . $idArchivo . ", estado = '" . $estado . "' , mensaje = '" . $mensaje . "'";
-    enviarMailErrorTransformacion($msg);
+    require_once 'modulos/email/modelos/envioEmailModelo.php';    
+    $linkPublicar = "<a href='" . DOMINIO_PRIVADO . "/testQueueMessages.php?a=publicar&i=" . $idArchivo . "'>Publicar de nuevo</a>";
+    $msg = "IdArchivo = " . $idArchivo . "<br> estado = '" . $estado . "' <br> mensaje = '" . $mensaje . "'";    
+    $msg .= "<br>Para publicar este archivo en la cola de mensajes, da click " . $linkPublicar;
+    $subject = "Error en la transformacion - " . $idArchivo;
+    enviarMailErrorTransformacion($msg, $subject);
     require_once 'modulos/transformador/modelos/archivoPorTransformarModelo.php';
     return modificarArchivoEstadoMensaje($idArchivo, $estado, $mensaje);
 }
