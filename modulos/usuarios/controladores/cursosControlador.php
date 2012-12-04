@@ -83,15 +83,15 @@ function instructor() {
     if (validarUsuarioLoggeado()) {
         $usuario = getUsuarioActual();
         $offset = 0;
-        $numRows = 5;
+        $numRows = 4;
         $pagina = 1;
         if (isset($_GET['p'])) {
             if (is_numeric($_GET['p'])) {
                 $pagina = intval($_GET['p']);
                 $offset = $numRows * ($pagina - 1);
             }
-        }
-
+        }        
+        $numPreguntas = getPreguntasSinResponder($usuario->idUsuario);
         $res = getCursosInstructorDetalles($usuario->idUsuario, "titulo", "ASC", $offset, $numRows);
         $cursos = $res['cursos'];
         $numCursos = $res['n'];
@@ -109,7 +109,7 @@ function inscrito() {
     if (validarUsuarioLoggeado()) {
         $usuario = getUsuarioActual();
         $offset = 0;
-        $numRows = 5;
+        $numRows = 4;
         $pagina = 1;
         if (isset($_GET['p'])) {
             if (is_numeric($_GET['p'])) {

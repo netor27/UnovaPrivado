@@ -15,7 +15,7 @@ if (isset($usuarioHead)) {
             <div id="flechitaPerfil"></div>
             <a href="/usuario/<?php echo $usuarioHead->uniqueUrl; ?>">
                 <div id="perfil_image">
-                    <img src="<?php echo $usuarioHead->avatar; ?>">
+                    <img src="<?php echo $usuarioHead->avatar; ?>" class="img-polaroid">
                     <span><?php echo substr($usuarioHead->nombreUsuario, 0, 14); ?></span>
                     <br><br>
                     <span style="font-size: smaller">Editar perfil</span>
@@ -45,7 +45,29 @@ if (isset($usuarioHead)) {
                     ?>
                     <a href="/curso/<?php echo $cursoSess->uniqueUrl; ?>">
                         <div class="cursoMenuElement">
-                            <img src="<?php echo $cursoSess->imagen; ?>"/><?php echo $cursoSess->titulo; ?>
+                            <div class="row-fluid">
+                                <div class="span3">
+                                    <img class="img-polaroid" src="<?php echo $cursoSess->imagen; ?>"/>
+                                </div>
+                                <div class="span9">
+                                    <span><?php echo $cursoSess->titulo; ?></span>                                    
+                                    <?php
+                                    if ($cursoSess->numeroDeClases == 0)
+                                        $porcentaje = 0;
+                                    else
+                                        $porcentaje = intval($cursoSess->numeroDeTomadas / $cursoSess->numeroDeClases * 100);
+                                    ?>
+                                    <div class="span11" style="height: 10px;min-height: 10px;">
+                                        <div class="progress" style="height: 10px;">
+                                            <div class="bar" style="width: <?php echo $porcentaje . '%'; ?>;"></div>
+                                        </div>                                        
+                                    </div>
+                                    <br>
+                                    <?php
+                                    echo $porcentaje . "% completado";
+                                    ?>                               
+                                </div>
+                            </div>
                         </div>
                     </a>
                     <?php
@@ -60,7 +82,7 @@ if (isset($usuarioHead)) {
             } else {
                 ?>                
                 <div class="cursoMenuElement">
-                    <h3>No estás inscrito a ningún curso</h3>
+                    <h2>No estás inscrito a ningún curso</h2>
                 </div>
             <?php } ?>
         </div>

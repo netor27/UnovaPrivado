@@ -41,7 +41,6 @@
     max-height: 600px;
     overflow-style: move;
     overflow-y:  auto;
-
 }
 #clases_menu a{
     z-index: 200;

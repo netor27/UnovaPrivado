@@ -16,10 +16,9 @@ require_once('layout/headers/headCierre.php');
                 }
                 ?>
                 <h5><?php echo $curso->titulo; ?></h5>
-                <h6><?php echo $curso->descripcionCorta; ?></h6>
             </div>
 
-            <div class="span3 offset3">
+            <div class="span4 offset2">
                 <div style="padding-top: 20px;">
                     <a href="/grupos/cursos/gruposDelCurso/<?php echo $idCurso; ?>" class="btn btn-primary">
                         <i class="icon-white icon-plus"></i>

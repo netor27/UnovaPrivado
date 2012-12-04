@@ -10,9 +10,9 @@ require_once('layout/headers/headCierre.php');
             <div class="span6">
                 <?php
                 if ($numCursos == 1) {
-                    echo '<h4>Hay un curso</h4>';
+                    echo '<h1>Hay un curso</h1>';
                 } else {
-                    echo '<h4>Hay ' . $numCursos . ' cursos</h4>';
+                    echo '<h1>Hay ' . $numCursos . ' cursos</h1>';
                 }
                 ?>
             </div>
@@ -25,9 +25,6 @@ require_once('layout/headers/headCierre.php');
                 </div>
             </div>
         </div>
-        <div class="row-fluid">
-            <div class="span12"></div>
-        </div>
         <?php
         $columna = 1;
         $fila = 1;
@@ -38,55 +35,63 @@ require_once('layout/headers/headCierre.php');
                     <?php
                     $i = 0;
                     foreach ($cursos as $curso) {
-                        if ($i % 3 == 0) {
-                            echo '<ul class="thumbnails">';
+                        if ($i % 2 == 0) {
+                            echo '<div class="row-fluid">';
                         }
                         ?>
-                        <li class="span4">
-                            <div class="thumbnail">
-                                <a href="/curso/<?php echo $curso->uniqueUrl; ?>"><h3 class="centerText"><?php echo $curso->titulo; ?></h3></a>
-                                <img src="<?php echo $curso->imagen; ?>" class="img-polaroid">
-                                <div class="caption">                                    
+                        <div class="span6 well well-small cursoContainer">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <legend>
+                                        <a href="/curso/<?php echo $curso->uniqueUrl; ?>" class="tituloCurso">
+                                            <h3 class="centerText"><?php echo $curso->titulo; ?></h3>
+                                        </a>
+                                    </legend>
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span4">
+                                    <a href="/curso/<?php echo $curso->uniqueUrl; ?>">
+                                        <img src="<?php echo $curso->imagen; ?>" class="img-polaroid span12">
+                                    </a>
+                                </div>
+                                <div class="span8">
                                     <div class="row-fluid">
-                                        <legend>
-                                            <strong>Autor:</strong> 
-                                            <a href="/usuario/<?php echo $curso->uniqueUrlUsuario;?>">
+                                        <p>
+                                            <strong>Autor:</strong>
+                                            <a href="/usuario/<?php echo $curso->uniqueUrlUsuario; ?>">
                                                 <?php echo $curso->nombreUsuario; ?>
                                             </a>
-                                        </legend>
+                                        </p>
                                     </div>
-                                    <div class="row-fluid centerText">
-                                        <div class="span6">
-                                            <p>
-                                                <?php
-                                                if ($curso->numeroDeAlumnos == 0) {
-                                                    echo 'No tiene alumnos';
-                                                } else if ($curso->numeroDeAlumnos == 1)
-                                                    echo 'Un alumno';
-                                                else
-                                                    echo $curso->numeroDeAlumnos . " alumnos";
-                                                ?>
-                                            </p>
-                                        </div>
-                                        <div class="span6">
-                                            <p>
-                                                <?php
-                                                if ($curso->numeroDeClases == 0) {
-                                                    echo 'No hay clases';
-                                                } else if ($curso->numeroDeClases == 1)
-                                                    echo 'Una clase';
-                                                else
-                                                    echo $curso->numeroDeClases . " clases";
-                                                ?>
-                                            </p>
-                                        </div>
+                                    <div class="row-fluid">
+                                        <p>
+                                            <?php
+                                            if ($curso->numeroDeAlumnos == 0) {
+                                                echo 'No tiene alumnos';
+                                            } else if ($curso->numeroDeAlumnos == 1)
+                                                echo 'Un alumno';
+                                            else
+                                                echo $curso->numeroDeAlumnos . " alumnos";
+                                            ?>
+                                        </p>
+                                        <p>
+                                            <?php
+                                            if ($curso->numeroDeClases == 0) {
+                                                echo 'No hay clases';
+                                            } else if ($curso->numeroDeClases == 1)
+                                                echo 'Una clase';
+                                            else
+                                                echo $curso->numeroDeClases . " clases";
+                                            ?>
+                                        </p>
                                     </div>
-                                    <p>
-                                        <strong>Descripción</strong>
-                                    </p>
-                                    <p class="descripcion">
-                                        <?php echo $curso->descripcionCorta; ?>
-                                    </p>
+                                    <div class="row-fluid">
+                                        <p class="descripcion">
+                                            <strong>Descripción: </strong>
+                                            <?php echo $curso->descripcionCorta; ?>
+                                        </p>
+                                    </div>
                                     <div class="row-fluid">
                                         <div class="btn-group span9">
                                             <a class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -97,7 +102,7 @@ require_once('layout/headers/headCierre.php');
                                                 <li><a href="/cursos/curso/alumnos/<?php echo $curso->idCurso . "&pc=" . $pagina; ?>"><i class="icon-user"></i> Editar usuarios inscritos</a></li>
                                                 <li><a href="/grupos/cursos/asignados/<?php echo $curso->idCurso; ?>"><i class="icon-globe"></i> Editar grupos asignados</a></li>
                                             </ul>
-                                        </div>                                            
+                                        </div>
                                         <div class="btn-group span3">
                                             <a class="btn  btn-small btn-danger dropdown-toggle" data-toggle="dropdown" >
                                                 <i class="icon-trash icon-white"></i>  
@@ -110,13 +115,14 @@ require_once('layout/headers/headCierre.php');
                                     </div>
                                 </div>
                             </div>
-                            <?php
-                            if ($i % 3 == 2) {
-                                echo '</ul>';
-                            }
-                            $i++;
+                        </div>
+                        <?php
+                        if ($i % 2 == 1) {
+                            echo '</div>';
                         }
-                        ?>          
+                        $i++;
+                    }
+                    ?>          
                 </div>
             </div>
             <div class="row-fluid">

@@ -1,4 +1,4 @@
-.thumbnail:hover{
+.cursoContainer:hover{
     border-color: #08C;
     -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
     -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
@@ -10,7 +10,14 @@
 
 .descripcion{
     max-width: 272px;
-    height:60px;
-    overflow: auto;
-    
+    height:80px;
+    overflow: auto;    
+}
+
+.tituloCurso:hover{
+    text-decoration: none;
+}
+
+.tituloCurso:hover h3{
+    text-decoration: underline;
 }

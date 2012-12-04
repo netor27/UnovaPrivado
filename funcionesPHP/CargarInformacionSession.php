@@ -9,17 +9,16 @@ function cargarCursosSession() {
         //inscrito y guardarlos en la sesión para mostrarlos en el menú            
         if (tipoUsuario() == 'administradorPrivado' ||
                 tipoUsuario() == 'profesor') {
-            $numCursos = 2;
-            //Obtener los ultimos 5 cursos que ha creado el usuario
+            $numCursos = 3;
+            //Obtener los ultimos cursos que ha creado el usuario
             //guardarlos en la sesión para mostrarlos en el menú
             $aux = getCursosInstructor($usuario->idUsuario, 0, $numCursos, "fechaCreacion", "DESC");
             $_SESSION['cursosPropios'] = $aux;
         } else {
-            $numCursos = 4;
+            $numCursos = 6;
         }
-
-        $aux = getCursosInscrito($usuario->idUsuario, 0, $numCursos, "fechaInscripcion", "DESC");
-        $_SESSION['cursos'] = $aux;
+        $auxCursos = getCursosInscrito($usuario->idUsuario, 0, $numCursos);
+        $_SESSION['cursos'] = $auxCursos;
     }
 }
 

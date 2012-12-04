@@ -195,8 +195,6 @@ h6{ margin:0;   padding:0px 0px  0px 0px;;  color:#30377a;  font-weight:100;    
 #perfil_image img{
     width: 50px;
     float:left;
-    border: 3px solid #DDD;
-
 }
 #perfil_image span{
     color: #006187;
@@ -273,7 +271,9 @@ h6{ margin:0;   padding:0px 0px  0px 0px;;  color:#30377a;  font-weight:100;    
     /* Sombra   */
     box-shadow: rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
     -webkit-box-shadow:rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
-    -moz-box-shadow:rgba(31, 31, 31, 0.816406) 0px;
+    -moz-box-shadow:rgba(31, 31, 31, 0.816406) 0px;    
+    max-height: 600px;
+    
 }
 #cursos_menu a:hover{text-decoration: none;}
 

@@ -21,6 +21,7 @@ class Curso{
     public $fechaInscripcion;
     public $puntuacion;
     public $uniqueUrlUsuario;
+    public $numeroDeTomadas;
     
     function toString(){
         return " idCurso=" . $this->idCurso . 

@@ -4,7 +4,7 @@ function principal() {
     if (validarUsuarioLoggeado()) {
         if (validarAdministradorPrivado()) {
             $offset = 0;
-            $numRows = 6;
+            $numRows = 4;
             $pagina = 1;
             if (isset($_GET['p'])) {
                 if (is_numeric($_GET['p'])) {

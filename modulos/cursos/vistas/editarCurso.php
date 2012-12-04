@@ -9,9 +9,9 @@ require_once('layout/headers/headCierre.php');
     <div id="cursoHeader">
         <div id="cursoHeader_left">            
             <div id="cursoHeader_img" class="left">
-                <img itemprop="image" src="<?php echo $cursoParaModificar->imagen; ?>"/>
+                <img src="<?php echo $cursoParaModificar->imagen; ?>" class="img-polaroid"/>
                 <br>
-                <a href="/cursos/curso/cambiarImagen/<?php echo $cursoParaModificar->idCurso; ?>">Cambiar imagen</a>
+                <a style="margin-left: 60px;" href="/cursos/curso/cambiarImagen/<?php echo $cursoParaModificar->idCurso; ?>">Cambiar imagen</a>
             </div>            
             <div id="cursoHeader_info" class="left" style="width:500px">
                 <div id="cursoHeader_info_titulo">
@@ -153,8 +153,8 @@ require_once('layout/headers/headCierre.php');
                 }
             } else {
                 ?>
-                <div class="centerText" style="height: 100px; padding: 50px;">
-                    <a href="/cursos/curso/agregarContenido/<?php echo $cursoParaModificar->idCurso; ?>" class="blueButton" id="agregarContenido">Agregar contenido</a>
+                <div class="centerText" >
+                    <a href="/cursos/curso/agregarContenido/<?php echo $cursoParaModificar->idCurso; ?>" class="btn btn-large btn-primary" id="agregarContenido">Agregar contenido</a>
                 </div>
                 <?php
             }

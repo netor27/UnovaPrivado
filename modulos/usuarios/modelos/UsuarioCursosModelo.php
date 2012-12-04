@@ -5,32 +5,48 @@ require_once 'modulos/usuarios/clases/Usuario.php';
 function getCursosInscrito($idUsuario, $offset, $numRows) {
     require_once 'bd/conex.php';
     global $conex;
-
-    $stmt = $conex->prepare("SELECT c.idCurso, c.titulo, c.uniqueUrl, c.imagen, uc.fechaInscripcion
-                                 FROM curso c, usuariocurso uc
-                                 WHERE uc.idUsuario = :idUsuario AND c.idCurso = uc.idCurso
-                                 ORDER BY c.titulo ASC
-                                 LIMIT $offset, $numRows");
+    $stmt = $conex->prepare("SELECT u.idUsuario, c.imagen, c.idCurso, c.titulo, 
+                                c.uniqueUrl, uc.fechaInscripcion,
+                                count(distinct cl.idClase) as numClases, 
+                                count(distinct tc.idClase) as numTomadas
+                            FROM curso c
+                            INNER JOIN usuario u ON c.idUsuario = u.idUsuario
+                            LEFT OUTER JOIN tema t ON c.idCurso = t.idCurso
+                            LEFT OUTER JOIN clase cl ON t.idTema = cl.idTema
+                            LEFT OUTER JOIN usuariocurso uc ON c.idCurso = uc.idCurso
+                            LEFT OUTER JOIN tomoclase tc ON cl.idClase = tc.idClase AND tc.idUsuario = :idUsuario
+                            WHERE c.idCurso IN (
+                                select idCurso
+                                from usuariocurso
+                                where idUsuario = :idUsuario
+                            )
+                            GROUP BY c.idCurso
+                            ORDER BY c.titulo ASC
+                            LIMIT $offset, $numRows");
     $stmt->bindParam(':idUsuario', $idUsuario);
 
+    if (!$stmt->execute())
+        print_r($stmt->errorInfo());
 
-    if ($stmt->execute()) {
-        $cursos = null;
-        $curso = null;
-        $rows = $stmt->fetchAll();
-        $i = 0;
-        foreach ($rows as $row) {
-            $curso = new Curso();
-            $curso->idCurso = $row['idCurso'];
-            $curso->titulo = $row['titulo'];
-            $curso->uniqueUrl = $row['uniqueUrl'];
-            $curso->imagen = $row['imagen'];
-            $cursos[$i] = $curso;
-            $i++;
-        }
-        return $cursos;
+    $rows = $stmt->fetchAll();
+
+    $cursos = null;
+    $curso = null;
+    $i = 0;
+    foreach ($rows as $row) {
+        $curso = new Curso();
+        $curso->idCurso = $row['idCurso'];
+        $curso->idUsuario = $row['idUsuario'];
+        $curso->imagen = $row['imagen'];
+        $curso->titulo = $row['titulo'];
+        $curso->fechaInscripcion = $row['fechaInscripcion'];
+        $curso->numeroDeClases = $row['numClases'];
+        $curso->uniqueUrl = $row['uniqueUrl'];
+        $curso->numeroDeTomadas = $row['numTomadas'];
+        $cursos[$i] = $curso;
+        $i++;
     }
-    return null;
+    return $cursos;
 }
 
 function getCursosInstructor($idUsuario, $offset, $numRows) {
@@ -73,12 +89,17 @@ function getCursosInscritoDetalles($idUsuario, $orderBy, $orderAscDesc, $offset,
     else if ($orderBy == "titulo")
         $auxOrder = " c.titulo " . $orderAscDesc . " ";
 
-    $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS u.idUsuario, u.nombreUsuario, u.uniqueUrl as uniqueUrlUsuario, c.imagen, c.descripcionCorta,  c.idCurso, c.titulo, c.uniqueUrl, uc.fechaInscripcion, count(distinct uc.idUsuario) as numAlumnos, count(distinct cl.idClase) as numClases
+    $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS u.idUsuario, u.nombreUsuario, 
+                                u.uniqueUrl as uniqueUrlUsuario, c.imagen, c.descripcionCorta,  
+                                c.idCurso, c.titulo, c.uniqueUrl, uc.fechaInscripcion, 
+                                count(distinct uc.idUsuario) as numAlumnos, count(distinct cl.idClase) as numClases, 
+                                count(distinct tc.idClase) as numTomadas
                             FROM curso c
                             INNER JOIN usuario u ON c.idUsuario = u.idUsuario
                             LEFT OUTER JOIN tema t ON c.idCurso = t.idCurso
                             LEFT OUTER JOIN clase cl ON t.idTema = cl.idTema
                             LEFT OUTER JOIN usuariocurso uc ON c.idCurso = uc.idCurso
+                            LEFT OUTER JOIN tomoclase tc ON cl.idClase = tc.idClase AND tc.idUsuario = :idUsuario
                             WHERE c.idCurso IN (
                                 select idCurso
                                 from usuariocurso
@@ -113,6 +134,7 @@ function getCursosInscritoDetalles($idUsuario, $orderBy, $orderAscDesc, $offset,
         $curso->descripcionCorta = $row['descripcionCorta'];
         $curso->uniqueUrl = $row['uniqueUrl'];
         $curso->uniqueUrlUsuario = $row['uniqueUrlUsuario'];
+        $curso->numeroDeTomadas = $row['numTomadas'];
         $cursos[$i] = $curso;
         $i++;
     }

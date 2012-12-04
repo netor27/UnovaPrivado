@@ -138,6 +138,7 @@ function tomarClase() {
                 //si no es un administrador, contar las views
                 sumarVistaClase($idClase);
                 sumarTotalView($curso->idCurso);
+                registrarClaseTomada($usuario->idUsuario, $idClase);
             }
             $idSiguienteClase = obtenerIdSiguienteClase($clase->idClase, $clases);
             $usoEnDisco = 0;
