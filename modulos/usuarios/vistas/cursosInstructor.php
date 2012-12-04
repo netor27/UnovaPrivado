@@ -13,11 +13,11 @@ require_once ('layout/headers/headCierre.php');
             <div class="span5 offset2">
                 <div style="padding-top: 20px;" class="span12">
                     <?php
-                        if($numPreguntas > 0){
-                            echo '<a href="/usuarios/cursos/responderPreguntas" class="span12 btn btn-primary">Responder las preguntas pendientes (' . $numPreguntas .')</a>';
-                        }
+                    if ($numPreguntas > 0) {
+                        echo '<a href="/usuarios/cursos/responderPreguntas" class="span12 btn btn-primary">Responder las preguntas pendientes (' . $numPreguntas . ')</a>';
+                    }
                     ?>
-                    
+
                 </div>
             </div>
         </div>
@@ -86,27 +86,33 @@ require_once ('layout/headers/headCierre.php');
                                             <?php echo $curso->descripcionCorta; ?>
                                         </p>
                                     </div>
-                                    <div class="row-fluid">
-                                        <div class="btn-group span9">
-                                            <a class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown">
-                                                <i class="icon-pencil icon-white"></i>  
-                                                <span class="caret"></span>
-                                            </a>                                            
-                                            <ul class="dropdown-menu">
-                                                <li><a href="/cursos/curso/alumnos/<?php echo $curso->idCurso . "&pc=" . $pagina; ?>"><i class="icon-user"></i> Editar usuarios inscritos</a></li>
-                                                <li><a href="/grupos/cursos/asignados/<?php echo $curso->idCurso; ?>"><i class="icon-globe"></i> Editar grupos asignados</a></li>
-                                            </ul>
+                                    <?php
+                                    if ($usuario->tipoUsuario == 2) {
+                                        ?>
+                                        <div class="row-fluid">
+                                            <div class="btn-group span9">
+                                                <a class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                    <i class="icon-pencil icon-white"></i>  
+                                                    <span class="caret"></span>
+                                                </a>                                            
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="/cursos/curso/alumnos/<?php echo $curso->idCurso . "&pc=" . $pagina; ?>"><i class="icon-user"></i> Editar usuarios inscritos</a></li>
+                                                    <li><a href="/grupos/cursos/asignados/<?php echo $curso->idCurso; ?>"><i class="icon-globe"></i> Editar grupos asignados</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="btn-group span3">
+                                                <a class="btn  btn-small btn-danger dropdown-toggle" data-toggle="dropdown" >
+                                                    <i class="icon-trash icon-white"></i>  
+                                                    <span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="borrarCurso" id="<?php echo $curso->idCurso; ?>"><i class="icon-fire"></i> Eliminar curso</a></li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                        <div class="btn-group span3">
-                                            <a class="btn  btn-small btn-danger dropdown-toggle" data-toggle="dropdown" >
-                                                <i class="icon-trash icon-white"></i>  
-                                                <span class="caret"></span>
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="borrarCurso" id="<?php echo $curso->idCurso; ?>"><i class="icon-fire"></i> Eliminar curso</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </div>

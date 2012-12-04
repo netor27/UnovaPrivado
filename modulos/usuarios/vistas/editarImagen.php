@@ -3,43 +3,48 @@ require_once('layout/headers/headInicio.php');
 require_once('layout/headers/headCierre.php');
 ?>
 
-
 <div class="contenido">
-    <div class="left centerText" style="width: 890px">
-        <h1 class="centerText">Cambiar tu imagen</h1>  
-        <br><br>
-        <?php
-        if (isset($error) && $error != "") {
-            echo '<h5 class="error centerText">' . $error . '</h5>';
-        }
-        if (isset($info) && $info != "") {
-            echo '<h5 class="info centerText">' . $info . '</h5>';
-        }
-        ?>
-        <div id="formDiv" style="width:700px;" >  
-            <form method="post" id="customForm" enctype="multipart/form-data" action="/usuarios/usuario/cambiarImagenSubmit">  
-                <p>
-                <div>
-                    <label for="imagen actual">Imagen actual:</label><br><br>
-                    <img src="<?php echo $usuarioCambiar->avatar; ?>">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12"></div>
+        </div>
+        <div class="well span8 offset2">
+            <div class="row-fluid">
+                <legend>Cambiar imagen de perfil</legend>
+            </div>
+            <?php
+            if (isset($msgForma)) {
+                ?>
+                <div class="row-fluid">
+                    <div class="alert alert-error">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>¡Error! </strong> <?php echo $msgForma; ?>
+                    </div>
                 </div>
-                </p>
-                <p>
-                <div>  
-                    <label for="imagen">Sube una imagen:</label>  <br><br>
-                    <input id="imagen" name="imagen" type="file" style="width:350px;" />                          
-                    <span id="tituloInfo">Imagen del curso</span>  
-                </div>  
-                </p>
-
-                <p>
-                <div>  
-                    <input id="send" name="send" type="submit" value="  Aceptar  " />  
-                </div> 
-                </p>
-
-            </form>  
-
+                <?php
+            }
+            ?>
+            <div class="row-fluid">
+                <form method="post" id="customForm" enctype="multipart/form-data" action="/usuarios/usuario/cambiarImagenSubmit" class="form-horizontal">  
+                    <div class="control-group">
+                        <label class="control-label" for="inputTitulo">Imagen actual:</label>
+                        <div class="controls">
+                            <img class="img-polaroid" src="<?php echo $usuarioCambiar->avatar; ?>">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputImagen">Sube una imagen:</label>
+                        <div class="controls">
+                            <input id="imagen" name="imagen" type="file" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-primary"> Aceptar </button>  
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

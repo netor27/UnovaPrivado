@@ -102,7 +102,7 @@ function editarTemaSubmit() {
                     $tema->nombre = $titulo;
                     $tema->idTema = $idTema;
                     if (actualizaTema($tema)) {
-                        setSessionMessage("<h4 class='success'>Se modificó el nombre del tema correctamente</h4>");
+                        setSessionMessage("<h4 class='success'>Se modificó el nombre del tema</h4>");
                         redirect("/curso/" . $curso->uniqueUrl);
                     } else {
                         setSessionMessage("<h4 class='error'>Ocurrió un error al modificar el tema. Intenta de nuevo más tarde.</h4>");

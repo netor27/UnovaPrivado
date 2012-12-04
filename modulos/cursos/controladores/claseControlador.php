@@ -79,7 +79,7 @@ function editarClaseSubmit() {
                 $titulo = removeBadHtmlTags(trim($_POST['titulo']));
                 $descripcion = removeBadHtmlTags(trim($_POST['descripcion']));
 
-                if (strlen($titulo) >= 5 && strlen($titulo) <= 100 && strlen($descripcion) > 10) {
+                if (strlen($titulo) >= 5 && strlen($titulo) <= 100) {
                     require_once 'modulos/cursos/clases/Clase.php';
                     require_once 'modulos/cursos/modelos/ClaseModelo.php';
 

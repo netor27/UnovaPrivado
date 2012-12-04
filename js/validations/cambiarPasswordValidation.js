@@ -1,60 +1,49 @@
 $(document).ready(function(){
     var form = $("#customForm");  
-    var passAnterior = $("#passAnterior");
-    
-    var pass1 = $("#pass1");  
-    var pass1Info = $("#pass1Info");  
-    var pass2 = $("#pass2");  
-    var pass2Info = $("#pass2Info");  
+    var passAnterior = $("#inputPassAnt");    
+    var pass1 = $("#inputPass1");      
+    var pass2 = $("#inputPass2");  
 
     function validatePassAnterior(){
-        if(passAnterior.val().length == 0){
-            return 0;
+        if(passAnterior.val().length < 1){
+            $('#inputPassAnt').attr("data-original-title","Error");
+            $('#inputPassAnt').attr("data-content","Introduce tu contraseña anterior");
+            $('#inputPassAnt').popover("show");
+            return false;
+        }else{
+            $('#inputPassAnt').popover("hide");
+            return true;
         }
     }
     
     function validatePass1(){  
-        var a = $("#password1");  
-        var b = $("#password2");  
-  
         if(pass1.val().length <5){  
-            pass1.addClass("error");  
-            pass1Info.text("Introduce una contraseña. Mínimo 5 caracteres");  
-            pass1Info.addClass("error");  
+            $('#inputPass1').attr("data-original-title","Error");
+            $('#inputPass1').attr("data-content","Tu contraseña debe tener mínimo 5 caracteres");
+            $('#inputPass1').popover("show");
             return false;  
-        }  
-        else{  
-            pass1.removeClass("error");  
-            pass1Info.text("Introduce una contraseña. Mínimo 5 caracteres");  
-            pass1Info.removeClass("error");  
-            validatePass2();  
+        }else{  
+            $('#inputPass1').popover("hide");
             return true;  
         }  
     }  
     function validatePass2(){  
-        var a = $("#password1");  
-        var b = $("#password2");  
 
         if( pass1.val() != pass2.val() ){  
-            pass2.addClass("error");  
-            pass2Info.text("Las contraseñas no coinciden");  
-            pass2Info.addClass("error");  
+            $('#inputPass2').attr("data-original-title","Error");
+            $('#inputPass2').attr("data-content","Las contraseñas no coinciden");
+            $('#inputPass2').popover("show");
             return false;  
-        }  
-        else{  
-            pass2.removeClass("error");  
-            pass2Info.text("Repetir contraseña");  
-            pass2Info.removeClass("error");  
+        }else{  
+            $('#inputPass2').popover("hide");
             return true;  
         }  
     } 
 
     //On blur
+    passAnterior.blur(validatePassAnterior);
     pass1.blur(validatePass1);  
-    pass2.blur(validatePass2);  
-    //On key press  
-    pass1.keyup(validatePass1);  
-    pass2.keyup(validatePass2);  
+    pass2.blur(validatePass2);      
 
     form.submit(function(){  
         if(validatePassAnterior() && validatePass1() && validatePass2())  

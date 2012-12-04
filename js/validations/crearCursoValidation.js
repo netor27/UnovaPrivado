@@ -1,13 +1,7 @@
 $(document).ready(function(){
     var form = $("#customForm");  
     var titulo = $("#inputTitulo");  
-    var descripcionCorta = $("#inputDescripcion");  
-    $('#inputTitulo').popover({
-        trigger: "manual"
-    });
-    $('#inputDescripcion').popover({
-        trigger: "manual"
-    });
+    var descripcionCorta = $("#inputDescripcion");      
 
     function validateTitulo(){  
         if(trim(titulo.val()).length < 10 ){  

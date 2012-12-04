@@ -8,8 +8,10 @@ require_once ('layout/headers/headCierre.php');
     <div class="contenido">
         <div class="row-fluid">
             <div class="span12">
-                <h1>Éstos son los cursos a los que estas inscrito</h1>
                 <?php
+                if ($numCursos > 0) {
+                    echo '<h1>Éstos son los cursos a los que estas inscrito</h1>';
+                }                
                 if ($numCursos == 1) {
                     ?>
                     <h3>Un curso solamente</h3>
@@ -156,7 +158,7 @@ require_once ('layout/headers/headCierre.php');
 
             </div>
             <div class="span12 centerText">
-                <h2>Aún no estas inscrito a ningún curso<br> Regresa más tarde</h2>
+                <h1>Aún no estas inscrito a ningún curso<br> Regresa más tarde</h1>
             </div>
         </div>
         <?php

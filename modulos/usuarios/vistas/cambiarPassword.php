@@ -5,50 +5,56 @@ require_once('layout/headers/headCierre.php');
 ?>
 
 <div class="contenido">
-
-    <div class="left centerText" style="width: 100%;">
-        <h1 >Cambiar contraseña</h1>
-        
-        <?php
-        if (isset($error) && $error != "") {
-            echo '<h5 class="error centerText">' . $error . '</h5>';
-        }
-        if (isset($info) && $info != "") {
-            echo '<h5 class="info centerText">' . $info . '</h5>';
-        } else {
-            ?>
-            <div id="formDiv" style="width: 550px; margin: 0 auto;">                
-
-                <form method="post" id="customForm" action="/usuarios/usuario/cambiarPasswordSubmit">  
-                    <div class="divInput">
-                        <label for="passAnt">Contraseña anterior</label>
-                        <input id="passAnt" name="passAnt" type="password"/>
-                        <span id="passAnt" class="infoLabel">Introduce tu contraseña anterior</span>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12"></div>
+        </div>
+        <div class="well span8 offset2">
+            <div class="row-fluid">
+                <legend>Cambiar contraseña</legend>
+            </div>
+            <?php
+            if (isset($msgForma)) {
+                ?>
+                <div class="row-fluid">
+                    <div class="alert alert-error">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>¡Error! </strong> <?php echo $msgForma; ?>
                     </div>
-                    <div class="divInput">  
-                        <label for="pass1">Contraseña</label>  
-                        <input id="pass1" name="pass1" type="password"/>  
-                        <span id="pass1Info" class="infoLabel">Introduce una contraseña. Mínimo 5 caracteres</span>  
-                    </div> 
-                    <div class="divInput">  
-                        <label for="pass2">Repetir contraseña</label>  
-                        <input id="pass2" name="pass2" type="password"/> 
-                        <span id="pass2Info" class="infoLabel">Repetir contraseña</span>  
-                    </div> 
-                    
-                    <div class="divInput">  
-                        <input id="send" name="send" type="submit" value="  Aceptar  " />  
-                    </div>  
-                </form>  
+                </div>
                 <?php
             }
             ?>
+            <div class="row-fluid">
+                <form method="post" id="customForm" action="/usuarios/usuario/cambiarPasswordSubmit" class="form-horizontal">
+                    <div class="control-group">
+                        <label class="control-label" for="inputPassAnt">Contraseña anterior:</label>
+                        <div class="controls">
+                            <input id="inputPassAnt" name="passAnt" type="password"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputPass1">Contraseña nueva:</label>
+                        <div class="controls">
+                            <input id="inputPass1" name="pass1" type="password"/>  
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputPass2">Repetir contraseña:</label>
+                        <div class="controls">
+                            <input id="inputPass2" name="pass2" type="password"/> 
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-primary"> Aceptar </button>  
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-    
-
 </div>
-
 <?php
 require_once('layout/foot.php');
 ?>

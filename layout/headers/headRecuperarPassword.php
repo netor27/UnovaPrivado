@@ -1,0 +1,1 @@
+<script src="/js/validations/recuperarPassword.js"></script>	

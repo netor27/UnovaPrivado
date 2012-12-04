@@ -392,9 +392,9 @@ function cambiarImagenSubmit() {
                             $count = 1;
                             $aux = str_replace("/archivos", "archivos", $cursoParaModificar->imagen, $count); //quitar la / del inicio
                             unlink($aux);
-                            echo 'se borro ' . $cursoParaModificar->imagen .'<br>';
+                            //echo 'se borro ' . $cursoParaModificar->imagen .'<br>';
                         }else{
-                            echo 'no se borro ' . $cursoParaModificar->imagen .'<br>';
+                            //echo 'no se borro ' . $cursoParaModificar->imagen .'<br>';
                         }
 
                         $cursoParaModificar->imagen = "/" . $dest;

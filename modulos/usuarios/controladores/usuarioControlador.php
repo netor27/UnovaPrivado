@@ -176,7 +176,7 @@ function cambiarImagenSubmit() {
                     //borramos la imagen temporal
                     unlink($file);
                     echo $usuarioCambiar->avatar . '<br>';
-                    
+
                     if (!strpos($usuarioCambiar->avatar, "avatarPredefinido")) {
                         $count = 1;
                         $aux = str_replace("/archivos", "archivos", $usuarioCambiar->avatar, $count); //quitar la / del inicio
@@ -235,15 +235,15 @@ function cambiarPasswordSubmit() {
                     setSessionMessage("<h4 class='success'>Se cambió correctamente tu contraseña</h4>");
                     redirect("/usuario/" . $usuario->uniqueUrl);
                 } else {
-                    $error = "La contraseña no es válida";
+                    $msgForma = "La contraseña no es válida";
                     require_once 'modulos/usuarios/vistas/cambiarPassword.php';
                 }
             } else {
-                $error = "La contraseña anterior no es correcta.";
+                $msgForma = "La contraseña anterior no es correcta.";
                 require_once 'modulos/usuarios/vistas/cambiarPassword.php';
             }
         } else {
-            $error = "Los datos no son válidos";
+            $msgForma = "Los datos no son válidos";
             require_once 'modulos/usuarios/vistas/cambiarPassword.php';
         }
     } else {
@@ -285,20 +285,32 @@ function reestablecerPasswordSubmit() {
         $pass1 = trim($_POST['pass1']);
         $pass2 = trim($_POST['pass2']);
         $uuid = trim($_POST['uuid']);
+        require_once 'modulos/usuarios/modelos/usuarioModelo.php';
+        $usuario = getUsuarioFromUuid($uuid);
+        if (isset($usuario)) {
+            if ($pass1 == $pass2 && strlen($pass1) >= 5) {
+                require_once 'modulos/usuarios/modelos/usuarioModelo.php';
+                if (reestablecerPasswordPorUUID($uuid, md5($pass1)) > 0) {
 
-        if ($pass1 == $pass2 && strlen($pass1) >= 5) {
-            require_once 'modulos/usuarios/modelos/usuarioModelo.php';
-            if (reestablecerPasswordPorUUID($uuid, md5($pass1)) > 0) {
-                setSessionMessage("<h4 class='success'>¡Haz cambiado tu contraseña!<br>Ya puedes iniciar sesión</h4>");
-                redirect("/");
+                    require_once 'modulos/principal/modelos/loginModelo.php';
+                    loginUsuario($usuario->email, $usuario->password, false);
+                    setSessionMessage("<h4 class='success'>¡Se guardó tu nueva contraseña!</h4>");
+                    goToIndex();
+                } else {
+                    $msgForma = "Ocurrió un error al cambiar tu contraseña. Intenta de nuevo más tarde.";
+                    require_once 'modulos/usuarios/vistas/reestablecerPassword.php';
+                }
             } else {
-                $error = "Ocurrió un error al cambiar tu contraseña. Intenta de nuevo más tarde.";
+                $msgForma = "Los datos que introduciste no son válidos.";
                 require_once 'modulos/usuarios/vistas/reestablecerPassword.php';
             }
         } else {
-            $error = "Los datos que introduciste no son válidos.";
+            $msgForma = "Los datos que introduciste no son válidos.";
             require_once 'modulos/usuarios/vistas/reestablecerPassword.php';
         }
+    } else {
+        setSessionMessage("Datos no válidos");
+        goToIndex();
     }
 }
 
@@ -579,7 +591,8 @@ function establecerPassword() {
     require_once 'modulos/usuarios/vistas/reestablecerPassword.php';
 }
 
-function validarLoginUnicoAjax(){
+function validarLoginUnicoAjax() {
     echo 'valid session';
 }
+
 ?>

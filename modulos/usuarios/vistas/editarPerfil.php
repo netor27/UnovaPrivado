@@ -4,51 +4,57 @@ require_once('layout/headers/headEditarPerfil.php');
 require_once('layout/headers/headTinyMCE.php');
 require_once('layout/headers/headCierre.php');
 ?>
-
 <div class="contenido">
-
-    <div class="left centerText" style="width: 100%;">
-        <h1 >Editar mi información</h1>
-        
-        <?php
-        if (isset($error) && $error != "") {
-            echo '<h5 class="error centerText">' . $error . '</h5>';
-        }
-        if (isset($info) && $info != "") {
-            echo '<h5 class="info centerText">' . $info . '</h5>';
-        } else {
-            ?>
-            <div id="formDiv" style="width: 690px; margin: 0 auto;">                
-
-                <form method="post" id="customForm" action="/usuarios/usuario/editarInformacionSubmit">  
-                    <div class="divInput">  
-                        <label for="nombre">Nombre</label>  
-                        <input id="nombre" name="nombre" type="text" value='<?php echo $usuario->nombreUsuario; ?>'/>  
-                        <span id="nombreInfo" class="infoLabel">¿Cúal es tu nombre?</span>  
-                    </div> 
-                    <div class="divInput">  
-                        <label for="tituloPersonal">Titulo profesional</label>  
-                        <input style="width: 625px" id="tituloPersonal" name="tituloPersonal" type="text" value="<?php echo $usuario->tituloPersonal; ?>"/>  <br>
-                        <span id="tituloPersonalInfo" class="infoLabel">Ejemplos: Experto en tocar la guitarra, Profesor de tiempo completo, diseñador web en Unova, etc.</span>  
-                    </div> 
-                     
-                    <div class="divInput">  
-                        <label for="bio">Biografía</label> 
-                        <textarea id="bio" name="bio"><?php echo $usuario->bio; ?></textarea>                                               
-                    </div>                      
-                    <div class="divInput">  
-                        <input id="send" name="send" type="submit" value="  Aceptar  " />  
-                    </div>  
-                </form>  
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12"></div>
+        </div>
+        <div class="well span12 ">
+            <div class="row-fluid">
+                <legend>Actualizar mi información</legend>
+            </div>
+            <?php
+            if (isset($msgForma)) {
+                ?>
+                <div class="row-fluid">
+                    <div class="alert alert-error">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>¡Error! </strong> <?php echo $msgForma; ?>
+                    </div>
+                </div>
                 <?php
             }
             ?>
+            <div class="row-fluid">
+                <form method="post" id="customForm" action="/usuarios/usuario/editarInformacionSubmit" class="form-horizontal">  
+                    <div class="control-group">
+                        <label class="control-label" for="inputNombre">Nombre</label>
+                        <div class="controls">
+                            <input class="span6" id="inputNombre" name="nombre" type="text" value='<?php echo $usuario->nombreUsuario; ?>'/>  
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputTitulo">Título personal</label>
+                        <div class="controls">
+                            <input class="span10" id="inputTitulo" name="tituloPersonal" type="text" value="<?php echo $usuario->tituloPersonal; ?>" placeholder="Ej. Experto en tocar la guitarra, Profesor de tiempo completo, diseñador web en Unova, etc."/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputBio">Biografía</label>
+                        <div class="controls">
+                            <textarea id="inputBio" name="bio"><?php echo $usuario->bio; ?></textarea>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-primary">Aceptar</button>  
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-    
-
 </div>
-
 <?php
 require_once('layout/foot.php');
 ?>

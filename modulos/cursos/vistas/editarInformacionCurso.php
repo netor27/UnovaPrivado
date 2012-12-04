@@ -45,11 +45,9 @@ require_once('layout/headers/headCierre.php');
                             <textarea id="descripcion" name="descripcion"><?php echo $cursoParaModificar->descripcion; ?></textarea>
                         </div>
                     </div>
-                    
-                    
                     <div class="control-group">
                         <div class="controls">
-                            <button type="submit" class="btn btn-primary">Aceptar los cambios</button>  
+                            <button type="submit" class="btn btn-primary">Aceptar</button>  
                         </div>
                     </div>
                 </form>

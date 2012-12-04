@@ -37,9 +37,7 @@ require_once('layout/headers/headCierre.php');
                     <div class="control-group">
                         <label class="control-label" for="inputDescripcion">Descripción corta</label>
                         <div class="controls">
-                            <textarea class="span12" id="inputDescripcion" name="descripcionCorta" rows="5">
-                                <?php echo $descripcion; ?>
-                            </textarea>
+                            <textarea class="span12" id="inputDescripcion" name="descripcionCorta" rows="5"><?php echo $descripcion; ?></textarea>
                         </div>
                     </div>
                     <div class="control-group">

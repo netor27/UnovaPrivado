@@ -4,42 +4,46 @@ require_once('layout/headers/headAgregarTema.php');
 require_once('layout/headers/headCierre.php');
 ?>
 
-
 <div class="contenido">
-
-    <div class="left centerText" style="width: 890px">
-        <h1 class="centerText">Agregar un tema</h1>    
-        <h5></h5>
-        <br><br>
-        <?php
-        if (isset($error) && $error != "") {
-            echo '<h5 class="error centerText">' . $error . '</h5>';
-        }
-        if (isset($info) && $info != "") {
-            echo '<h5 class="info centerText">' . $info . '</h5>';
-        }
-        ?>
-        <div id="formDiv" style="width:700px;" >  
-            <form method="post" id="customForm" action="/temas/tema/editarTemaSubmit">  
-                <input type="hidden" name="idTema" value="<?php echo $idTema; ?>"/>
-                <input type="hidden" name="idCurso" value="<?php echo $idCurso;?>"/>
-                <p>
-                <div>  
-                    <label for="titulo">Título</label>  
-                    <input id="titulo" name="titulo" type="text" style="width:350px;" value="<?php echo $tema->nombre; ?>"/>                          
-                    <span id="tituloInfo">Título del tema</span>  
-                </div>  
-                </p>
-                <p>
-                <div>  
-                    <input id="send" name="send" type="submit" value="  Aceptar  " />  
-                </div> 
-                </p>
-            </form> 
-
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12"></div>
+        </div>
+        <div class="well span8 offset2">
+            <div class="row-fluid">
+                <legend>Editar el tema</legend>
+            </div>
+            <?php
+            if (isset($msgForma)) {
+                ?>
+                <div class="row-fluid">
+                    <div class="alert alert-error">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>¡Error! </strong> <?php echo $msgForma; ?>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+            <div class="row-fluid">
+                <form method="post" id="customForm" action="/temas/tema/editarTemaSubmit" class="form-horizontal">  
+                    <div class="control-group">
+                        <label class="control-label" for="inputTitulo">Título del tema</label>
+                        <div class="controls">
+                            <input class="span9" type="text" id="inputTitulo" name="titulo" value="<?php echo $tema->nombre; ?>"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-primary"> Aceptar </button>  
+                        </div>
+                    </div>
+                    <input type="hidden" name="idTema" value="<?php echo $idTema; ?>"/>
+                    <input type="hidden" name="idCurso" value="<?php echo $idCurso; ?>"/>
+                </form>
+            </div>
         </div>
     </div>
-
 </div>
 <?php
 require_once('layout/foot.php');

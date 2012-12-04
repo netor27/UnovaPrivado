@@ -91,7 +91,7 @@ function instructor() {
                 $offset = $numRows * ($pagina - 1);
             }
         }        
-        $numPreguntas = getPreguntasSinResponder($usuario->idUsuario);
+        $numPreguntas = getNumeroDePreguntasSinResponder($usuario->idUsuario);
         $res = getCursosInstructorDetalles($usuario->idUsuario, "titulo", "ASC", $offset, $numRows);
         $cursos = $res['cursos'];
         $numCursos = $res['n'];
