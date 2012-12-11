@@ -93,9 +93,9 @@ require_once('layout/headers/headCierre.php');
                                         </p>
                                     </div>
                                     <div class="row-fluid">
-                                        <div class="btn-group span9">
+                                        <div class="btn-group span7">
                                             <a class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown">
-                                                <i class="icon-pencil icon-white"></i>  
+                                                <i class="icon-pencil icon-white"></i> Editar
                                                 <span class="caret"></span>
                                             </a>                                            
                                             <ul class="dropdown-menu">
@@ -105,7 +105,7 @@ require_once('layout/headers/headCierre.php');
                                         </div>
                                         <div class="btn-group span3">
                                             <a class="btn  btn-small btn-danger dropdown-toggle" data-toggle="dropdown" >
-                                                <i class="icon-trash icon-white"></i>  
+                                                <i class="icon-trash icon-white"></i> Eliminar
                                                 <span class="caret"></span>
                                             </a>
                                             <ul class="dropdown-menu">

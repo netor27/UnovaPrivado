@@ -53,26 +53,27 @@ require_once('layout/headers/headCierre.php');
                                     <p><?php echo $grupo->descripcion; ?></p>
                                 </div>
                             </div>
+
                             <div class="row-fluid">
-                                <div class="span8">
-                                    <a href="/grupos/usuarios/inscritos/<?php echo $grupo->idGrupo; ?>" class="btn btn-mini btn-primary ">
-                                        <i class="icon-white icon-user"></i>
-                                        Usuarios de este grupo
-                                    </a>
+
+                                <div class="btn-group span6 offset1 ">
+                                    <a class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown">
+                                        <i class="icon-pencil icon-white"></i> Editar 
+                                        <span class="caret"></span>
+                                    </a>                                            
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/grupos/usuarios/inscritos/<?php echo $grupo->idGrupo; ?>"><i class="icon-user"></i> Editar usuarios del grupo</a></li>
+                                        <li><a href="/grupos/grupo/modificar/<?php echo $grupo->idGrupo; ?>"><i class="icon-pencil"></i> Editar información del grupo</a></li>
+                                    </ul>
                                 </div>
-                            </div>
-                            <div class="row-fluid">
-                                <div class="span5">
-                                    <a href="/grupos/grupo/modificar/<?php echo $grupo->idGrupo; ?>" class="btn btn-mini btn-warning">
-                                        <i class="icon-white icon-edit"></i>
-                                        Modificar grupo
+                                <div class="btn-group span5">
+                                    <a class="btn  btn-small btn-danger dropdown-toggle" data-toggle="dropdown" >
+                                        <i class="icon-trash icon-white"></i> Eliminar
+                                        <span class="caret"></span>
                                     </a>
-                                </div>
-                                <div class="span5 offset2">
-                                    <a class="btn btn-mini btn-danger borrarGrupo" id="<?php echo $grupo->idGrupo; ?>">
-                                        <i class="icon-white icon-trash"></i>
-                                        Eliminar grupo                                                   
-                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="borrarGrupo" id="<?php echo $grupo->idGrupo; ?>"><i class="icon-fire"></i> Eliminar grupo</a></li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
