@@ -1,9 +1,8 @@
+<script>
+    var layout = "<?php echo getTipoLayout(); ?>";
+</script>
 </head>
-
-<body>
-    <script>
-        var layout = "<?php echo getTipoLayout(); ?>";
-    </script>
+<body style="z-index: -100;">
     <div id="e_bar">
         <div id="top-bar">
             <a href="/" class="logo left" id="logo"> <img src="/layout/imagenes/Unova_Logo_135x47.png"></a>
@@ -116,7 +115,7 @@
             ?>
         </div>
     </div>
-    <div id="e_site">    
+    <div id="e_site"  style="z-index: -90;">
         <div id="modalDialog"></div>
         <?php
         $sessionMessage = getSessionMessage();

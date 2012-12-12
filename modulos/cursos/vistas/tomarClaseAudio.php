@@ -67,7 +67,7 @@ if (isset($var['links'])) {
 require_once('layout/headers/headCierreTomarClase.php');
 ?>
 </div>
-<div id="editorContainment" style="background-color: <?php echo $backgroundColor; ?>">
+<div id="editorContainment" style="background-color: <?php echo $backgroundColor; ?>; z-index:-50;">
     <audio id="mediaPopcorn" controls="controls">        
         <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/1" type="audio/mpeg">
         <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/2" type="audio/ogg">
