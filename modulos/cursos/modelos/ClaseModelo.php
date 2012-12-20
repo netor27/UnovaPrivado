@@ -346,9 +346,9 @@ function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType
                 $idArchivo = altaArchivoPorTransformar($clase->idTipoClase, $idClase, $file);
 
                 //guardamos este id en la cola de transformacion
-                require_once 'lib/php/beanstalkd/ColaMensajes.php';
+                require_once 'lib/php/beanstalkd/ColaMensajes.php';                
                 $colaMensajes = new ColaMensajes("colatrans");
-                $colaMensajes->push($idArchivo);
+                $colaMensajes->push(intval($idArchivo));
                 $res['resultado'] = true;
                 $res['url'] = "#";
             } else {
