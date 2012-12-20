@@ -116,7 +116,7 @@ while (!System_Daemon::isDying() && $runningOkay) {
             //Time out
             //System_Daemon::info("Time out!");
         } else {
-            $idArchivo = $job->getData();
+            $idArchivo = intval($job->getData());            
             System_Daemon::info("Job Encontrado con idArchivo = " . $idArchivo);
             require_once 'modulos/transformador/controladores/transformadorControlador.php';            
             $auxRes = transformarArchivo($idArchivo);

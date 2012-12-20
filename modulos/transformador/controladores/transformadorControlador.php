@@ -26,6 +26,9 @@ function transformarArchivo($idArchivo) {
             $res = transformarAudio($archivo['archivo']);
             $filePath = "archivos/audio/";
             break;
+        default:
+            modificarArchivoEstadoMensaje($idArchivo, "No identificado", "No se identifico el archivo");
+            break;
     }
     if (isset($res)) {
         if ($res['return_var'] != -2) {
