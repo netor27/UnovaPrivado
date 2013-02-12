@@ -35,8 +35,9 @@ require_once('layout/headers/headCierre.php');
                         </div>
                         <div class="control-group">
                             <div class="controls">
-                                <button type="submit" class="btn">Aceptar</button>
-                            </div>
+                                <button type="submit" class="span3 btn btn-primary">Aceptar</button>
+                                <a href="/grupos" class="btn span3 offset1">Cancelar</a>
+                            </div>                            
                         </div>
                     </form>
                 </div>

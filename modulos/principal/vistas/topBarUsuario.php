@@ -35,12 +35,15 @@ if (isset($usuarioHead)) {
         </a>         
         <div id="cursos_menu">
             <div id="flechitaCursos"></div>
-            <div class="cursosMenuHeader">
-                Cursos que estoy tomando
-            </div>                
+
             <?php
             if (isset($_SESSION['cursos'])) {
                 $cursosSession = $_SESSION['cursos'];
+                ?>
+                <div class="cursosMenuHeader">
+                    Cursos que estoy tomando
+                </div>                
+                <?php
                 foreach ($cursosSession as $cursoSess) {
                     ?>
                     <a href="/curso/<?php echo $cursoSess->uniqueUrl; ?>">
@@ -81,8 +84,8 @@ if (isset($usuarioHead)) {
                 <?php
             } else {
                 ?>                
-                <div class="cursoMenuElement">
-                    <h2>No estás inscrito a ningún curso</h2>
+                <div class="cursosMenuHeader">
+                    No estás inscrito a ningún curso
                 </div>
             <?php } ?>
         </div>

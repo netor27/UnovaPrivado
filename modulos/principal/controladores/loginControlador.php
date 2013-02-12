@@ -26,7 +26,7 @@ function loginSubmit() {
             $msgLogin = "Nombre de usuario y/o contraseña incorrectos.<br>";
             require_once 'modulos/principal/vistas/login.php';
         } else {
-            setSessionMessage("<h4 class='success'>¡Bienvenido " . getUsuarioActual()->nombreUsuario . "!</h4>");
+            setSessionMessage("<h4 class='success'>¡Bienvenido " . getUsuarioActual()->nombreUsuario . "!, usted es un " . getTipoUsuarioTexto() . " en Unova</h4>");
             redirect($pagina);
         }
     } else {

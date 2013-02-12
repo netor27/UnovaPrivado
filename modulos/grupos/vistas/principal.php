@@ -10,9 +10,9 @@ require_once('layout/headers/headCierre.php');
             <div class="span6">
                 <?php
                 if ($numGrupos == 1) {
-                    echo '<h4>Hay un grupo</h4>';
+                    echo '<h1>Hay un grupo en total</h1>';
                 } else {
-                    echo '<h4>Hay ' . $numGrupos . ' grupos</h4>';
+                    echo '<h1>Hay ' . $numGrupos . ' grupos en total</h1>';
                 }
                 ?>
             </div>
@@ -55,8 +55,7 @@ require_once('layout/headers/headCierre.php');
                             </div>
 
                             <div class="row-fluid">
-
-                                <div class="btn-group span6 offset1 ">
+                                <div class="btn-group span3 offset8 ">
                                     <a class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown">
                                         <i class="icon-pencil icon-white"></i> Editar 
                                         <span class="caret"></span>
@@ -64,15 +63,8 @@ require_once('layout/headers/headCierre.php');
                                     <ul class="dropdown-menu">
                                         <li><a href="/grupos/usuarios/inscritos/<?php echo $grupo->idGrupo; ?>"><i class="icon-user"></i> Editar usuarios del grupo</a></li>
                                         <li><a href="/grupos/grupo/modificar/<?php echo $grupo->idGrupo; ?>"><i class="icon-pencil"></i> Editar información del grupo</a></li>
-                                    </ul>
-                                </div>
-                                <div class="btn-group span5">
-                                    <a class="btn  btn-small btn-danger dropdown-toggle" data-toggle="dropdown" >
-                                        <i class="icon-trash icon-white"></i> Eliminar
-                                        <span class="caret"></span>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="borrarGrupo" id="<?php echo $grupo->idGrupo; ?>"><i class="icon-fire"></i> Eliminar grupo</a></li>
+                                        <li class="divider"></li>
+                                        <li><a class="borrarGrupo" href="" id="<?php echo $grupo->idGrupo; ?>"><i class="icon-fire"></i> Eliminar grupo</a></li>
                                     </ul>
                                 </div>
                             </div>

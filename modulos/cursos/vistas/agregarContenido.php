@@ -35,7 +35,7 @@ require_once('layout/headers/headCierre.php');
 
         <div id="uploadForm" class="right">
             <form id="fileupload" action="/uploader.php" method="POST" enctype="multipart/form-data">
-                <div class="row fileupload-buttonbar">
+                <div class="row-fluid fileupload-buttonbar">
                     <div class="span7">
                         <span class="btn btn-success fileinput-button">
                             <i class="icon-plus icon-white"></i>

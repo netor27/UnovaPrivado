@@ -9,8 +9,11 @@ $(function(){
     $("a.borrarUsuario").click(function(e){
         e.preventDefault();
         var id = $(this).attr("id");
-        bootbox.dialog("Se eliminará permanentemente el usuario<br>¿Estás seguro?", 
+        bootbox.dialog("<h4>Se eliminará permanentemente el usuario<br>¿Estás seguro?</h4>", 
             [{
+                "label" : "Cancelar",
+                "class" : "btn"
+            }, {
                 "label" : "Eliminar",
                 "class" : "btn-danger",
                 "icon"  : "icon-warning-sign icon-white",
@@ -18,9 +21,7 @@ $(function(){
                     $url = "/usuarios.php?c=usuario&a=eliminar&iu="+id+"&pagina="+pagina+"&tipo="+tipo;
                     redirect($url);
                 }
-            }, {
-                "label" : "Cancelar",
-                "class" : "btn-primary"
+                
             }]);
     });
 });

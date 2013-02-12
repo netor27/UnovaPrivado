@@ -35,12 +35,15 @@ if (isset($usuarioHead)) {
         </a>         
         <div id="cursos_menu">
             <div id="flechitaCursos"></div>
-            <div class="cursosMenuHeader">
-                Cursos de los que soy instructor
-            </div>                
+
             <?php
             if (isset($_SESSION['cursosPropios'])) {
                 $cursosSession = $_SESSION['cursosPropios'];
+                ?>
+                <div class="cursosMenuHeader">
+                    Cursos de los que soy instructor
+                </div>
+                <?php
                 foreach ($cursosSession as $cursoSess) {
                     ?>
                     <a href="/curso/<?php echo $cursoSess->uniqueUrl; ?>">
@@ -60,17 +63,20 @@ if (isset($usuarioHead)) {
                 <?php
             } else {
                 ?>                
-                <div class="cursoMenuElement">
-                    <h3>No has creado ningún curso</h3>
+                <div class="cursosMenuHeader">
+                    No has creado ningún curso
                 </div>
             <?php } ?>
 
-            <div class="cursosMenuHeader">
-                Cursos que estoy tomando
-            </div>                
+
             <?php
             if (isset($_SESSION['cursos'])) {
                 $cursosSession = $_SESSION['cursos'];
+                ?>
+                <div class="cursosMenuHeader">
+                    Cursos que estoy tomando
+                </div>                
+                <?php
                 foreach ($cursosSession as $cursoSess) {
                     ?>
                     <a href="/curso/<?php echo $cursoSess->uniqueUrl; ?>">
@@ -82,18 +88,18 @@ if (isset($usuarioHead)) {
                                 <div class="span9">
                                     <span><?php echo $cursoSess->titulo; ?></span>                                    
                                     <?php
-                                    if($cursoSess->numeroDeClases == 0)
+                                    if ($cursoSess->numeroDeClases == 0)
                                         $porcentaje = 0;
                                     else
                                         $porcentaje = intval($cursoSess->numeroDeTomadas / $cursoSess->numeroDeClases * 100);
                                     ?>
                                     <div class="span11" style="height: 10px;min-height: 10px;">
                                         <div class="progress" style="height: 10px;">
-                                            <div class="bar" style="width: <?php echo $porcentaje.'%'; ?>;"></div>
+                                            <div class="bar" style="width: <?php echo $porcentaje . '%'; ?>;"></div>
                                         </div>                                        
                                     </div>
                                     <br>
-                                    <?php                                    
+                                    <?php
                                     echo $porcentaje . "% completado";
                                     ?>                               
                                 </div>
@@ -111,8 +117,8 @@ if (isset($usuarioHead)) {
                 <?php
             } else {
                 ?>                
-                <div class="cursoMenuElement">
-                    <h2>No estás inscrito a ningún curso</h2>
+                <div class="cursosMenuHeader">
+                    No estás inscrito a ningún curso
                 </div>
             <?php } ?>
 
@@ -121,6 +127,3 @@ if (isset($usuarioHead)) {
     <?php
 }
 ?>
-<div class="element right ease3 crearCursoElement">
-    <a class="link" href="/cursos/curso/crearCurso" >Crear un curso</a>
-</div>

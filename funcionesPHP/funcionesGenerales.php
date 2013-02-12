@@ -46,6 +46,29 @@ function tipoUsuario() {
     }
 }
 
+function getTipoUsuarioTexto(){
+    require_once 'modulos/usuarios/clases/Usuario.php';
+    if (isset($_SESSION['usuario'])) {
+        $usuario = $_SESSION['usuario'];
+        switch($usuario->tipoUsuario){
+            case 0:
+                return 'Alumno';
+                break;
+            case 1:
+                return 'Administrador de Unova';                
+                break;
+            case 2:
+                return 'Administrador';
+                break;
+            case 3:
+                return 'Profesor';
+                break;
+        }
+    } else {
+        return 'visitante';
+    }
+}
+
 function validarUniqueSession() {
     if (isset($_SESSION['usuario'])) {
         require_once 'modulos/principal/modelos/loginModelo.php';

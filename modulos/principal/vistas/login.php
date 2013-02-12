@@ -4,7 +4,7 @@ require_once('layout/headers/headCierre.php');
 ?>
 
 <div class="contenido">
-    <div class="container-fluid">
+    <div class="container">
         <div class="row-fluid">
             <div class="span12"></div>
         </div>

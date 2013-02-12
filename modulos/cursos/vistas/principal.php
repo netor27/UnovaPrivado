@@ -10,9 +10,9 @@ require_once('layout/headers/headCierre.php');
             <div class="span6">
                 <?php
                 if ($numCursos == 1) {
-                    echo '<h1>Hay un curso</h1>';
+                    echo '<h1>Hay un curso en total</h1>';
                 } else {
-                    echo '<h1>Hay ' . $numCursos . ' cursos</h1>';
+                    echo '<h1>Hay ' . $numCursos . ' cursos en total</h1>';
                 }
                 ?>
             </div>
@@ -44,7 +44,7 @@ require_once('layout/headers/headCierre.php');
                                 <div class="span12">
                                     <legend>
                                         <a href="/curso/<?php echo $curso->uniqueUrl; ?>" class="tituloCurso">
-                                            <h3 class="centerText"><?php echo $curso->titulo; ?></h3>
+                                            <h4 class="centerText"><?php echo $curso->titulo; ?></h4>
                                         </a>
                                     </legend>
                                 </div>
@@ -53,6 +53,7 @@ require_once('layout/headers/headCierre.php');
                                 <div class="span4">
                                     <a href="/curso/<?php echo $curso->uniqueUrl; ?>">
                                         <img src="<?php echo $curso->imagen; ?>" class="img-polaroid span12">
+                                        <button class="btn btn-mini offset3 span6">Ver curso</button>
                                     </a>
                                 </div>
                                 <div class="span8">
@@ -93,22 +94,16 @@ require_once('layout/headers/headCierre.php');
                                         </p>
                                     </div>
                                     <div class="row-fluid">
-                                        <div class="btn-group span7">
+                                        
+                                        <div class="btn-group span3 offset6">
                                             <a class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown">
-                                                <i class="icon-pencil icon-white"></i> Editar
+                                                <i class="icon-pencil icon-white"></i> Administrar
                                                 <span class="caret"></span>
                                             </a>                                            
                                             <ul class="dropdown-menu">
                                                 <li><a href="/cursos/curso/alumnos/<?php echo $curso->idCurso . "&pc=" . $pagina; ?>"><i class="icon-user"></i> Editar usuarios inscritos</a></li>
                                                 <li><a href="/grupos/cursos/asignados/<?php echo $curso->idCurso; ?>"><i class="icon-globe"></i> Editar grupos asignados</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="btn-group span3">
-                                            <a class="btn  btn-small btn-danger dropdown-toggle" data-toggle="dropdown" >
-                                                <i class="icon-trash icon-white"></i> Eliminar
-                                                <span class="caret"></span>
-                                            </a>
-                                            <ul class="dropdown-menu">
+                                                <li class="divider"></li>
                                                 <li><a class="borrarCurso" id="<?php echo $curso->idCurso; ?>"><i class="icon-fire"></i> Eliminar curso</a></li>
                                             </ul>
                                         </div>
