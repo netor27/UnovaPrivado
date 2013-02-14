@@ -9,7 +9,6 @@ require_once ('layout/headers/headCierre.php');
         <div class="row-fluid">
             <div class="span12">
                 <?php
-                $numCursos = 1000;
                 if ($numCursos == 1) {
                     ?>
                     <h3>Estás inscrito a un curso</h3>

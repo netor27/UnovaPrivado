@@ -321,7 +321,7 @@ h1, h2, h3, h4, h5, h6
 
 /* Footer */
 #site-footer {  
-    color: #333;    margin: 0px;    margin-top: 20px;   min-height: 200px;
+    color: #333;    margin: 0px;    margin-top: 20px;   min-height: 50px;
     margin: 70px 0px 0px 0px;
 }
 

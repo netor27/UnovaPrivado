@@ -7,7 +7,7 @@ require_once ('layout/headers/headCierre.php');
 <div class="container">
     <div class="contenido">
         <?php
-        if ($numCursos == 0 && isset($cursos)) {
+        if ($numCursos == 0 && !isset($cursos)) {
             ?>
             <div class="row-fluid">
                 <h1>No haz creado ningún curso</h1>
@@ -44,6 +44,7 @@ require_once ('layout/headers/headCierre.php');
                 <div class="span12">
                     <?php
                     $i = 0;
+
                     foreach ($cursos as $curso) {
                         if ($i % 2 == 0) {
                             echo '<div class="row-fluid">';
@@ -53,7 +54,7 @@ require_once ('layout/headers/headCierre.php');
                             <div class="row-fluid">
                                 <div class="span12">
                                     <legend>
-                                        <a href="/curso/<?php echo $curso->uniqueUrl .'&b='. getRequestUri(); ?>" class="tituloCurso">
+                                        <a href="/curso/<?php echo $curso->uniqueUrl . '&b=' . getRequestUri(); ?>" class="tituloCurso">
                                             <h4 class="centerText"><?php echo $curso->titulo; ?></h4>
                                         </a>
                                     </legend>
@@ -61,7 +62,7 @@ require_once ('layout/headers/headCierre.php');
                             </div>
                             <div class="row-fluid">
                                 <div class="span4">
-                                    <a href="/curso/<?php echo $curso->uniqueUrl .'&b='. getRequestUri(); ?>">
+                                    <a href="/curso/<?php echo $curso->uniqueUrl . '&b=' . getRequestUri(); ?>">
                                         <img src="<?php echo $curso->imagen; ?>" class="img-polaroid span12">
                                         <button class="btn btn-mini offset3 span6">Ver curso</button>
                                     </a>
