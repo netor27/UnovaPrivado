@@ -47,7 +47,7 @@ require_once('layout/headers/headCierre.php');
                                     <li class="cuadro ui-corner-all" data-row="1" data-col="1" data-sizex="1" data-sizey="1" style="background: url('<?php echo $alumno->avatar; ?>')">
                                         <div class="cuadroFooter ui-corner-bottom ease3">
                                             <span class="cuadroFooterTitulo">
-                                                <a href="/usuario/<?php echo $alumno->uniqueUrl; ?>">
+                                                <a href="/usuario/<?php echo $alumno->uniqueUrl . '&b='. getRequestUri(); ?>">
                                                     <?php echo $alumno->nombreUsuario; ?>
                                                 </a>
                                             </span>
@@ -103,7 +103,7 @@ require_once('layout/headers/headCierre.php');
             }
             ?>
             <div class="row-fluid">
-                <div class="span3">
+                <div class="span3 subir20px">
                     <a class="btn btn-inverse btn-small"href="/cursos&p=<?php echo $paginaCursos; ?>">
                         <i class="icon-white icon-arrow-left"></i>
                         Regresar a la lista de cursos

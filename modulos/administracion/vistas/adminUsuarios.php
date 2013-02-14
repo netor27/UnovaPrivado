@@ -28,8 +28,9 @@ require_once('layout/headers/headCierre.php');
             <tbody>
                 <?php
                 foreach ($usuarios as $usuario) {
+                    
                     echo '<tr>';
-                    echo '<td><a href="/usuario/' . $usuario->uniqueUrl . '" >'.$usuario->nombreUsuario.'</a></td>';
+                    echo '<td><a href="/usuario/' . $usuario->uniqueUrl . '&b='. getRequestUri() .'">'.$usuario->nombreUsuario.'</a></td>';
                     echo '<td>'.$usuario->email.'</td>';
                     echo '<td>'. $usuario->fechaRegistro.'</td>';
                     echo '<td style="text-align:center;"><a href="/administracion/usuarios/cursosInstructor/' . $usuario->idUsuario .'">Ver</a></td>';

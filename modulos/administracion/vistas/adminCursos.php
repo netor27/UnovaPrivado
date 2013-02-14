@@ -29,7 +29,7 @@ require_once('layout/headers/headCierre.php');
                 <?php
                 foreach ($cursos as $curso) {
                     echo '<tr>';
-                    echo '<td><a href="/curso/' . $curso->uniqueUrl . '" >'.$curso->titulo.'</a></td>';
+                    echo '<td><a href="/curso/' . $curso->uniqueUrl . '&b='. getRequestUri() .'" >'.$curso->titulo.'</a></td>';
                     echo '<td>'. $curso->fechaCreacion . '</td>';
                     if($curso->publicado == 1)
                         echo '<td>'. $curso->fechaPublicacion . '</td>';

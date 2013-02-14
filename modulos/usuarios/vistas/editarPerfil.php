@@ -11,7 +11,7 @@ require_once('layout/headers/headCierre.php');
         </div>
         <div class="well span12 ">
             <div class="row-fluid">
-                <legend>Actualizar mi información</legend>
+                <legend><h4>Actualizar mi información</h4></legend>
             </div>
             <?php
             if (isset($msgForma)) {

@@ -12,11 +12,7 @@ require_once('layout/headers/headCierre.php');
         <div class="span12 well well-large">
             <div class="row-fluid">
                 <div class="span12">
-                    <legend>
-                        
-                            Panel de control
-                        
-                    </legend>
+                    <legend><h3>Panel de control</h3></legend>
                 </div>
             </div>
             <div class="row-fluid">

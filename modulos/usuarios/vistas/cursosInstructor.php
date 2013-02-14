@@ -6,25 +6,39 @@ require_once ('layout/headers/headCierre.php');
 
 <div class="container">
     <div class="contenido">
-        <div class="row-fluid">
-            <div class="span5">
-                <h1 >Eres profesor en <?php echo $numCursos; ?> cursos</h1>
-            </div>
-            <div class="span5 offset2">
-                <div style="padding-top: 20px;" class="span12">
-                    <?php
-                    if ($numPreguntas > 0) {
-                        echo '<a href="/usuarios/cursos/responderPreguntas" class="span12 btn btn-primary">Responder las preguntas pendientes (' . $numPreguntas . ')</a>';
-                    }
-                    ?>
-
+        <?php
+        if ($numCursos == 0 && isset($cursos)) {
+            ?>
+            <div class="row-fluid">
+                <h1>No haz creado ningún curso</h1>
+                <div class="row-fluid"><div class="span12"></div></div>
+                <div class="row-fluid">
+                    <div class="span4 offset4">
+                        <a href="/cursos/curso/crearCurso" class="btn btn-primary btn-large">Crea un curso aquí</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <?php
-        $columna = 1;
-        $fila = 1;
-        if (isset($cursos)) {
+            <?php
+        } else {
+            ?>
+            <div class="row-fluid">
+                <div class="span7">
+                    <h3>Eres profesor en <?php echo $numCursos; ?> cursos</h3>
+                </div>
+                <div class="span5" style="margin-top:20px;">
+                    <div  class="span12">
+                        <?php
+                        if ($numPreguntas > 0) {
+                            echo '<a href="/usuarios/cursos/responderPreguntas" class="span12 btn btn-primary">Responder las preguntas pendientes (' . $numPreguntas . ')</a>';
+                        }
+                        ?>
+
+                    </div>
+                </div>
+            </div>
+            <?php
+            $columna = 1;
+            $fila = 1;
             ?>
             <div class="row-fluid">
                 <div class="span12">
@@ -35,26 +49,27 @@ require_once ('layout/headers/headCierre.php');
                             echo '<div class="row-fluid">';
                         }
                         ?>
-                        <div class="span6 well well-small cursoContainer">
+                        <div class="span6 well well-small cursoContainer ease3">
                             <div class="row-fluid">
                                 <div class="span12">
                                     <legend>
-                                        <a href="/curso/<?php echo $curso->uniqueUrl; ?>" class="tituloCurso">
-                                            <h3 class="centerText"><?php echo $curso->titulo; ?></h3>
+                                        <a href="/curso/<?php echo $curso->uniqueUrl .'&b='. getRequestUri(); ?>" class="tituloCurso">
+                                            <h4 class="centerText"><?php echo $curso->titulo; ?></h4>
                                         </a>
                                     </legend>
                                 </div>
                             </div>
                             <div class="row-fluid">
                                 <div class="span4">
-                                    <a href="/curso/<?php echo $curso->uniqueUrl; ?>">
+                                    <a href="/curso/<?php echo $curso->uniqueUrl .'&b='. getRequestUri(); ?>">
                                         <img src="<?php echo $curso->imagen; ?>" class="img-polaroid span12">
+                                        <button class="btn btn-mini offset3 span6">Ver curso</button>
                                     </a>
                                 </div>
                                 <div class="span8">
                                     <div class="row-fluid">
                                         <strong>Autor:</strong>
-                                        <a href="/usuario/<?php echo $curso->uniqueUrlUsuario; ?>">
+                                        <a href="/usuario/<?php echo $curso->uniqueUrlUsuario . '&b=' . getRequestUri(); ?>">
                                             <?php echo $curso->nombreUsuario; ?>
                                         </a>
                                     </div>
@@ -90,24 +105,17 @@ require_once ('layout/headers/headCierre.php');
                                     if ($usuario->tipoUsuario == 2) {
                                         ?>
                                         <div class="row-fluid">
-                                            <div class="btn-group span9">
+                                            <div class="btn-group span3 offset6">
                                                 <a class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown">
-                                                    <i class="icon-pencil icon-white"></i>  
+                                                    <i class="icon-pencil icon-white"></i>  Administrar
                                                     <span class="caret"></span>
-                                                </a>                                            
+                                                </a>     
                                                 <ul class="dropdown-menu">
                                                     <li><a href="/cursos/curso/alumnos/<?php echo $curso->idCurso . "&pc=" . $pagina; ?>"><i class="icon-user"></i> Editar usuarios inscritos</a></li>
                                                     <li><a href="/grupos/cursos/asignados/<?php echo $curso->idCurso; ?>"><i class="icon-globe"></i> Editar grupos asignados</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="btn-group span3">
-                                                <a class="btn  btn-small btn-danger dropdown-toggle" data-toggle="dropdown" >
-                                                    <i class="icon-trash icon-white"></i>  
-                                                    <span class="caret"></span>
-                                                </a>
-                                                <ul class="dropdown-menu">
+                                                    <li class="divider"></li>
                                                     <li><a class="borrarCurso" id="<?php echo $curso->idCurso; ?>"><i class="icon-fire"></i> Eliminar curso</a></li>
-                                                </ul>
+                                                </ul>                                                
                                             </div>
                                         </div>
                                         <?php
@@ -148,14 +156,17 @@ require_once ('layout/headers/headCierre.php');
                 </ul>
             </div>
             <?php
-        }else {
+        }
+        ?>
+        <?php
+        if ($usuario->tipoUsuario == 2) {
             ?>
             <div class="row-fluid">
-                <div class="span12">
-
-                </div>
-                <div class="span12 centerText">
-                    <h2>Aún no créas ningún curso</h2>
+                <div class="span3 subir20px">
+                    <a class="btn btn-inverse btn-small" href="/">
+                        <i class="icon-white icon-arrow-left"></i>
+                        Regresar al inicio
+                    </a>
                 </div>
             </div>
             <?php

@@ -91,7 +91,13 @@ function crearCursoSubmit() {
 
 function detalles() {
     require_once 'modulos/cursos/modelos/CursoModelo.php';
-
+    $backUrl = null;
+    if (isset($_GET['b'])) {
+        $backUrl = $_GET['b'];
+        if (isset($_GET['p'])) {
+            $backUrl = $backUrl . '&p=' . $_GET['p'];
+        }
+    }
     $cursoUrl = $_GET['i'];
     $curso = getCursoFromUniqueUrl($cursoUrl);
 
@@ -103,14 +109,14 @@ function detalles() {
         $usuario = getUsuarioActual();
         //Verficiar si es el dueño del curso y lo mandamos a edición
         if ($curso->idUsuario == $usuario->idUsuario) {
-            editarCurso($curso, $usuario);
+            editarCurso($curso, $usuario, $backUrl);
         } else {
             require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
             //Revisamos si el usuario ya esta tomando este curso      
             $esAlumno = esUsuarioUnAlumnoDelCurso($usuario->idUsuario, $curso->idCurso);
             if ($esAlumno || tipoUsuario() == "administrador" || tipoUsuario() == "administradorPrivado") {
                 //Si ya es un alumno o es un administrador, mostramos la página donde toma las clases
-                tomarCurso($curso, $usuario, $esAlumno);
+                tomarCurso($curso, $usuario, $esAlumno, $backUrl);
             } else {
                 //No esta suscrito al curso, mostramos el error               
                 setSessionMessage("<h4 class='error'>Lo sentimos, no estas inscrito a este curso.</h4>");
@@ -120,7 +126,7 @@ function detalles() {
     }
 }
 
-function tomarCurso($curso, $usuario, $esAlumno) {
+function tomarCurso($curso, $usuario, $esAlumno, $backUrl) {
     $temas = getTemas($curso->idCurso);
     $clases = getClases($curso->idCurso);
     $duracion = 0;
@@ -142,7 +148,7 @@ function tomarCurso($curso, $usuario, $esAlumno) {
     require_once 'modulos/cursos/vistas/tomarCurso.php';
 }
 
-function editarCurso($cursoParaModificar, $usuario) {
+function editarCurso($cursoParaModificar, $usuario, $backUrl) {
     require_once 'modulos/cursos/modelos/ClaseModelo.php';
     $temas = getTemas($cursoParaModificar->idCurso);
     $clases = getClases($cursoParaModificar->idCurso);
@@ -259,7 +265,7 @@ function comentarCurso() {
                 else
                     echo '<div class="comentarioContainer whiteBox" style="width:97%;">';
                 echo '<div class="comentarioAvatar"><img src="' . $comentario->avatar . '"></div>';
-                echo '<div class="comentarioUsuario"><a href="/usuario/' . $comentario->uniqueUrlUsuario . '">' . $comentario->nombreUsuario . '</a></div>';
+                echo '<div class="comentarioUsuario"><a href="/usuario/' . $comentario->uniqueUrlUsuario . '&b=' . getRequestUri() . '">' . $comentario->nombreUsuario . '</a></div>';
                 echo '<div class="comentarioFecha"> Hace unos segundos</div>';
                 echo '<br><br><div class="comentario left">' . $comentario->texto . '</div>';
                 echo '</div>';
@@ -294,7 +300,7 @@ function preguntarCurso() {
                 echo '<li class="page1">';
                 echo '<div class="preguntaContainer whiteBox" style="width:97%;">';
                 echo '<div class="comentarioAvatar"><img src="' . $pregunta->avatar . '"></div>';
-                echo '<div class="comentarioUsuario"><a href="/usuario/' . $pregunta->uniqueUrlUsuario . '">' . $pregunta->nombreUsuario . '</a></div>';
+                echo '<div class="comentarioUsuario"><a href="/usuario/' . $pregunta->uniqueUrlUsuario . '&b=' . getRequestUri() . '">' . $pregunta->nombreUsuario . '</a></div>';
                 echo '<div class="comentarioFecha"> Hace unos segundos</div>';
                 echo '<br><div class="comentario">' . $pregunta->pregunta . '</div>';
                 echo '</div>';
@@ -335,7 +341,7 @@ function responderPreguntaCurso() {
                 enviarMailRespuestaPregunta($datos['email'], $curso->titulo, DOMINIO_PRIVADO . '/curso/' . $curso->uniqueUrl, $datos['pregunta'], $texto);
                 echo '<br><div class="respuesta blueBox" style="width: 80%;">';
                 echo '<div class="comentarioAvatar"><img src="' . $usuario->avatar . '"></div>';
-                echo '<div class="comentarioUsuario"><a href="/usuario/' . $usuario->uniqueUrl . '">' . $usuario->nombreUsuario . '</a></div>';
+                echo '<div class="comentarioUsuario"><a href="/usuario/' . $usuario->uniqueUrl . '&b=' . getRequestUri() . '">' . $usuario->nombreUsuario . '</a></div>';
                 echo '<br><div class="comentario">' . $texto . '</div>';
                 echo '</div>';
             } else {
@@ -393,7 +399,7 @@ function cambiarImagenSubmit() {
                             $aux = str_replace("/archivos", "archivos", $cursoParaModificar->imagen, $count); //quitar la / del inicio
                             unlink($aux);
                             //echo 'se borro ' . $cursoParaModificar->imagen .'<br>';
-                        }else{
+                        } else {
                             //echo 'no se borro ' . $cursoParaModificar->imagen .'<br>';
                         }
 

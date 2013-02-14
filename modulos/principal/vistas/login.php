@@ -10,7 +10,7 @@ require_once('layout/headers/headCierre.php');
         </div>
         <div class="well span8 offset1">
             <div class="row-fluid">
-                <legend>Iniciar sesión</legend>
+                <legend><h4>Iniciar sesión</h4></legend>
             </div>
             <?php
             if(isset($_GET['e'])){

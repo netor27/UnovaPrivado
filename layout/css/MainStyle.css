@@ -4,10 +4,16 @@ html{ height: 100%;}
 body{   
     font-family: "Trebuchet MS", Helvetica, sans-serif !important;    
     font-size: 12px;  
-    background-color: #E6E6DA !important; 
+
     margin:0px; 
     padding:0px; 
     border:0px none;  
+
+    background-image: url("/layout/css/images/bg.jpg");
+    background-position: center;
+    background-repeat: repeat;
+    background-color: #dedde3;
+    position: relative;
 }
 
 .left{ 
@@ -47,12 +53,10 @@ img{
     border: none;  
     padding: 0px 0px 0px 0px;  
 }
-h1{ margin:0;   padding:0px 0px 15px 0px;  color:#dc5f21;  font-weight:100;    font-size:33px; padding-top:5px;    }
-h2{ margin:0;   padding:0px 0px 12px 0px;;  color:#6ab7a5;  font-weight:100;    font-size:25px; padding-top:5px;    }
-h3{ margin:0;   padding:0px 0px  9px 0px;;  color:#52b7d2;  font-weight:100;    font-size:20px; padding-top:5px;    }
-h4{ margin:0;   padding:0px 0px  6px 0px;;  color:#dc5f21;  font-weight:100;    font-size:18px; padding-top:5px;    }
-h5{ margin:0;   padding:0px 0px  3px 0px;;  color:#30377a;  font-weight:100;    font-size:14px; padding-top:5px;    }
-h6{ margin:0;   padding:0px 0px  0px 0px;;  color:#30377a;  font-weight:100;    font-size:10px; padding-top:5px;    }
+h1, h2, h3, h4, h5, h6
+{
+    color:#dc5f21;
+}
 
 /* Transiciones en .3 segundos*/
 .ease3 {    -webkit-transition: all .3s ease;   -moz-transition: all .3s ease;  -o-transition: all .3s ease;    -ms-transition: all .3s ease;   transition: all .3s ease;   }
@@ -162,7 +166,7 @@ h6{ margin:0;   padding:0px 0px  0px 0px;;  color:#30377a;  font-weight:100;    
     position: relative; 
     right:55px;  
     top:12px;
-    background-color:white; 
+    background-color: #f5f5f5;
     color: black; 
     min-width:200px; 
     z-index: 100; 
@@ -259,7 +263,7 @@ h6{ margin:0;   padding:0px 0px  0px 0px;;  color:#30377a;  font-weight:100;    
     position: relative; 
     right:70px; 
     top:12px;
-    background-color:white; 
+    background-color: #f5f5f5;
     color: black;
     min-width:270px; 
     z-index: 100; 
@@ -273,7 +277,7 @@ h6{ margin:0;   padding:0px 0px  0px 0px;;  color:#30377a;  font-weight:100;    
     -webkit-box-shadow:rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
     -moz-box-shadow:rgba(31, 31, 31, 0.816406) 0px;    
     max-height: 600px;
-    
+
 }
 #cursos_menu a:hover{text-decoration: none;}
 
@@ -284,7 +288,7 @@ h6{ margin:0;   padding:0px 0px  0px 0px;;  color:#30377a;  font-weight:100;    
     color: #ffffff;
 }
 .cursoMenuElement{    
-    background-color: white;
+    background-color: #f5f5f5;
     overflow: hidden;
     padding: 5px 5px 5px 5px;   
 }
@@ -309,7 +313,7 @@ h6{ margin:0;   padding:0px 0px  0px 0px;;  color:#30377a;  font-weight:100;    
 
 /* Body */
 #e_site{    
-    position: relative; top:50px; width: 960px;   margin: 0 auto;   background: #E6E6DA;  z-index: 1; min-height: 500px; 
+    position: relative; top:50px; width: 960px;   margin: 0 auto;  z-index: 1; min-height: 500px; 
 }
 .contenido{ 
 }
@@ -391,4 +395,12 @@ h6{ margin:0;   padding:0px 0px  0px 0px;;  color:#30377a;  font-weight:100;    
 .img-index{
     margin-left: 2.127659574468085%!important;
     margin-bottom: 5px;
+}
+
+.subir20px{
+    margin-top: -20px!important;
+}
+
+.black{
+    color: #333;
 }

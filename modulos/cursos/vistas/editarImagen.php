@@ -10,7 +10,7 @@ require_once('layout/headers/headCierre.php');
         </div>
         <div class="well span8 offset2">
             <div class="row-fluid">
-                <legend>Cambiar imagen del curso</legend>
+                <legend><h4>Cambiar imagen del curso</h4></legend>
             </div>
             <?php
             if (isset($msgForma)) {
@@ -41,6 +41,7 @@ require_once('layout/headers/headCierre.php');
                     <div class="control-group">
                         <div class="controls">
                             <button type="submit" class="btn btn-primary"> Aceptar </button>  
+                            <a class="btn offset1" href="/curso/<?php echo $cursoParaModificar->uniqueUrl; ?>"> Cancelar </a>
                         </div>
                     </div>
                 </form>

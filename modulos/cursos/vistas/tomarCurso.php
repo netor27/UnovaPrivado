@@ -6,107 +6,180 @@ require_once('layout/headers/headCierre.php');
 ?>
 
 
-<div class="contenido">    
-    <div class="cursoHeader blueBox" style="width: 97.5%;">          
-        <div id="cursoImageWrapper">
-
+<div class="contenido">
+    <div class="container">
+        <div class="row-fluid">
+            <div class="span12"></div>
         </div>
-        <div id="cursoTituloWrapper">            
-            <div id="cursoImage">
-                <img itemprop="image" src="<?php echo $curso->imagen; ?>" class="left">
-            </div>
-            <div id="cursoTitulo" itemprop="name"><?php echo $curso->titulo; ?></div>                
-            <div id="cursoDescripcionCorta">      
-                <p itemprop="description">
-                    <?php echo $curso->descripcionCorta; ?>
-                </p>
-            </div>
-        </div>
-    </div>       
-
-    <div class="cursoContainer">
-        <div id="leftContainer" class="left">
-            <div class="infoCursoContainer whiteBox" style="width: 97.5%;">
-                <div id="cursoAutor" class="left">
-                    <?php
-                    echo 'Autor:<br> <a href="/usuario/' . $usuarioDelCurso->uniqueUrl . '">' . $usuarioDelCurso->nombreUsuario . '</a>';
-                    ?>  
-                    </a>
+        <div class="row-fluid">
+            <div class="span12 well well-large">
+                <div class="span3">
+                    <img class="span12 img-polaroid" src="<?php echo $curso->imagen; ?>">
                 </div>
-                <div id="cursoDescripcion" class="left">
-                    <?php
-                    echo $curso->descripcion;
-                    ?>
-                </div>
-            </div>
-            <div id="temasContainer" class="whiteBox" style="width: 99%;">
-
-                <?php
-                $i = 1;
-                $j = 1;
-                if (isset($temas) && isset($clases)) {
-                    foreach ($temas as $tema) {
-                        echo '<h3> Tema ' . $i . ': <b>' . $tema->nombre . '</b></h3>';
-                        echo '<ul>';
-                        $j = 1;
-                        foreach ($clases as $clase) {
-                            if ($tema->idTema == $clase->idTema) {
-                                switch ($clase->idTipoClase) {
-                                    case 0:
-                                        echo '<li class="single-class type-video">';
-                                        echo '<a href="/curso/' . $curso->uniqueUrl . '/' . $clase->idClase . '"" class="thumb">';
-                                        echo '<img src="/layout/imagenes/video.png">';
-                                        echo '<div class="thumbText">' . $clase->duracion . '</div>';
-                                        break;
-                                    case 1:
-                                        echo '<li class="single-class type-document">';
-                                        echo '<a href="/curso/' . $curso->uniqueUrl . '/' . $clase->idClase . '"" class="thumb">';
-                                        echo '<img src="/layout/imagenes/document.png">';
-                                        break;
-                                    case 2:
-                                        echo '<li class="single-class type-presentation">';
-                                        echo '<a href="/curso/' . $curso->uniqueUrl . '/' . $clase->idClase . '"" class="thumb">';
-                                        echo '<img src="/layout/imagenes/presentation.png">';
-                                        break;
-                                    default:
-                                        echo '<li class="single-class type-document">';
-                                        echo '<a href="/curso/' . $curso->uniqueUrl . '/' . $clase->idClase . '"" class="thumb">';
-                                        echo '<img src="/layout/imagenes/document.png">';
-                                        break;
+                <div class="span9">                    
+                    <legend>
+                        <h4>
+                            <?php echo $curso->titulo; ?>                        
+                        </h4>
+                    </legend>
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <strong>Autor de este curso:</strong><br>
+                            <a href="/usuario/<?php echo $usuarioDelCurso->uniqueUrl . '&b=' . getRequestUri(); ?>"><?php echo $usuarioDelCurso->nombreUsuario; ?></a>
+                        </div>
+                        <div class="span4">
+                            <strong>Calificación total del curso:</strong>
+                            <div id="cursoStars">
+                                <?php
+                                $primera = true;
+                                $aux = 0;
+                                for ($i = 1; $i <= 20; $i++) {
+                                    $aux = ceil($i / 4);
+                                    if (($i / 4) < $curso->rating) {
+                                        echo '<input title="' . $aux . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}"/>';
+                                    } else {
+                                        if ($primera && $curso->rating > 0) {
+                                            echo '<input title="' . $aux . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}" checked="checked"/>';
+                                            $primera = false;
+                                        } else {
+                                            echo '<input title="' . $aux . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}"/>';
+                                        }
+                                    }
                                 }
-
-                                echo '</a>';
-                                echo '<div class="details">';
-                                echo '<h4>Clase ' . $j . ':</h4>';
-                                if (strlen($clase->titulo) > 27)
-                                    echo '<a href="/curso/' . $curso->uniqueUrl . '/' . $clase->idClase . '">' . substr($clase->titulo, 0, 27) . '...</a>';
-                                else
-                                    echo '<a href="/curso/' . $curso->uniqueUrl . '/' . $clase->idClase . '">' . $clase->titulo . '</a>';
-                                echo '</div>';
-                                echo '</li>';
-                                $j++;
+                                ?>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <?php
+                            if ($esAlumno) {
+                                ?>
+                                <strong>Tú calificación de este curso:</strong>
+                                <div id="cursoStarsUsuario">                
+                                    <?php
+                                    for ($i = 1; $i <= 5; $i++) {
+                                        if ($ratingUsuario == $i)
+                                            echo '<input value="' . $i . '" title="' . $i . '" type="radio" class="calificar" checked="checked"/>';
+                                        else
+                                            echo '<input value="' . $i . '" title="' . $i . '" type="radio" class="calificar" />';
+                                    }
+                                    ?>
+                                </div>
+                                <?php
                             }
-                        }
-                        $i++;
-                        echo '</ul>';
-                    }
-                }else {
-                    ?>
-                    <h2 style="text-align: center;">Este curso no tiene clases</h2>
-                    <?php
-                }
-                ?>
-            </div>
+                            ?>
 
-            <div id="cursoTabs" class="well">
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12"></div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span8">
+                            <p>
+                                <strong>Descripción:</strong><br>
+                                <?php echo $curso->descripcionCorta; ?>
+                            </p>
+                        </div>
+                        <div class="span4">
+                            <?php
+                            if ($numAlumnos == 0) {
+                                echo '<strong>Este curso no tiene alumnos</strong>';
+                            } else if ($numAlumnos == 1) {
+                                echo '<strong>Un alumno inscrito a este curso</strong> ';
+                            } else {
+                                echo '<strong>Este curso tiene ' . $numAlumnos . ' alumnos inscritos</strong> ';
+                            }
+                            ?>
+
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+        <div class="row-fluid">            
+            <div id="cursoTabs" class="well well-small">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tabs-1" data-toggle="tab" >Comentarios</a></li>
-                    <li><a href="#tabs-2" data-toggle="tab">Preguntas</a></li>
+                    <li class="active"><a href="#tabs-1" data-toggle="tab" >Clases</a></li>
+                    <li><a href="#tabs-2" data-toggle="tab">Comentarios</a></li>
+                    <li><a href="#tabs-3" data-toggle="tab">Preguntas</a></li>
                 </ul>
                 <div class="tab-content">
-                    <div id="tabs-1" class="tab-pane active">
-                        <div id="comentariosContainer" >
+                    <div id="tabs-1" class="tab-pane active"> 
+                        <div class="span12">
+                            <?php
+                            $i = 1;
+                            $j = 1;
+                            if (isset($temas) && isset($clases)) {
+                                foreach ($temas as $tema) {
+                                    ?>
+                                    <div class="row-fluid">
+                                        <div class="span12 temaContainer">
+                                            <h4>Tema <?php echo $i . ": " . "<em>" . $tema->nombre . "</em>" ?></h4>
+                                        </div>
+                                    </div>
+                                    <div class="row-fluid"><div class="span12"></div></div>
+                                    <?
+                                    $j = 1;
+                                    foreach ($clases as $clase) {
+                                        if ($tema->idTema == $clase->idTema) {
+                                            $thumb = "";
+                                            switch ($clase->idTipoClase) {
+                                                case 0:
+                                                    $thumb = "/layout/imagenes/video.png";
+                                                    break;
+                                                case 1:
+                                                    $thumb = "/layout/imagenes/document.png";
+                                                    break;
+                                                case 2:
+                                                    $thumb = "/layout/imagenes/presentation.png";
+                                                    break;
+                                                case 3:
+                                                    $thumb = "/layout/imagenes/document.png";
+                                                    break;
+                                                case 4:
+                                                    $thumb = "/layout/imagenes/audio.png";
+                                                    break;
+                                                default:
+                                                    $thumb = "/layout/imagenes/document.png";
+                                                    break;
+                                            }
+                                            ?>
+                                            <div class="row-fluid" style="margin-bottom: 10px;">
+                                                <a href="/curso/<?php echo $curso->uniqueUrl . '/' . $clase->idClase; ?>">
+                                                    <div class="span1">
+                                                        <div class="span9">
+                                                            <img class="span12" src="<?php echo $thumb; ?>"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="span10">
+                                                        <h4>
+                                                            <strong><?php echo $j; ?>- </strong> <?php echo $clase->titulo; ?>
+                                                        </h4>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <legend></legend>
+                                            <?php
+                                            $j++;
+                                        }
+                                        ?>
+                                        <?php
+                                    }
+                                    $i++;
+                                    ?>
+                                    <?php
+                                }
+                            } else {
+                                ?>
+                                <h2 style="text-align: center;">Este curso no tiene clases</h2>
+                                <?php
+                            }
+                            ?>
+                        </div>
 
+                    </div>
+                    <div id="tabs-2" class="tab-pane">
+                        <div id="comentariosContainer" >
                             <?php
                             if (isset($comentarios)) {
                                 echo '<ul id="pageMeComments" class="pageMe">';
@@ -117,7 +190,7 @@ require_once('layout/headers/headCierre.php');
                                     else
                                         echo '<div class="comentarioContainer whiteBox"  style="width:97%">';
                                     echo '<div class="comentarioAvatar"><img src="' . $comentario->avatar . '"></div>';
-                                    echo '<div class="comentarioUsuario"><a href="/usuario/' . $comentario->uniqueUrlUsuario . '">' . $comentario->nombreUsuario . '</a></div>';
+                                    echo '<div class="comentarioUsuario"><a href="/usuario/' . $comentario->uniqueUrlUsuario . '&b=' . getRequestUri() . '">' . $comentario->nombreUsuario . '</a></div>';
                                     echo '<div class="comentarioFecha">' . transformaDateDDMMAAAA(strtotime($comentario->fecha)) . '</div>';
                                     echo '<br><div class="comentario">' . $comentario->texto . '</div>';
                                     echo '</div>';
@@ -135,7 +208,7 @@ require_once('layout/headers/headCierre.php');
                                 <?php
                             }
                             ?>
-                        </div>
+                        </div><br>
                         <div id="comentar">
                             <form id="comentarioForm" action="/cursos/curso/comentarCurso/<?php echo $curso->idCurso; ?>" method="POST" class="comentarioForm">
                                 <h3>Deja tu comentario</h3>
@@ -143,10 +216,9 @@ require_once('layout/headers/headCierre.php');
                                 <input id="comentarButton" type="submit" class="btn btn-primary right" value=" Enviar comentario ">                            
                                 <img id="loadingComment" src="/layout/imagenes/loading.gif">
                             </form>
-
                         </div>
                     </div>
-                    <div id="tabs-2" class="tab-pane" >
+                    <div id="tabs-3" class="tab-pane" >
                         <div id="preguntasContainer">
                             <?php
                             if (isset($preguntas)) {
@@ -155,13 +227,13 @@ require_once('layout/headers/headCierre.php');
                                     echo '<li>';
                                     echo '<div class="preguntaContainer whiteBox" style="width:97%;">';
                                     echo '<div class="comentarioAvatar"><img src="' . $pregunta->avatar . '"></div>';
-                                    echo '<div class="comentarioUsuario"><a href="/usuario/' . $pregunta->uniqueUrlUsuario . '">' . $pregunta->nombreUsuario . '</a></div>';
+                                    echo '<div class="comentarioUsuario"><a href="/usuario/' . $pregunta->uniqueUrlUsuario . '&b=' . getRequestUri() . '">' . $pregunta->nombreUsuario . '</a></div>';
                                     echo '<div class="comentarioFecha">' . transformaDateDDMMAAAA(strtotime($pregunta->fecha)) . '</div>';
                                     echo '<br><div class="comentario">' . $pregunta->pregunta . '</div>';
                                     if (isset($pregunta->respuesta)) {
                                         echo '<br><div class="respuesta blueBox" style="width: 95%;">';
                                         echo '<div class="comentarioAvatar"><img src="' . $usuarioDelCurso->avatar . '"></div>';
-                                        echo '<div class="comentarioUsuario"><a href="/usuario/' . $usuarioDelCurso->uniqueUrl . '">' . $usuarioDelCurso->nombreUsuario . '</a></div>';
+                                        echo '<div class="comentarioUsuario"><a href="/usuario/' . $usuarioDelCurso->uniqueUrl . '&b=' . getRequestUri() . '">' . $usuarioDelCurso->nombreUsuario . '</a></div>';
                                         echo '<div class="comentarioFecha">' . transformaDateDDMMAAAA(strtotime($pregunta->fechaRespuesta)) . '</div>';
                                         echo '<br><div class="comentario">' . $pregunta->respuesta . '</div>';
                                         echo '</div>';
@@ -182,6 +254,7 @@ require_once('layout/headers/headCierre.php');
                             }
                             ?>
                         </div>
+                        <br>
                         <div id="preguntar">
                             <form id="preguntarForm" action="/cursos/curso/preguntarCurso/<?php echo $curso->idCurso; ?>" method="POST" class="preguntarForm">
                                 <h3>Haz una pregunta al profesor</h3>
@@ -194,84 +267,31 @@ require_once('layout/headers/headCierre.php');
                 </div>
             </div>
         </div>
-
-
-        <div id="rightContainer" class="right">
-            <div id="numInscritos" class="whiteBox" style="width: 95%; text-align: center">
+        <input type="hidden" id="iu" name="iu" value="<?php echo $usuario->idUsuario; ?>">
+        <input type="hidden" id="ic" name="ic" value="<?php echo $curso->idCurso; ?>">
+        <div class="row-fluid">
+            <div class="span2">
                 <?php
-                if ($numAlumnos == 1) {
-                    echo "Este curso tiene <span> 1 </span> alumno inscrito";
+                if (isset($backUrl)) {
+                    ?>
+                    <a href="<?php echo $backUrl; ?>" class="btn btn-inverse btn-small">
+                        <i class="icon-white icon-arrow-left"></i>
+                        Regresar
+                    </a>
+                    <?php
                 } else {
-                    echo "Este curso tiene <span>" . $numAlumnos . "</span> alumnos inscritos";
+                    ?>
+                    <a href="/" class="btn btn-inverse btn-small">
+                        <i class="icon-white icon-arrow-left"></i>
+                        Regresar al inicio
+                    </a>
+                    <?php
                 }
-                if (isset($duracion) && $duracion > 0)
-                    echo ' <br>y más de <span>' . $duracion . '</span> minutos de video';
                 ?>
-            </div>
-            <div id="calificacion" class="whiteBox" style="width: 95%">
-                Calificación total del curso
-                <br>
-                <div id="cursoStars">
 
-                    <?php
-                    $primera = true;
-                    $aux = 0;
-                    for ($i = 1; $i <= 20; $i++) {
-                        $aux = ceil($i / 4);
-                        if (($i / 4) < $curso->rating) {
-                            echo '<input title="' . $aux . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}"/>';
-                        } else {
-                            if ($primera && $curso->rating > 0) {
-                                echo '<input title="' . $aux . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}" checked="checked"/>';
-                                $primera = false;
-                            } else {
-                                echo '<input title="' . $aux . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}"/>';
-                            }
-                        }
-                    }
-                    ?>
-                </div>
-                <?php
-                if ($esAlumno) {
-                    ?>
-                    <br>
-                    Tu calificación del curso<br>
-                    <div id="cursoStarsUsuario">                
-                        <?php
-                        for ($i = 1; $i <= 5; $i++) {
-                            if ($ratingUsuario == $i)
-                                echo '<input value="' . $i . '" title="' . $i . '" type="radio" class="calificar" checked="checked"/>';
-                            else
-                                echo '<input value="' . $i . '" title="' . $i . '" type="radio" class="calificar" />';
-                        }
-                        ?>
-                    </div>
-                    <?php
-                }
-                ?>
             </div>
-            <div id="instructor" class="whiteBox" style="width: 95%;">
-                <div id="instructorHeader">
-                    Instructor
-                </div>
-                <div id="instructorImage">
-                    <img src="<?php echo $usuarioDelCurso->avatar; ?>"/>
-                </div><br>
-                <div id="instructorInfo">
-                    <span id="nombre"><a href="/usuario/<?php echo $usuarioDelCurso->uniqueUrl; ?>"><?php echo $usuarioDelCurso->nombreUsuario; ?>  </a></span><br>
-                    <span id="titulo"><?php echo $usuarioDelCurso->tituloPersonal; ?></span>
-                </div>
-                <div id="instructorBio">
-                    <?php
-                    echo $usuarioDelCurso->bio;
-                    ?>
-                </div>
-            </div>
-            <input type="hidden" id="iu" name="iu" value="<?php echo $usuario->idUsuario; ?>">
-            <input type="hidden" id="ic" name="ic" value="<?php echo $curso->idCurso; ?>">
         </div>
     </div>
-
 </div>
 <?php
 require_once('layout/foot.php');

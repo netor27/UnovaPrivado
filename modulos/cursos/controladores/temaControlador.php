@@ -7,6 +7,7 @@ function agregarTema() {
             $idCurso = $_GET['i'];
             require_once 'modulos/cursos/modelos/CursoModelo.php';
             if (getUsuarioActual()->idUsuario == getIdUsuarioDeCurso($idCurso)) {
+                $cursoParaModificar = getCurso($idCurso);
                 require_once 'modulos/cursos/vistas/agregarTema.php';
             } else {
                 //Error, el usuario no es dueño de este curso, no puede modificar
@@ -72,6 +73,7 @@ function editarTema() {
             require_once 'modulos/cursos/modelos/TemaModelo.php';
             if (getUsuarioActual()->idUsuario == getIdUsuarioDeCurso($idCurso)) {
                 $tema = getTema($idTema);
+                $cursoParaModificar = getCurso($idCurso);
                 require_once 'modulos/cursos/vistas/editarTema.php';
             } else {
                 //Error, el usuario no es dueño de este curso, no puede modificar

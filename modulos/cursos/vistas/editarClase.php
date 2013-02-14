@@ -22,7 +22,7 @@ require_once('layout/headers/headCierre.php');
                 }
                 ?>
                 <div class="row-fluid">
-                    <legend>Editar clase</legend>
+                    <legend><h4>Editar clase</h4></legend>
                 </div>
                 <?php
                 if (isset($msgForma)) {
@@ -41,7 +41,7 @@ require_once('layout/headers/headCierre.php');
                         <div class="control-group">
                             <label class="control-label" for="inputTitulo">Título: </label>
                             <div class="controls">
-                                <input class="span9" type="text" id="inputTitulo" name="titulo" value="<?php echo $clase->titulo; ?>">
+                                <input class="span11" type="text" id="inputTitulo" name="titulo" value="<?php echo $clase->titulo; ?>">
                             </div>
                         </div>
                         <div class="control-group">
@@ -53,6 +53,7 @@ require_once('layout/headers/headCierre.php');
                         <div class="control-group">
                             <div class="controls">
                                 <button type="submit" class="btn btn-primary">Aceptar</button>  
+                                <a class="btn offset2" href="/curso/<?php echo $curso->uniqueUrl; ?>"> Cancelar </a>
                             </div>
                         </div>
                         <input type="hidden" name="idCurso" value="<?php echo $idCurso; ?>"/>

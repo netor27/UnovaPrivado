@@ -11,7 +11,7 @@ require_once('layout/headers/headCierre.php');
         </div>
         <div class="well span8 offset2">
             <div class="row-fluid">
-                <legend>Recuperar contraseña</legend>
+                <legend><h4>Recuperar contraseña</h4></legend>
             </div>
             <?php
             if (isset($msgForma)) {

@@ -12,7 +12,7 @@ require_once('layout/headers/headCierre.php');
 
             <div class="well well-large span12">
                 <div class="row-fluid">
-                    <legend>Crear un curso</legend>
+                    <legend><h4>Crear un curso</h4></legend>
                 </div>
                 <?php
                 if (isset($msgForma)) {

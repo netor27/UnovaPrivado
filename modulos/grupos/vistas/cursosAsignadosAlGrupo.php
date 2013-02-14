@@ -109,7 +109,7 @@ require_once('layout/headers/headCierre.php');
         }
         ?>
         <div class="row-fluid">
-            <div class="span3">
+            <div class="span3 subir20px">
                 <a class="btn btn-inverse btn-small" href="/cursos&p=<?php echo $paginaCursos; ?>">
                     <i class="icon-white icon-arrow-left"></i>
                     Regresar a la lista de cursos

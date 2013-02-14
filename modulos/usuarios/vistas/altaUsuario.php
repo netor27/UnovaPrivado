@@ -14,15 +14,15 @@ require_once('layout/headers/headCierre.php');
                         switch ($tipo) {
                             case "altaAlumno":
                                 $urlRegreso = "/alumnos";
-                                echo '<legend>Agregar alumnos</legend>';
+                                echo '<legend><h4>Agregar alumnos</h4></legend>';
                                 break;
                             case "altaProfesor":
                                 $urlRegreso = "/profesores";
-                                echo '<legend>Agregar profesores</legend>';
+                                echo '<legend><h4>Agregar profesores</h4></legend>';
                                 break;
                             case "altaAdministrador":
                                 $urlRegreso = "/administradores";
-                                echo '<legend>Agregar administradores</legend>';
+                                echo '<legend><h4>Agregar administradores</h4></legend>';
                                 break;
                         }
                         ?>
@@ -47,7 +47,7 @@ require_once('layout/headers/headCierre.php');
                         </div>
                         <div class="control-group">
                             <div class="controls">
-                                <button type="submit" class="btn">Aceptar</button>
+                                <button type="submit" class="btn btn-primary">Aceptar</button>
                             </div>
                         </div>
                     </form>
@@ -56,13 +56,13 @@ require_once('layout/headers/headCierre.php');
                         <?php
                         switch ($tipo) {
                             case "altaAlumno":
-                                echo '<legend>Agregar alumnos con un archivo .csv</legend>';
+                                echo '<legend><h4>Agregar alumnos con un archivo .csv</h4></legend>';
                                 break;
                             case "altaProfesor":
-                                echo '<legend>Agregar profesores con un archivo .csv</legend>';
+                                echo '<legend><h4>Agregar profesores con un archivo .csv</h4></legend>';
                                 break;
                             case "altaAdministrador":
-                                echo '<legend>Agregar administradores con un archivo .csv</legend>';
+                                echo '<legend><h4>Agregar administradores con un archivo .csv</h4></legend>';
                                 break;
                         }
                         ?>

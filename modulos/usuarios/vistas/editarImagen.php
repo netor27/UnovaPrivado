@@ -10,7 +10,7 @@ require_once('layout/headers/headCierre.php');
         </div>
         <div class="well span8 offset2">
             <div class="row-fluid">
-                <legend>Cambiar imagen de perfil</legend>
+                <legend><h4>Cambiar imagen de perfil</h4></legend>
             </div>
             <?php
             if (isset($msgForma)) {

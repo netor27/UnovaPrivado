@@ -9,19 +9,16 @@ require_once ('layout/headers/headCierre.php');
         <div class="row-fluid">
             <div class="span12">
                 <?php
-                if ($numCursos > 0) {
-                    echo '<h1>Éstos son los cursos a los que estas inscrito</h1>';
-                }                
+                $numCursos = 1000;
                 if ($numCursos == 1) {
                     ?>
-                    <h3>Un curso solamente</h3>
+                    <h3>Estás inscrito a un curso</h3>
                     <?php
                 } else if ($numCursos > 0) {
-                    echo '<h3 >' . $numCursos . ' cursos en total</h3>';
+                    echo '<h3 >Estás inscrito a ' . $numCursos . ' cursos</h3>';
                 }
                 ?>
             </div>
-
         </div>
         <?php
         $columna = 1;
@@ -41,22 +38,23 @@ require_once ('layout/headers/headCierre.php');
                             <div class="row-fluid">
                                 <div class="span12">
                                     <legend>
-                                        <a href="/curso/<?php echo $curso->uniqueUrl; ?>"  class="tituloCurso">
-                                            <h3 class="centerText"><?php echo $curso->titulo; ?></h3>
+                                        <a href="/curso/<?php echo $curso->uniqueUrl . '&b=' . getRequestUri(); ?>"  class="tituloCurso">
+                                            <h4 class="centerText"><?php echo $curso->titulo; ?></h4>
                                         </a>
                                     </legend>
                                 </div>
                             </div>
-                            <div class="row-fluid">
+                            <div class="row-fluid" style="margin-bottom:10px;">
                                 <div class="span4">
-                                    <a href="/curso/<?php echo $curso->uniqueUrl; ?>">
+                                    <a href="/curso/<?php echo $curso->uniqueUrl . '&b=' . getRequestUri(); ?>">
                                         <img src="<?php echo $curso->imagen; ?>" class="img-polaroid span12">
+                                        <button class="btn btn-mini offset3 span6">Ver curso</button>
                                     </a>
                                 </div>
                                 <div class="span8">
                                     <div class="row-fluid">
                                         <strong>Autor:</strong>
-                                        <a href="/usuario/<?php echo $curso->uniqueUrlUsuario; ?>">
+                                        <a href="/usuario/<?php echo $curso->uniqueUrlUsuario . '&b=' . getRequestUri(); ?>">
                                             <?php echo $curso->nombreUsuario; ?>
                                         </a>
                                     </div>
@@ -155,10 +153,23 @@ require_once ('layout/headers/headCierre.php');
         ?>
         <div class="row-fluid">
             <div class="span12">
-
             </div>
             <div class="span12 centerText">
-                <h1>Aún no estas inscrito a ningún curso<br> Regresa más tarde</h1>
+                <h2>Aún no estas inscrito a ningún curso<br> Regresa más tarde</h2>
+            </div>
+        </div>
+        <?php
+    }
+    ?>
+    <?php
+    if ($usuario->tipoUsuario != 0) {
+        ?>
+        <div class="row-fluid">
+            <div class="span3 subir20px">
+                <a class="btn btn-inverse btn-small" href="/">
+                    <i class="icon-white icon-arrow-left"></i>
+                    Regresar al inicio
+                </a>
             </div>
         </div>
         <?php

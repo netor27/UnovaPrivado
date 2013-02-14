@@ -7,12 +7,12 @@ require_once('layout/headers/headCierre.php');
 <script>
     var tipo = "<?php echo $tipo; ?>";    
 </script>
-    
-
 <div class="container">
     <div class="contenido">
+        <div class="row-fluid">
+            <div class="span12"></div>
+        </div>
         <div class="well well-large">
-
             <div class="row-fluid">
                 <div class="span6">
                     <?php
@@ -83,7 +83,7 @@ require_once('layout/headers/headCierre.php');
                                     <li class="cuadro ui-corner-all" data-row="1" data-col="1" data-sizex="1" data-sizey="1" style="background: url('<?php echo $usuario->avatar; ?>')">
                                         <div class="cuadroFooter ui-corner-bottom ease3">
                                             <span class="cuadroFooterTitulo">
-                                                <a href="/usuario/<?php echo $usuario->uniqueUrl; ?>">
+                                                <a href="/usuario/<?php echo $usuario->uniqueUrl . '&b=' . getRequestUri(); ?>">
                                                     <?php echo $usuario->nombreUsuario; ?>
                                                 </a>
                                             </span>
@@ -153,7 +153,7 @@ require_once('layout/headers/headCierre.php');
             }
             ?>
             <div class="row-fluid">
-                <div class="span3">
+                <div class="span3 subir20px">
                     <a class="btn btn-inverse btn-small" href="/">
                         <i class="icon-white icon-arrow-left"></i>
                         Regresar al inicio

@@ -12,7 +12,7 @@ require_once('layout/headers/headCierre.php');
     </div>
     <div class="row-fluid">
         <div class="span7">
-            <h5><a href="/curso/<?php echo $curso->uniqueUrl; ?>"><?php echo $curso->titulo; ?></a></h5>
+            <h5><a href="/curso/<?php echo $curso->uniqueUrl . '&b='. getRequestUri(); ?>"><?php echo $curso->titulo; ?></a></h5>
         </div>                
     </div>    
     <div class="well">

@@ -96,7 +96,17 @@ $(function() {
                 success: function(data) {
                     var str = data.toString();
                     if(str.indexOf("ok") != -1){                    
-                        bootbox.alert("Se actualizaron los datos correctamente");
+                        bootbox.dialog("<h4>Se actualizaron los datos correctamente.<br>¿Qué deseas hacer?</h4>", 
+                            [{
+                                "label" : "Seguir modificando",
+                                "class" : "btn"
+                            }, {
+                                "label" : "Salir",
+                                "class" : "btn-primary",
+                                "callback": function() {
+                                    regresar();
+                                }                                
+                            }]);
                     }else{ 
                         bootbox.alert("Ocurrió un error al actualizar los datos. <br>Intenta de nuevo más tarde");
                     }
@@ -110,7 +120,11 @@ $(function() {
     });
   
     $("#btnCancelar").click(function(){
-        $url = "/cursos/curso/alumnos/"+curso;
-        redirect($url);
+        regresar();
     });
 });  
+
+function regresar(){
+    $url = "/cursos/curso/alumnos/"+curso;
+        redirect($url);
+}

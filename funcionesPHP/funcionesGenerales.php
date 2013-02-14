@@ -11,6 +11,10 @@ function getUrl() {
     return $protocol . "://" . $_SERVER['SERVER_NAME'] . $port . $_SERVER['REQUEST_URI'];
 }
 
+function getRequestUri(){
+    return $_SERVER['REQUEST_URI'];
+}
+
 function redirect($url, $permanent = false) {
     if ($permanent) {
         header('HTTP/1.1 301 Moved Permanently');

@@ -13,11 +13,11 @@ require_once('layout/headers/headCierre.php');
                         <?php
                         switch ($tipo) {
                             case "alta":
-                                echo '<legend>Agregar un grupo</legend>';
+                                echo '<legend><h4>Agregar un grupo</h4></legend>';
                                 break;
                             case "edita":
                                 echo '<input type="hidden" name="idGrupo" value="' . $grupo->idGrupo . '"/>';
-                                echo '<legend>Modificar el grupo</legend>';
+                                echo '<legend><h4>Modificar el grupo</h4></legend>';
                                 break;
                         }
                         ?>

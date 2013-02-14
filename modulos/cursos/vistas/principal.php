@@ -39,11 +39,11 @@ require_once('layout/headers/headCierre.php');
                             echo '<div class="row-fluid">';
                         }
                         ?>
-                        <div class="span6 well well-small cursoContainer">
+                        <div class="span6 well well-small cursoContainer ease3">
                             <div class="row-fluid">
                                 <div class="span12">
                                     <legend>
-                                        <a href="/curso/<?php echo $curso->uniqueUrl; ?>" class="tituloCurso">
+                                        <a href="/curso/<?php echo $curso->uniqueUrl .'&b='. getRequestUri(); ?>" class="tituloCurso">
                                             <h4 class="centerText"><?php echo $curso->titulo; ?></h4>
                                         </a>
                                     </legend>
@@ -51,7 +51,7 @@ require_once('layout/headers/headCierre.php');
                             </div>
                             <div class="row-fluid">
                                 <div class="span4">
-                                    <a href="/curso/<?php echo $curso->uniqueUrl; ?>">
+                                    <a href="/curso/<?php echo $curso->uniqueUrl .'&b='. getRequestUri(); ?>">
                                         <img src="<?php echo $curso->imagen; ?>" class="img-polaroid span12">
                                         <button class="btn btn-mini offset3 span6">Ver curso</button>
                                     </a>
@@ -60,7 +60,7 @@ require_once('layout/headers/headCierre.php');
                                     <div class="row-fluid">
                                         <p>
                                             <strong>Autor:</strong>
-                                            <a href="/usuario/<?php echo $curso->uniqueUrlUsuario; ?>">
+                                            <a href="/usuario/<?php echo $curso->uniqueUrlUsuario . '&b='. getRequestUri(); ?>">
                                                 <?php echo $curso->nombreUsuario; ?>
                                             </a>
                                         </p>
@@ -126,7 +126,7 @@ require_once('layout/headers/headCierre.php');
                         <ul>
                             <?php
                             if ($pagina > 1)
-                                echo '<li><a href="/cursos?p=' . ($pagina - 1) . '">«</a></li>';
+                                echo '<li><a href="/cursos&p=' . ($pagina - 1) . '">«</a></li>';
                             else
                                 echo '<li class="disabled"><a >«</a></li>';
 
@@ -134,11 +134,11 @@ require_once('layout/headers/headCierre.php');
                                 if ($i == $pagina)
                                     echo '<li class="active"><a >' . $i . '</a></li>';
                                 else
-                                    echo '<li><a href="/cursos?p=' . $i . '">' . $i . '</a></li>';
+                                    echo '<li><a href="/cursos&p=' . $i . '">' . $i . '</a></li>';
                             }
 
                             if ($pagina < $maxPagina)
-                                echo '<li><a href="/cursos?p=' . ($pagina + 1) . '">»</a></li>';
+                                echo '<li><a href="/cursos&p=' . ($pagina + 1) . '">»</a></li>';
                             else
                                 echo '<li class="disabled"><a >»</a></li>';
                             ?>
@@ -156,7 +156,7 @@ require_once('layout/headers/headCierre.php');
         }
         ?>
         <div class="row-fluid">
-            <div class="span3">
+            <div class="span3 subir20px">
                 <a class="btn btn-inverse btn-small" href="/">
                     <i class="icon-white icon-arrow-left"></i>
                     Regresar al inicio

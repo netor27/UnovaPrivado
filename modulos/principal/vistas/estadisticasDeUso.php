@@ -13,19 +13,19 @@ require_once('layout/headers/headCierre.php');
             <div class="row-fluid">
                 <div class="span12">
                     <legend>
-                        <h4>
+                        <h2>
                             Estadísticas de uso
-                        </h4>
+                        </h2>
                     </legend>
                 </div>
             </div>
             <div class="row-fluid">
                 <div class="span12">
                     <div class="span5">
-                        <h3>Usuarios registrados</h3>
+                        <h3 class="black">Usuarios registrados</h3>
                     </div>
                     <div class="span6 offset1">
-                        <h4 style="margin-top:10px;"><?php echo $numUsuarios . " / " . $maxUsuarios; ?></h4>
+                        <h4 class="black" style="margin-top:10px;"><?php echo $numUsuarios . " / " . $maxUsuarios; ?></h4>
                     </div>
                     <div class="span11">
                         <?php
@@ -51,10 +51,10 @@ require_once('layout/headers/headCierre.php');
             <div class="row-fluid">
                 <div class="span12">
                     <div class="span5">
-                        <h3>Espacio en disco utilizado</h3>
+                        <h3 class="black">Espacio en disco utilizado</h3>
                     </div>
                     <div class="span6 offset1">
-                        <h4 style="margin-top:10px;"><?php echo bytesToString($discoUsadoEnBytes, 1) . " / " . $maxDisco; ?>GB</h4>
+                        <h4 class="black" style="margin-top:10px;"><?php echo bytesToString($discoUsadoEnBytes, 1) . " / " . $maxDisco; ?>GB</h4>
                     </div>
                     <div class="span11">
                         <?php
@@ -80,10 +80,10 @@ require_once('layout/headers/headCierre.php');
             <div class="row-fluid">
                 <div class="span12">
                     <div class="span5">
-                        <h3>Ancho de banda utilizado</h3>
+                        <h3 class="black">Ancho de banda utilizado</h3>
                     </div>
                     <div class="span6 offset1">
-                        <h4 style="margin-top:10px;"><?php echo bytesToString($anchoUsadoEnBytes, 1) . " / " . $maxAncho; ?>GB</h4>
+                        <h4 class="black" style="margin-top:10px;"><?php echo bytesToString($anchoUsadoEnBytes, 1) . " / " . $maxAncho; ?>GB</h4>
                     </div>
                     <div class="span11">
                         <?php
