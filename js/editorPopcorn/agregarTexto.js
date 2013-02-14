@@ -15,12 +15,12 @@ $(function(){
                     editarTexto();
                 }else{
                     agregarTexto();    
-                }
-                
+                }                
                 $(this).dialog("close");
                 $('#textoTinyMce').html("");
                 $('#textTabs').tabs('select', 0);
                 $('#colorSeleccionadoTexto').html("");
+                guardadoAutomatico();
             },
             "Cancelar": function(){
                 $(this).dialog("close");

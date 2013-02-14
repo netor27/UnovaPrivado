@@ -219,6 +219,9 @@ if (isset($links))
                 </div>
             </div>
         </div>
+        <div id="guardando">
+            <img src="/layout/imagenes/loading.gif">Guardando...
+        </div>
         <div id="editorContainment" style="background-color: <?php echo $backgroundColor; ?>">
             <div id="videoContainer" class="draggable resizable ui-widget-content" style="z-index:-10; background:transparent; position: absolute; top: <?php echo $top . '%'; ?>; left: <?php echo $left . '%'; ?>; width: <?php echo $width . '%'; ?>; height: <?php echo $height . '%'; ?>;">				
                 <?php

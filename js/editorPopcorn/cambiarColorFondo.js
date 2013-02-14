@@ -9,6 +9,7 @@ $(function(){
         buttons:{
             "Aceptar": function(){              
                 $(this).dialog("close");
+                guardadoAutomatico();
             },
             "Cancelar": function(){
                 $(this).dialog("close");

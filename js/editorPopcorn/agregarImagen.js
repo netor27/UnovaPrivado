@@ -17,11 +17,11 @@ $(function(){
                 }else{
                     agregarImagen();    
                 }
-                
                 $(this).dialog("close");
                 $("#urlImagen").val("");
                 $('#imagenTabs').tabs('select', 0);
-                $('#colorSeleccionadoImagen').html("");                
+                $('#colorSeleccionadoImagen').html("");      
+                guardadoAutomatico();
             },
             "Cancelar": function(){
                 $(this).dialog("close");

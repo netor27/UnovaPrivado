@@ -16,12 +16,12 @@ $(function(){
                     editarVideo();
                 }else{
                     agregarVideo();    
-                }
-                
+                }                
                 $(this).dialog("close");
                 $("#urlVideo").val("");
                 $('#videoTabs').tabs('select', 0);
                 $('#colorSeleccionadoVideo').html("");
+                guardadoAutomatico();
             },
             "Cancelar": function(){
                 $(this).dialog("close");

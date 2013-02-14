@@ -35,10 +35,6 @@ $(function(){
     
     cargarElementosGuardados();
     
-    $("#btnGuardar").click(
-        function(){
-            guardar(iu, uuid, ic, icl,false)
-        });
     $("#btnSalir").click(
         function(){
             $("#modalDialog").html("<h1>Estás apunto de salir</h1>");
@@ -50,8 +46,7 @@ $(function(){
                 modal: true,
                 buttons:{ 
                     "Guardar y Salir": function(){
-                        guardar(iu, uuid, ic, icl,true);
-                        
+                        guardar(iu, uuid, ic, icl,true);                        
                     },
                     "Salir sin guardar": function(){
                         salir();
@@ -145,17 +140,7 @@ function stringToSeconds(str){
 
 //Guardar los datos
 function guardar(u, uuid, cu, cl, salirDespuesDeGuardar){    
-    pauseVideo();
-    
-    $("#modalDialog").html("<h1>Guardando, espera un momento...</h1><br><img style='width:50px;' src='/layout/imagenes/loading.gif'>");
-    $( "#modalDialog" ).dialog({
-        height: 250,
-        width: 500,
-        draggable: true,
-        resizable: false,
-        modal: true,
-        buttons:{ }
-    });  
+    $("#guardando").show("blind");    
     
     backgroundColor = $("#editorContainment").css("background-color");
     
@@ -189,29 +174,32 @@ function guardar(u, uuid, cu, cl, salirDespuesDeGuardar){
     }).done(function( html ) {
         var res = jQuery.parseJSON(html);        
         if(res.resultado == "error"){
-            $("#modalDialog").html("<h3 class='error'>&iexcl;Error!</h3><br>"+res.mensaje);
+            $("#modalDialog").html("<h3 class='error'>&iexcl;Error al guardar!</h3><br>"+res.mensaje);
+            $( "#modalDialog" ).dialog({
+                height: 250,
+                width: 500,
+                draggable: true,
+                resizable: false,
+                modal: true,
+                buttons:{ 
+                    "Aceptar": function(){
+                        $(this).dialog("close");
+                    }
+                }
+            }); 
         }else{
             if(salirDespuesDeGuardar){
                 salir();
-            }else{
-                $("#modalDialog").html("<h1 class=''>"+res.mensaje+"</h3>");
-                $( "#modalDialog" ).dialog({
-                    height: 250,
-                    width: 500,
-                    draggable: true,
-                    resizable: false,
-                    modal: true,
-                    buttons:{ 
-                        "Aceptar": function(){
-                            $(this).dialog("close");
-                        }
-                    }
-                }); 
             }
-        } 
+        }
+        $("#guardando").delay(800).hide("blind");
     });
 }
 
 function salir(){
     redirect(urlCurso);
+}
+
+function guardadoAutomatico(){
+    guardar(iu, uuid, ic, icl,false);
 }

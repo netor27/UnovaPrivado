@@ -382,11 +382,14 @@ div{
 }
 
 .formaSelected{
-    border-color: #F6A828;
+    border-color: #08C!important;
+    -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+    -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+    box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
 }
 
 .formaPredefinida:hover{
-    border-color: #08C;
+    border-color: #F6A828;
     -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
     -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
     box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
@@ -472,4 +475,19 @@ div{
     float: left;
     font-weight: bold;
     padding-left: 10px;
+}
+
+#guardando{
+    position: absolute;
+    right: 0;
+    width: 125px;
+    top: 52px;
+    background: white;
+    z-index: 1000;
+    border-radius: 4px;
+    font-size: 16px;
+    display:none;
+}
+#guardando img{
+    width: 25px;
 }

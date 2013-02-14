@@ -16,13 +16,13 @@ $(function(){
                     editarLink();
                 }else{
                     agregarLink();    
-                }
-                
+                }                
                 $(this).dialog("close");
                 $('#urlLink').val("");
                 $('#textoLink').val("");
                 $('#linkTabs').tabs('select', 0);
                 $('#colorSeleccionadoLink').html("");
+                guardadoAutomatico();
             },
             "Cancelar": function(){
                 $(this).dialog("close");
