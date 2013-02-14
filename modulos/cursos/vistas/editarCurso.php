@@ -91,15 +91,24 @@ require_once('layout/headers/headCierre.php');
             <?php
             if (isset($temas)) {
                 ?>
-                <div class="right">
-                    <a href="/temas/tema/agregarTema/<?php echo $cursoParaModificar->idCurso; ?>" class="btn">Agregar un tema</a>
-                </div> 
-                <div class="centerText" >
-                    <a href="/cursos/curso/agregarContenido/<?php echo $cursoParaModificar->idCurso; ?>" class="btn btn-large btn-primary" id="agregarContenido"> Agregar contenido</a>
+                <div class="row-fluid">
+                    <div class="span5">
+                        <h4>
+                            <strong>
+                                Arrastra y suelta las clases para ordenarlas
+                            </strong>
+                        </h4>
+                    </div>
+                    <div class="span4">
+                        <a href="/cursos/curso/agregarContenido/<?php echo $cursoParaModificar->idCurso; ?>" class="btn btn-large btn-primary" id="agregarContenido"> Agregar contenido</a>
+                    </div>
+                    <div class="span3">
+                        <a href="/temas/tema/agregarTema/<?php echo $cursoParaModificar->idCurso; ?>" class="btn">Agregar un tema</a>
+                    </div>
                 </div>
-                <p>
-                    Arrastra y suelta las clases para ordenarlas
-                </p>
+                <div class="row-fluid">
+                    <div class="span3"></div>
+                </div>
                 <input type="hidden" name="numTemas" id="numTemas" value="<?php echo sizeof($temas); ?>" />
                 <?php
                 for ($i = 0; $i < sizeof($temas); $i++) {
