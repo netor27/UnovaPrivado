@@ -1,6 +1,7 @@
 <?php
 
 function descargarArchivo($file_path) {
+    echo "filepath=".$file_path;
     $path_parts = pathinfo($file_path);
     $file_name = $path_parts['basename'];
     $file_ext = $path_parts['extension'];

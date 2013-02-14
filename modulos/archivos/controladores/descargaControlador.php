@@ -2,7 +2,6 @@
 
 function archivoDeClase() {
     $idClase = $_GET['i'];
-
     require_once 'modulos/cursos/modelos/ClaseModelo.php';
     $clase = getClase($idClase);
 
@@ -16,7 +15,7 @@ function archivoDeClase() {
             $quiereArchivo2 = true;
         }
     }
-
+    $file_path = "error en filepath";
     if (isset($clase)) {
         require_once 'modulos/archivos/modelos/descargaModelo.php';
         if ($quiereArchivo2) {

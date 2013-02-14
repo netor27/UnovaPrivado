@@ -220,26 +220,31 @@ function editor() {
             if ($usuario->idUsuario == getIdUsuarioDeCurso($idCurso) && clasePerteneceACurso($idCurso, $idClase)) {
                 $clase = getClase($idClase);
                 $curso = getCurso($idCurso);
-                if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
-                    $usoEnDisco = $clase->usoDeDisco / 2;
-                    //aquí aumentamos el ancho de banda utilizado
-                    require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
-                    if (deltaVariableDeProducto("usoActualAnchoDeBanda", $usoEnDisco)) {
-                        //obtenemos las formas predefinidas
-                        $formasPredefinidas = array();
-                        $path = "archivos/formasPredefinidas/";
-                        $i = 0;
-                        foreach (glob($path . "*") as $file) {
-                            $formasPredefinidas[$i] = "/".$file;
-                            $i++;
+                if ($clase->transformado == 1) {
+                    if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
+                        $usoEnDisco = $clase->usoDeDisco / 2;
+                        //aquí aumentamos el ancho de banda utilizado
+                        require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
+                        if (deltaVariableDeProducto("usoActualAnchoDeBanda", $usoEnDisco)) {
+                            //obtenemos las formas predefinidas
+                            $formasPredefinidas = array();
+                            $path = "archivos/formasPredefinidas/";
+                            $i = 0;
+                            foreach (glob($path . "*") as $file) {
+                                $formasPredefinidas[$i] = "/" . $file;
+                                $i++;
+                            }
+                            require_once 'modulos/editorPopcorn/vistas/editorPopcorn.php';
+                        } else {
+                            setSessionMessage("<h4 class='error'>Ocurrió un error al cargar el video.</h4>");
+                            redirect('/curso/' . $curso->uniqueUrl);
                         }
-                        require_once 'modulos/editorPopcorn/vistas/editorPopcorn.php';
                     } else {
-                        setSessionMessage("<h4 class='error'>Ocurrió un error al cargar el video.</h4>");
+                        setSessionMessage("<h4 class='error'>No se puede editar este tipo de clase.</h4>");
                         redirect('/curso/' . $curso->uniqueUrl);
                     }
                 } else {
-                    setSessionMessage("<h4 class='error'>No se puede editar este tipo de clase.</h4>");
+                    setSessionMessage("<h4 class='error'>No se puede editar hasta que se termine de transformar. Espera un poco</h4>");
                     redirect('/curso/' . $curso->uniqueUrl);
                 }
             } else {
