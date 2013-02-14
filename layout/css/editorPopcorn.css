@@ -396,3 +396,80 @@ div{
     width: 98%;
     height: 98%;
 }
+
+#perfil_menu {
+    display: none;
+    text-align: left;
+    position: relative;
+    right: 55px;
+    top: 12px;
+    background-color: #f5f5f5;
+    color: black;
+    min-width: 200px;
+    z-index: 100;
+    border: solid #333;
+    margin-top: 47px;
+    border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    box-shadow: rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
+    -webkit-box-shadow: rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
+    -moz-box-shadow: rgba(31, 31, 31, 0.816406) 0px;
+}
+
+#flechitaPerfil {
+    background-image: url(../imagenes/flechita.png);
+    background-repeat: no-repeat;
+    background-size: auto;
+    height: 11px;
+    position: absolute;
+    top: -11px;
+    width: 20px;
+    left: 100px;
+}
+#perfil_image:hover {
+    background-color: #006187;
+}
+#perfil_image {
+    overflow: hidden;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: #233E6A;
+    padding: 10px 10px 10px 10px;
+}
+#perfil_links {
+    overflow: hidden;
+}
+#perfil_links a {
+    float: left;
+    color: #006187;
+    font-weight: bolder;
+    font-size: 14px;
+    width: 100%;
+    padding: 10px 0px 10px 10px;
+}
+#perfil_links a:hover {
+    background-color: #006187;
+    color: white;
+    font-weight: 100;
+    font-size: 14px;
+    font-weight: bolder;
+    text-decoration: none;
+}
+#perfil_links a span {
+    padding-left: 10px;
+}
+#perfil_image img {
+    width: 50px;
+    float: left;
+}
+#perfil_image:hover span {
+    color: white;
+}
+#perfil_image span {
+    color: #006187;
+    font-size: 14px;
+    float: left;
+    font-weight: bold;
+    padding-left: 10px;
+}

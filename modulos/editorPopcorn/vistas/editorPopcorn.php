@@ -1,4 +1,6 @@
 <?php
+$usuarioHead = getUsuarioActual();
+
 $json = $clase->codigo;
 
 $var = json_decode($json, true);
@@ -124,10 +126,9 @@ if (isset($links))
             <div id="top-bar">
                 <a  class="logo left" id="logo"> <img src="/layout/imagenes/Unova_Logo_135x47.png"></a>
                 <div class="element left ease3">
-                    <a class="link">
+                    <a class="link" id="btnSalir">
                         <div id="menuLink">
-                            <span class="left">Menú</span>  
-                            <div id="flechaMenu" class="flechaAbajo left"></div>
+                            <span class="left">Guardar y Salir</span>
                         </div>
                     </a>         
                     <div id="menu">
@@ -188,6 +189,31 @@ if (isset($links))
                                     <div class=""><span>Agregar página web</span></div>
                                 </div>
                             </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="element right ease3">
+                    <a  class="link" >
+                        <div id="menuPerfilLink">
+                            <span class="left">
+                                <?php echo substr($usuarioHead->nombreUsuario, 0, 14); ?>
+                            </span>
+                            <div id="flechaPerfil" class="flechaAbajo left"></div>
+                        </div>
+                    </a>
+                    <div id="perfil_menu"> 
+                        <div id="flechitaPerfil"></div>
+                        <a href="/usuario/<?php echo $usuarioHead->uniqueUrl; ?>">
+                            <div id="perfil_image">
+                                <img src="<?php echo $usuarioHead->avatar; ?>" class="img-polaroid">
+                                <span><?php echo substr($usuarioHead->nombreUsuario, 0, 14); ?></span>
+                                <br><br>
+                                <span style="font-size: smaller">Editar perfil</span>
+                            </div>
+                        </a>
+                        <div id="perfil_links">
+                            <a href="/login/login/logout"><span>Cerrar Sesión</span></a><br>
                         </div>
                     </div>
                 </div>

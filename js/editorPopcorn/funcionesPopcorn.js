@@ -1,21 +1,20 @@
 $(function(){
     
-    $('#menuLink').hover(function(){
-        //cambiamos la flecha
-        $("#flechaMenu").removeClass('flechaAbajo');
-        $("#flechaMenu").addClass('flechaArriba');  
-        $("#menu").show("swing"); 
+    $("#menuPerfilLink").hover(function(e){                 
+        $("#flechaPerfil").removeClass('flechaAbajo');
+        $("#flechaPerfil").addClass('flechaArriba');  
+        $("#perfil_menu").show("swing"); 
         cerrarMenuAgregar();
     },function(){
         
-        });
+        });   
     
     $('#menuAgregarLink').hover(function(){
         //hover in, mostramos el menu
         $("#flechaMenuAgregar").removeClass('flechaAbajo');
         $("#flechaMenuAgregar").addClass('flechaArriba');  
         $("#menuAgregar").show("swing"); 
-        cerrarMenu();
+        cerrarMenuPerfil();
     },
     function(){
         //        //hover out, escondemos el menu
@@ -65,16 +64,14 @@ $(function(){
         });
     $(document).mouseup(function(e){       
         var id = $(e.target).parents("div").attr("id");
-        if(id != "menuLink"){
-            cerrarMenu();
-        }        
+        
         if(id != "menuAgregarLink"){
             cerrarMenuAgregar();
         }   
     });
     $("#editorContainment").hover(function(){
-        cerrarMenu();
         cerrarMenuAgregar();
+        cerrarMenuPerfil();
     });
     
     //Para mantener la sesión abierta
@@ -82,19 +79,18 @@ $(function(){
     setInterval(KeepAlive, '600000');
 });
 
-function cerrarMenu(){
-    if($("#flechaMenu").hasClass("flechaArriba")){
-        $("#menu").hide("swing");
-        $("#flechaMenu").removeClass("flechaArriba");
-        $("#flechaMenu").addClass("flechaAbajo");
-    }
-}
-
 function cerrarMenuAgregar(){
     if($("#flechaMenuAgregar").hasClass("flechaArriba")){
         $("#menuAgregar").hide("swing");
         $("#flechaMenuAgregar").removeClass("flechaArriba");
         $("#flechaMenuAgregar").addClass("flechaAbajo");
+    }
+}
+function cerrarMenuPerfil(){
+    if($("#flechaPerfil").hasClass("flechaArriba")){
+        $("#perfil_menu").hide("swing");
+        $("#flechaPerfil").removeClass("flechaArriba");
+        $("#flechaPerfil").addClass("flechaAbajo");
     }
 }
 
