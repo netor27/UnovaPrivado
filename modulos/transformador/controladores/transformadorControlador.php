@@ -66,7 +66,7 @@ function transformarArchivo($idArchivo) {
                             $usuario = getUsuarioDeCurso($curso->idCurso);
                             require_once 'modulos/email/modelos/envioEmailModelo.php';
                             $clase = getClase($idClase);
-                            if (enviarMailTransformacionVideoCompleta($usuario->email, $curso->titulo, $clase->titulo, DOMINIO_PRIVADO . '/curso/' . $curso->uniqueUrl, $idTipoClase)) {
+                            if (enviarMailTransformacionVideoCompleta($usuario->email, $curso->titulo, $clase->titulo, getDomainName() . '/curso/' . $curso->uniqueUrl, $idTipoClase)) {
                                 //todo paso bien, eliminamos la tupla de la bd
                                 bajaArchivoPorTransformar($idArchivo);
                                 //se transformaron los 2 archivos correctamente, borramos el original
@@ -125,7 +125,7 @@ function transformarArchivo($idArchivo) {
 function establecerEstadoArchivoEnBd($idArchivo, $estado, $mensaje) {
     //enviamos un mail para avisar que algo pasó mal
     require_once 'modulos/email/modelos/envioEmailModelo.php';
-    $linkPublicar = "<a href='" . DOMINIO_PRIVADO . "/testQueueMessages.php?a=publicar&i=" . $idArchivo . "'>Publicar de nuevo</a>";
+    $linkPublicar = "<a href='" . getDomainName() . "/testQueueMessages.php?a=publicar&i=" . $idArchivo . "'>Publicar de nuevo</a>";
     $msg = "IdArchivo = " . $idArchivo . "<br> estado = '" . $estado . "' <br> mensaje = '" . $mensaje . "'";
     $msg .= "<br>Para publicar este archivo en la cola de mensajes, da click " . $linkPublicar;
     $subject = "Error en la transformacion - " . $idArchivo;

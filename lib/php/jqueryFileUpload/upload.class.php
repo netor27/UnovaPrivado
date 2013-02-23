@@ -27,7 +27,7 @@ class UploadHandler
             // take precedence over the following max_file_size setting:
             'max_file_size' => null,
             'min_file_size' => 1,
-            'accept_file_types' => '/(\.|\/)(pdf|doc|docx|ppt|pptx|mov|mp4|wmv|avi|3gp|avi|flv|mpg|mpeg|mpe|mp3|ogg|wav|wma)$/i',
+            'accept_file_types' => '/(\.|\/)(pdf|doc|docx|ppt|pptx|xls|xlsx|mov|mp4|wmv|avi|3gp|avi|flv|mpg|mpeg|mpe|mp3|ogg|ogv|m4a|wav|wma)$/i',
             'max_number_of_files' => null,
             // Set the following option to false to enable resumable uploads:
             'discard_aborted_uploads' => true,

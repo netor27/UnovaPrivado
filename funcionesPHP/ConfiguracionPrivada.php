@@ -1,7 +1,5 @@
 <?php
 
-define("DOMINIO_PRIVADO", "http://demo.unova.mx");
-
 //Definimos el tamaño máximo de los archivos para las clases en GB
 //Esto se define en js/agregarContenidoDocumentReady.js
 //

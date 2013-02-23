@@ -21,7 +21,7 @@ define("HEADER", '<html>
                         <tr>
                             <td>&nbsp;</td>
                             <td style="padding:10px 0">
-                                <a href="' . DOMINIO_PRIVADO . '">
+                                <a href="' . getDomainName() . '">
                                     <img src="http://c342380.r80.cf1.rackcdn.com/Unova_Logo_400x102.png" width="219" height="50" border="0" title="Unova" alt="Unova">
                                 </a>
                             </td>

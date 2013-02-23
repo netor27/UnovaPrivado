@@ -23,6 +23,8 @@ function transformarVideo($file) {
 
         $cmd = 'ffmpeg -i "' . $file . '" -acodec libvo_aacenc -vcodec libx264 "' . $outputFileMp4 . '" -vcodec libvpx -acodec libvorbis "' . $outputFileOgv . '"';
         //putLog($cmd);
+        //Le quitamos el límite de ejecución al script
+        set_time_limit(0);
         ob_start();
         passthru($cmd, $return_var);
         $aux = ob_get_contents();

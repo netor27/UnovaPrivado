@@ -11,7 +11,11 @@ function getUrl() {
     return $protocol . "://" . $_SERVER['SERVER_NAME'] . $port . $_SERVER['REQUEST_URI'];
 }
 
-function getRequestUri(){
+function getDomainName(){
+    return $_SERVER['HTTP_HOST'];
+}
+
+function getRequestUri() {
     return $_SERVER['REQUEST_URI'];
 }
 
@@ -31,12 +35,12 @@ function tipoUsuario() {
     require_once 'modulos/usuarios/clases/Usuario.php';
     if (isset($_SESSION['usuario'])) {
         $usuario = $_SESSION['usuario'];
-        switch($usuario->tipoUsuario){
+        switch ($usuario->tipoUsuario) {
             case 0:
                 return 'usuario';
                 break;
             case 1:
-                return 'administrador';                
+                return 'administrador';
                 break;
             case 2:
                 return 'administradorPrivado';
@@ -50,16 +54,16 @@ function tipoUsuario() {
     }
 }
 
-function getTipoUsuarioTexto(){
+function getTipoUsuarioTexto() {
     require_once 'modulos/usuarios/clases/Usuario.php';
     if (isset($_SESSION['usuario'])) {
         $usuario = $_SESSION['usuario'];
-        switch($usuario->tipoUsuario){
+        switch ($usuario->tipoUsuario) {
             case 0:
                 return 'Alumno';
                 break;
             case 1:
-                return 'Administrador de Unova';                
+                return 'Administrador de Unova';
                 break;
             case 2:
                 return 'Administrador';
@@ -76,7 +80,7 @@ function getTipoUsuarioTexto(){
 function validarUniqueSession() {
     if (isset($_SESSION['usuario'])) {
         require_once 'modulos/principal/modelos/loginModelo.php';
-        $sessionId = session_id();        
+        $sessionId = session_id();
         $idUsuario = $_SESSION['usuario']->idUsuario;
         if (validateSessionIdUsuario($idUsuario, $sessionId)) {
             return true;
@@ -93,7 +97,7 @@ function validarUniqueSession() {
             $msg = "<h4 class='error'>Alguien utilizó tus datos para iniciar sesión. Te recomendamos iniciar sesión y cambiar tu contraseña </h4>";
             return false;
         }
-    }else{
+    } else {
         //no hay ningún usuario loggeado, entonces es una sesión válida
         return true;
     }
@@ -160,8 +164,8 @@ function validarUsuarioAdministrador() {
     }
 }
 
-function validarAdministradorPrivado(){
-    if(tipoUsuario() == "administradorPrivado")
+function validarAdministradorPrivado() {
+    if (tipoUsuario() == "administradorPrivado")
         return true;
     else
         return false;
@@ -185,12 +189,14 @@ function transformaMysqlDateDDMMAAAAConHora($date) {
     return date('d/m/Y -- h:i a', $time);
 }
 
-function getUniqueCode($length) {
+function getUniqueCode($length = 32) {    
     $code = md5(uniqid(rand(), true));
-    if ($length != "")
-        return substr($code, 0, $length);
-    else
-        return $code;
+    if ($length > 32) {
+        while (strlen($code) < $length) {            
+            $code = $code . md5(uniqid(rand(), true));
+        }
+    }
+    return substr($code, 0, $length);
 }
 
 function setSessionMessage($message) {

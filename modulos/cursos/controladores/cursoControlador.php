@@ -338,7 +338,7 @@ function responderPreguntaCurso() {
                 require_once 'modulos/email/modelos/envioEmailModelo.php';
                 require_once 'modulos/cursos/modelos/PreguntaModelo.php';
                 $datos = getInfoParaMailRespuestaPregunta($idPregunta);
-                enviarMailRespuestaPregunta($datos['email'], $curso->titulo, DOMINIO_PRIVADO . '/curso/' . $curso->uniqueUrl, $datos['pregunta'], $texto);
+                enviarMailRespuestaPregunta($datos['email'], $curso->titulo, getDomainName() . '/curso/' . $curso->uniqueUrl, $datos['pregunta'], $texto);
                 echo '<br><div class="respuesta blueBox" style="width: 80%;">';
                 echo '<div class="comentarioAvatar"><img src="' . $usuario->avatar . '"></div>';
                 echo '<div class="comentarioUsuario"><a href="/usuario/' . $usuario->uniqueUrl . '&b=' . getRequestUri() . '">' . $usuario->nombreUsuario . '</a></div>';

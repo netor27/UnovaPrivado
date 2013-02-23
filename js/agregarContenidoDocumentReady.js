@@ -10,7 +10,7 @@ $(document).ready(function() {
         sequentialUploads: true,
         maxFileSize: 3000000000, //Subir máximo 3GB
         autoUpload: true,
-        acceptFileTypes: /(\.|\/)(pdf|doc|docx|ppt|pptx|mov|mp4|wmv|avi|3gp|avi|flv|mpg|mpeg|mpe|mp3|wav|wma|ogg)$/i        
+        acceptFileTypes: /(\.|\/)(pdf|doc|docx|ppt|pptx|xls|xlsx|mov|mp4|wmv|avi|3gp|avi|flv|mpg|mpeg|mpe|mp3|ogg|ogv|m4a|wav|wma)$/i        
     });
     
     $('#fileupload').bind('fileuploaddone', 

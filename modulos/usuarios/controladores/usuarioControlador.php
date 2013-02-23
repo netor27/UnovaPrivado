@@ -269,7 +269,7 @@ function recuperarPasswordSubmit() {
         $uuid = getUUIDFromEmail($email);
         if (!empty($uuid)) {
 
-            $link = DOMINIO_PRIVADO . "/usuarios/usuario/reestablecerPassword/" . $uuid;
+            $link = getDomainName() . "/usuarios/usuario/reestablecerPassword/" . $uuid;
             //Enviar el mail //
             require_once 'modulos/email/modelos/envioEmailModelo.php';
             enviarMailOlvidePassword($email, $link);
@@ -338,7 +338,7 @@ function enviarCorreoConfirmacion() {
     $usuario = getUsuarioActual();
     if (isset($usuario)) {
         require_once 'modulos/email/modelos/envioEmailModelo.php';
-        $urlConfirmacion = DOMINIO_PRIVADO . "/usuarios/usuario/confirmarCuenta/" . $usuario->uuid;
+        $urlConfirmacion = getDomainName() . "/usuarios/usuario/confirmarCuenta/" . $usuario->uuid;
         enviarMailConfirmacion($usuario->email, $urlConfirmacion);
         setSessionMessage("<h4 class='success'>Te hemos enviado un correo de confirmación</h4>");
         redirect("/usuario/" . $usuario->uniqueUrl);
@@ -456,7 +456,7 @@ function altaUsuariosSubmit() {
                         $usuario->uuid = $res['uuid'];
                         //le enviamos un correo electrónico para que pueda acceder
                         require_once 'modulos/email/modelos/envioEmailModelo.php';
-                        $urlReestablecer = DOMINIO_PRIVADO . "/usuarios/usuario/establecerPassword/" . $usuario->uuid;
+                        $urlReestablecer = getDomainName() . "/usuarios/usuario/establecerPassword/" . $usuario->uuid;
                         enviarMailSuscripcionUsuario($email, $urlReestablecer);
                         array_push($usuarios, $usuario);
                         $numAltas++;
