@@ -113,4 +113,19 @@ function getFolderName($extension) {
     return $folder;
 }
 
+function deleteFileFromS3($key) {
+    $client = Aws::factory('modulos/aws/modelos/configurationFile.php')->get('s3');
+    $bucket = getBucketName();
+    try {
+        $client->deleteObject(array(
+            'Bucket' => $bucket,
+            'Key' => $key
+        ));
+        return true;
+    } catch (Exception $e) {
+        echo 'No se borro el archivo ' . $bucket . "/" . $key;
+        return false;
+    }
+}
+
 ?>
