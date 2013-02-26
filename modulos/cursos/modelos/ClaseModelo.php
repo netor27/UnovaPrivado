@@ -122,7 +122,7 @@ function getClase($idClase) {
 function getTiposClase() {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("SELECT * FROM tipoclase");
+    $stmt = $conex->prepare("SELECT * FROM catalogo_tipoclase");
     $stmt->execute();
     $rows = $stmt->fetchAll();
     $tiposClase = null;
