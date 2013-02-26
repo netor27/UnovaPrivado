@@ -26,4 +26,8 @@ function mantenerSesionAbierta(){
     echo "Solicitud " . date("h:i:s a") . " " . 'Usuario: ' . $usuario->nombreUsuario;
 }
 
+function contacto(){
+    require_once 'modulos/principal/vistas/contacto.php';
+}
+
 ?>

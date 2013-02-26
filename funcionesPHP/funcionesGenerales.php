@@ -141,7 +141,8 @@ function paginaValidaSinUsuario($accion) {
             $accion == "recuperarPasswordSubmit" ||
             $accion == "reestablecerPassword" ||
             $accion == "reestablecerPasswordSubmit" ||
-            $accion == "establecerPassword")
+            $accion == "establecerPassword" ||
+            $accion == "contacto")
         return true;
     return false;
 }

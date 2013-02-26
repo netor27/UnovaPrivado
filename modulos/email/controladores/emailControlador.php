@@ -1,6 +1,6 @@
 <?php
 //Script
-//  wget -O - -q http://unova.co/email.php?llaveSecreta=199201302 >> /home/neto/logs/mailSemanal.log
+//  wget -O - -q http://unova.co/email.php?a=enviarResumenSemanal&llaveSecreta=199201302 >> /home/neto/logs/mailSemanal.log
 // 
 //  
 //    ejecutado desde cron-tab semanalmente para enviar un resumen semanal a 

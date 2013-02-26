@@ -15,7 +15,7 @@ session_start();
 if (validarUniqueSession()) {
     guardarTipoLayout();
     cargarCursosSession();
-    
+
     if (!empty($_GET['c']))
         $controlador = $_GET['c'];
     else
@@ -53,9 +53,10 @@ else
 
 if (paginaValidaSinUsuario($accion) || validarUsuarioLoggeado()) {
 //Llamamos la accion o detenemos todo si no existe
-    if (is_callable($accion))
+    if (is_callable($accion)) {
         $accion();
-    else
-        die('La accion ' . $accion . ' no existe en el controlador ' . $controlador . ' - 404 not found');
+    } else {
+        require_once 'errorPages/404Page.php';
+    }
 }
 ?>

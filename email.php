@@ -2,6 +2,6 @@
 
 $moduloPredefinido = "email";
 $controladorPredefinido = "email";
-$accionPredefinida = "enviarResumenSemanal";
+$accionPredefinida = "principal";
 
 require_once 'manejador.php';

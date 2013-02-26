@@ -1,16 +1,21 @@
 <?php
+ini_set("upload_max_filesize", "3072M");
+ini_set("post_max_size", "3080M");
+ini_set("max_execution_time", "2500");
 
-require_once 'funcionesPHP/funcionesGenerales.php';
-require_once 'modulos/aws/modelos/sqsModelo.php';
-require_once 'modulos/aws/modelos/s3Modelo.php';
-
-$key = 'test/resetBD.sql';
-
-if(deleteFileFromS3($key)){
-    echo '<br>Se borro el archivo';
-}else{
-    echo '<br>No se borro el archivo';
-}
+phpinfo();
+//
+//require_once 'funcionesPHP/funcionesGenerales.php';
+//require_once 'modulos/aws/modelos/sqsModelo.php';
+//require_once 'modulos/aws/modelos/s3Modelo.php';
+//
+//$key = 'test/resetBD.sql';
+//
+//if(deleteFileFromS3($key)){
+//    echo '<br>Se borro el archivo';
+//}else{
+//    echo '<br>No se borro el archivo';
+//}
 
 
 //if (isset($_GET['a'])) {

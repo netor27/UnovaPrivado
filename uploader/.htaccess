@@ -1,0 +1,7 @@
+php_value post_max_size 3072M
+php_value upload_max_filesize 3072M
+php_value max_execution_time 1800
+php_value max_input_time 500
+
+#Con esto evitamos que se listen los subdirectorios
+Options -Indexes

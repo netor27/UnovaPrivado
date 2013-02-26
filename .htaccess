@@ -1,3 +1,7 @@
+ErrorDocument 404 /errorPages/404Page.php
+ErrorDocument 403 /errorPages/404Page.php
+ErrorDocument 500 /errorPages/500Page.php
+
 #Con esto evitamos que se listen los subdirectorios
 Options -Indexes
 

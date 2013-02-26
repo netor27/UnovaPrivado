@@ -8,7 +8,7 @@ function altaUsuario($usuario) {
     $uuid = md5($usuario->email) . getUniqueCode(4);
     $usuario->setRandomProfilePic();
     $stmt = $conex->prepare("INSERT into usuario 
-                            (email, password, nombreUsuario, uniqueUrl, fechaRegistro, uuid, tipoUsuario, avatar) 
+                            (email, password, nombreUsuario, uniqueUrl, fechaRegistro, uuid, idTipoUsuario, avatar) 
                             values(:email,:password,:nombreUsuario,:uniqueUrl, NOW() ,:uuid , :tipoUsuario, :avatar)");
     $stmt->bindParam(':email', $usuario->email);
     $stmt->bindParam(':password', $usuario->password);
@@ -103,7 +103,7 @@ function getUsuarios() {
     global $conex;
     $stmt = $conex->query("SELECT * 
                           FROM usuario
-                          WHERE tipoUsuario != 1
+                          WHERE idTipoUsuario != 1
                           ORDER BY nombreUsuario ASC");
     $usuarios = null;
     $usuario = null;
@@ -132,7 +132,7 @@ function getUsuariosPorTipo($tipo, $offset, $numRows) {
     global $conex;
     $stmt = $conex->prepare("SELECT SQL_CALC_FOUND_ROWS u.*
                             FROM usuario u
-                            WHERE tipoUsuario = :tipo
+                            WHERE idTipoUsuario = :tipo
                             ORDER BY u.nombreUsuario ASC
                             LIMIT $offset, $numRows");
     $stmt->bindParam(":tipo", $tipo);
@@ -241,7 +241,7 @@ function getTotalUsuarios() {
     global $conex;
     $stmt = $conex->query("SELECT COUNT(idUsuario) as cuenta 
                           FROM usuario
-                          WHERE tipoUsuario != 1");
+                          WHERE idTipoUsuario != 1");
     $count = 0;
     foreach ($stmt as $row) {
         $count = $row['cuenta'];

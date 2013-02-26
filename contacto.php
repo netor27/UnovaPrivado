@@ -1,14 +1,7 @@
 <?php
-require_once('layout/headers/headInicio.php');
-require_once('layout/headers/headCierre.php');
-?>
 
-<div class="contenido">
-    <h1 class="centerText">Contacto</h1>    
-    
-</div>
+$moduloPredefinido = "principal";
+$controladorPredefinido = "principal";
+$accionPredefinida = "contacto";
 
-<?php
-require_once('layout/foot.php');
-?>
-            
+require_once 'manejador.php';

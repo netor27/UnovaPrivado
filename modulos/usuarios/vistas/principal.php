@@ -92,7 +92,7 @@ require_once('layout/headers/headCierre.php');
                                                 <a class="btn btn-mini btn-danger borrarUsuario" id="<?php echo $usuario->idUsuario; ?>">
                                                     <i class="icon-white icon-trash"></i>
                                                     <?php
-                                                    switch($tipo){
+                                                    switch ($tipo) {
                                                         case 'alumnos':
                                                             echo 'Eliminar alumno';
                                                             break;
@@ -108,8 +108,7 @@ require_once('layout/headers/headCierre.php');
                                             </span>
                                         </div>
                                     </li>
-                                <?php 
-                                
+                                    <?php
                                 }
                                 ?>                        
                             </ul>
@@ -123,7 +122,7 @@ require_once('layout/headers/headCierre.php');
                             <ul>
                                 <?php
                                 if ($pagina > 1)
-                                    echo '<li><a href="/'.$tipo.'&p=' . ($pagina - 1) . '">«</a></li>';
+                                    echo '<li><a href="/' . $tipo . '&p=' . ($pagina - 1) . '">«</a></li>';
                                 else
                                     echo '<li class="disabled"><a href="#">«</a></li>';
 
@@ -131,11 +130,11 @@ require_once('layout/headers/headCierre.php');
                                     if ($i == $pagina)
                                         echo '<li class="active"><a href="#">' . $i . '</a></li>';
                                     else
-                                        echo '<li><a href="/'.$tipo.'&p=' . $i . '">' . $i . '</a></li>';
+                                        echo '<li><a href="/' . $tipo . '&p=' . $i . '">' . $i . '</a></li>';
                                 }
 
                                 if ($pagina < $maxPagina)
-                                    echo '<li><a href="/'.$tipo.'&p=' . ($pagina + 1) . '">»</a></li>';
+                                    echo '<li><a href="/' . $tipo . '&p=' . ($pagina + 1) . '">»</a></li>';
                                 else
                                     echo '<li class="disabled"><a href="#">»</a></li>';
                                 ?>
