@@ -119,25 +119,27 @@ function getClase($idClase) {
     return $clase;
 }
 
-function getTiposClase() {
-    require_once 'bd/conex.php';
-    global $conex;
-    $stmt = $conex->prepare("SELECT * FROM catalogo_tipoclase");
-    $stmt->execute();
-    $rows = $stmt->fetchAll();
-    $tiposClase = null;
-    $i = 0;
-    foreach ($rows as $row) {
-        require_once 'modulos/cursos/clases/TipoClase.php';
-        $tipoClase = new TipoClase();
-        $tipoClase->idTipoClase = $row['idTipoClase'];
-        $tipoClase->nombre = $row['nombre'];
-        $tipoClase->descripcion = $row['descripcion'];
-        $tipoClase->imagen = $row['imagen'];
-        $tiposClase[$i] = $tipoClase;
-        $i++;
+function getImagenTipoClase($tipoClase){
+    switch($tipoClase){
+        case 0://Video
+            return '/layout/imagenes/video.png';
+            break;
+        case 1://Presentacion
+            return '/layout/imagenes/presentation.png';
+            break;
+        case 2://Pdf
+            return '/layout/imagenes/document.png';
+            break;
+        case 3://Caja
+            return '/layout/imagenes/document.png';
+            break;
+        case 4://Audio
+            return '/layout/imagenes/audio.png';
+            break;
+        default:
+            return '/layout/imagenes/document.png';
+            break;
     }
-    return $tiposClase;
 }
 
 function clasePerteneceACurso($idCurso, $idClase) {

@@ -140,7 +140,6 @@ function tomarCurso($curso, $usuario, $esAlumno, $backUrl) {
     $preguntas = getPreguntas($curso->idCurso);
     $usuarioDelCurso = getUsuarioDeCurso($curso->idCurso);
     require_once 'modulos/cursos/modelos/ClaseModelo.php';
-    $tiposClase = getTiposClase();
     if ($esAlumno)
         $ratingUsuario = getRatingUsuario($usuario->idUsuario, $curso->idCurso);
     $numAlumnos = getNumeroDeAlumnos($curso->idCurso);
@@ -163,7 +162,6 @@ function editarCurso($cursoParaModificar, $usuario, $backUrl) {
     $comentarios = getComentarios($cursoParaModificar->idCurso);
     $preguntas = getPreguntas($cursoParaModificar->idCurso);
     $usuarioDelCurso = getUsuarioDeCurso($cursoParaModificar->idCurso);
-    $tiposClase = getTiposClase();
     $tituloPagina = substr($cursoParaModificar->titulo, 0, 50);
     $numAlumnos = getNumeroDeAlumnos($cursoParaModificar->idCurso);
     require_once 'modulos/cursos/vistas/editarCurso.php';

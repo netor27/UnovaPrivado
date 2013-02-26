@@ -149,12 +149,12 @@ require_once('layout/headers/headCierre.php');
                                         <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
                                         <div class="claseSortableContainer">
                                             <div class="left">                                            
-                                                <img class="left" src="/layout/imagenes/<?php echo $tiposClase[$clases[$j]->idTipoClase]->imagen ?>">
+                                                <img class="left" src="<?php echo getImagenTipoClase($clases[$j]->idTipoClase);?>">
                                                 <a href="/curso/<?php echo $cursoParaModificar->uniqueUrl . "/" . $clases[$j]->idClase; ?>">
                                                     <div class="left claseNombre">
                                                         <?php
-                                                        if (strlen($clases[$j]->titulo) > 45)
-                                                            echo substr($clases[$j]->titulo, 0, 45) . "...";
+                                                        if (strlen($clases[$j]->titulo) > 65)
+                                                            echo substr($clases[$j]->titulo, 0, 65) . "...";
                                                         else
                                                             echo $clases[$j]->titulo;
                                                         ?>  
