@@ -30,6 +30,7 @@ function loginSubmit() {
             redirect($pagina);
         }
     } else {
+        print_r($_POST);
         $msgLogin = "Los datos no son válidos.<br>";
         require_once 'modulos/principal/vistas/login.php';
     }

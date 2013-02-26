@@ -20,7 +20,7 @@ function loginUsuario($email, $password, $setCookies) {
         //$usuario->bio = $row['bio'];
         $usuario->email = $row['email'];
         $usuario->nombreUsuario = $row['nombreUsuario'];
-        $usuario->tipoUsuario = $row['tipoUsuario'];
+        $usuario->tipoUsuario = $row['idTipoUsuario'];
         $usuario->uuid = $row['uuid'];
         $usuario->uniqueUrl = $row['uniqueUrl'];
 

@@ -114,7 +114,7 @@ function getUsuarios() {
         $usuario->email = $row['email'];
         $usuario->password = $row['password'];
         $usuario->nombreUsuario = $row['nombreUsuario'];
-        $usuario->tipoUsuario = $row['tipoUsuario'];
+        $usuario->tipoUsuario = $row['idTipoUsuario'];
         $usuario->avatar = $row['avatar'];
         $usuario->bio = $row['bio'];
         $usuario->activado = $row['activado'];
@@ -177,7 +177,7 @@ function getUsuario($idUsuario) {
         $usuario->email = $row['email'];
         $usuario->password = $row['password'];
         $usuario->nombreUsuario = $row['nombreUsuario'];
-        $usuario->tipoUsuario = $row['tipoUsuario'];
+        $usuario->tipoUsuario = $row['idTipoUsuario'];
         $usuario->avatar = $row['avatar'];
         $usuario->bio = $row['bio'];
         $usuario->activado = $row['activado'];
@@ -203,7 +203,7 @@ function getUsuarioFromUuid($uuid) {
         $usuario->email = $row['email'];
         $usuario->password = $row['password'];
         $usuario->nombreUsuario = $row['nombreUsuario'];
-        $usuario->tipoUsuario = $row['tipoUsuario'];
+        $usuario->tipoUsuario = $row['idTipoUsuario'];
         $usuario->avatar = $row['avatar'];
         $usuario->bio = $row['bio'];
         $usuario->activado = $row['activado'];
@@ -263,7 +263,7 @@ function getUsuarioFromUniqueUrl($uniqueUrl) {
         $usuario->email = $row['email'];
         $usuario->password = $row['password'];
         $usuario->nombreUsuario = $row['nombreUsuario'];
-        $usuario->tipoUsuario = $row['tipoUsuario'];
+        $usuario->tipoUsuario = $row['idTipoUsuario'];
         $usuario->avatar = $row['avatar'];
         $usuario->bio = $row['bio'];
         $usuario->activado = $row['activado'];
@@ -303,7 +303,7 @@ function getUsuarioFromEmail($email) {
         $usuario->email = $row['email'];
         $usuario->password = $row['password'];
         $usuario->nombreUsuario = $row['nombreUsuario'];
-        $usuario->tipoUsuario = $row['tipoUsuario'];
+        $usuario->tipoUsuario = $row['idTipoUsuario'];
         $usuario->avatar = $row['avatar'];
         $usuario->bio = $row['bio'];
         $usuario->activado = $row['activado'];

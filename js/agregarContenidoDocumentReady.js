@@ -8,7 +8,7 @@ $(document).ready(function() {
     $('#fileupload').fileupload({            
         url: '/uploader.php',
         sequentialUploads: true,
-        maxFileSize: 3000000000, //Subir máximo 3GB
+        maxFileSize: 3221225472, //Subir máximo 3GB
         autoUpload: true,
         acceptFileTypes: /(\.|\/)(pdf|doc|docx|ppt|pptx|xls|xlsx|mov|mp4|wmv|avi|3gp|avi|flv|mpg|mpeg|mpe|mp3|ogg|ogv|m4a|wav|wma)$/i        
     });

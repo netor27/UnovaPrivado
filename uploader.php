@@ -1,4 +1,8 @@
 <?php
+//Establecemos el tamaño máximo en 3GB
+ini_set("upload_max_filesize", "3072M");
+ini_set("post_max_size", "3080M");
+ini_set("max_execution_time", "1500");
 
 error_reporting(E_ALL | E_STRICT);
 
