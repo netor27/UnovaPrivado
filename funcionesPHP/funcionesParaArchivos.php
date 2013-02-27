@@ -1,27 +1,5 @@
 <?php
 
-function agregarUniqueCodeAlNombreDelArchivo(&$filePath, &$fileName, $maxLength = 200, $uniqueCodeLength = 7) {
-    //Validamos que la cadena del archivo no séa mayor que $maxLength
-    $file = $filePath . $fileName;
-    $pathInfo = pathinfo($file);
-
-    $aux = $pathInfo['filename'];
-    if ((strlen($file) + $uniqueCodeLength) > $maxLength) {
-        $longitud = $maxLength - (strlen($file) + $uniqueCodeLength + 1);
-        $aux = substr($pathInfo['filename'], 0, $longitud);
-    }
-
-    //Agregamos el codigo al final del nombre y antes de la extension
-    $fileName = $aux . "_" . getUniqueCode($uniqueCodeLength) . "." . $pathInfo['extension'];
-
-    //Validamos que el archivo no exista previamente
-    while (file_exists($filePath . $fileName)) {
-        //tratamos con otro nombre hasta que uno de ellos no exista
-        $fileName = $aux . "_" . getUniqueCode($uniqueCodeLength) . "." . $pathInfo['extension'];
-    }
-    return rename($file, $filePath . $fileName);
-}
-
 function getFileSize($file) {
     $size = filesize($file);
     if ($size < 0) {

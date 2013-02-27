@@ -3,7 +3,8 @@ ini_set("upload_max_filesize", "3072M");
 ini_set("post_max_size", "3080M");
 ini_set("max_execution_time", "2500");
 
-phpinfo();
+
+
 //
 //require_once 'funcionesPHP/funcionesGenerales.php';
 //require_once 'modulos/aws/modelos/sqsModelo.php';

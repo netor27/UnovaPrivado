@@ -80,7 +80,7 @@ function getIdCursoPerteneciente($idTema) {
     }
 }
 
-function getSiguienteOrdenEnTema($idTema){
+function getUltimoOrdenEnTema($idTema){
     require_once 'bd/conex.php';
     global $conex;
     $stmt = $conex->prepare("SELECT max(orden) as n 

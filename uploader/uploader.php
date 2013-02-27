@@ -1,10 +1,10 @@
 <?php
-//Establecemos el tamaño máximo en 3GB
-ini_set("upload_max_filesize", "3072M");
-ini_set("post_max_size", "3080M");
-ini_set("max_execution_time", "1500");
 
 error_reporting(E_ALL | E_STRICT);
+
+$oldPath = set_include_path("/");
+$newPath = $oldPath . ":" . $_SERVER["DOCUMENT_ROOT"] . "/";
+set_include_path($newPath);
 
 require_once 'funcionesPHP/funcionesGenerales.php';
 
@@ -39,13 +39,13 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 require_once 'funcionesPHP/funcionesGenerales.php';
                 session_start();
                 $uuid = $_POST['uuid'];
-                
+
                 require_once 'modulos/usuarios/modelos/usuarioModelo.php';
                 $usuario = getUsuarioFromUuid($uuid);
                 $idUsuario = $_POST['idUsuario'];
                 $idCurso = $_POST['idCurso'];
                 $idTema = $_POST['idTema'];
-                
+
                 //validamos un usuario correcto
                 if (isset($usuario) && $idUsuario == $usuario->idUsuario) {
                     $info = $upload_handler->post();
@@ -54,14 +54,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
                         //No hubo error en la subida de los archivos
                         require_once 'modulos/cursos/modelos/ClaseModelo.php';
                         $res = crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $file->name, $file->type);
-                        if ($res['resultado']) {                        
+                        if ($res['resultado']) {
                             $file->url = $res['url'];
                             $file->delete_url = "#";
                             $file->error = "";
                         } else {
                             $file->error = $res['mensaje'];
                         }
-                    } 
+                    }
                 } else {
                     //error de login
                     $file->error = "Tus datos de sesión son incorrectos";

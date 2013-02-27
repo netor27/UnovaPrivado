@@ -19,6 +19,10 @@ function getRequestUri() {
     return $_SERVER['REQUEST_URI'];
 }
 
+function getServerRoot(){
+    return $_SERVER["DOCUMENT_ROOT"];
+}
+
 function redirect($url, $permanent = false) {
     if ($permanent) {
         header('HTTP/1.1 301 Moved Permanently');

@@ -3,11 +3,11 @@
 .success,
 .info { padding: 0.8em; margin-bottom: 1em; border: 2px solid #ddd; }
 
-.error { background: #fbe3e4; color: #8a1f11; border-color: rgba(250,105,110,1); }
-.notice        { background: #fff6bf; color: #514721; border-color: #ffd324; }
-.success       { background: #e6efc2; color: #264409; border-color: #c6d880; }
-.info          { background: #d5edf8; color: #205791; border-color: #92cae4; }
-.error a { color: #8a1f11; }
-.notice a          { color: #514721; }
-.success a         { color: #264409; }
-.info a            { color: #205791; }
+.error { background: #fbe3e4; color: #8a1f11!important; border-color: rgba(250,105,110,1); }
+.notice        { background: #fff6bf; color: #514721!important; border-color: #ffd324; }
+.success       { background: #e6efc2; color: #264409!important; border-color: #c6d880; }
+.info          { background: #d5edf8; color: #205791!important; border-color: #92cae4; }
+.error a { color: #8a1f11!important; }
+.notice a          { color: #514721!important; }
+.success a         { color: #264409!important; }
+.info a            { color: #205791!important; }

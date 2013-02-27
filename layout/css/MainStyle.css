@@ -1,6 +1,5 @@
 /* Estilos generales */
 li{list-style:none;}
-html{ height: 100%;}
 body{   
     font-family: "Trebuchet MS", Helvetica, sans-serif !important;    
     font-size: 12px;  
@@ -55,7 +54,7 @@ img{
 }
 h1, h2, h3, h4, h5, h6
 {
-    color:#dc5f21;
+    color:#dc5f21 !important;
 }
 
 /* Transiciones en .3 segundos*/
@@ -335,31 +334,6 @@ h1, h2, h3, h4, h5, h6
 #formDiv{
     text-align: left;
     margin: 0 auto;
-}
-
-
-/* Buttons */
-
-.blueButton{        
-    background: linear-gradient(top, #4794BF, #316482);
-    background: -o-linear-gradient(top, #4794BF, #316482);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4794BF', endColorstr='#316482');
-    background: -webkit-gradient(linear, left top, left bottom, from(#4794BF), to(#316482));
-    background: -moz-linear-gradient(top, #4794BF, #316482);
-
-    border: 1px solid #316482 ;
-    color: white ;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 18px;
-    border-radius: 4px 4px 4px 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    padding: 5px;
-    margin:0px 0px 5px 0px;
-}
-.blueButton:hover{
-    text-decoration: underline;
 }
 
 .whiteBox{

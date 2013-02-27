@@ -19,7 +19,7 @@ function altaClase($clase) {
     if ($stmt->execute())
         $id = $conex->lastInsertId();
     else {
-        print_r($stmt->errorInfo());
+        //print_r($stmt->errorInfo());
     }
     return $id;
 }
@@ -119,8 +119,8 @@ function getClase($idClase) {
     return $clase;
 }
 
-function getImagenTipoClase($tipoClase){
-    switch($tipoClase){
+function getImagenTipoClase($tipoClase) {
+    switch ($tipoClase) {
         case 0://Video
             return '/layout/imagenes/video.png';
             break;
@@ -316,67 +316,99 @@ function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType
     require_once 'modulos/usuarios/modelos/usuarioModelo.php';
     require_once 'modulos/cursos/modelos/CursoModelo.php';
     require_once 'modulos/cursos/modelos/TemaModelo.php';
-
+    //Carpeta donde se va a guardar el archivo temporal
+    $filePath = getServerRoot() . "/archivos/temporal/uploaderFiles/";
     $res = array();
     //Validamos que el curso sea del usuario y que el tema sea del curso        
-    if (getIdUsuarioDeCurso($idCurso) == $idUsuario && $idCurso == getIdCursoPerteneciente($idTema)) {
-        $filePath = "archivos/temporal/uploaderFiles/";
+    if (getIdUsuarioDeCurso($idCurso) == $idUsuario && $idCurso == getIdCursoPerteneciente($idTema)) {        
         //Guardamos el nombre original del archivo para establecerlo como titulo
         $pathInfo = pathinfo($filePath . $fileName);
         $titulo = $pathInfo['filename'];
-
+        $newName = getUniqueCode(64) . "." . $pathInfo['extension'];
         require_once 'funcionesPHP/funcionesParaArchivos.php';
-        if (agregarUniqueCodeAlNombreDelArchivo($filePath, $fileName)) {
-            $file = $filePath . $fileName;
+        //Le cambiamos el nombre del archivo a uno generico
+        if (rename($filePath . $fileName, $filePath . $newName)) {
+            $file = $filePath . $newName;
             $pathInfo = pathinfo($file);
             $clase = new Clase();
             $clase->idTema = $idTema;
             $clase->titulo = $titulo;
             $clase->idTipoClase = getTipoClase($fileType);
 
+            //Establecemos el ancho de banda utilizado por la subida de este archivo
+            $size = getFileSize($file);
+            require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
+            deltaVariableDeProducto("usoActualAnchoDeBanda", $size);
+
+            require_once 'modulos/aws/modelos/s3Modelo.php';
             if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
-                //Si es video o audio creamos la clase con la bandera que todavía no se transforma
-                //guardamos en la cola que falta transformar este video
-                $clase->transformado = 0;
-                $clase->usoDeDisco = 0;
-                $clase->duracion = "00:00";
-                $clase->orden = getSiguienteOrdenEnTema($idTema) + 1;
-                $idClase = altaClase($clase);
-
-                //agregamos en la base de datos que hay que transformar este video                
-                require_once 'modulos/transformador/modelos/archivoPorTransformarModelo.php';
-                $idArchivo = altaArchivoPorTransformar($clase->idTipoClase, $idClase, $file);
-
-                //guardamos este id en la cola de transformacion
-                require_once 'lib/php/beanstalkd/ColaMensajes.php';                
-                $colaMensajes = new ColaMensajes("colatrans");
-                $colaMensajes->push(intval($idArchivo));
-                $res['resultado'] = true;
-                $res['url'] = "#";
+                //Subimos el archivo al servicio S3 de amazon
+                $s3res = uploadFileToS3($file);
+                if ($s3res['res']) {
+                    //El archivo se subio al cdn
+                    //Generamos los datos del mensaje
+                    $datosDelMensaje = array(
+                        "bucket" => $s3res['bucket'],
+                        "key" => $s3res['key'],
+                        "tipo" => $clase->idTipoClase,
+                        "host" => getDomainName()
+                    );
+                    $datosJson = json_encode($datosDelMensaje);
+                    require_once 'modulos/aws/modelos/sqsModelo.php';
+                    if (AddMessageToQueue($datosJson)) {
+                        //Se mando correctamente el mensaje
+                        //Si es video o audio creamos la clase con la bandera que todavía no se transforma
+                        $clase->transformado = 0;
+                        $clase->usoDeDisco = 0;
+                        $clase->duracion = "00:00";
+                        $clase->orden = getUltimoOrdenEnTema($idTema) + 1;
+                        $idClase = altaClase($clase);
+                        if ($idClase >= 0) {
+                            //Se dió de alta correctamente
+                            $res['resultado'] = true;
+                            $res['url'] = "#";
+                        } else {
+                            //Ocurrió un error al agregar a la bd
+                            $res['resultado'] = false;
+                            $res['mensaje'] = "Ocurrió un error al guardar tu archivo en nuestros servidores. Intenta de nuevo más tarde";
+                        }
+                    } else {
+                        //Ocurrio un eror al agregar el mensaje
+                        $res['resultado'] = false;
+                        $res['mensaje'] = "Ocurrió un error al guardar tu archivo en nuestros servidores. Intenta de nuevo más tarde";
+                    }
+                } else {
+                    //Erro al subir el archivo al s3 de amazon
+                    $res['resultado'] = false;
+                    $res['mensaje'] = "Ocurrió un error al guardar tu archivo en nuestros servidores. Intenta de nuevo más tarde";
+                }
             } else {
                 $clase->transformado = 1;
-                //directorio para guardar los documentos
-                $filePathNuevo = "archivos/documentos/";
-                //renombramos el archivo y con esto se mueve a la carpeta de documentos
-                $nombreNuevo = $filePathNuevo . $fileName;
-                if (rename($file, $nombreNuevo)) {
-                    //Si se movio correctamente, creamos la clase
-                    $size = getFileSize($nombreNuevo);
-                    $clase->archivo = $nombreNuevo;
+                //Subimos el archivo al servicio S3 de amazon
+                $s3res = uploadFileToS3($file);
+                if ($s3res['res']) {
+                    //Si se subio, guardamos la clase en la bd
+                    $clase->archivo = $s3res['link'];
                     $clase->usoDeDisco = $size;
-                    $clase->orden = getSiguienteOrdenEnTema($idTema) + 1;
-                    altaClase($clase);
-                    require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
-                    deltaVariableDeProducto("usoActualAnchoDeBanda", $size);
-                    $res['resultado'] = true;
-                    $res['url'] = "#";
+                    $clase->orden = getUltimoOrdenEnTema($idTema) + 1;
+                    $idClase = altaClase($clase);
+                    if ($idClase >= 0) {
+                        //Se dió de alta correctamente
+                        $res['resultado'] = true;
+                        $res['url'] = "#";
+                    } else {
+                        //Ocurrió un error al agregar a la bd
+                        $res['resultado'] = false;
+                        $res['mensaje'] = "Ocurrió un error al guardar tu archivo en nuestros servidores. Intenta de nuevo más tarde";
+                    }
                 } else {
-                    //Si ocurrió un error, se borra y regresamos false
-                    unlink($file);
+                    //Si ocurrió un error al subir al s3
                     $res['resultado'] = false;
                     $res['mensaje'] = "Ocurrió un error al guardar tu archivo en nuestros servidores. Intenta de nuevo más tarde";
                 }
             }
+            //Sin importar que paso, borramos el archivo temporal
+            unlink($file);
         } else {
             //Si ocurrió un error, se borra y regresamos false
             unlink($filePath . $fileName);
@@ -389,7 +421,7 @@ function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType
         unlink($filePath . $fileName);
         $res['resultado'] = false;
         $res['mensaje'] = "No tienes permisos para modificar este curso";
-    }
+    }    
     return $res;
 }
 
@@ -414,8 +446,8 @@ function getTipoClase($fileType) {
     }
 }
 
-function registrarClaseTomada($idUsuario, $idClase){
-     require_once 'bd/conex.php';
+function registrarClaseTomada($idUsuario, $idClase) {
+    require_once 'bd/conex.php';
     global $conex;
     $stmt = $conex->prepare("INSERT INTO tomoclase (fecha, idUsuario, idClase)
                              VALUES(NOW(), :idUsuario, :idClase)");

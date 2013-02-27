@@ -12,7 +12,7 @@ function getQueueUrl() {
 }
 
 function AddMessageToQueue($message) {
-    $client = Aws::factory('modulos/aws/modelos/configurationFile.php')->get('sqs');
+    $client = Aws::factory(getServerRoot() . '/modulos/aws/modelos/configurationFile.php')->get('sqs');
 
     $res = $client->sendMessage(array(
         'QueueUrl' => getQueueUrl(),
@@ -29,7 +29,7 @@ function AddMessageToQueue($message) {
 }
 
 function readMessageFromQueue() {
-    $client = Aws::factory('modulos/aws/modelos/configurationFile.php')->get('sqs');
+    $client = Aws::factory(getServerRoot() . '/modulos/aws/modelos/configurationFile.php')->get('sqs');
     $result = $client->receiveMessage(array(
         'QueueUrl' => getQueueUrl(),
         'MaxNumberOfMessages' => 1,
@@ -50,7 +50,7 @@ function readMessageFromQueue() {
 }
 
 function deleteMessageFromQueue($receiptHandle) {
-    $client = Aws::factory('modulos/aws/modelos/configurationFile.php')->get('sqs');
+    $client = Aws::factory(getServerRoot() . '/modulos/aws/modelos/configurationFile.php')->get('sqs');
     $res = false;
     try {
         $res = $client->deleteMessage(array(

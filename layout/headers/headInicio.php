@@ -13,10 +13,10 @@
         </title>
         <link REL="SHORTCUT ICON" HREF="/layout/faviconUnova.ico">
         
+        <link rel="stylesheet" href="/layout/css/MainStyle.css" />
         <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css">
-<!--        <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-responsive.min.css">-->
         <link rel="stylesheet" href="/layout/css/noticeBoxes.css" />
-        <link rel="stylesheet" href="/layout/css/MainStyle.css" />        
+                
         
         <script src="/lib/js/jquery-1.8.2.min.js"></script>	
         

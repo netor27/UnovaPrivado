@@ -6,7 +6,7 @@ $(document).ready(function() {
     });
 
     $('#fileupload').fileupload({            
-        url: '/uploader.php',
+        url: '/uploader/uploader.php',
         sequentialUploads: true,
         maxFileSize: 3221225472, //Subir máximo 3GB
         autoUpload: true,
@@ -36,7 +36,7 @@ $(document).ready(function() {
     // Upload server status check for browsers with CORS support:
     if ($.support.cors) {
         $.ajax({
-            url: '/uploader.php',
+            url: '/uploader/uploader.php',
             type: 'HEAD'
         }).fail(function () {
             $('<span class="alert alert-error"/>')

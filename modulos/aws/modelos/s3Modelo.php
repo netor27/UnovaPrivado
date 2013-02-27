@@ -12,7 +12,7 @@ use Aws\S3\Model\MultipartUpload\UploadBuilder;
 function uploadFileToS3($sourceFile) {
     $resultado = array("res" => false);
     // Instanciamos un cliente de s3
-    $client = Aws::factory('modulos/aws/modelos/configurationFile.php')->get('s3');
+    $client = Aws::factory(getServerRoot() . '/modulos/aws/modelos/configurationFile.php')->get('s3');
 
     $bucket = getBucketName();
     $key = generateFileKey($sourceFile);
@@ -27,7 +27,6 @@ function uploadFileToS3($sourceFile) {
     //para subir por partes
     $megabytesLimit = 10 * 1048576;
     if (getFileSize($sourceFile) < $megabytesLimit) {
-        echo 'Archivo menor al limite<br>';
         $client->putObject(array(
             'Bucket' => $bucket,
             'Key' => $key,
@@ -36,7 +35,6 @@ function uploadFileToS3($sourceFile) {
         ));
         $resultado["res"] = true;
     } else {
-        echo 'archivo mayor al limite, se utilizara el upload builder <br>';
         $uploader = UploadBuilder::newInstance()
                 ->setClient($client)
                 ->setSource($sourceFile)
@@ -53,6 +51,7 @@ function uploadFileToS3($sourceFile) {
         }
     }
     if ($resultado['res']) {
+        $resultado["bucket"] = $bucket;
         $resultado["key"] = $key;
         $prefijoLink = getVariableDeProducto("prefijoLink");
         $resultado["link"] = $prefijoLink . "/" . $bucket . "/" . $key;
@@ -114,7 +113,7 @@ function getFolderName($extension) {
 }
 
 function deleteFileFromS3($key) {
-    $client = Aws::factory('modulos/aws/modelos/configurationFile.php')->get('s3');
+    $client = Aws::factory(getServerRoot() . '/modulos/aws/modelos/configurationFile.php')->get('s3');
     $bucket = getBucketName();
     try {
         $client->deleteObject(array(

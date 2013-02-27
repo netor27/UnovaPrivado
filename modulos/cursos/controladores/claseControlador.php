@@ -159,7 +159,7 @@ function tomarClase() {
                             redirect('/curso/' . $curso->uniqueUrl);
                         }
                     } else {
-                        setSessionMessage("<h4 class='error'>Este video aún se está transformando. Espera unos minutos</h4>");
+                        setSessionMessage("<h4 class='error'>Este archivo de video aún se está transformando. Espera unos minutos</h4>");
                         redirect('/curso/' . $curso->uniqueUrl);
                     }
                     break;
@@ -190,11 +190,11 @@ function tomarClase() {
                         if (deltaVariableDeProducto("usoActualAnchoDeBanda", $usoEnDisco)) {
                             require_once 'modulos/cursos/vistas/tomarClaseAudio.php';
                         } else {
-                            setSessionMessage("<h4 class='error'>Ocurrió un error al cargar el video.</h4>");
+                            setSessionMessage("<h4 class='error'>Ocurrió un error al cargar el audio.</h4>");
                             redirect('/curso/' . $curso->uniqueUrl);
                         }
                     } else {
-                        setSessionMessage("<h4 class='error'>Este video aún se está transformando. Espera unos minutos</h4>");
+                        setSessionMessage("<h4 class='error'>Este archivo de audio aún se está transformando. Espera unos minutos</h4>");
                         redirect('/curso/' . $curso->uniqueUrl);
                     }
                     break;
