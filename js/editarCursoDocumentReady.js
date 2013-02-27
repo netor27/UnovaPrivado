@@ -166,20 +166,26 @@ $(function(){
     }; 
     $('.preguntarForm').ajaxForm(preguntaOptions);
     
+    $(".mensajeArrastrarContainer").popover({
+        trigger: 'hover',        
+        placement: 'top',
+        title: 'Ordenanos arrastrandonos con tu mouse',
+        content: 'Puedes arrastrarnos con el mouse para establecer el orden que tu quieras.'        
+    });
     
 });
 
 function makeSortable(num){
     var idTema = document.getElementById("idTema"+num).value;
-    $( "#sortable" + num ).sortable({
-        
+    $( "#sortable" + num ).sortable({        
         cursor: "move",
         placeholder: "ui-widget-header",
         forcePlaceholderSize: true,
         connectWith: ".connectedSortable",           
         update : function () {    
-            //alert("actualize " + num + " i ="+i);            
-            
+            //Eliminamos el popover
+            $(".mensajeArrastrarContainer").popover("destroy");
+            //alert("actualize " + num + " i ="+i);           
             serial = $('#sortable'+num).sortable('serialize');                 
             $.ajax({
                 url: "/cursos.php?c=ordenarClases&a=ordenar&idTema="+idTema,

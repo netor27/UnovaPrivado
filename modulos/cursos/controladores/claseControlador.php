@@ -1,5 +1,7 @@
 <?php
 
+//Al borrar una clase debemos de borrar tambien el/los archivo(s) 
+//que esten almacenados en el S3
 function borrarClase() {
     if (validarUsuarioLoggeadoParaSubmits()) {
         if (isset($_GET['i']) && isset($_GET['j'])) {
@@ -15,11 +17,11 @@ function borrarClase() {
                         echo "<div><h3 class='error'> Ocurrió un error al borrar la clase. Intenta de nuevo más tarde.</h3></div>";
                     } else {
                         //Si fue satisfactorio, borramos el archivo
-                        require_once 'funcionesPHP/funcionesParaArchivos.php';
-                        borrarArchivo($clase->archivo);
+                        require_once 'modulos/aws/modelos/s3Modelo.php';
+                        deleteFileFromS3ByUrl($clase->archivo);
                         if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
                             //si es video o audio borramos el archivo2
-                            borrarArchivo($clase->archivo2);
+                            deleteFileFromS3ByUrl($clase->archivo2);
                         }
                         echo "<div><h3 class='success'>Se borró la clase correctamente</h3></div>";
                     }

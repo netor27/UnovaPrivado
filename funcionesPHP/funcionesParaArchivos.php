@@ -41,13 +41,4 @@ function fsize($file) {
     return ((float) ($i) * (PHP_INT_MAX + 1)) + $fmod;
 }
 
-function borrarArchivo($fileName) {
-    if (!unlink($fileName)) {
-        //no se borró el archivo
-        //Se guarda como pendiente de borrar.
-        require_once 'modulos/principal/modelos/variablesDeProductoModelo.php';
-        agregarArchivoPendientePorBorrar($fileName);
-    }
-}
-
 ?>

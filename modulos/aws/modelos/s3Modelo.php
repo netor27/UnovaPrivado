@@ -128,13 +128,15 @@ function deleteFileFromS3($key) {
         ));
         return true;
     } catch (Exception $e) {
-        echo 'No se borro el archivo ' . $bucket . "/" . $key;
+        //echo 'No se borro el archivo ' . $bucket . "/" . $key;
+        require_once 'modulos/principal/modelos/variablesDeProductoModelo.php';
+        agregarArchivoPendientePorBorrar($bucket . "/" . $key);
         return false;
     }
 }
 
 function deleteFileFromS3ByUrl($url) {
-    $prefijo = getPrefijoLink();    
+    $prefijo = getPrefijoLink();
     $url = str_ireplace($prefijo, "", $url);
     list($bucket, $key) = explode("/", $url, 2);
     return deleteFileFromS3($key);

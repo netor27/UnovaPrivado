@@ -91,26 +91,17 @@ require_once('layout/headers/headCierre.php');
             <?php
             if (isset($temas)) {
                 ?>
-                <div class="row-fluid">
-                    <div class="span5">
-                        <h4>
-                            <strong>
-                                Arrastra y suelta las clases para ordenarlas
-                            </strong>
-                        </h4>
+                <div class="row-fluid" style="margin-bottom:10px;">
+                    <div class="span3 offset9">
+                        <a href="/temas/tema/agregarTema/<?php echo $cursoParaModificar->idCurso; ?>" class="btn span12">
+                            <i class="icon icon-plus"></i>
+                            Agregar un tema
+                        </a>
                     </div>
-                    <div class="span4">
-                        <a href="/cursos/curso/agregarContenido/<?php echo $cursoParaModificar->idCurso; ?>" class="btn btn-large btn-primary" id="agregarContenido"> Agregar contenido</a>
-                    </div>
-                    <div class="span3">
-                        <a href="/temas/tema/agregarTema/<?php echo $cursoParaModificar->idCurso; ?>" class="btn">Agregar un tema</a>
-                    </div>
-                </div>
-                <div class="row-fluid">
-                    <div class="span3"></div>
-                </div>
+                </div>                
                 <input type="hidden" name="numTemas" id="numTemas" value="<?php echo sizeof($temas); ?>" />
                 <?php
+                $banderaMensaje = false;
                 for ($i = 0; $i < sizeof($temas); $i++) {
                     ?>
                     <div class="temaContainer" >
@@ -144,12 +135,18 @@ require_once('layout/headers/headCierre.php');
                             <?php
                             for ($j = 0; $j < sizeof($clases); $j++) {
                                 if ($clases[$j]->idTema == $temas[$i]->idTema) {
-                                    ?>
-                                    <li id="clase_<?php echo $clases[$j]->idClase; ?>"  class="ui-state-default claseContainer">
-                                        <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+                                    if (!$banderaMensaje) {
+                                        $banderaMensaje = true;
+                                        echo '<li id="clase_' . $clases[$j]->idClase . '"  class="ui-state-default claseContainer mensajeArrastrarContainer">';
+                                    } else {
+                                        ?>
+                                        <li id="clase_<?php echo $clases[$j]->idClase; ?>"  class="ui-state-default claseContainer">
+                                            <?php
+                                        }
+                                        ?>
                                         <div class="claseSortableContainer">
                                             <div class="left">                                            
-                                                <img class="left" src="<?php echo getImagenTipoClase($clases[$j]->idTipoClase);?>">
+                                                <img class="left" id="iconClase" src="<?php echo getImagenTipoClase($clases[$j]->idTipoClase); ?>">
                                                 <a href="/curso/<?php echo $cursoParaModificar->uniqueUrl . "/" . $clases[$j]->idClase; ?>">
                                                     <div class="left claseNombre">
                                                         <?php

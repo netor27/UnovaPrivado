@@ -223,6 +223,7 @@ function getTotalDiscoUtilizado() {
     return $count;
 }
 
+//Esta función borra todas las clases que pertenecen a un usuario y los archivos en el S3 de Amazon
 function borrarClasesConArchivosDeUsuario($idUsuario) {
     require_once 'bd/conex.php';
     global $conex;
@@ -246,13 +247,11 @@ function borrarClasesConArchivosDeUsuario($idUsuario) {
         $clase->idClase = $row['idClase'];
         $clase->transformado = $row['transformado'];
         if ($clase->transformado == 1) {
-            $fileName = $clase->archivo;
-            require_once 'funcionesPHP/funcionesParaArchivos.php';
-            borrarArchivo($fileName);
+            require_once 'modulos/aws/modelos/s3Modelo.php';
+            deleteFileFromS3ByUrl($clase->archivo);
             if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
                 //si es video o audio borramos el archivo2
-                $fileName = $clase->archivo2;
-                borrarArchivo($fileName);
+                deleteFileFromS3ByUrl($clase->archivo2);
             }
             if (bajaClase($clase->idClase) == 0) {
                 $todoOk = false;
@@ -268,6 +267,7 @@ function borrarClasesConArchivosDeUsuario($idUsuario) {
         "error" => $error);
 }
 
+//Esta funcion borra todas las clases de un curso, incluyendo sus archivos en el S3 de Amazon
 function borrarClasesConArchivosDeCurso($idCurso) {
     require_once 'bd/conex.php';
     global $conex;
@@ -290,13 +290,11 @@ function borrarClasesConArchivosDeCurso($idCurso) {
         $clase->idClase = $row['idClase'];
         $clase->transformado = $row['transformado'];
         if ($clase->transformado == 1) {
-            require_once 'funcionesPHP/funcionesParaArchivos.php';
-            $fileName = $clase->archivo;
-            borrarArchivo($fileName);
+            require_once 'modulos/aws/modelos/s3Modelo.php';
+            deleteFileFromS3ByUrl($clase->archivo);
             if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
                 //si es video borramos el archivo2
-                $fileName = $clase->archivo2;
-                borrarArchivo($fileName);
+                deleteFileFromS3ByUrl($clase->archivo2);
             }
             if (bajaClase($clase->idClase) == 0) {
                 $todoOk = false;
@@ -320,7 +318,7 @@ function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType
     $filePath = getServerRoot() . "/archivos/temporal/uploaderFiles/";
     $res = array();
     //Validamos que el curso sea del usuario y que el tema sea del curso        
-    if (getIdUsuarioDeCurso($idCurso) == $idUsuario && $idCurso == getIdCursoPerteneciente($idTema)) {        
+    if (getIdUsuarioDeCurso($idCurso) == $idUsuario && $idCurso == getIdCursoPerteneciente($idTema)) {
         //Guardamos el nombre original del archivo para establecerlo como titulo
         $pathInfo = pathinfo($filePath . $fileName);
         $titulo = $pathInfo['filename'];
@@ -421,7 +419,7 @@ function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType
         unlink($filePath . $fileName);
         $res['resultado'] = false;
         $res['mensaje'] = "No tienes permisos para modificar este curso";
-    }    
+    }
     return $res;
 }
 
