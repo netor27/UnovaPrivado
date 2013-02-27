@@ -46,13 +46,13 @@ function borrar() {
             $idGrupo = $_GET['ig'];
             $pagina = $_GET['pagina'];
             if(bajaGrupo($idGrupo)){
-                setSessionMessage("<h4 class='success'>Se eliminó correctamente el grupo</h4>");
+                setSessionMessage("Se eliminó correctamente el grupo"," ¡Bien! ", "success");
             }else{
-                setSessionMessage("<h4 class='error'>Ocurrió un error al borrar el grupo. Intenta de nuevo más tarde</h4>");
+                setSessionMessage("Ocurrió un error al borrar el grupo. Intenta de nuevo más tarde"," ¡Error! ", "error");
             }
             redirect("/grupos&p=".$pagina);
         } else {
-            setSessionMessage("<h4 class='error'>Datos no validos</h4>");
+            setSessionMessage("Datos no validos"," ¡Error! ", "error");
             redirect("/grupos");
         }
     } else {
@@ -69,7 +69,7 @@ function modificar() {
             $grupo = getGrupo($idGrupo);
             require_once('modulos/grupos/vistas/formaGrupo.php');
         } else {
-            setSessionMessage("<h4 class='error'>Datos no validos</h4>");
+            setSessionMessage("Datos no validos"," ¡Error! ", "error");
             redirect("/grupos");
         }
     } else {
@@ -89,22 +89,22 @@ function grupoSubmit() {
             switch ($tipo) {
                 case 'alta':
                     if (altaGrupo($grupo) >= 0) {
-                        setSessionMessage("<h4 class='success'>Se dió de alta un grupo correctamente</h4>");
+                        setSessionMessage("Se dió de alta un grupo correctamente"," ¡Bien! ", "success");
                     } else {
-                        setSessionMessage("<h4 class='error'>Ocurrió un error al dar de alta el grupo. Intenta de nuevo más tarde</h4>");
+                        setSessionMessage("Ocurrió un error al dar de alta el grupo. Intenta de nuevo más tarde"," ¡Error! ", "error");
                     }
                     break;
                 case 'edita':
                     $grupo->idGrupo = $_POST['idGrupo'];
                     if (modificaGrupo($grupo)) {
-                        setSessionMessage("<h4 class='success'>Se modificó correctamente el grupo</h4>");
+                        setSessionMessage("Se modificó correctamente el grupo"," ¡Bien! ", "success");
                     } else {
-                        setSessionMessage("<h4 class='error'>Ocurrió un error al modificar el grupo. Intenta de nuevo más tarde</h4>");
+                        setSessionMessage("Ocurrió un error al modificar el grupo. Intenta de nuevo más tarde"," ¡Error! ", "error");
                     }
                     break;
             }
         } else {
-            setSessionMessage("<h4 class='error'>Datos no válidos</h4>");
+            setSessionMessage("Datos no válidos"," ¡Error! ", "error");
         }
         redirect("/grupos");
     } else {

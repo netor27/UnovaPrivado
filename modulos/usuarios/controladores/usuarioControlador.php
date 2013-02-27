@@ -75,12 +75,12 @@ function listarUsuarios($tipo) {
 function detalles() {
     $uniqueUrl = $_GET['i'];
     $backUrl = null;
-    if(isset($_GET['b'])){
+    if (isset($_GET['b'])) {
         $backUrl = $_GET['b'];
-        if(isset($_GET['p'])){
+        if (isset($_GET['p'])) {
             $backUrl = $backUrl . '&p=' . $_GET['p'];
         }
-    }    
+    }
     require_once 'modulos/usuarios/modelos/usuarioModelo.php';
     //$usuarioPerfil = getUsuario($idUsuario);
     $usuarioPerfil = getUsuarioFromUniqueUrl($uniqueUrl);
@@ -102,7 +102,7 @@ function detalles() {
         $numCursos = getNumeroCursosCreados($usuarioPerfil->idUsuario);
         require_once 'modulos/usuarios/vistas/perfil.php';
     } else {
-        setSessionMessage("<h4 class='error'>¡El usuario no existe!</h4>");
+        setSessionMessage("El usuario no existe", " ¡Error! ", "error");
         redirect("/");
     }
 }
@@ -134,7 +134,7 @@ function editarInformacionSubmit() {
         }
         if (actualizaInformacionUsuario($usuarioParaEditar)) {
 
-            setSessionMessage("<h4 class='success'>Se actualizó tu información de perfil</h4>");
+            setSessionMessage("Se actualizó tu información de perfil", " ¡Bien! ", "success");
             redirect("/usuario/" . $usuarioParaEditar->uniqueUrl);
         } else {
             $error = "Ocurrió un error al actualizar tu información. <br>Intenta de nuevo más tarde";
@@ -195,23 +195,23 @@ function cambiarImagenSubmit() {
                     if (actualizaAvatar($usuarioCambiar)) {
                         require_once 'funcionesPHP/CargarInformacionSession.php';
                         cargarUsuarioSession();
-                        setSessionMessage("<h4 class='success'>Haz cambiado tu imagen correctamente. Espera unos minutos para ver el cambio</h4>");
+                        setSessionMessage("Haz cambiado tu imagen correctamente. Espera unos minutos para ver el cambio", " ¡Bien! ", "success");
                         redirect("/usuario/" . $usuarioCambiar->uniqueUrl);
                     } else {
                         //error en bd
-                        setSessionMessage("<h4 class='error'>Error al actualizar la base de datos</h4>");
+                        setSessionMessage("Error al actualizar la base de datos", " ¡Error! ", "error");
                         redirect("/usuarios/usuario/cambiarImagen");
                     }
                 } else {
                     //Error al hacer el crop
                     //borramos la imagen temporal
                     unlink($file);
-                    setSessionMessage("<h4 class='error'>Ocurrió un error al procesar tu imagen. Intenta de nuevo más tarde</h4>");
+                    setSessionMessage("Ocurrió un error al procesar tu imagen. Intenta de nuevo más tarde", " ¡Error! ", "error");
                     redirect("/usuarios/usuario/cambiarImagen");
                 }
             } else {
                 //El archivo no es válido o es demasiado grande
-                setSessionMessage("<h4 class='error'>No es una imagen válida. El tamaño máximo es de 10MB</h4>");
+                setSessionMessage("No es una imagen válida. El tamaño máximo es de 10MB", " ¡Error! ", "error");
                 redirect("/usuarios/usuario/cambiarImagen");
             }
         }
@@ -238,7 +238,7 @@ function cambiarPasswordSubmit() {
                 if (strlen($pass1) >= 5 && strlen($pass1) >= 5 && $pass1 == $pass2) {
                     $usuario->password = md5($pass1);
                     actualizaPassword($usuario);
-                    setSessionMessage("<h4 class='success'>Se cambió correctamente tu contraseña</h4>");
+                    setSessionMessage("Se cambió correctamente tu contraseña", " ¡Bien! ", "success");
                     redirect("/usuario/" . $usuario->uniqueUrl);
                 } else {
                     $msgForma = "La contraseña no es válida";
@@ -273,9 +273,9 @@ function recuperarPasswordSubmit() {
             //Enviar el mail //
             require_once 'modulos/email/modelos/envioEmailModelo.php';
             enviarMailOlvidePassword($email, $link);
-            setSessionMessage("<h4 class='info'>Te hemos enviado un correo electrónico para que reestablescas tu contraseña.</h4>");
+            setSessionMessage("Te hemos enviado un correo electrónico para que reestablescas tu contraseña.", "", "info");
         } else {
-            setSessionMessage("<h4 class='error'>No tenemos registrado este correo electrónico.</h4>");
+            setSessionMessage("No tenemos registrado este correo electrónico.", " ¡Espera! ", "error");
         }
     }
     goToIndex();
@@ -300,7 +300,7 @@ function reestablecerPasswordSubmit() {
 
                     require_once 'modulos/principal/modelos/loginModelo.php';
                     loginUsuario($usuario->email, $usuario->password, false);
-                    setSessionMessage("<h4 class='success'>¡Se guardó tu nueva contraseña!</h4>");
+                    setSessionMessage("Se guardó tu nueva contraseña", " ¡Bien! ", "success");
                     goToIndex();
                 } else {
                     $msgForma = "Ocurrió un error al cambiar tu contraseña. Intenta de nuevo más tarde.";
@@ -315,7 +315,7 @@ function reestablecerPasswordSubmit() {
             require_once 'modulos/usuarios/vistas/reestablecerPassword.php';
         }
     } else {
-        setSessionMessage("Datos no válidos");
+        setSessionMessage("Datos no válidos", " ¡Error! ", "error");
         goToIndex();
     }
 }
@@ -325,11 +325,11 @@ function confirmarCuenta() {
     require_once 'modulos/usuarios/modelos/usuarioModelo.php';
     $idUsuario = getIdUsuarioFromUuid($uuid);
     if (setActivado($idUsuario, 1)) {
-        setSessionMessage("<h4 class='success'>Tu cuenta ha sido confirmada. ¡Gracias!</h4>");
+        setSessionMessage("Tu cuenta ha sido confirmada. ¡Gracias!", " ¡Bien! ", "success");
         require_once 'funcionesPHP/CargarInformacionSession.php';
         cargarUsuarioSession();
     } else {
-        setSessionMessage("<h4 class='error'>Ocurrió un error al confirmar tu cuenta. Intenta de nuevo más tarde</h4>");
+        setSessionMessage("Ocurrió un error al confirmar tu cuenta. Intenta de nuevo más tarde", " ¡Error! ", "error");
     }
     goToIndex();
 }
@@ -340,10 +340,10 @@ function enviarCorreoConfirmacion() {
         require_once 'modulos/email/modelos/envioEmailModelo.php';
         $urlConfirmacion = getDomainName() . "/usuarios/usuario/confirmarCuenta/" . $usuario->uuid;
         enviarMailConfirmacion($usuario->email, $urlConfirmacion);
-        setSessionMessage("<h4 class='success'>Te hemos enviado un correo de confirmación</h4>");
+        setSessionMessage("Te hemos enviado un correo de confirmación", "", "info");
         redirect("/usuario/" . $usuario->uniqueUrl);
     } else {
-        setSessionMessage("<h4 class='error'>Ocurrió un error, intentalo más tarde</h4>");
+        setSessionMessage("Ocurrió un error, intentalo más tarde", " ¡Error! ", "error");
         goToIndex();
     }
 }
@@ -370,22 +370,22 @@ function eliminar() {
                 if ($res['res']) {
                     require_once 'modulos/usuarios/modelos/usuarioModelo.php';
                     if (eliminarUsuario($idUsuario) > 0) {
-                        setSessionMessage("<h4 class='success'>Se eliminó correctamente el usuario</h4>");
+                        setSessionMessage("Se eliminó correctamente el usuario", " ¡Bien! ", "success");
                     } else {
-                        setSessionMessage("<h4 class='error'>Ocurrió un error al eliminar al usuario</h4>");
+                        setSessionMessage("Ocurrió un error al eliminar al usuario", " ¡Error! ", "error");
                     }
                 } else {
-                    setSessionMessage("<h4 class='error'>" . $res['error'] . "</h4>");
+                    setSessionMessage($res['error'], " ¡Error! ", "error");
                 }
             } else {
-                setSessionMessage("<h4 class='error'>No puedes borrar tu propio usuario</h4>");
+                setSessionMessage("No puedes borrar tu propio usuario", " ¡Error! ", "error");
             }
         } else {
-            setSessionMessage("<h4 class='error'>Datos no válidos</h4>");
+            setSessionMessage("Datos no válidos", " ¡Error! ", "error");
         }
         redirect("/" . $tipo . "&p=" . $pagina);
     } else {
-        setSessionMessage("<h4 class='error'>usuario no valido</h4>");
+        setSessionMessage("usuario no valido", " ¡Error! ", "error");
         goToIndex();
     }
 }
@@ -483,7 +483,7 @@ function altaUsuariosSubmit() {
             }
             require_once 'modulos/usuarios/vistas/resultadoDeAltaUsuarios.php';
         } else {
-            setSessionMessage("<h4 class='error'>Datos no válidos</h4>");
+            setSessionMessage("Datos no válidos"," ¡Error! ", "error");
             goToIndex();
         }
     } else {
@@ -574,19 +574,19 @@ function altaUsuariosArchivoCsvSubmit() {
                         print_r($csv);
                         fclose($handle);
                     } else {
-                        setSessionMessage("<h4 class='error'>Ocurrió un error al procesar tu archivo. Intenta de nuevo más tarde</h4>");
+                        setSessionMessage("Ocurrió un error al procesar tu archivo. Intenta de nuevo más tarde"," ¡Error! ", "error");
                         redirect("/alumnos/usuario/altaAlumnos");
                     }
                 } else {
-                    setSessionMessage("<h4 class='error'>No es un archivo .csv</h4>");
+                    setSessionMessage("No es un archivo .csv"," ¡Espera! ", "error");
                     redirect("/alumnos/usuario/altaAlumnos");
                 }
             } else {
-                setSessionMessage("<h4 class='error'>Archivo no válido</h4>");
+                setSessionMessage("Archivo no válido"," ¡Espera! ", "error");
                 redirect("/alumnos/usuario/altaAlumnos");
             }
         } else {
-            setSessionMessage("<h4 class='error'>Archivo no válido</h4>");
+            setSessionMessage("Archivo no válido"," ¡Error! ", "error");
             redirect("/alumnos/usuario/altaAlumnos");
         }
     }

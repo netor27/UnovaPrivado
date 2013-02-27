@@ -31,10 +31,7 @@ if (validarUniqueSession()) {
     else
         $modulo = $moduloPredefinido;
 } else {
-    global $msg;
-    session_start();
     guardarTipoLayout();
-    setSessionMessage($msg);
     //si no es una sesión válida mandarlo a index en cualquier caso
     $modulo = "principal";
     $controlador = "principal";

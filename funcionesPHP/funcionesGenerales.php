@@ -11,7 +11,7 @@ function getUrl() {
     return $protocol . "://" . $_SERVER['SERVER_NAME'] . $port . $_SERVER['REQUEST_URI'];
 }
 
-function getDomainName(){
+function getDomainName() {
     return $_SERVER['HTTP_HOST'];
 }
 
@@ -19,7 +19,7 @@ function getRequestUri() {
     return $_SERVER['REQUEST_URI'];
 }
 
-function getServerRoot(){
+function getServerRoot() {
     return $_SERVER["DOCUMENT_ROOT"];
 }
 
@@ -97,8 +97,9 @@ function validarUniqueSession() {
             unset($_COOKIE['clvcookiePrv']);
             setcookie("usrcookiePrv", "logout", 1, '/');
             setcookie("clvcookiePrv", "logout", 1, '/');
-            global $msg;
-            $msg = "<h4 class='error'>Alguien utilizó tus datos para iniciar sesión. Te recomendamos iniciar sesión y cambiar tu contraseña </h4>";
+            $message = "Alguien utilizó tus datos para iniciar sesión. Te recomendamos iniciar sesión y cambiar tu contraseña.";
+            session_start();
+            setSessionMessage($message, "¡Error!", "error");
             return false;
         }
     } else {
@@ -194,18 +195,36 @@ function transformaMysqlDateDDMMAAAAConHora($date) {
     return date('d/m/Y -- h:i a', $time);
 }
 
-function getUniqueCode($length = 32) {    
+function getUniqueCode($length = 32) {
     $code = md5(uniqid(rand(), true));
     if ($length > 32) {
-        while (strlen($code) < $length) {            
+        while (strlen($code) < $length) {
             $code = $code . md5(uniqid(rand(), true));
         }
     }
     return substr($code, 0, $length);
 }
 
-function setSessionMessage($message) {
-    $_SESSION['sessionMessage'] = $message;
+function setSessionMessage($message, $title = "", $type = "") {
+    $class = "alert";
+    switch ($type) {
+        case 'error':
+            $class .= " alert-error";
+            break;
+        case 'success':
+            $class .= " alert-success";
+            break;
+        case 'info':
+            $class .= " alert-info";
+            break;
+    }
+    $aux = '<div class="' . $class . ' alert-block">';
+    $aux .= '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+    if (isset($title)) {
+        $aux .= '<strong> ' . $title . ' </strong> ';
+    }
+    $aux .= $message . '</div>';
+    $_SESSION['sessionMessage'] = $aux;
 }
 
 function getSessionMessage() {

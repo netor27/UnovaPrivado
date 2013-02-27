@@ -28,7 +28,7 @@ function asignados() {
                 $maxPagina = ceil($numGrupos / $numRows);
                 require_once 'modulos/grupos/vistas/cursosAsignadosAlGrupo.php';
             } else {
-                setSessionMessage("<h4 class='error'>Ocurrió un error</h4>");
+                setSessionMessage("Ocurrió un error"," ¡Error! ", "error");
                 goToIndex();
             }
         } else {
@@ -50,7 +50,7 @@ function gruposDelCurso() {
             $grupos = getTodosLosGrupos();
             require_once 'modulos/grupos/vistas/asignarGrupoCurso.php';
         } else {
-            setSessionMessage("<h4 class='error'>Curso no válido</h4>");
+            setSessionMessage("Curso no válido"," ¡Error! ", "error");
             redirect("/grupos");
         }
     } else {
@@ -94,14 +94,14 @@ function eliminarGrupoDeCurso() {
             $idGrupo = intval($_GET['ig']);
             require_once 'modulos/grupos/modelos/grupoModelo.php';
             if (quitarGrupoDelCurso($idGrupo, $idCurso)) {
-                setSessionMessage("<h4 class='success'> Se quitó al grupo del curso correctamente</h4>");
+                setSessionMessage("Se quitó al grupo del curso correctamente"," ¡Bien! ", "success");
             } else {
-                setSessionMessage("<h4 class='error'>Ocurrió un error al quitar al grupo</h4>");
+                setSessionMessage("Ocurrió un error al quitar al grupo"," ¡Error! ", "error");
             }
 
             redirect("/grupos/cursos/asignados/" . $idCurso . "&p=" . $pagina);
         } else {
-            setSessionMessage("<h4 class='error'>Datos no válidos</h4>");
+            setSessionMessage("Datos no válidos"," ¡Error! ", "error");
             redirect("/");
         }
     } else {

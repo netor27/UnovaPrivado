@@ -24,7 +24,7 @@ function inscritos() {
                 require_once 'modulos/grupos/vistas/usuariosDelGrupo.php';
             }
         } else {
-            setSessionMessage("<h4 class='error'>Grupo no válido</h4>");
+            setSessionMessage("Grupo no válido"," ¡Error! ", "error");
             redirect("/grupos");
         }
     } else {
@@ -43,7 +43,7 @@ function usuariosDelGrupo() {
             $usuarios = getUsuarios();
             require_once 'modulos/grupos/vistas/asignarUsuarioGrupo.php';
         } else {
-            setSessionMessage("<h4 class='error'>Grupo no válido</h4>");
+            setSessionMessage("Grupo no válido"," ¡Error! ", "error");
             redirect("/grupos");
         }
     } else {
@@ -88,13 +88,13 @@ function eliminarInscripcion() {
             $idUsuario = intval($_GET['iu']);
             require_once 'modulos/grupos/modelos/grupoModelo.php';
             if (quitarUsuarioDelGrupo($idUsuario, $idGrupo)) {
-                setSessionMessage("<h4 class='success'> Se quitó al usuario del grupo correctamente</h4>");
+                setSessionMessage("Se quitó al usuario del grupo correctamente"," ¡Bien! ", "success");
             } else {
-                setSessionMessage("<h4 class='error'>Ocurrió un error al quitar al usuario</h4>");
+                setSessionMessage("Ocurrió un error al quitar al usuario"," ¡Error! ", "error");
             }
             redirect("/grupos/usuarios/inscritos/" . $idGrupo . "&p=" . $pagina);
         } else {
-            setSessionMessage("<h4 class='error'>Datos no válidos</h4>");
+            setSessionMessage("Datos no válidos"," ¡Error! ", "error");
             redirect("/");
         }
     } else {

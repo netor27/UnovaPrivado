@@ -52,11 +52,11 @@ function editarClase() {
                 $curso = getCurso($idCurso);
                 require_once 'modulos/cursos/vistas/editarClase.php';
             } else {
-                setSessionMessage('<h4 class="error">No puedes modificar esta clase</h4>');
+                setSessionMessage('No puedes modificar esta clase'," ¡Espera! ","error");
                 redirect("/");
             }
         } else {
-            setSessionMessage('<h4 class="error">Los datos enviados no son correctos</h4>');
+            setSessionMessage('Los datos enviados no son correctos'," ¡Error! ","error");
             redirect("/");
         }
     }
@@ -89,23 +89,23 @@ function editarClaseSubmit() {
                     $clase->idClase = $idClase;
 
                     if (actualizaInformacionClase($clase)) {
-                        setSessionMessage("<h4 class='success'>Se modificó correctamente la clase </h4>");
+                        setSessionMessage("Se modificó correctamente la clase"," ¡Bien! ","success");
                         redirect("/curso/" . $curso->uniqueUrl);
                     } else {
                         //Error al insertar                    
-                        setSessionMessage('<h4 class="error">Ocurrió un error al editar la clase. Intenta de nuevo más tarde</h4>');
+                        setSessionMessage('Ocurrió un error al editar la clase. Intenta de nuevo más tarde'," ¡Error! ", "error");
                         redirect("/clases/clase/editarClase/" . $idCurso . "/" . $idClase);
                     }
                 } else {
-                    setSessionMessage('<h4 class="error">Los valores que introduciste no son válidos</h4>');
+                    setSessionMessage('Los valores que introduciste no son válidos'," ¡Error! ", "error");
                     redirect("/clases/clase/editarClase/" . $idCurso . "/" . $idClase);
                 }
             } else {
-                setSessionMessage('<h4 class="error">No puedes modificar esta clase</h4>');
+                setSessionMessage('No puedes modificar esta clase'," ¡Error! ", "error");
                 redirect("/");
             }
         } else {
-            setSessionMessage('<h4 class="error">Los valores que introduciste no son válidos</h4>');
+            setSessionMessage('Los valores que introduciste no son válidos'," ¡Error! ", "error");
             redirect("/clases/clase/editarClase/" . $idCurso . "/" . $idClase);
         }
     } else {
@@ -155,11 +155,11 @@ function tomarClase() {
                         if (deltaVariableDeProducto("usoActualAnchoDeBanda", $usoEnDisco)) {
                             require_once 'modulos/cursos/vistas/tomarClaseVideo.php';
                         } else {
-                            setSessionMessage("<h4 class='error'>Ocurrió un error al cargar el video.</h4>");
+                            setSessionMessage("Ocurrió un error al cargar el video."," ¡Error! ", "error");
                             redirect('/curso/' . $curso->uniqueUrl);
                         }
                     } else {
-                        setSessionMessage("<h4 class='error'>Este archivo de video aún se está transformando. Espera unos minutos</h4>");
+                        setSessionMessage("Este archivo de video aún se está transformando. Espera unos minutos"," ¡Espera! ", "error");
                         redirect('/curso/' . $curso->uniqueUrl);
                     }
                     break;
@@ -171,7 +171,7 @@ function tomarClase() {
                     if (deltaVariableDeProducto("usoActualAnchoDeBanda", $usoEnDisco)) {
                         require_once 'modulos/cursos/vistas/tomarClase.php';
                     } else {
-                        setSessionMessage("<h4 class='error'>Ocurrió un error al cargar el archivo.</h4>");
+                        setSessionMessage("Ocurrió un error al cargar el archivo."," ¡Error! ", "error");
                         redirect('/curso/' . $curso->uniqueUrl);
                     }
                     break;
@@ -190,21 +190,21 @@ function tomarClase() {
                         if (deltaVariableDeProducto("usoActualAnchoDeBanda", $usoEnDisco)) {
                             require_once 'modulos/cursos/vistas/tomarClaseAudio.php';
                         } else {
-                            setSessionMessage("<h4 class='error'>Ocurrió un error al cargar el audio.</h4>");
+                            setSessionMessage("Ocurrió un error al cargar el audio."," ¡Espera! ", "error");
                             redirect('/curso/' . $curso->uniqueUrl);
                         }
                     } else {
-                        setSessionMessage("<h4 class='error'>Este archivo de audio aún se está transformando. Espera unos minutos</h4>");
+                        setSessionMessage("Este archivo de audio aún se está transformando. Espera unos minutos"," ¡Espera! ", "error");
                         redirect('/curso/' . $curso->uniqueUrl);
                     }
                     break;
             }
         } else {
-            setSessionMessage("<h4 class='error'>No puedes tomar esa clase, no tienens suscripción en ese curso</h4>");
+            setSessionMessage("No puedes tomar esa clase, no tienens suscripción en ese curso"," ¡Error! ", "error");
             redirect("/");
         }
     } else {
-        setSessionMessage("<h4 class='error'>Ocurrió un error al mostrar el curso. Intenta de nuevo más tarde</h4>");
+        setSessionMessage("Ocurrió un error al mostrar el curso. Intenta de nuevo más tarde"," ¡Error! ", "error");
         redirect("/");
     }
 }
@@ -236,23 +236,23 @@ function editor() {
                             }
                             require_once 'modulos/editorPopcorn/vistas/editorPopcorn.php';
                         } else {
-                            setSessionMessage("<h4 class='error'>Ocurrió un error al cargar el video.</h4>");
+                            setSessionMessage("Ocurrió un error al cargar el video."," ¡Error! ", "error");
                             redirect('/curso/' . $curso->uniqueUrl);
                         }
                     } else {
-                        setSessionMessage("<h4 class='error'>No se puede editar este tipo de clase.</h4>");
+                        setSessionMessage("No se puede editar este tipo de clase."," ¡Error! ", "error");
                         redirect('/curso/' . $curso->uniqueUrl);
                     }
                 } else {
-                    setSessionMessage("<h4 class='error'>No se puede editar hasta que se termine de transformar. Espera un poco</h4>");
+                    setSessionMessage("No se puede editar hasta que se termine de transformar."," ¡Espera un poco! ", "error");
                     redirect('/curso/' . $curso->uniqueUrl);
                 }
             } else {
-                setSessionMessage('<h4 class="error">No puedes modificar esta clase</h4>');
+                setSessionMessage('No puedes modificar esta clase'," ¡Error! ", "error");
                 redirect("/");
             }
         } else {
-            setSessionMessage('<h4 class="error">Los datos enviados no son correctos</h4>');
+            setSessionMessage('Los datos enviados no son correctos'," ¡Error! ", "error");
             redirect("/");
         }
     }

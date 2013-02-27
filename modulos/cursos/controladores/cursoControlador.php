@@ -69,7 +69,7 @@ function crearCursoSubmit() {
                 if ($id >= 0) {
                     $curso->idCurso = $id;
                     $url = "/curso/" . $curso->uniqueUrl;
-                    setSessionMessage("<h4 class='success'>¡Haz creado un curso!</h4>");
+                    setSessionMessage("Haz creado un curso"," ¡Bien! ", "success");
                     redirect($url);
                 } else {
                     $msgForma = "Ya existe un curso con ese nombre. Escoje otro nombre";
@@ -103,7 +103,7 @@ function detalles() {
 
     if (is_null($curso)) {
         //si el curso no existe mandarlo a index
-        setSessionMessage("<h4 class='error'>El curso que intentas ver no existe</h4>");
+        setSessionMessage("El curso que intentas ver no existe"," ¡Error! ", "error");
         redirect("/");
     } else {
         $usuario = getUsuarioActual();
@@ -119,7 +119,7 @@ function detalles() {
                 tomarCurso($curso, $usuario, $esAlumno, $backUrl);
             } else {
                 //No esta suscrito al curso, mostramos el error               
-                setSessionMessage("<h4 class='error'>Lo sentimos, no estas inscrito a este curso.</h4>");
+                setSessionMessage("Lo sentimos, no estas inscrito a este curso."," ¡Error! ", "error");
                 goToIndex();
             }
         }
@@ -210,25 +210,25 @@ function editarInformacionCursoSubmit() {
                     if (actualizaInformacionCurso($curso)) {
                         require_once 'funcionesPHP/CargarInformacionSession.php';
                         cargarCursosSession();
-                        setSessionMessage("<h4 class='success'>Se modificó correctamente la información del curso.</h4>");
+                        setSessionMessage("Se modificó correctamente la información del curso."," ¡Bien! ", "success");
                     } else {
-                        setSessionMessage("<h4 class='error'>Currió un error al modificar el curso. Intenta de nuevo más tarde.</h4>");
+                        setSessionMessage("Ocurrió un error al modificar el curso. Intenta de nuevo más tarde."," ¡Error! ", "error");
                     }
                     redirect("/curso/" . $curso->uniqueUrl);
                 } else {
                     //Este curso no le pertenece a esta persona, no lo puede modificar.
                     //Reenviar a index.                
-                    setSessionMessage("<h4 class='error'>No puedes modificar este curso</h4>");
+                    setSessionMessage("No puedes modificar este curso"," ¡Espera! ", "error");
                     goToIndex();
                 }
             } else {
                 //Datos no validos
-                setSessionMessage("<h4 class='error'>Los datos enviados no son correctos</h4>");
+                setSessionMessage("Los datos enviados no son correctos"," ¡Error! ", "error");
                 redirect("/cursos/curso/editarInformacionCurso/" . $idCurso);
             }
         } else {
             //no hay datos en post
-            setSessionMessage("<h4 class='error'>Los datos enviados no son correctos</h4>");
+            setSessionMessage("Los datos enviados no son correctos"," ¡Error! ", "error");
             redirect("/");
         }
     } else {
@@ -358,7 +358,7 @@ function cambiarImagen() {
         if ($cursoParaModificar->idUsuario == getUsuarioActual()->idUsuario) {
             require_once 'modulos/cursos/vistas/editarImagen.php';
         } else {
-            setSessionMessage("<h4 class='error'>No puedes modificar este curso.</h4>");
+            setSessionMessage("No puedes modificar este curso."," ¡Espera! ", "error");
             goToIndex();
         }
     }
@@ -405,31 +405,31 @@ function cambiarImagenSubmit() {
                         if (actualizaImagenCurso($cursoParaModificar)) {
                             require_once 'funcionesPHP/CargarInformacionSession.php';
                             cargarCursosSession();
-                            setSessionMessage("<h4 class='success'>Cambiaste correctamente tu imagen</h4>");
+                            setSessionMessage("Cambiaste correctamente tu imagen"," ¡Bien! ", "success");
                             redirect("/curso/" . $cursoParaModificar->uniqueUrl);
                         } else {
                             //error en bd
-                            setSessionMessage("<h4 class='error'>Error bd</h4>");
+                            setSessionMessage("Error BD"," ¡Error! ", "error");
                             redirect("/cursos/curso/cambiarImagen/" . $cursoParaModificar->idCurso);
                         }
                     } else {
                         //borramos la imagen temporal
                         unlink($file);
                         //No se pudo hacer el "crop" de la imagen
-                        setSessionMessage("<h4 class='error'>Ocurrió un error al procesar tu imagen. Intenta de nuevo más tarde</h4>");
+                        setSessionMessage("Ocurrió un error al procesar tu imagen. Intenta de nuevo más tarde"," ¡Error! ", "error");
                         redirect("/cursos/curso/cambiarImagen/" . $cursoParaModificar->idCurso);
                     }
                 } else {
                     //No es una imagen válida
-                    setSessionMessage("<h4 class='error'>No es una imagen válida</h4>");
+                    setSessionMessage("No es una imagen válida"," ¡Espera! ", "error");
                     redirect("/cursos/curso/cambiarImagen/" . $cursoParaModificar->idCurso);
                 }
             } else {
-                setSessionMessage("<h4 class='error'>No puedes modificar este curso</h4>");
+                setSessionMessage("No puedes modificar este curso"," ¡Espera! ", "error");
                 goToIndex();
             }
         } else {
-            setSessionMessage("<h4 class='error'>No es una imagen válida</h4>");
+            setSessionMessage("No es una imagen válida"," ¡Espera! ", "error");
             redirect("/cursos/curso/cambiarImagen/" . $cursoParaModificar->idCurso);
         }
     } else {
@@ -472,7 +472,7 @@ function agregarContenido() {
                     require_once 'modulos/cursos/vistas/agregarContenido.php';
                 } else {
                     //Ocurrió un error al dar de alta el tema
-                    setSessionMessage("<h3 class='error'>Ocurrió un error al dar de alta el tema</h4>");
+                    setSessionMessage("Ocurrió un error al dar de alta el tema"," ¡Error! ", "error");
                     redirect("/curso/" . $curso->uniqueUrl);
                 }
             } else {
@@ -556,7 +556,7 @@ function alumnos() {
                     require_once 'modulos/cursos/vistas/listaAlumnosDeCurso.php';
                 }
             } else {
-                setSessionMessage("<h4 class='error'>Ocurrió un error</h4>");
+                setSessionMessage("Los datos enviados no son válidos"," ¡Error! ", "error");
                 redirect("/cursos");
             }
         } else {
@@ -583,15 +583,15 @@ function eliminar() {
                 $res = borrarClasesConArchivosDeCurso($idCurso);
                 if ($res['res']) {
                     if (bajaCurso($idCurso) > 0) {
-                        setSessionMessage("<h4 class='success'>Se eliminó con éxito el curso</h4>");
+                        setSessionMessage("Se eliminó con éxito el curso"," ¡Bien! ", "success");
                     } else {
-                        setSessionMessage("<h4 class='error'>Ocurrió un error al eliminar</h4>");
+                        setSessionMessage("Ocurrió un error al eliminar"," ¡Error! ", "error");
                     }
                 } else {
-                    setSessionMessage("<h4 class='error'>" . $res['error'] . "</h4>");
+                    setSessionMessage($res['error']," ¡Error! ", "error");
                 }
             } else {
-                setSessionMessage("<h4 class='error'>Ocurrió un error</h4>");
+                setSessionMessage("Ocurrió un error"," ¡Error! ", "error");
             }
             redirect("/cursos");
         } else {

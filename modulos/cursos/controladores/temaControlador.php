@@ -38,7 +38,7 @@ function agregarTemaSubmit() {
                     $tema->nombre = $titulo;
                     $tema->idTema = altaTema($tema);
                     if ($tema->idTema >= 0) {
-                        setSessionMessage("<h4 class='success'>¡Se agregó un tema!</h4>");
+                        setSessionMessage("Se agregó un tema"," ¡Bien! ", "success");
                         redirect("/curso/" . $curso->uniqueUrl);
                     } else {
                         //Error al insertar
@@ -47,7 +47,7 @@ function agregarTemaSubmit() {
                     }
                 } else {
                     //El curso no pertenece al usuario
-                    setSessionMessage("<h4 class'error'>No puedes modificar este curso</h4>");
+                    setSessionMessage("No puedes modificar este curso"," ¡Espera! ", "error");
                     goToIndex();
                 }
             } else {
@@ -104,10 +104,10 @@ function editarTemaSubmit() {
                     $tema->nombre = $titulo;
                     $tema->idTema = $idTema;
                     if (actualizaTema($tema)) {
-                        setSessionMessage("<h4 class='success'>Se modificó el nombre del tema</h4>");
+                        setSessionMessage("Se modificó el nombre del tema"," ¡Bien! ", "success");
                         redirect("/curso/" . $curso->uniqueUrl);
                     } else {
-                        setSessionMessage("<h4 class='error'>Ocurrió un error al modificar el tema. Intenta de nuevo más tarde.</h4>");
+                        setSessionMessage("Ocurrió un error al modificar el tema. Intenta de nuevo más tarde."," ¡Error! ", "error");
                         redirect("/curso/" . $curso->uniqueUrl);
                     }
                 } else {
@@ -115,11 +115,11 @@ function editarTemaSubmit() {
                     require_once 'modulos/cursos/vistas/agregarTema.php';
                 }
             } else {
-                setSessionMessage("<h4 class='error'>No puedes modificar este curso</h4>");
+                setSessionMessage("No puedes modificar este curso"," ¡Error! ", "error");
                 goToIndex();
             }
         } else {
-            setSessionMessage("<h4 class='error'>Los datos enviados no son válidos</h4>");
+            setSessionMessage("Los datos enviados no son válidos"," ¡Error! ", "error");
             goToIndex();
         }
     } else {

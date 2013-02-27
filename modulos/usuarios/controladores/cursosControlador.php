@@ -11,7 +11,7 @@ function inscribirUsuario() {
             $usuarios = getUsuarios();
             require_once 'modulos/usuarios/vistas/asignarUsuarioCurso.php';
         } else {
-            setSessionMessage("<h4 class='error'>Datos no válidos</h4>");
+            setSessionMessage("Datos no válidos"," ¡Error! ", "error");
             redirect("/cursos");
         }
     } else {
@@ -62,15 +62,15 @@ function eliminarInscripcion() {
             $idUsuario = intval($_GET['iu']);
             require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
             if (eliminarInscripcionUsuarioCurso($idUsuario, $idCurso)) {
-                setSessionMessage("<h4 class='success'> Se elimino al usuario del curso correctamente</h4>");
+                setSessionMessage("Se elimino al usuario del curso correctamente"," ¡Bien! ", "success");
             } else {
-                setSessionMessage("<h4 class='error'>Ocurrió un error al quitar al usuario</h4>");
+                setSessionMessage("Ocurrió un error al quitar al usuario"," ¡Error! ", "error");
             }
             if ($origen == "listaAlumnos") {
                 redirect("/cursos/curso/alumnos/" . $idCurso . "&p=" . $pagina);
             }
         } else {
-            setSessionMessage("<h4 class='error'>Datos no válidos</h4>");
+            setSessionMessage("Datos no válidos"," ¡Error! ", "error");
             redirect("/");
         }
     } else {
