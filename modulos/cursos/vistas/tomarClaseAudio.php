@@ -69,8 +69,8 @@ require_once('layout/headers/headCierreTomarClase.php');
 </div>
 <div id="editorContainment" style="background-color: <?php echo $backgroundColor; ?>; z-index:-50;">
     <audio id="mediaPopcorn" controls="controls">        
-        <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/1" type="audio/mpeg">
-        <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/2" type="audio/ogg">
+        <source src="<?php echo $clase->archivo; ?>" type="audio/mpeg">
+        <source src="<?php echo $clase->archivo2; ?>" type="audio/ogg">
         Tu navegador no es compatible con las características de este sitio. Te recomendamos descargar google chrome
         <a href="http://www.google.com/intl/es/chrome/browser/"> desde aquí</a>
     </audio>

@@ -228,15 +228,15 @@ if (isset($links))
                 if ($clase->idTipoClase == 0) {
                     ?>
                     <video id="mediaPopcorn" class="videoClass">
-                        <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/1" type="video/mp4">
-                        <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/2" type="video/ogg">
+                        <source src="<?php echo $clase->archivo; ?>" type="video/mp4">
+                        <source src="<?php echo $clase->archivo2; ?>" type="video/ogg">
                     </video>
                     <?php
                 } else if ($clase->idTipoClase == 4) {
                     ?>
                     <audio id="mediaPopcorn" class="videoClass">
-                        <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/1" type="video/mp3">
-                        <source src="/archivos/descarga/archivoDeClase/<?php echo $clase->idClase; ?>/2" type="video/ogg">
+                        <source src="<?php echo $clase->archivo; ?>" type="video/mp3">
+                        <source src="<?php echo $clase->archivo2; ?>" type="video/ogg">
                     </audio>
                     <?php
                 }

@@ -9,18 +9,18 @@ use Aws\Common\Aws;
 use Aws\Common\Exception\MultipartUploadException;
 use Aws\S3\Model\MultipartUpload\UploadBuilder;
 
-function uploadFileToS3($sourceFile) {
+function uploadFileToS3($sourceFile, $folder = "") {
     $resultado = array("res" => false);
     // Instanciamos un cliente de s3
     $client = Aws::factory(getServerRoot() . '/modulos/aws/modelos/configurationFile.php')->get('s3');
 
     $bucket = getBucketName();
-    $key = generateFileKey($sourceFile);
+    $key = generateFileKey($sourceFile, $folder);
     while ($client->doesObjectExist($bucket, $key)) {
         //Si ese objeto ya existe, generamos otro key
         //Este caso es muy raro, debido a la generación,
         //Pero puede pasar
-        $key = generateFileKey($sourceFile);
+        $key = generateFileKey($sourceFile, $folder);
     }
     require_once 'funcionesPHP/funcionesParaArchivos.php';
     //Si el archivo es más grande que 10MB, utilizamos la función
@@ -53,24 +53,30 @@ function uploadFileToS3($sourceFile) {
     if ($resultado['res']) {
         $resultado["bucket"] = $bucket;
         $resultado["key"] = $key;
-        $prefijoLink = getVariableDeProducto("prefijoLink");
-        $resultado["link"] = $prefijoLink . "/" . $bucket . "/" . $key;
+        $prefijoLink = getPrefijoLink();
+        $resultado["link"] = $prefijoLink . $bucket . "/" . $key;
     }
     return $resultado;
 }
 
-function generateFileKey($sourceFile) {
+function generateFileKey($sourceFile, $folder = "") {
     $pathInfo = pathinfo($sourceFile);
-    $folder = getFolderName($pathInfo['extension']);
+    if ($folder === "") {
+        $folder = getFolderName($pathInfo['extension']);
+    }
     $fileName = getUniqueCode(150) . '.' . $pathInfo['extension'];
     $fileKey = $folder . '/' . $fileName;
     return $fileKey;
 }
 
+function getPrefijoLink() {
+    require_once 'modulos/principal/modelos/variablesDeProductoModelo.php';
+    return getVariableDeProducto("prefijoLink");
+}
+
 function getBucketName() {
     require_once 'modulos/principal/modelos/variablesDeProductoModelo.php';
-    $bucket = getVariableDeProducto("defaultBucketName");
-    return $bucket;
+    return getVariableDeProducto("defaultBucketName");
 }
 
 function getFolderName($extension) {
@@ -125,6 +131,13 @@ function deleteFileFromS3($key) {
         echo 'No se borro el archivo ' . $bucket . "/" . $key;
         return false;
     }
+}
+
+function deleteFileFromS3ByUrl($url) {
+    $prefijo = getPrefijoLink();    
+    $url = str_ireplace($prefijo, "", $url);
+    list($bucket, $key) = explode("/", $url, 2);
+    return deleteFileFromS3($key);
 }
 
 ?>

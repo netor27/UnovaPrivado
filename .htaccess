@@ -2,6 +2,9 @@ ErrorDocument 404 /errorPages/404Page.php
 ErrorDocument 403 /errorPages/404Page.php
 ErrorDocument 500 /errorPages/500Page.php
 
+php_value post_max_size 12M
+php_value upload_max_filesize 10M
+
 #Con esto evitamos que se listen los subdirectorios
 Options -Indexes
 

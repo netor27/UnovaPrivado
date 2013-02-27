@@ -69,7 +69,7 @@ function crearCursoSubmit() {
                 if ($id >= 0) {
                     $curso->idCurso = $id;
                     $url = "/curso/" . $curso->uniqueUrl;
-                    setSessionMessage("Haz creado un curso"," ¡Bien! ", "success");
+                    setSessionMessage("Haz creado un curso", " ¡Bien! ", "success");
                     redirect($url);
                 } else {
                     $msgForma = "Ya existe un curso con ese nombre. Escoje otro nombre";
@@ -103,7 +103,7 @@ function detalles() {
 
     if (is_null($curso)) {
         //si el curso no existe mandarlo a index
-        setSessionMessage("El curso que intentas ver no existe"," ¡Error! ", "error");
+        setSessionMessage("El curso que intentas ver no existe", " ¡Error! ", "error");
         redirect("/");
     } else {
         $usuario = getUsuarioActual();
@@ -119,7 +119,7 @@ function detalles() {
                 tomarCurso($curso, $usuario, $esAlumno, $backUrl);
             } else {
                 //No esta suscrito al curso, mostramos el error               
-                setSessionMessage("Lo sentimos, no estas inscrito a este curso."," ¡Error! ", "error");
+                setSessionMessage("Lo sentimos, no estas inscrito a este curso.", " ¡Error! ", "error");
                 goToIndex();
             }
         }
@@ -210,25 +210,25 @@ function editarInformacionCursoSubmit() {
                     if (actualizaInformacionCurso($curso)) {
                         require_once 'funcionesPHP/CargarInformacionSession.php';
                         cargarCursosSession();
-                        setSessionMessage("Se modificó correctamente la información del curso."," ¡Bien! ", "success");
+                        setSessionMessage("Se modificó correctamente la información del curso.", " ¡Bien! ", "success");
                     } else {
-                        setSessionMessage("Ocurrió un error al modificar el curso. Intenta de nuevo más tarde."," ¡Error! ", "error");
+                        setSessionMessage("Ocurrió un error al modificar el curso. Intenta de nuevo más tarde.", " ¡Error! ", "error");
                     }
                     redirect("/curso/" . $curso->uniqueUrl);
                 } else {
                     //Este curso no le pertenece a esta persona, no lo puede modificar.
                     //Reenviar a index.                
-                    setSessionMessage("No puedes modificar este curso"," ¡Espera! ", "error");
+                    setSessionMessage("No puedes modificar este curso", " ¡Espera! ", "error");
                     goToIndex();
                 }
             } else {
                 //Datos no validos
-                setSessionMessage("Los datos enviados no son correctos"," ¡Error! ", "error");
+                setSessionMessage("Los datos enviados no son correctos", " ¡Error! ", "error");
                 redirect("/cursos/curso/editarInformacionCurso/" . $idCurso);
             }
         } else {
             //no hay datos en post
-            setSessionMessage("Los datos enviados no son correctos"," ¡Error! ", "error");
+            setSessionMessage("Los datos enviados no son correctos", " ¡Error! ", "error");
             redirect("/");
         }
     } else {
@@ -358,7 +358,7 @@ function cambiarImagen() {
         if ($cursoParaModificar->idUsuario == getUsuarioActual()->idUsuario) {
             require_once 'modulos/cursos/vistas/editarImagen.php';
         } else {
-            setSessionMessage("No puedes modificar este curso."," ¡Espera! ", "error");
+            setSessionMessage("No puedes modificar este curso.", " ¡Espera! ", "error");
             goToIndex();
         }
     }
@@ -369,7 +369,6 @@ function cambiarImagenSubmit() {
         if (isset($_FILES['imagen']) && isset($_GET['i'])) {
             $anchoImagen = 200;
             $altoImagen = 200;
-
             require_once 'modulos/cursos/modelos/CursoModelo.php';
             $idCurso = $_GET['i'];
             $cursoParaModificar = getCurso($idCurso);
@@ -380,56 +379,70 @@ function cambiarImagenSubmit() {
                         && ($_FILES["imagen"]["size"] < 10485760)) {//tamaño maximo de imagen de 10MB
                     require_once 'funcionesPHP/CropImage.php';
                     //guardamos la imagen en el formato original
-                    $file = "archivos/temporal/" . $_FILES["imagen"]["name"];
+                    $file = "archivos/temporal/original_" . $_FILES["imagen"]["name"];
 
-                    move_uploaded_file($_FILES["imagen"]["tmp_name"], $file);
-                    $path = pathinfo($file);
-                    $uniqueCode = getUniqueCode(5);
-                    $destName = $uniqueCode . "_curso_" . $cursoParaModificar->idCurso . "." . $path['extension'];
-                    $dest = "archivos/imagenCurso/" . $destName;
-
-                    if (cropImage($file, $dest, $altoImagen, $anchoImagen)) {
-                        //Se hizo el crop correctamente                    
-                        //borramos la imagen temporal
-                        unlink($file);
-                        if (!strpos($cursoParaModificar->imagen, "Predefinida")) {
-                            $count = 1;
-                            $aux = str_replace("/archivos", "archivos", $cursoParaModificar->imagen, $count); //quitar la / del inicio
-                            unlink($aux);
-                            //echo 'se borro ' . $cursoParaModificar->imagen .'<br>';
+                    if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $file)) {
+                        $dest = "archivos/temporal/cropped_" . $_FILES["imagen"]["name"];
+                        //Hacemos el crop de la imagen
+                        if (cropImage($file, $dest, $altoImagen, $anchoImagen)) {
+                            //Se hizo el crop correctamente                    
+                            //borramos la imagen original
+                            unlink($file);
+                            //Subimos la imagen recortada al S3 de Amazon
+                            require_once 'modulos/aws/modelos/s3Modelo.php';
+                            $res = uploadFileToS3($dest, "cursosImgs");
+                            if ($res['res']) {
+                                $imagenAnterior = $cursoParaModificar->imagen;
+                                //Se subió bien la imagen, guardamos en la bd
+                                $cursoParaModificar->imagen = $res['link'];
+                                if (actualizaImagenCurso($cursoParaModificar)) {
+                                    //Se actualizo correctamente la imagen, borramos la anterior
+                                    if (strpos($imagenAnterior, "http") !== false) {
+                                        //Es una imagen en el S3, la borramos
+                                        deleteFileFromS3ByUrl($imagenAnterior);
+                                    } else {
+                                        //Es una imagen predefinida, no borrar!
+                                    }
+                                    require_once 'funcionesPHP/CargarInformacionSession.php';
+                                    cargarCursosSession();
+                                    setSessionMessage("Cambiaste correctamente tu imagen", " ¡Bien! ", "success");
+                                    redirect("/curso/" . $cursoParaModificar->uniqueUrl);
+                                } else {
+                                    //error en bd
+                                    setSessionMessage("Error BD", " ¡Error! ", "error");
+                                    redirect("/cursos/curso/cambiarImagen/" . $cursoParaModificar->idCurso);
+                                }
+                            } else {
+                                //No se subió la imagen
+                                setSessionMessage("Ocurrió un error al guardar la imagen en nuestros servidores. Intenta de nuevo más tarde", " ¡Error! ", "error");
+                                redirect("/curso/" . $cursoParaModificar->uniqueUrl);
+                            }
+                            //Sin importar que paso con la subida, borramos la imagen local
+                            //borramos la imagen con crop                                
+                            unlink($dest);
                         } else {
-                            //echo 'no se borro ' . $cursoParaModificar->imagen .'<br>';
-                        }
-
-                        $cursoParaModificar->imagen = "/" . $dest;
-                        if (actualizaImagenCurso($cursoParaModificar)) {
-                            require_once 'funcionesPHP/CargarInformacionSession.php';
-                            cargarCursosSession();
-                            setSessionMessage("Cambiaste correctamente tu imagen"," ¡Bien! ", "success");
-                            redirect("/curso/" . $cursoParaModificar->uniqueUrl);
-                        } else {
-                            //error en bd
-                            setSessionMessage("Error BD"," ¡Error! ", "error");
+                            //borramos la imagen temporal
+                            unlink($file);
+                            //No se pudo hacer el "crop" de la imagen
+                            setSessionMessage("Ocurrió un error al procesar tu imagen. Intenta de nuevo más tarde", " ¡Error! ", "error");
                             redirect("/cursos/curso/cambiarImagen/" . $cursoParaModificar->idCurso);
                         }
                     } else {
-                        //borramos la imagen temporal
-                        unlink($file);
-                        //No se pudo hacer el "crop" de la imagen
-                        setSessionMessage("Ocurrió un error al procesar tu imagen. Intenta de nuevo más tarde"," ¡Error! ", "error");
-                        redirect("/cursos/curso/cambiarImagen/" . $cursoParaModificar->idCurso);
+                        //No se subió la imagen
+                        setSessionMessage("Ocurrió un error al recibir tu imagen. Intenta de nuevo más tarde", " ¡Error! ", "error");
+                        redirect("/curso/" . $cursoParaModificar->uniqueUrl);
                     }
                 } else {
                     //No es una imagen válida
-                    setSessionMessage("No es una imagen válida"," ¡Espera! ", "error");
+                    setSessionMessage("No es una imagen válida. El tamaño máximo es de 10MB y formato png o jpg", " ¡Espera! ", "error");
                     redirect("/cursos/curso/cambiarImagen/" . $cursoParaModificar->idCurso);
                 }
             } else {
-                setSessionMessage("No puedes modificar este curso"," ¡Espera! ", "error");
+                setSessionMessage("No puedes modificar este curso", " ¡Espera! ", "error");
                 goToIndex();
             }
         } else {
-            setSessionMessage("No es una imagen válida"," ¡Espera! ", "error");
+            setSessionMessage("No es una imagen válida", " ¡Espera! ", "error");
             redirect("/cursos/curso/cambiarImagen/" . $cursoParaModificar->idCurso);
         }
     } else {
@@ -472,7 +485,7 @@ function agregarContenido() {
                     require_once 'modulos/cursos/vistas/agregarContenido.php';
                 } else {
                     //Ocurrió un error al dar de alta el tema
-                    setSessionMessage("Ocurrió un error al dar de alta el tema"," ¡Error! ", "error");
+                    setSessionMessage("Ocurrió un error al dar de alta el tema", " ¡Error! ", "error");
                     redirect("/curso/" . $curso->uniqueUrl);
                 }
             } else {
@@ -556,7 +569,7 @@ function alumnos() {
                     require_once 'modulos/cursos/vistas/listaAlumnosDeCurso.php';
                 }
             } else {
-                setSessionMessage("Los datos enviados no son válidos"," ¡Error! ", "error");
+                setSessionMessage("Los datos enviados no son válidos", " ¡Error! ", "error");
                 redirect("/cursos");
             }
         } else {
@@ -583,15 +596,15 @@ function eliminar() {
                 $res = borrarClasesConArchivosDeCurso($idCurso);
                 if ($res['res']) {
                     if (bajaCurso($idCurso) > 0) {
-                        setSessionMessage("Se eliminó con éxito el curso"," ¡Bien! ", "success");
+                        setSessionMessage("Se eliminó con éxito el curso", " ¡Bien! ", "success");
                     } else {
-                        setSessionMessage("Ocurrió un error al eliminar"," ¡Error! ", "error");
+                        setSessionMessage("Ocurrió un error al eliminar", " ¡Error! ", "error");
                     }
                 } else {
-                    setSessionMessage($res['error']," ¡Error! ", "error");
+                    setSessionMessage($res['error'], " ¡Error! ", "error");
                 }
             } else {
-                setSessionMessage("Ocurrió un error"," ¡Error! ", "error");
+                setSessionMessage("Ocurrió un error", " ¡Error! ", "error");
             }
             redirect("/cursos");
         } else {

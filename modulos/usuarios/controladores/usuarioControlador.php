@@ -159,61 +159,75 @@ function cambiarImagenSubmit() {
         if (isset($_FILES['imagen'])) {
             $anchoImagen = 200;
             $altoImagen = 200;
-
             require_once 'modulos/usuarios/modelos/usuarioModelo.php';
             $usuarioCambiar = getUsuario(getUsuarioActual()->idUsuario);
-            if ((($_FILES["imagen"]["type"] == "image/gif")
-                    || ($_FILES["imagen"]["type"] == "image/jpeg")
+            if ((($_FILES["imagen"]["type"] == "image/jpeg")
                     || ($_FILES["imagen"]["type"] == "image/pjpeg")
                     || ($_FILES["imagen"]["type"] == "image/png"))
                     && ($_FILES["imagen"]["size"] < 10485760)) {//tamaño maximo de imagen de 10MB                
                 require_once 'funcionesPHP/CropImage.php';
                 //guardamos la imagen en el formato original
-                $file = "archivos/temporal/" . $_FILES["imagen"]["name"];
+                $file = "archivos/temporal/original_" . $_FILES["imagen"]["name"];
 
-                move_uploaded_file($_FILES["imagen"]["tmp_name"], $file);
-                $path = pathinfo($file);
-                $uniqueCode = getUniqueCode(5);
-                $destName = $uniqueCode . "_perfil_" . $usuarioCambiar->idUsuario . "." . $path['extension'];
-                $dest = "archivos/avatar/" . $destName;
-
-                if (cropImage($file, $dest, $altoImagen, $anchoImagen)) {
-                    //Se hizo el crop correctamente
-                    //borramos la imagen temporal
-                    unlink($file);
-                    echo $usuarioCambiar->avatar . '<br>';
-
-                    if (!strpos($usuarioCambiar->avatar, "avatarPredefinido")) {
-                        $count = 1;
-                        $aux = str_replace("/archivos", "archivos", $usuarioCambiar->avatar, $count); //quitar la / del inicio
-                        //echo $aux;
-                        //Si no es un avatar predefinido lo borramos
-                        unlink($aux);
-                    }
-                    $usuarioCambiar->avatar = "/" . $dest;
-                    //actualizamos la información en la bd                
-                    if (actualizaAvatar($usuarioCambiar)) {
-                        require_once 'funcionesPHP/CargarInformacionSession.php';
-                        cargarUsuarioSession();
-                        setSessionMessage("Haz cambiado tu imagen correctamente. Espera unos minutos para ver el cambio", " ¡Bien! ", "success");
-                        redirect("/usuario/" . $usuarioCambiar->uniqueUrl);
+                if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $file)) {
+                    $dest = "archivos/temporal/cropped_" . $_FILES["imagen"]["name"];
+                    //Hacemos el crop de la imagen
+                    if (cropImage($file, $dest, $altoImagen, $anchoImagen)) {
+                        //Se hizo el crop correctamente                    
+                        //borramos la imagen original
+                        unlink($file);
+                        //Subimos la imagen recortada al S3 de Amazon
+                        require_once 'modulos/aws/modelos/s3Modelo.php';
+                        $res = uploadFileToS3($dest, "avatars");
+                        if ($res['res']) {
+                            $imagenAnterior = $usuarioCambiar->avatar;
+                            $usuarioCambiar->avatar = $res['link'];
+                            //actualizamos la información en la bd                
+                            if (actualizaAvatar($usuarioCambiar)) {
+                                //se actualizo correctamente la imagen, borramos la anterior
+                                if (strpos($imagenAnterior, "http") !== false) {
+                                    //Es una imagen en el S3, la borramos
+                                    deleteFileFromS3ByUrl($imagenAnterior);
+                                } else {
+                                    //Es una imagen predefinida, no borrar!
+                                }
+                                require_once 'funcionesPHP/CargarInformacionSession.php';
+                                cargarUsuarioSession();
+                                setSessionMessage("Haz cambiado tu imagen correctamente. Espera unos minutos para ver el cambio", " ¡Bien! ", "success");
+                                redirect("/usuario/" . $usuarioCambiar->uniqueUrl);
+                            } else {
+                                //error en bd
+                                setSessionMessage("Error al actualizar la base de datos", " ¡Error! ", "error");
+                                redirect("/usuarios/usuario/cambiarImagen");
+                            }
+                        } else {
+                            //No se subió la imagen
+                            setSessionMessage("Ocurrió un error al guardar la imagen en nuestros servidores. Intenta de nuevo más tarde", " ¡Error! ", "error");
+                            redirect("/usuarios/usuario/cambiarImagen");
+                        }
+                        //Sin importar que paso con la subida, borramos la imagen local
+                        //borramos la imagen con crop                                
+                        unlink($dest);
                     } else {
-                        //error en bd
-                        setSessionMessage("Error al actualizar la base de datos", " ¡Error! ", "error");
-                        redirect("/usuarios/usuario/cambiarImagen");
+                        //borramos la imagen temporal
+                        unlink($file);
+                        //No se pudo hacer el "crop" de la imagen
+                        setSessionMessage("Ocurrió un error al procesar tu imagen. Intenta de nuevo más tarde", " ¡Error! ", "error");
+                        redirect("/cursos/curso/cambiarImagen/" . $cursoParaModificar->idCurso);
                     }
                 } else {
-                    //Error al hacer el crop
-                    //borramos la imagen temporal
-                    unlink($file);
-                    setSessionMessage("Ocurrió un error al procesar tu imagen. Intenta de nuevo más tarde", " ¡Error! ", "error");
+                    //No se subió la imagen
+                    setSessionMessage("Ocurrió un error al recibir tu imagen. Intenta de nuevo más tarde", " ¡Error! ", "error");
                     redirect("/usuarios/usuario/cambiarImagen");
                 }
             } else {
                 //El archivo no es válido o es demasiado grande
-                setSessionMessage("No es una imagen válida. El tamaño máximo es de 10MB", " ¡Error! ", "error");
+                setSessionMessage("No es una imagen válida. El tamaño máximo es de 10MB y formato png o jpg", " ¡Error! ", "error");
                 redirect("/usuarios/usuario/cambiarImagen");
             }
+        } else {
+            setSessionMessage("No es una imagen válida", " ¡Espera! ", "error");
+            redirect("/usuarios/usuario/cambiarImagen");
         }
     } else {
         goToIndex();
@@ -483,7 +497,7 @@ function altaUsuariosSubmit() {
             }
             require_once 'modulos/usuarios/vistas/resultadoDeAltaUsuarios.php';
         } else {
-            setSessionMessage("Datos no válidos"," ¡Error! ", "error");
+            setSessionMessage("Datos no válidos", " ¡Error! ", "error");
             goToIndex();
         }
     } else {
@@ -574,19 +588,19 @@ function altaUsuariosArchivoCsvSubmit() {
                         print_r($csv);
                         fclose($handle);
                     } else {
-                        setSessionMessage("Ocurrió un error al procesar tu archivo. Intenta de nuevo más tarde"," ¡Error! ", "error");
+                        setSessionMessage("Ocurrió un error al procesar tu archivo. Intenta de nuevo más tarde", " ¡Error! ", "error");
                         redirect("/alumnos/usuario/altaAlumnos");
                     }
                 } else {
-                    setSessionMessage("No es un archivo .csv"," ¡Espera! ", "error");
+                    setSessionMessage("No es un archivo .csv", " ¡Espera! ", "error");
                     redirect("/alumnos/usuario/altaAlumnos");
                 }
             } else {
-                setSessionMessage("Archivo no válido"," ¡Espera! ", "error");
+                setSessionMessage("Archivo no válido", " ¡Espera! ", "error");
                 redirect("/alumnos/usuario/altaAlumnos");
             }
         } else {
-            setSessionMessage("Archivo no válido"," ¡Error! ", "error");
+            setSessionMessage("Archivo no válido", " ¡Error! ", "error");
             redirect("/alumnos/usuario/altaAlumnos");
         }
     }

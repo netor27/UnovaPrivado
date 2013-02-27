@@ -44,8 +44,6 @@ function cropImage($file_name, $dest, $crop_height, $crop_width) {
 
         imagecopyresampled($cropped_image_gd, $original_image_gd, 0, 0, 0, 0, $crop_width, $crop_height, $original_width, $original_height);
     }
-    //$dest = "test/bmw_cropped.jpg"; //edit filename for cropped image
-    //use the correct path if necessary
     return imagejpeg($cropped_image_gd, $dest, 100);
 }
 
