@@ -25,17 +25,21 @@
             <div id="tiempoRangeSliderVideo"></div>
         </div>
         
-        <div id="colorFondoTab">
-            <div id="colorSelectorVideo" ></div>
-            <input type="hidden" name="colorHidden" id="colorHiddenVideo"/>
-            <br><br>
-            <div class="colorSeleccionado">
-                <div style="width: 200px;">
-                    <label>Color seleccionado:</label>
-                    <div id="colorSeleccionadoVideo" class="colorButton"></div>
+        <div id="colorFondoTab" style="overflow: hidden">
+            <div style="width: 200px;float: left">
+                <div id="colorSelectorVideo"></div>
+                <input type="hidden" name="colorHidden" id="colorHiddenVideo"/>
+            </div>
+            <div style="width: 200px;float: right; text-align: left">
+                <div class="colorSeleccionado">
+                    <div>
+                        <label>Color seleccionado:</label>
+                        <div id="colorSeleccionadoVideo" class="colorButton"></div>
+                    </div>
+                    <br><br>
+                    <button id="sinColorVideo" style="margin-top: 10px;">Sin color de fondo</button>
                 </div>
-                <button id="sinColorVideo" style="margin-left: 70px;">Sin color de fondo</button>
-            </div>            
+            </div>     
         </div>
     </div>
 </div>	

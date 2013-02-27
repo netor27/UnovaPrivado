@@ -28,12 +28,6 @@ if (isset($var['videoData'])) {
     $width = 50;
     $height = 50;
 }
-
-if (isset($var['backgroundColor'])) {
-    $backgroundColor = $var['backgroundColor'];
-} else {
-    $backgroundColor = "#000";
-}
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +36,7 @@ if (isset($var['backgroundColor'])) {
         <meta charset="utf-8" />
         <title>Editor Unova</title>
 
-        <link rel="stylesheet" media="screen" type="text/css" href="/lib/js/colorPicker/colorpicker.css" />
+        <link rel="stylesheet" media="screen" type="text/css" href="/lib/js/colorPicker/evol.colorpicker.css" />
         <link rel="stylesheet" href="/lib/js/jquery-ui/ui-lightness/jquery-ui-1.9.1.custom.css" />
         <link type="text/css" href="/layout/css/headerEditor.css" rel="stylesheet" />	
         <link type="text/css" href="/layout/css/editorPopcorn.css" rel="stylesheet" />	
@@ -52,7 +46,7 @@ if (isset($var['backgroundColor'])) {
         <script src="/lib/js/jquery-ui/jquery-ui-1.9.1.custom.min.js"></script>
         <script src="/lib/js/popcorn-complete.min.js"></script>
 
-        <script src="/lib/js/colorPicker/colorpicker.js"></script>
+        <script src="/lib/js/colorPicker/evol.colorpicker.min.js"></script>
         <script src="/lib/js/tiny_mce/jquery.tinymce.js"></script>
 
         <script src="/js/editorPopcorn/funcionesPopcorn.js"></script>
@@ -61,8 +55,6 @@ if (isset($var['backgroundColor'])) {
         <script src="/js/editorPopcorn/agregarTexto.js"></script>
         <script src="/js/editorPopcorn/agregarVideo.js"></script>
         <script src="/js/editorPopcorn/agregarLink.js"></script>
-
-        <script src="/js/editorPopcorn/cambiarColorFondo.js"></script>
 
         <script src="/js/editorPopcorn/cargarPopcorn.js"></script>
         <script src="/js/funciones.js"></script>        
@@ -157,11 +149,6 @@ if (isset($links))
                     <div id="menuAgregar">
                         <div id="flechitaMenuAgregar"></div>
                         <div id="menuAgregarLinks">
-                            <a id="btnCambiarColor" onclick="mostrarDialogoCambiarColorFondo()">
-                                <div class="menuElement">
-                                    <div class="">Cambiar color fondo</div>
-                                </div>
-                            </a>
                             <a id="btnAgregarTexto" onClick="mostrarDialogoInsertarTexto()">
                                 <div class="menuAgregarElement">
                                     <div class="">
@@ -222,8 +209,8 @@ if (isset($links))
         <div id="guardando">
             <img src="/layout/imagenes/loading.gif">Guardando...
         </div>
-        <div id="editorContainment" style="background-color: <?php echo $backgroundColor; ?>">
-            <div id="videoContainer" class="draggable resizable ui-widget-content" style="z-index:-10; background:transparent; position: absolute; top: <?php echo $top . '%'; ?>; left: <?php echo $left . '%'; ?>; width: <?php echo $width . '%'; ?>; height: <?php echo $height . '%'; ?>;">				
+        <div id="editorContainment">
+            <div id="videoContainer" class="draggable resizable" style="z-index:-10; background:black; position: absolute; top: <?php echo $top . '%'; ?>; left: <?php echo $left . '%'; ?>; width: <?php echo $width . '%'; ?>; height: <?php echo $height . '%'; ?>;">				
                 <?php
                 if ($clase->idTipoClase == 0) {
                     ?>
@@ -249,7 +236,6 @@ if (isset($links))
             require_once 'modulos/editorPopcorn/vistas/formaAgregarImagen.php';
             require_once 'modulos/editorPopcorn/vistas/formaAgregarVideo.php';
             require_once 'modulos/editorPopcorn/vistas/formaAgregarLink.php';
-            require_once 'modulos/editorPopcorn/vistas/formaCambiarColor.php';
             ?>
             <div id="footer">
                 <div id="ShowHideControles">

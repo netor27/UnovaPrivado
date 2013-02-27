@@ -99,7 +99,7 @@ function getUnidadPx(unidad){
 }
 
 function cambiarColorPicker(hex, id){
-    $("#colorSelector"+id).ColorPickerSetColor(hex);
+    $("#colorSelector"+id).colorpicker("val", hex);
     $('#colorSeleccionado'+id).css('backgroundColor', hex);
     if(hex == "transparent"){
         $('#colorSeleccionado'+id).html("Sin color");

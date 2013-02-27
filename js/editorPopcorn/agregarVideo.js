@@ -33,21 +33,24 @@ $(function(){
     $('#videoTabs').tabs();
     
     $("#colorHiddenVideo").val("#FFFFFF");
-    $('#colorSelectorVideo').ColorPicker({
-        color: "#FFFFFF",
-        flat: true,
-        onChange: function (hsb, hex, rgb) {
-            $('#colorSeleccionadoVideo').css('backgroundColor', '#' + hex);
-            $('#colorSeleccionadoVideo').html("");
-            $("#colorHiddenVideo").val('#'+hex);
-        }
+    $('#colorSelectorVideo').colorpicker({
+        color: "#ffffff",
+        history: false,
+        strings: "Escoje un color,Colores estándar,Más colores,Regresar"
     });
+    
+    $("#colorSelectorVideo").on("change.color", function(event, color){
+        $('#colorSeleccionadoVideo').css('backgroundColor', color);
+        $('#colorSeleccionadoVideo').html("");
+        $("#colorHiddenVideo").val(color);
+    })
     
     //validamos el tiempo que escriben en el campo de Video
     $("#tiempoInicioVideo").blur(validarTiemposVideo);
     $("#tiempoFinVideo").blur(validarTiemposVideo);
     
     $("#sinColorVideo").click(function(){
+        $("#colorSelectorVideo").colorpicker("val", "transparent");
         $('#colorSeleccionadoVideo').css('backgroundColor', 'transparent');
         $('#colorSeleccionadoVideo').html("Sin color");
         $("#colorHiddenVideo").val('transparent');        

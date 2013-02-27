@@ -33,15 +33,17 @@ $(function(){
     });	
     
     $("#colorHiddenLink").val("#FFFFFF");
-    $('#colorSelectorLink').ColorPicker({
-        color: "#FFFFFF",
-        flat: true,
-        onChange: function (hsb, hex, rgb) {
-            $('#colorSeleccionadoLink').css('backgroundColor', '#' + hex);
-            $('#colorSeleccionadoLink').html("");
-            $("#colorHiddenLink").val('#'+hex);
-        }
+    $('#colorSelectorLink').colorpicker({
+        color: "#ffffff",
+        history: false,
+        strings: "Escoje un color,Colores estándar,Más colores,Regresar"
     });
+    
+    $("#colorSelectorLink").on("change.color", function(event, color){
+        $('#colorSeleccionadoLink').css('backgroundColor', color);
+        $('#colorSeleccionadoLink').html("");
+        $("#colorHiddenLink").val(color);
+    })
     
     //validamos el tiempo que escriben en el campo del link
     $("#tiempoInicioLink").blur(validarTiemposLink);
@@ -50,6 +52,7 @@ $(function(){
     $('#linkTabs').tabs();
     
     $("#sinColorLink").click(function(){
+        $("#colorSelectorLink").colorpicker("val", "transparent");
         $('#colorSeleccionadoLink').css('backgroundColor', 'transparent');
         $('#colorSeleccionadoLink').html("Sin color");
         $("#colorHiddenLink").val('transparent');        

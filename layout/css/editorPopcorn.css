@@ -1,11 +1,14 @@
 body{
     font-family: "Trebuchet MS", Helvetica, sans-serif;
     font-size: 12px;
-    background-color: #E6E6DA;
     margin: 0px;
     padding: 0px;
     border: 0px none;
     overflow-x: hidden;
+    background-image: url("/layout/css/images/bg.jpg");
+    background-position: center;
+    background-repeat: repeat;
+    background-color: #dedde3;
 }
 a{
     text-decoration: none;

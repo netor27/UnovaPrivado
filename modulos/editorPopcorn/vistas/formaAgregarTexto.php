@@ -24,16 +24,20 @@
             </table>
             <div id="tiempoRangeSliderTexto"></div>
         </div>        
-        <div id="colorFondoTab">
-            <div id="colorSelectorTexto" ></div>
-            <input type="hidden" name="colorHidden" id="colorHiddenTexto"/>
-            <br><br>
-            <div class="colorSeleccionado">
-                <div style="width: 200px;">
-                    <label>Color seleccionado:</label>
-                    <div id="colorSeleccionadoTexto" class="colorButton"></div>
+        <div id="colorFondoTab" style="overflow: hidden">
+            <div style="width: 200px;float: left">
+                <div id="colorSelectorTexto"></div>
+                <input type="hidden" name="colorHidden" id="colorHiddenTexto"/>
+            </div>
+            <div style="width: 200px;float: right; text-align: left">
+                <div class="colorSeleccionado">
+                    <div>
+                        <label>Color seleccionado:</label>
+                        <div id="colorSeleccionadoTexto" class="colorButton"></div>
+                    </div>
+                    <br><br>
+                    <button id="sinColorTexto" style="margin-top: 10px;">Sin color de fondo</button>
                 </div>
-                <button id="sinColorTexto" style="margin-left: 70px;">Sin color de fondo</button>
             </div>
         </div>        
     </div>

@@ -29,16 +29,20 @@
             <div id="tiempoRangeSliderLink"></div>
         </div>
 
-        <div id="colorFondoTab">
-            <div id="colorSelectorLink" ></div>
-            <input type="hidden" name="colorHidden" id="colorHiddenLink"/>
-            <br><br>
-            <div class="colorSeleccionado">
-                <div style="width: 200px;">
-                    <label>Color seleccionado:</label>
-                    <div id="colorSeleccionadoLink" class="colorButton"></div>
+        <div id="colorFondoTab" style="overflow: hidden">
+            <div style="width: 200px;float: left">
+                <div id="colorSelectorLink"></div>
+                <input type="hidden" name="colorHidden" id="colorHiddenLink"/>
+            </div>
+            <div style="width: 200px;float: right; text-align: left">
+                <div class="colorSeleccionado">
+                    <div>
+                        <label>Color seleccionado:</label>
+                        <div id="colorSeleccionadoLink" class="colorButton"></div>
+                    </div>
+                    <br><br>
+                    <button id="sinColorLink" style="margin-top: 10px;">Sin color de fondo</button>
                 </div>
-                <button id="sinColorLink" style="margin-left: 70px;">Sin color de fondo</button>
             </div>
         </div>
     </div>	

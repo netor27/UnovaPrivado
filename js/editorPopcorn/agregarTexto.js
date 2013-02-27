@@ -32,15 +32,17 @@ $(function(){
     });	
     
     $("#colorHiddenTexto").val("#FFFFFF");
-    $('#colorSelectorTexto').ColorPicker({
-        color: "#FFFFFF",
-        flat: true,
-        onChange: function (hsb, hex, rgb) {
-            $('#colorSeleccionadoTexto').css('backgroundColor', '#' + hex);
-            $('#colorSeleccionadoTexto').html("");
-            $("#colorHiddenTexto").val('#'+hex);
-        }
+    $('#colorSelectorTexto').colorpicker({
+        color: "#ffffff",
+        history: false,
+        strings: "Escoje un color,Colores estándar,Más colores,Regresar"
     });
+    
+    $("#colorSelectorTexto").on("change.color", function(event, color){
+        $('#colorSeleccionadoTexto').css('backgroundColor', color);
+        $('#colorSeleccionadoTexto').html("");
+        $("#colorHiddenTexto").val(color);
+    })
     
     //validamos el tiempo que escriben en el campo de texto
     $("#tiempoInicioTexto").blur(validarTiemposTexto);
@@ -66,6 +68,7 @@ $(function(){
     $('#textTabs').tabs();
     
     $("#sinColorTexto").click(function(){
+        $("#colorSelectorTexto").colorpicker("val", "transparent");
         $('#colorSeleccionadoTexto').css('backgroundColor', 'transparent');
         $('#colorSeleccionadoTexto').html("Sin color");
         $("#colorHiddenTexto").val('transparent');        

@@ -39,17 +39,20 @@ $(function(){
     $('#imagenTabs').tabs();
     
     $("#colorHiddenImagen").val("#FFFFFF");
-    $('#colorSelectorImagen').ColorPicker({
-        color: "#FFFFFF",
-        flat: true,
-        onChange: function (hsb, hex, rgb) {
-            $('#colorSeleccionadoImagen').css('backgroundColor', '#' + hex);
-            $('#colorSeleccionadoImagen').html("");
-            $("#colorHiddenImagen").val('#'+hex);
-        }
+    $('#colorSelectorImagen').colorpicker({
+        color: "#ffffff",
+        history: false,
+        strings: "Escoje un color,Colores estándar,Más colores,Regresar"
     });
     
+    $("#colorSelectorImagen").on("change.color", function(event, color){
+        $('#colorSeleccionadoImagen').css('backgroundColor', color);
+        $('#colorSeleccionadoImagen').html("");
+        $("#colorHiddenImagen").val(color);
+    })
+    
     $("#sinColorImagen").click(function(){
+        $("#colorSelectorImagen").colorpicker("val", "transparent");
         $('#colorSeleccionadoImagen').css('backgroundColor', 'transparent');
         $('#colorSeleccionadoImagen').html("Sin color");
         $("#colorHiddenImagen").val('transparent');        
