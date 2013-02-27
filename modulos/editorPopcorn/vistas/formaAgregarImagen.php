@@ -31,8 +31,8 @@
                     <div id="formasContainer" style="overflow: hidden;">
                         <?php
                         foreach ($formasPredefinidas as $formaPredefinida) {
-                            echo '<div class="formaPredefinida ui-corner-all" url="' . $formaPredefinida . '">
-                                <img src="' . $formaPredefinida . '">
+                            echo '<div class="formaPredefinida ui-corner-all" url="' . $formaPredefinida->imagen . '">
+                                <img src="' . $formaPredefinida->imagen . '">
                                     
                                   </div>';
                         }

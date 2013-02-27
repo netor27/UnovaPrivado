@@ -229,13 +229,8 @@ function editor() {
                         require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
                         if (deltaVariableDeProducto("usoActualAnchoDeBanda", $usoEnDisco)) {
                             //obtenemos las formas predefinidas
-                            $formasPredefinidas = array();
-                            $path = "archivos/formasPredefinidas/";
-                            $i = 0;
-                            foreach (glob($path . "*") as $file) {
-                                $formasPredefinidas[$i] = "/" . $file;
-                                $i++;
-                            }
+                            require_once 'modulos/editorPopcorn/modelos/formasPredefinidasModelo.php';
+                            $formasPredefinidas = getFormasPredefinidas();
                             require_once 'modulos/editorPopcorn/vistas/editorPopcorn.php';
                         } else {
                             setSessionMessage("Ocurrió un error al cargar el video."," ¡Error! ", "error");
