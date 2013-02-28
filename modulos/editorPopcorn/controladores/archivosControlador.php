@@ -45,6 +45,8 @@ function subirImagen() {
                         //no se subio al s3
                         $error = "no se subio al s3";
                     }
+                    //sin importar si se subio bien, borramos el archivo temporal
+                    unlink($file);
                 } else {
                     $error = "error al mover el archivo";
                 }
