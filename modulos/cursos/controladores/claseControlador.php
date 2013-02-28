@@ -366,4 +366,26 @@ function agregarTarjetasSubmit() {
     }
 }
 
+function actualizarDatosDespuesDeTransformacion() {
+    /*
+     * Esta funcion recibe del transformador los siguientes datos en el post 
+     * -bucket
+     * -idClase
+     * -key1
+     * -key2
+     * -duracion
+     * -size (El tamaño de los 2 archivos sumados)
+     */
+    require_once 'modulos/aws/modelos/s3Modelo.php';
+    $prefijoLink = getPrefijoLink();
+    $archivo = $prefijoLink . $_POST['bucket'] . "/" . $_POST['key1'];;
+    $archivo2 = $prefijoLink . $_POST['bucket'] . "/" . $_POST['key2'];;
+    require_once 'modulos/cursos/modelos/ClaseModelo.php';    
+    if(actualizaArchivosDespuesTransformacion($_POST['idClase'], $archivo, $archivo2, $_POST['size'], $_POST['duracion'])){
+        echo 'ok';
+    }else{
+        echo 'error';
+    }
+}
+
 ?>

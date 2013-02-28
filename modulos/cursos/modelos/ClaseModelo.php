@@ -349,7 +349,8 @@ function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType
                         "bucket" => $s3res['bucket'],
                         "key" => $s3res['key'],
                         "tipo" => $clase->idTipoClase,
-                        "host" => getDomainName()
+                        "host" => getDomainName(),
+                        "idClase" => $clase->idClase
                     );
                     $datosJson = json_encode($datosDelMensaje);
                     require_once 'modulos/aws/modelos/sqsModelo.php';
