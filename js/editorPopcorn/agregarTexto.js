@@ -53,7 +53,7 @@ $(function(){
         theme : "advanced",
         skin:"o2k7",    
         skin_variant:"silver",
-        width : "320",        
+        width : "480",        
         height : "320",
                 
         // Theme options - button# indicated the row# only
@@ -73,6 +73,7 @@ $(function(){
         $('#colorSeleccionadoTexto').html("Sin color");
         $("#colorHiddenTexto").val('transparent');        
     });
+    $("#sinColorTexto").button();
 });
 
 function mostrarDialogoInsertarTexto(){
@@ -187,9 +188,9 @@ function editarTexto(){
 
 function agregarTextoDiv(indice, texto, inicio, fin, color, top, left, width, height){
     
-    var textoDiv = '<div id="texto_'+indice+'" class="ui-corner-all textoAgregado stack draggable" style="overflow-y:auto; background-color: '+color+'; position: fixed; top: '+getUnidadPx(top)+'; left: '+getUnidadPx(left)+'; width: '+getUnidadPx(width)+'; height: '+getUnidadPx(height)+';">' +
-    '<div id="content_'+indice+'" style="padding:5px; width:100%; height:100%;">'+
-    '<div class="elementButtons">' +
+    var textoDiv = '<div id="texto_'+indice+'" class="ui-corner-all textoAgregado stack draggable" style="background-color: '+color+'; position: fixed; top: '+getUnidadPx(top)+'; left: '+getUnidadPx(left)+'; width: '+getUnidadPx(width)+'; height: '+getUnidadPx(height)+';">' +
+    '<div id="content_'+indice+'" style="width: 100%;height: 100%;overflow-y: auto;overflow-wrap: break-word;">'+
+    '<div class="elementButtons" id="eb_txt_'+indice+'">' +
     '<a href="#" onclick=mostrarDialogoEditarTexto('+indice+')>'+
     '<div class="ui-state-default ui-corner-all littleBox">' +
     '<span class="ui-icon ui-icon-wrench" >' +
@@ -231,8 +232,29 @@ function agregarTextoDiv(indice, texto, inicio, fin, color, top, left, width, he
             textos[indice].top = ui.offset.top * 100 / $containmentHeight;
             textos[indice].left = ui.offset.left * 100 / $containmentWidth;            
         },
-        snap: true
+        snap: true,
+        start: function() {
+            // if we're scrolling, don't start and cancel drag
+            if ($(this).data("scrolled")) {
+                $(this).data("scrolled", false).trigger("mouseup");
+                return false;
+            }
+        }
+    }).find("*").andSelf().scroll(function() {               
+        // bind to the scroll event on current elements, and all children.
+        //  we have to bind to all of them, because scroll doesn't propagate.
+        
+        //set a scrolled data variable for any parents that are draggable, so they don't drag on scroll.
+        $(this).parents(".ui-draggable").data("scrolled", true);
+        
     });
+    
+    $("#texto_"+indice).hover(function(){
+        $("#eb_txt_"+indice).show();
+    },function(){
+        $("#eb_txt_"+indice).hide();
+    })
+    
     $("#texto_"+indice).resizable({
         minHeight: 50,
         minWidth: 50,
@@ -244,7 +266,8 @@ function agregarTextoDiv(indice, texto, inicio, fin, color, top, left, width, he
             $containmentHeight  = $("#editorContainment").height();
             textos[indice].height = ui.size.height * 100/ $containmentHeight;
             textos[indice].width = ui.size.width * 100 / $containmentWidth;
-        }
+        },
+        containment: "#editorContainment"
     });
 }
 
@@ -256,8 +279,9 @@ function dialogoBorrarTexto(indice){
         modal: true,
         buttons: {
             Si: function() {
-                borrarTexto(indice);
+                borrarTexto(indice);                
                 $( this ).dialog( "close" );
+                guardadoAutomatico();
             },
             Cancelar: function() {
                 $( this ).dialog( "close" );
@@ -270,7 +294,7 @@ function dialogoBorrarTexto(indice){
 function borrarTexto(indice){    
     destroyPopcorn();    
     textos.splice(indice,1);
-    inicializarPopcorn();        
+    inicializarPopcorn();   
 }
 
 function eliminarTextos(){

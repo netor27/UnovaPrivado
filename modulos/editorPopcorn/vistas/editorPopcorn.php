@@ -44,6 +44,7 @@ if (isset($var['videoData'])) {
         <script src="/lib/js/jquery-1.8.2.min.js"></script>		
         <script src="/lib/js/ajaxFileUpload/ajaxfileupload.js"></script>
         <script src="/lib/js/jquery-ui/jquery-ui-1.9.1.custom.min.js"></script>
+        
         <script src="/lib/js/popcorn-complete.min.js"></script>
 
         <script src="/lib/js/colorPicker/evol.colorpicker.min.js"></script>
@@ -231,49 +232,30 @@ if (isset($links))
             </div>
             <div id="footnotediv">
             </div>
-            <?php
-            require_once 'modulos/editorPopcorn/vistas/formaAgregarTexto.php';
-            require_once 'modulos/editorPopcorn/vistas/formaAgregarImagen.php';
-            require_once 'modulos/editorPopcorn/vistas/formaAgregarVideo.php';
-            require_once 'modulos/editorPopcorn/vistas/formaAgregarLink.php';
-            ?>
-            <div id="footer">
-                <div id="ShowHideControles">
-                    <a   onclick="showHideControles()">
-                        <div title="Mostrar controles" class="ui-state-default ui-corner-all littleBox toggleControles" style="display:none;">
-                            >>
-                        </div>
-                        <div title="Ocultar controles"  class="ui-state-default ui-corner-all littleBox toggleControles" style="" >
-                            <<
-                        </div>
-                    </a>
-
-                </div>
-                <div id="controlesContainer" class="ui-widget-header ui-corner-all">	
-
-                    <div id="controles">
-                        <a  onclick="playVideo()" title="Play"  >
-                            <div class="ui-state-default ui-corner-all littleBox" >
-                                <span class="ui-icon ui-icon-play" style="float:left;margin: 0 4px;">
-                                    Play
-                                </span>
-                            </div>
-                        </a>
-                        <a  onclick="pauseVideo()" title="Pause">
-                            <div class="ui-state-default ui-corner-all littleBox">
-                                <span class="ui-icon ui-icon-pause" style="float:left;margin: 0 4px;">
-                                    Pause
-                                </span>
-                            </div>
-                        </a>
+        </div>       
+        <div id="controlesContainer" class="ui-widget-header ui-corner-all">	
+            <div id="botonPlayContainer">
+                <a id="btnPlayToggle">
+                    <div class="ui-state-default ui-corner-all playBox" >
+                        <div id="iconPlayPausa" class="pauseIcon"></div>
                     </div>
-                    <div id="sliderContainer">
-                        <div id="controlTiempo"></div>
-                        <div id="slider"></div>
-                    </div>
+                </a>
+            </div>
+            <div id="sliderTiempoContainer">
+                <div id="sliderContainer">
+                    <div id="slider"></div>
                 </div>
             </div>
+            <div id="tiempoVideoContainer">
+                <div id="controlTiempo"></div>
+            </div>
         </div>
+        <?php
+        require_once 'modulos/editorPopcorn/vistas/formaAgregarTexto.php';
+        require_once 'modulos/editorPopcorn/vistas/formaAgregarImagen.php';
+        require_once 'modulos/editorPopcorn/vistas/formaAgregarVideo.php';
+        require_once 'modulos/editorPopcorn/vistas/formaAgregarLink.php';
+        ?>
     </body>
 </html>
 

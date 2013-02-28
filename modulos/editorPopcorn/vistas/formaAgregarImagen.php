@@ -10,8 +10,8 @@
             <div id="formaSubirImagen">
                 <h3>Para agregar una imagen, puedes subirla o escribir el link a la imagen</h3>
                 <label>Subir la imagen</label>
-                <form name="form" action="" method="POST" enctype="multipart/form-data">
-                    <input id="fileToUploadImage" type="file" name="imagen" class="input">
+                <form name="form" action="" method="POST" enctype="multipart/form-data">                     
+                    <input id="fileToUploadImage" type="file" name="imagen">
                     <br><br>
                     <button class="button" id="buttonUpload" onclick="return ajaxImageFileUpload();">Subir imagen</button>
                     <br><br>
@@ -69,7 +69,7 @@
                         <div id="colorSeleccionadoImagen" class="colorButton"></div>
                     </div>
                     <br><br>
-                    <button id="sinColorImagen" style="margin-top: 10px;">Sin color de fondo</button>
+                    <button  id="sinColorImagen" style="margin-top: 10px;">Sin color de fondo</button> 
                 </div>
             </div>
         </div>

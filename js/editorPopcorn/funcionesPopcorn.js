@@ -72,6 +72,20 @@ $(function(){
     //Para mantener la sesión abierta
     KeepAlive();
     setInterval(KeepAlive, '600000');
+    
+    //Boton de play/pausa
+    //ui-icon-pause
+    $("#btnPlayToggle").click(function(e){
+        if($popPrincipal.paused()){
+            //Si el video está pausado
+            //le damos play
+            playVideo();
+        }else{
+            //Si el video se está reproduciendo
+            //le damos pausa
+            pauseVideo();
+        }
+    });    
 });
 
 function cerrarMenuAgregar(){

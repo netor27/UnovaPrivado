@@ -57,6 +57,7 @@ $(function(){
         $('#colorSeleccionadoLink').html("Sin color");
         $("#colorHiddenLink").val('transparent');        
     });
+    $("#sinColorLink").button();
 });
 
 function mostrarDialogoInsertarLink(){
@@ -165,7 +166,7 @@ function editarLink(){
 
 function agregarLinkDiv(indice, texto, url, inicio, fin, color, top, left, width, height){
     var textoDiv = '<div id="link_'+indice+'" class="ui-corner-all linkAgregado stack draggable" style="background-color: '+color+'; position: fixed; top: '+getUnidadPx(top)+'; left: '+getUnidadPx(left)+'; width: '+getUnidadPx(width)+'; height: '+getUnidadPx(height)+';">' +
-    '<div class="elementButtons">' +
+    '<div class="elementButtons"id="eb_lnk_'+indice+'">' +
     '<a href="#" onclick=mostrarDialogoEditarLink('+indice+')>'+
     '<div class="ui-state-default ui-corner-all littleBox">' +
     '<span class="ui-icon ui-icon-wrench" >' +
@@ -209,6 +210,13 @@ function agregarLinkDiv(indice, texto, url, inicio, fin, color, top, left, width
         },
         snap: true
     });
+    
+    $("#link_"+indice).hover(function(){
+        $("#eb_lnk_"+indice).show();
+    },function(){
+        $("#eb_lnk_"+indice).hide();
+    })
+    
     $("#link_"+indice).resizable({
         minHeight: 50,
         minWidth: 50,
@@ -220,7 +228,8 @@ function agregarLinkDiv(indice, texto, url, inicio, fin, color, top, left, width
             $containmentHeight  = $("#editorContainment").height();
             links[indice].width = ui.size.width * 100 / $containmentWidth;
             links[indice].height = ui.size.height * 100/ $containmentHeight;
-        }
+        },
+        containment: "#editorContainment"
     });
 }
 
@@ -232,8 +241,9 @@ function dialogoBorrarLink(indice){
         modal: true,
         buttons: {
             Si: function() {
-                borrarLink(indice);
+                borrarLink(indice);                
                 $( this ).dialog( "close" );
+                guardadoAutomatico();
             },
             Cancelar: function() {
                 $( this ).dialog( "close" );

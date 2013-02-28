@@ -55,6 +55,7 @@ $(function(){
         $('#colorSeleccionadoVideo').html("Sin color");
         $("#colorHiddenVideo").val('transparent');        
     });
+    $("#sinColorVideo").button();
 });
 
 function mostrarDialogoInsertarVideo(){
@@ -161,7 +162,7 @@ function editarVideo(){
 function agregarVideoDiv(indice, urlVideo, inicio, fin, color, top, left, width, height){
     var textoDiv = '<div id="videoContainer_'+indice+'" class="ui-corner-all videoAgregado stack" style="background-color: '+color+'; position: fixed; top: '+getUnidadPx(top)+'; left: '+getUnidadPx(left)+'; width: '+getUnidadPx(width)+'; height: '+getUnidadPx(height)+';">' +
     '<p class="ui-widget-header dragHandle">Arr&aacute;strame de aqu&iacute;<br></p>'+
-    '<div class="elementButtons">' +
+    '<div class="elementButtons"id="eb_vid_'+indice+'">' +
     '<a href="#" onclick=mostrarDialogoEditarVideo('+indice+')>'+
     '<div class="ui-state-default ui-corner-all littleBox">' +
     '<span class="ui-icon ui-icon-wrench" >' +
@@ -203,6 +204,13 @@ function agregarVideoDiv(indice, urlVideo, inicio, fin, color, top, left, width,
         },
         snap: true
     });
+    
+    $("#videoContainer_"+indice).hover(function(){
+        $("#eb_vid_"+indice).show();
+    },function(){
+        $("#eb_vid_"+indice).hide();
+    })
+    
     $("#videoContainer_"+indice).resizable({
         minHeight: 180,
         minWidth: 260,
@@ -214,7 +222,8 @@ function agregarVideoDiv(indice, urlVideo, inicio, fin, color, top, left, width,
             $containmentHeight  = $("#editorContainment").height();            
             videos[indice].width = ui.size.width * 100 / $containmentWidth;
             videos[indice].height = ui.size.height * 100 / $containmentHeight;
-        }
+        },
+        containment: "#editorContainment"
 //      resize: function(event, ui) {
 //            $("#video_"+indice).children().each(function() {
 //                var orig = $(this);		
@@ -241,6 +250,7 @@ function dialogoBorrarVideo(indice){
             Si: function() {
                 borrarVideo(indice);
                 $( this ).dialog( "close" );
+                guardadoAutomatico();                
             },
             Cancelar: function() {
                 $( this ).dialog( "close" );

@@ -33,7 +33,7 @@ Popcorn( function() {
 function inicializarPopcorn(){
     $popPrincipal = Popcorn('#mediaPopcorn');
     $popPrincipal.controls($esAudio);
-    $popPrincipal.volume(0.5);
+    $popPrincipal.volume(0);
     $popPrincipal.autoplay(true);
 
     $popPrincipal.on("timeupdate", function() {
@@ -64,9 +64,15 @@ function inicializarPopcorn(){
 //Funciones para pausar y reproducir el video principal
 function playVideo(){
     $popPrincipal.play();
+    //Establecemos el boton en pausa
+    $("#iconPlayPausa").removeClass("playIcon");
+    $("#iconPlayPausa").addClass("pauseIcon");    
 }
 function pauseVideo(){
     $popPrincipal.pause();
+    //Establecemos el boton en play
+    $("#iconPlayPausa").removeClass("pauseIcon");
+    $("#iconPlayPausa").addClass("playIcon");    
 }
 
 //funciones para obtener el tiempo total y el actual

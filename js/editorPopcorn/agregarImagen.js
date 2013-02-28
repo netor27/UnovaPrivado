@@ -64,6 +64,11 @@ $(function(){
         $(".formaPredefinida").removeClass("formaSelected");
         $(this).addClass("formaSelected");
     });
+    
+    $("#sinColorImagen").button();
+        
+    $("#buttonUpload").button();  
+    
 });
 
 function mostrarDialogoInsertarImagen(tipo){
@@ -209,7 +214,7 @@ function editarImagen(){
 
 function agregarImagenDiv(indice, urlImagen, inicio, fin, color, top, left, width, height, tipo){
     var textoDiv = '<div id="imagen_'+indice+'" class="ui-corner-all imagenAgregada  stack draggable" style="background-color: '+color+'; position: fixed; top: '+getUnidadPx(top)+'; left: '+getUnidadPx(left)+'; width: '+getUnidadPx(width)+'; height: '+getUnidadPx(height)+';">' +
-    '<div class="elementButtons">' +
+    '<div class="elementButtons"id="eb_img_'+indice+'">' +
     '<a href="#" onclick=mostrarDialogoEditarImagen('+indice+',"'+tipo+'")>'+
     '<div class="ui-state-default ui-corner-all littleBox">' +
     '<span class="ui-icon ui-icon-wrench" >' +
@@ -251,6 +256,13 @@ function agregarImagenDiv(indice, urlImagen, inicio, fin, color, top, left, widt
         },
         snap: true
     });
+    
+    $("#imagen_"+indice).hover(function(){
+        $("#eb_img_"+indice).show();
+    },function(){
+        $("#eb_img_"+indice).hide();
+    })
+    
     $("#imagen_"+indice).resizable({
         minHeight: 50,
         minWidth: 100,
@@ -262,7 +274,8 @@ function agregarImagenDiv(indice, urlImagen, inicio, fin, color, top, left, widt
             $containmentHeight  = $("#editorContainment").height();            
             imagenes[indice].width = ui.size.width * 100 / $containmentWidth;
             imagenes[indice].height = ui.size.height * 100 / $containmentHeight;
-        }
+        },
+        containment: "#editorContainment"
     });
 }
 
@@ -274,8 +287,9 @@ function dialogoBorrarImagen(indice){
         modal: true,
         buttons: {
             Si: function() {
-                borrarImagen(indice);
+                borrarImagen(indice);                
                 $( this ).dialog( "close" );
+                guardadoAutomatico();
             },
             Cancelar: function() {
                 $( this ).dialog( "close" );

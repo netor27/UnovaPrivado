@@ -5,9 +5,9 @@ $(function(){
     validarSesion();
     var segundos  = 30;
     setInterval(validarSesion, segundos * 1000);
-    $("body").bind("contextmenu", function(e) {
-        e.preventDefault();
-    });
+//    $("body").bind("contextmenu", function(e) {
+//        e.preventDefault();
+//    });
     //mantener la sesión abierta
     KeepAlive();
     setInterval(KeepAlive, '600000');
@@ -53,7 +53,7 @@ function getUnidadPx(unidad){
 
 function agregarTextoDiv(texto, inicio, fin, color, top, left, width, height){
     var textoDiv = '<div id="drag_'+$indice+'" class="ui-corner-all textoAgregado stack draggable" style="overflow:auto;background-color: '+color+'; position: fixed; top: '+getUnidadPx(top)+'; left: '+getUnidadPx(left)+'; width: '+getUnidadPx(width)+'; height: '+getUnidadPx(height)+';">' +
-    '<div id="content_'+$indice+'" style="width:90%; height:90%; padding:5px; ">'+
+    '<div id="content_'+$indice+'" style="width: 100%;height: 100%;overflow-y: auto;overflow-wrap: break-word;">'+
     '<div>' +
     texto +
     '</div>' +
@@ -69,7 +69,21 @@ function agregarTextoDiv(texto, inicio, fin, color, top, left, width, height){
     $("#drag_"+$indice).draggable({
         handle: "#content_"+$indice,
         containment: "#editorContainment",
-        stack: ".stack"
+        stack: ".stack",
+        start: function() {
+            // if we're scrolling, don't start and cancel drag
+            if ($(this).data("scrolled")) {
+                $(this).data("scrolled", false).trigger("mouseup");
+                return false;
+            }
+        }
+    }).find("*").andSelf().scroll(function() {               
+        // bind to the scroll event on current elements, and all children.
+        //  we have to bind to all of them, because scroll doesn't propagate.
+        
+        //set a scrolled data variable for any parents that are draggable, so they don't drag on scroll.
+        $(this).parents(".ui-draggable").data("scrolled", true);
+        
     });
     $indice++;
 }

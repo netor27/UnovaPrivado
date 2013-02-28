@@ -22,19 +22,29 @@ function subirImagen() {
                     && $usuario->uuid == $uuid
                     && clasePerteneceACurso($idCurso, $idClase)) {
 
-                $pathInfo = pathinfo($_FILES['imagen']['name']);
-                $uniqueCode = getUniqueCode(15);
-                $fileName = "extraMedia_" . $uniqueCode . "_." . $pathInfo['extension'];
-                $destDir = "archivos/extraMedia/" . $idClase . "/";
-                if (!is_dir($destDir)) {
-                    //El directorio no existe, lo creamos
-                    mkdir($destDir);
-                }
-                $destination = $destDir . $fileName;
-                if (move_uploaded_file($_FILES['imagen']['tmp_name'], $destination)) {
-                    $link = "/" . $destination;
-                    //con la siguiente funcion obtenemos el ancho y el alto de la imagen
-                    //list($width, $height, $type, $attr) = getimagesize($destination);        
+                $file = "archivos/temporal/original_" . $_FILES["imagen"]["name"];
+                if (move_uploaded_file($_FILES['imagen']['tmp_name'], $file)) {
+                    //Se subió correctamente el archivo, lo subimos al S3
+                    require_once 'modulos/aws/modelos/s3Modelo.php';
+                    
+                    $res = uploadFileToS3($file, "popcornExtraFiles");
+                    if ($res['res']) {
+                        //se subio bien al s3
+                        require_once 'modulos/editorPopcorn/modelos/archivosExtraModelo.php';
+                        $archivoExtra = new ArchivoExtra();
+                        $archivoExtra->idClase = $idClase;
+                        $archivoExtra->link = $res['link'];
+                        if (agregarArchivoExtra($archivoExtra) >= 0) {
+                            //Se agrego bien a la bd
+                            $link = $res['link'];
+                        }else{
+                            //error al agregar a la bd
+                            $error = "Error al guardar en la bd";
+                        }
+                    } else {
+                        //no se subio al s3
+                        $error = "no se subio al s3";
+                    }
                 } else {
                     $error = "error al mover el archivo";
                 }

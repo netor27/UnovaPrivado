@@ -68,7 +68,7 @@ require_once('layout/headers/headCierreTomarClase.php');
 ?>
 </div>
 <div id="editorContainment" style="background-color: <?php echo $backgroundColor; ?>; z-index:-50;">
-    <audio id="mediaPopcorn" controls="controls">        
+    <audio id="mediaPopcorn" controls="controls" class="videoClass" style="z-index:-10; position: absolute; top: <?php echo $videoData['top'] . '%'; ?>; left: <?php echo $videoData['left'] . '%'; ?>; width: <?php echo $videoData['width'] . '%'; ?>; height: <?php echo $videoData['height'] . '%'; ?>;">>        
         <source src="<?php echo $clase->archivo; ?>" type="audio/mpeg">
         <source src="<?php echo $clase->archivo2; ?>" type="audio/ogg">
         Tu navegador no es compatible con las características de este sitio. Te recomendamos descargar google chrome
