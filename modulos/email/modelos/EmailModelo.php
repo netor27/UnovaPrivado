@@ -4,7 +4,6 @@ function sendMail($text, $html, $subject, $from, $to) {
     $text = utf8_decode($text);
     $html = utf8_decode($html);    
     $subject = utf8_decode($subject);
-    //return sendMailSMTP($text, $html, $subject, $from, $to);
     return sendMailConSwift($text, $html, $subject, $from, $to);
 }
 

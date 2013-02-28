@@ -280,12 +280,4 @@ function enviarMailResumenSemanal($email, $nombreUsuario, $numAlumnos, $numPregu
     return sendMail($text, $html, "Tu resumen semanal en Unova", EMAIL_FROM, $email);
 }
 
-function enviarMailErrorTransformacion($mensaje, $subject) {
-    $email = EMAIL_ADVICE_ERRORS;
-    $text = 'Ocurrio un error en el procedimiento de transformacion\n\n'.$mensaje;
-    $html = HEADER . '
-        <h3>Ocurrio un error en el procedimiento de transformacion</h3>
-        <br><br>'.$mensaje . '<br><br><br>' . FOOTER;
-    return sendMail($text, $html, $subject, EMAIL_FROM, $email);
-}
 ?>
