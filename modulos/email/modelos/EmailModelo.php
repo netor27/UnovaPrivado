@@ -2,10 +2,17 @@
 
 function sendMail($text, $html, $subject, $from, $to) {
     $text = utf8_decode($text);
-    $html = utf8_decode($html);    
+    $html = utf8_decode($html);
     $subject = utf8_decode($subject);
     return sendMailConSwift($text, $html, $subject, $from, $to);
 }
+
+/*
+  SMTP Username:
+  AKIAIM6EJFSLCQGK4PMQ
+  SMTP Password:
+  ApaxbFcCEegA3YK3yW8fPLVX9I/mqzhEDnKlMvIM691S
+ */
 
 function sendMailConSwift($text, $html, $subject, $from, $to) {
     include_once "lib/php/swift/swift_required.php";
@@ -25,7 +32,7 @@ function sendMailConSwift($text, $html, $subject, $from, $to) {
     $message->setBody($html, 'text/html');
     $message->setTo($to);
     $message->addPart($text, 'text/plain');
-    
+
     // send message 
     $recipients = $swift->send($message, $failures);
     if ($recipients <= 0) {
