@@ -1,0 +1,44 @@
+[aws:elasticbeanstalk:container:php:phpini]
+document_root=
+composer_options=
+zlib.output_compression=Off
+memory_limit=256M
+allow_url_fopen=On
+max_execution_time=60
+display_errors=Off
+
+[aws:elasticbeanstalk:application:environment]
+PARAM1=
+PARAM2=
+PARAM4=
+PARAM3=
+PARAM5=
+
+[aws:elasticbeanstalk:hostmanager]
+LogPublicationControl=false
+
+[aws:autoscaling:launchconfiguration]
+InstanceType=t1.micro
+EC2KeyName=
+
+[aws:ec2:vpc]
+ELBSubnets=
+ELBScheme=public
+Subnets=
+VPCId=
+
+[aws:elasticbeanstalk:application]
+Application Healthcheck URL=
+
+[aws:autoscaling:asg]
+MaxSize=4
+MinSize=1
+Custom Availability Zones=
+
+[aws:elasticbeanstalk:monitoring]
+Automatically Terminate Unhealthy Instances=true
+
+[aws:elasticbeanstalk:sns:topics]
+Notification Endpoint=
+Notification Protocol=email
+

@@ -1,0 +1,10 @@
+[global]
+ApplicationName=UnovaPrivado
+DevToolsEndpoint=git.elasticbeanstalk.us-east-1.amazonaws.com
+EnvironmentName=UnovaDemo-env
+OptionSettingFile=/home/neto/public_html/UnovaPrivado/.elasticbeanstalk/optionsettings.UnovaDemo-env
+RdsEnabled=No
+Region=us-east-1
+ServiceEndpoint=https://elasticbeanstalk.us-east-1.amazonaws.com
+SolutionStack=32bit Amazon Linux running PHP 5.4
+
