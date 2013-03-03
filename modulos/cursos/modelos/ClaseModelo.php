@@ -340,44 +340,45 @@ function crearClaseDeArchivo($idUsuario, $idCurso, $idTema, $fileName, $fileType
 
             require_once 'modulos/aws/modelos/s3Modelo.php';
             if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
-                //Subimos el archivo al servicio S3 de amazon
-                $s3res = uploadFileToS3($file);
-                if ($s3res['res']) {
-                    //El archivo se subio al cdn
-                    //Generamos los datos del mensaje
-                    $datosDelMensaje = array(
-                        "bucket" => $s3res['bucket'],
-                        "key" => $s3res['key'],
-                        "tipo" => $clase->idTipoClase,
-                        "host" => getDomainName(),
-                        "idClase" => $clase->idClase
-                    );
-                    $datosJson = json_encode($datosDelMensaje);
-                    require_once 'modulos/aws/modelos/sqsModelo.php';
-                    if (AddMessageToQueue($datosJson)) {
-                        //Se mando correctamente el mensaje
-                        //Si es video o audio creamos la clase con la bandera que todavía no se transforma
-                        $clase->transformado = 0;
-                        $clase->usoDeDisco = 0;
-                        $clase->duracion = "00:00";
-                        $clase->orden = getUltimoOrdenEnTema($idTema) + 1;
-                        $idClase = altaClase($clase);
-                        if ($idClase >= 0) {
+                //Creamos la clase en la bd
+                //Si es video o audio creamos la clase con la bandera que todavía no se transforma
+                $clase->transformado = 0;
+                $clase->usoDeDisco = 0;
+                $clase->duracion = "00:00";
+                $clase->orden = getUltimoOrdenEnTema($idTema) + 1;
+                $idClase = altaClase($clase);
+                if ($idClase >= 0) {
+                    //Subimos el archivo al servicio S3 de amazon
+                    $s3res = uploadFileToS3($file);
+                    if ($s3res['res']) {
+                        //El archivo se subio al cdn
+                        //Generamos los datos del mensaje
+                        $datosDelMensaje = array(
+                            "bucket" => $s3res['bucket'],
+                            "key" => $s3res['key'],
+                            "tipo" => $clase->idTipoClase,
+                            "host" => getDomainName(),
+                            "idClase" => $idClase
+                        );
+                        $datosJson = json_encode($datosDelMensaje);
+                        require_once 'modulos/aws/modelos/sqsModelo.php';
+                        if (AddMessageToQueue($datosJson)) {
+                            //Se mando correctamente el mensaje
                             //Se dió de alta correctamente
                             $res['resultado'] = true;
                             $res['url'] = "#";
                         } else {
-                            //Ocurrió un error al agregar a la bd
+                            //Ocurrio un eror al agregar el mensaje
                             $res['resultado'] = false;
                             $res['mensaje'] = "Ocurrió un error al guardar tu archivo en nuestros servidores. Intenta de nuevo más tarde";
                         }
                     } else {
-                        //Ocurrio un eror al agregar el mensaje
+                        //Erro al subir el archivo al s3 de amazon
                         $res['resultado'] = false;
                         $res['mensaje'] = "Ocurrió un error al guardar tu archivo en nuestros servidores. Intenta de nuevo más tarde";
                     }
                 } else {
-                    //Erro al subir el archivo al s3 de amazon
+                    //Ocurrió un error al agregar a la bd
                     $res['resultado'] = false;
                     $res['mensaje'] = "Ocurrió un error al guardar tu archivo en nuestros servidores. Intenta de nuevo más tarde";
                 }
