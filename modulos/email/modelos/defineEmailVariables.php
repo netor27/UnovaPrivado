@@ -21,7 +21,7 @@ define("HEADER", '<html>
                             <td>&nbsp;</td>
                             <td style="padding:10px 0">
                                 <a href="' . getDomainName() . '">
-                                    <img src="http://c342380.r80.cf1.rackcdn.com/Unova_Logo_400x102.png" width="219" height="50" border="0" title="Unova" alt="Unova">
+                                    <img src="https://s3.amazonaws.com/UnovaShared/images/Logo_Unova_400x100.png" width="219" height="50" border="0" title="Unova" alt="Unova">
                                 </a>
                             </td>
                             <td>&nbsp;</td>
@@ -41,13 +41,13 @@ define("FOOTER", '<p></p>
                             <td style="padding:10px 35px;color:#999999;font-size:11px;line-height:16px">
                                 Encu&eacute;ntranos en:&nbsp;
                                 <a href="http://www.facebook.com/pages/Unova/266525193421804" style="text-decoration:none;border:0" title="Facebook" target="_blank">
-                                    <img src="http://c342380.r80.cf1.rackcdn.com/Facebook.png" style="border:0" width="16" height="16" alt="Encuentra a Unova en Facebook">
+                                    <img src="https://s3.amazonaws.com/UnovaShared/images/fb_16x16.png" style="border:0" width="16" height="16" alt="Encuentra a Unova en Facebook">
                                 </a>&nbsp;
                                 <a href="http://twitter.com/UnovaEdu" style="text-decoration:none;border:0" title="Twitter" target="_blank">
-                                    <img src="http://c342380.r80.cf1.rackcdn.com/Twitter.png" style="border:0" width="16" height="16" alt="Encuentra a Unova en Twitter">
+                                    <img src="https://s3.amazonaws.com/UnovaShared/images/twitter.png" style="border:0" width="16" height="16" alt="Encuentra a Unova en Twitter">
                                 </a>&nbsp;
                                 <a href="https://plus.google.com/u/0/118207331473943619520/posts" style="text-decoration:none;border:0" title="Google+" target="_blank">
-                                    <img src="http://c342380.r80.cf1.rackcdn.com/Google+.png" style="border:0" width="16" height="16" alt="Encuentra a Unova en Google+">
+                                    <img src="https://s3.amazonaws.com/UnovaShared/images/gplus_16x16.png" style="border:0" width="16" height="16" alt="Encuentra a Unova en Google+">
                                 </a>&nbsp;
                                 <br>
                                 <br>
