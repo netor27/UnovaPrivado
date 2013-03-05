@@ -1,67 +1,7 @@
 <?php
 
-require_once 'modulos/email/modelos/EmailModelo.php';
-define("EMAIL_ADVICE_ERRORS","neto.r27@gmail.com");
-define("EMAIL_FROM", "Unova@unova.mx");
-define("HEADER", '<html>
-        <head>
-        <title>Bienvenido a Unova</title>
-        </head>
-        <body style="color:midnightblue">
-        <table cellpadding="0" cellspacing="0" width="98%">
-        <tbody><tr>
-            <td width="100%" align="center">
-                <table width="700" cellpadding="0" cellspacing="0" bgcolor="#f1f1ee" style="font-family:\'Trebuchet MS\', Helvetica, sans-serif;font-size:14px;line-height:150%">
-                    <colgroup>
-                        <col width="30">
-                        <col width="640">
-                        <col width="30">
-                    </colgroup>
-                    <tbody>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td style="padding:10px 0">
-                                <a href="' . getDomainName() . '">
-                                    <img src="http://c342380.r80.cf1.rackcdn.com/Unova_Logo_400x102.png" width="219" height="50" border="0" title="Unova" alt="Unova">
-                                </a>
-                            </td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td style="padding:20px 15px" bgcolor="#ffffff">
-                                <p></p>
-                                <p></p>');
-
-define("FOOTER", '<p></p>
-                                <p></p></td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td style="padding:10px 35px;color:#999999;font-size:11px;line-height:16px">
-                                Encu&eacute;ntranos en:&nbsp;
-                                <a href="http://www.facebook.com/pages/Unova/266525193421804" style="text-decoration:none;border:0" title="Facebook" target="_blank">
-                                    <img src="http://c342380.r80.cf1.rackcdn.com/Facebook.png" style="border:0" width="16" height="16" alt="Encuentra a Unova en Facebook">
-                                </a>&nbsp;
-                                <a href="http://twitter.com/UnovaEdu" style="text-decoration:none;border:0" title="Twitter" target="_blank">
-                                    <img src="http://c342380.r80.cf1.rackcdn.com/Twitter.png" style="border:0" width="16" height="16" alt="Encuentra a Unova en Twitter">
-                                </a>&nbsp;
-                                <a href="https://plus.google.com/u/0/118207331473943619520/posts" style="text-decoration:none;border:0" title="Google+" target="_blank">
-                                    <img src="http://c342380.r80.cf1.rackcdn.com/Google+.png" style="border:0" width="16" height="16" alt="Encuentra a Unova en Google+">
-                                </a>&nbsp;
-                                <br>
-                                <br>
-                            </td>
-                            <td>&nbsp;</td>
-                        </tr>
-                    </tbody></table>
-            </td>
-        </tr>
-    </tbody>
-    </table>
-    </body></html>
-    ');
+require_once 'modulos/aws/modelos/sesModelo.php';
+require_once 'modulos/email/modelos/defineEmailVariables.php';
 
 function enviarMailBienvenida($email, $nombreUsuario, $urlConfirmacion) {
     $text = 'Bienvenido a Unova,\n' . utf8_encode($nombreUsuario) . '\n
@@ -82,8 +22,8 @@ function enviarMailBienvenida($email, $nombreUsuario, $urlConfirmacion) {
                     </tr>
                 </tbody>
             </table>' . FOOTER;
-
-    return sendMail($text, $html, "Te damos la bienvenida a Unova", EMAIL_FROM, $email);
+    $to[] = $email;
+    return sendMailSES($text, $html, "Te damos la bienvenida a Unova", EMAIL_FROM, $to);
 }
 
 function enviarMailConfirmacion($email, $urlConfirmacion) {
@@ -104,8 +44,8 @@ function enviarMailConfirmacion($email, $urlConfirmacion) {
                 </tbody>
             </table>
         ' . FOOTER;
-
-    return sendMail($text, $html, "Confirmacion de cuenta", EMAIL_FROM, $email);
+    $to[] = $email;
+    return sendMailSES($text, $html, "Confirmacion de cuenta", EMAIL_FROM, $to);
 }
 
 function enviarMailOlvidePassword($email, $urlReestablecer) {
@@ -126,7 +66,8 @@ function enviarMailOlvidePassword($email, $urlReestablecer) {
                 </tbody>
             </table>
         ' . FOOTER;
-    return sendMail($text, $html, utf8_encode("Reestablecer contraseña"), EMAIL_FROM, $email);
+    $to[] = $email;
+    return sendMailSES($text, $html, utf8_encode("Reestablecer contraseña"), EMAIL_FROM, $to);
 }
 
 function enviarMailSuscripcionUsuario($email, $urlReestablecer) {
@@ -149,12 +90,13 @@ function enviarMailSuscripcionUsuario($email, $urlReestablecer) {
                 </tbody>
             </table>
         ' . FOOTER;
-    return sendMail($text, $html, utf8_encode("Bienvenido a Unova"), EMAIL_FROM, $email);
+    $to[] = $email;
+    return sendMailSES($text, $html, utf8_encode("Bienvenido a Unova"), EMAIL_FROM, $to);
 }
 
 function enviarMailTransformacionVideoCompleta($email, $tituloCurso, $tituloClase, $urlCurso, $idTipoClase) {
     $txtTipo = "";
-    switch($idTipoClase){
+    switch ($idTipoClase) {
         case 0://video
             $txtTipo = "video";
             break;
@@ -162,20 +104,20 @@ function enviarMailTransformacionVideoCompleta($email, $tituloCurso, $tituloClas
             $txtTipo = "audio";
             break;
     }
-    
-    $text = 'Transformaci&oacute;n de '.$txtTipo.' completa,\n\n
-        El '.$txtTipo.' de tu clase "' . utf8_encode($tituloClase) . '" perteneciente a tu curso "' . utf8_encode($tituloCurso) . '"\n
+
+    $text = 'Transformaci&oacute;n de ' . $txtTipo . ' completa,\n\n
+        El ' . $txtTipo . ' de tu clase "' . utf8_encode($tituloClase) . '" perteneciente a tu curso "' . utf8_encode($tituloCurso) . '"\n
         ha sido transformado satisfactoriamente.\n
         Ya esta disponible en l&iacute;nea en la p&aacute;gina de tu curso:\n
         ' . $urlCurso . '\n\n
         Gracias, equipo Unova.';
     $html = HEADER . '
-        <h1 style="font-size:18px">Transformaci&oacute;n de '.$txtTipo.' completa</h1>
+        <h1 style="font-size:18px">Transformaci&oacute;n de ' . $txtTipo . ' completa</h1>
         <table bgcolor="#ffffff" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
                 <tbody>
                     <tr valign="top">
                         <td style="font-size:13px;margin: 10px; padding: 10px;">
-                            <p style="padding:10px;margin:0">El '.$txtTipo.' de tu clase "' . utf8_encode($tituloClase) . '" perteneciente a tu curso "' . utf8_encode($tituloCurso) . '" ha sido transformado satisfactoriamente.</p>
+                            <p style="padding:10px;margin:0">El ' . $txtTipo . ' de tu clase "' . utf8_encode($tituloClase) . '" perteneciente a tu curso "' . utf8_encode($tituloCurso) . '" ha sido transformado satisfactoriamente.</p>
                             <p style="padding:10px;margin:0">Ya esta disponible en l&iacute;nea en la p&aacute;gina de tu curso:</p>
                             <p style="padding:10px;margin:0"><a href="' . $urlCurso . '">' . $urlCurso . '</a></p>
                         </td>
@@ -183,7 +125,8 @@ function enviarMailTransformacionVideoCompleta($email, $tituloCurso, $tituloClas
                 </tbody>
             </table>
         ' . FOOTER;
-    return sendMail($text, $html, utf8_encode("Transformación de ".$txtTipo." completa"), EMAIL_FROM, $email);
+    $to[] = $email;
+    return sendMailSES($text, $html, utf8_encode("Transformación de " . $txtTipo . " completa"), EMAIL_FROM, $to);
 }
 
 function enviarMailSuscripcionCurso($email, $tituloCurso, $imagenCurso, $urlCurso) {
@@ -212,7 +155,8 @@ function enviarMailSuscripcionCurso($email, $tituloCurso, $imagenCurso, $urlCurs
                 </tbody>
             </table>
         ' . FOOTER;
-    return sendMail($text, $html, utf8_encode("Inscripción a curso"), EMAIL_FROM, $email);
+    $to[] = $email;
+    return sendMailSES($text, $html, utf8_encode("Inscripción a curso"), EMAIL_FROM, $to);
 }
 
 function enviarMailRespuestaPregunta($email, $tituloCurso, $urlCurso, $pregunta, $respuesta) {
@@ -245,7 +189,8 @@ function enviarMailRespuestaPregunta($email, $tituloCurso, $urlCurso, $pregunta,
                 </tbody>
             </table>
         ' . FOOTER;
-    return sendMail($text, $html, "Tu pregunta ha sido respondida", EMAIL_FROM, $email);
+    $to[] = $email;
+    return sendMailSES($text, $html, "Tu pregunta ha sido respondida", EMAIL_FROM, $to);
 }
 
 function enviarMailResumenSemanal($email, $nombreUsuario, $numAlumnos, $numPreguntas) {
@@ -277,7 +222,8 @@ function enviarMailResumenSemanal($email, $nombreUsuario, $numAlumnos, $numPregu
             </tbody>
         </table>
         ' . FOOTER;
-    return sendMail($text, $html, "Tu resumen semanal en Unova", EMAIL_FROM, $email);
+    $to[] = $email;
+    return sendMailSES($text, $html, "Tu resumen semanal en Unova", EMAIL_FROM, $to);
 }
 
 ?>

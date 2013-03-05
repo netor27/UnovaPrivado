@@ -12,7 +12,7 @@ function getUrl() {
 }
 
 function getDomainName() {
-    return $_SERVER['HTTP_HOST'];
+    return 'http://' . $_SERVER['HTTP_HOST'];
 }
 
 function getRequestUri() {

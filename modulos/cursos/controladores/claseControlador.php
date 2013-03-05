@@ -378,12 +378,19 @@ function actualizarDatosDespuesDeTransformacion() {
      */
     require_once 'modulos/aws/modelos/s3Modelo.php';
     $prefijoLink = getPrefijoLink();
-    $archivo = $prefijoLink . $_POST['bucket'] . "/" . $_POST['key1'];;
-    $archivo2 = $prefijoLink . $_POST['bucket'] . "/" . $_POST['key2'];;
-    require_once 'modulos/cursos/modelos/ClaseModelo.php';    
-    if(actualizaArchivosDespuesTransformacion($_POST['idClase'], $archivo, $archivo2, $_POST['size'], $_POST['duracion'])){
-        echo 'ok';
-    }else{
+    $archivo = $prefijoLink . $_POST['bucket'] . "/" . $_POST['key1'];
+    $archivo2 = $prefijoLink . $_POST['bucket'] . "/" . $_POST['key2'];
+    require_once 'modulos/cursos/modelos/ClaseModelo.php';
+    if (actualizaArchivosDespuesTransformacion($_POST['idClase'], $archivo, $archivo2, $_POST['size'], $_POST['duracion'])) {
+        require_once 'modulos/cursos/modelos/ClaseModelo.php';
+        require_once 'modulos/cursos/modelos/CursoModelo.php';
+        $clase = getClase($_POST['idClase']);
+        $curso = getCursoPerteneciente($_POST['idClase']);
+        $usuario = getUsuarioDeCurso($curso->idCurso);
+        require_once 'modulos/email/modelos/envioEmailModelo.php';
+        $url = getDomainName() . "/" . $curso->uniqueUrl;
+        enviarMailTransformacionVideoCompleta($usuario->email, $curso->titulo, $clase->titulo, $url, $clase->idTipoClase);
+    } else {
         echo 'error';
     }
 }
