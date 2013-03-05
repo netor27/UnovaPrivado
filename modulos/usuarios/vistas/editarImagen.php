@@ -41,6 +41,7 @@ require_once('layout/headers/headCierre.php');
                     <div class="control-group">
                         <div class="controls">
                             <button type="submit" class="btn btn-primary"> Aceptar </button>  
+                            <a href="/usuario/<?php echo $usuarioCambiar->uniqueUrl; ?>" class="btn offset1"> Cancelar </a>  
                         </div>
                     </div>
                 </form>

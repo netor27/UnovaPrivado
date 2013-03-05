@@ -47,7 +47,8 @@ require_once('layout/headers/headCierre.php');
                     </div>
                     <div class="control-group">
                         <div class="controls">
-                            <button type="submit" class="btn btn-primary">Aceptar</button>  
+                            <button type="submit" class="span3 btn btn-primary">Aceptar</button>  
+                            <a href="/curso/<?php echo $cursoParaModificar->uniqueUrl;?>" class="span3 offset1 btn ">Cancelar</a>  
                         </div>
                     </div>
                 </form>

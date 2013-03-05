@@ -6,6 +6,9 @@ require_once('layout/headers/headCierre.php');
 
 <div class="contenido">    
     <div class="container">
+        <div class="row-fluid">
+            <div class="span12"> </div>
+        </div>
         <div id="perfil_header">
             <div id="perfil_header_image" class="left">
                 <img class="img-polaroid" src="<?php echo $usuarioPerfil->avatar; ?>" ><br>
@@ -67,16 +70,22 @@ require_once('layout/headers/headCierre.php');
                 </div>
             <?php } ?>
         </div>
-        <div id="perfil_panel">
-            <h3>Biografía</h3>
-        </div>
-        <div id="perfil_footer">
-            <div id="bio" class="left">
-                <div id="bioContent">
-                    <?php echo $usuarioPerfil->bio; ?>
+        <?php
+        if (isset($usuarioPerfil->bio)) {
+            ?>
+            <div id="perfil_panel">
+                <h3>Biografía</h3>
+            </div>
+            <div id="perfil_footer">
+                <div id="bio" class="left">
+                    <div id="bioContent">
+                        <?php echo $usuarioPerfil->bio; ?>
+                    </div>
                 </div>
             </div>
-        </div>
+            <?php
+        }
+        ?>
         <div class="row-fluid">
             <div class="span2">
                 <?php

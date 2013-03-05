@@ -236,6 +236,7 @@ function cambiarImagenSubmit() {
 
 function cambiarPassword() {
     if (validarUsuarioLoggeado()) {
+        $usuario = getUsuarioActual();
         require_once 'modulos/usuarios/vistas/cambiarPassword.php';
     }
 }
