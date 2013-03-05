@@ -390,6 +390,7 @@ function actualizarDatosDespuesDeTransformacion() {
         require_once 'modulos/email/modelos/envioEmailModelo.php';
         $url = getDomainName() . "/" . $curso->uniqueUrl;
         enviarMailTransformacionVideoCompleta("neto.r27@gmail.com", $curso->titulo, $clase->titulo, $url, $clase->idTipoClase);
+        echo 'ok';
     } else {
         echo 'error';
     }
