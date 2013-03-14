@@ -211,7 +211,7 @@ if (isset($links))
             <img src="/layout/imagenes/loading.gif">Guardando...
         </div>
         <div id="editorContainment">
-            <div id="videoContainer" class="draggable resizable" style="z-index:-10; background:black; position: absolute; top: <?php echo $top . '%'; ?>; left: <?php echo $left . '%'; ?>; width: <?php echo $width . '%'; ?>; height: <?php echo $height . '%'; ?>;">				
+            <div id="videoContainer" class="draggable resizable" style="z-index:-10; position: absolute; top: <?php echo $top . '%'; ?>; left: <?php echo $left . '%'; ?>; width: <?php echo $width . '%'; ?>; height: <?php echo $height . '%'; ?>;">				
                 <?php
                 if ($clase->idTipoClase == 0) {
                     ?>

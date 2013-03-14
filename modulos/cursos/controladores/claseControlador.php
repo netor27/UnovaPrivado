@@ -279,21 +279,23 @@ function guardarEdicionVideo() {
                 //revisamos que los archivos que se subieron para esta clase aún se utilizen
                 require_once 'modulos/editorPopcorn/modelos/archivosExtraModelo.php';
                 $archivosExtra = getArchivosExtraDeClase($idClase);
-                foreach ($archivosExtra as $archivo) {
-                    $auxName = substr(strrchr($archivo->link, "/"), 1);
-                    if (strpos($json, $auxName) !== false) {
-                        //echo 'El archivo ' . $archivo->link . ' todavía se usa<br>';
-                        //No hacemos nada, el archivo esta en uso
-                    } else {
-                        //echo 'El archivo ' . $archivo->link . ' YA NO SE USA!<br>';
-                        //El archivo ya no se usa, lo borramos del s3
-                        require_once 'modulos/aws/modelos/s3Modelo.php';
-                        //echo 'se va a borrar el id = ' . $archivo->idArchivoExtra . ' link= ' . $archivo->link;
-                        if (deleteFileFromS3ByUrl($archivo->link)) {
-                            //Se borro el archivo del s3, lo borramos de la bd
-                            //echo 'se borro del s3 ';
-                            if (borrarArchivoExtra($archivo->idArchivoExtra)) {
-                                //echo 'se borro de la bd';
+                if (isset($archivosExtra)) {
+                    foreach ($archivosExtra as $archivo) {
+                        $auxName = substr(strrchr($archivo->link, "/"), 1);
+                        if (strpos($json, $auxName) !== false) {
+                            //echo 'El archivo ' . $archivo->link . ' todavía se usa<br>';
+                            //No hacemos nada, el archivo esta en uso
+                        } else {
+                            //echo 'El archivo ' . $archivo->link . ' YA NO SE USA!<br>';
+                            //El archivo ya no se usa, lo borramos del s3
+                            require_once 'modulos/aws/modelos/s3Modelo.php';
+                            //echo 'se va a borrar el id = ' . $archivo->idArchivoExtra . ' link= ' . $archivo->link;
+                            if (deleteFileFromS3ByUrl($archivo->link)) {
+                                //Se borro el archivo del s3, lo borramos de la bd
+                                //echo 'se borro del s3 ';
+                                if (borrarArchivoExtra($archivo->idArchivoExtra)) {
+                                    //echo 'se borro de la bd';
+                                }
                             }
                         }
                     }

@@ -106,7 +106,8 @@ div{
 }
 #slider{	
     margin: 5px auto;
-    height: 20px
+    height: 20px;
+    cursor: pointer;
 }
 #controles{
     float: left;
@@ -114,7 +115,7 @@ div{
     padding:10px 0px 0px 5px;
 }
 #controlTiempo{
-    color: white;
+    color: rgb(0,96,230);
 }
 
 .elementButtons{
@@ -129,6 +130,12 @@ div{
 
 .draggable{
     cursor:move;
+}
+
+.draggable:hover{
+    border-width:1px;
+    border-style:solid;
+    border-color: black;
 }
 
 .dragHandle{
@@ -369,7 +376,7 @@ div{
 }
 
 #slider .ui-widget-header{
-    background: rgb(59,104,255);
+    background: rgb(64,114,179);
 }
 
 .formaPredefinida{
@@ -510,6 +517,7 @@ div{
     position: relative;
     padding: 4px;
     width: 30px;
+    cursor: pointer;
 }
 
 #botonPlayContainer{
@@ -535,4 +543,11 @@ div{
 #slider .ui-slider-handle {
     height: 25px;
     width: 15px;
+    cursor: move;
+}
+
+.ui-slider-range{
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
 }
