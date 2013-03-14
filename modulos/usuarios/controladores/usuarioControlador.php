@@ -179,6 +179,8 @@ function cambiarImagenSubmit() {
                         //Subimos la imagen recortada al S3 de Amazon
                         require_once 'modulos/aws/modelos/s3Modelo.php';
                         $res = uploadFileToS3($dest, "avatars");
+                        //borramos la imagen con crop                                
+                        unlink($dest);
                         if ($res['res']) {
                             $imagenAnterior = $usuarioCambiar->avatar;
                             $usuarioCambiar->avatar = $res['link'];
@@ -205,9 +207,6 @@ function cambiarImagenSubmit() {
                             setSessionMessage("Ocurrió un error al guardar la imagen en nuestros servidores. Intenta de nuevo más tarde", " ¡Error! ", "error");
                             redirect("/usuarios/usuario/cambiarImagen");
                         }
-                        //Sin importar que paso con la subida, borramos la imagen local
-                        //borramos la imagen con crop                                
-                        unlink($dest);
                     } else {
                         //borramos la imagen temporal
                         unlink($file);

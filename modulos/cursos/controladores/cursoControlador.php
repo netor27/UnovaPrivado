@@ -272,9 +272,9 @@ function cambiarImagenSubmit() {
                             //Subimos la imagen recortada al S3 de Amazon
                             require_once 'modulos/aws/modelos/s3Modelo.php';
                             $res = uploadFileToS3($dest, "cursosImgs");
+                            //borramos la imagen con crop                                
+                            unlink($dest);
                             if ($res['res']) {
-                                //borramos la imagen con crop                                
-                                unlink($dest);
                                 $imagenAnterior = $cursoParaModificar->imagen;
                                 //Se subió bien la imagen, guardamos en la bd
                                 $cursoParaModificar->imagen = $res['link'];
@@ -297,8 +297,6 @@ function cambiarImagenSubmit() {
                                 }
                             } else {
                                 //No se subió la imagen
-                                //borramos la imagen con crop                                
-                                unlink($dest);
                                 setSessionMessage("Ocurrió un error al guardar la imagen en nuestros servidores. Intenta de nuevo más tarde", " ¡Error! ", "error");
                                 redirect("/curso/" . $cursoParaModificar->uniqueUrl);
                             }
