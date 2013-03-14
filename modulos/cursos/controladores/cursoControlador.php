@@ -262,7 +262,6 @@ function cambiarImagenSubmit() {
                     require_once 'funcionesPHP/CropImage.php';
                     //guardamos la imagen en el formato original
                     $file = "archivos/temporal/original_" . $_FILES["imagen"]["name"];
-
                     if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $file)) {
                         $dest = "archivos/temporal/cropped_" . $_FILES["imagen"]["name"];
                         //Hacemos el crop de la imagen
@@ -274,6 +273,8 @@ function cambiarImagenSubmit() {
                             require_once 'modulos/aws/modelos/s3Modelo.php';
                             $res = uploadFileToS3($dest, "cursosImgs");
                             if ($res['res']) {
+                                //borramos la imagen con crop                                
+                                unlink($dest);
                                 $imagenAnterior = $cursoParaModificar->imagen;
                                 //Se subió bien la imagen, guardamos en la bd
                                 $cursoParaModificar->imagen = $res['link'];
@@ -296,12 +297,11 @@ function cambiarImagenSubmit() {
                                 }
                             } else {
                                 //No se subió la imagen
+                                //borramos la imagen con crop                                
+                                unlink($dest);
                                 setSessionMessage("Ocurrió un error al guardar la imagen en nuestros servidores. Intenta de nuevo más tarde", " ¡Error! ", "error");
                                 redirect("/curso/" . $cursoParaModificar->uniqueUrl);
                             }
-                            //Sin importar que paso con la subida, borramos la imagen local
-                            //borramos la imagen con crop                                
-                            unlink($dest);
                         } else {
                             //borramos la imagen temporal
                             unlink($file);
