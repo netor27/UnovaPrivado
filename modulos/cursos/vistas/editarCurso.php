@@ -73,8 +73,6 @@ require_once('layout/headers/headCierre.php');
         <ul>
             <li><a href="#tabs-1">Clases</a></li>
             <li><a href="#tabs-2">Descripción</a></li>
-            <li><a href="#tabs-3">Comentarios</a></li>
-            <li><a href="#tabs-4">Preguntas</a></li>
         </ul>
 
         <div id="tabs-1">
@@ -219,67 +217,6 @@ require_once('layout/headers/headCierre.php');
                 </div>
             </div>
 
-        </div>
-        <div id="tabs-3">
-
-            <?php
-            if (isset($comentarios)) {
-                echo '<ul id="pageMeComments" class="pageMe">';
-                foreach ($comentarios as $comentario) {
-                    echo '<li>';
-                    if ($comentario->idUsuario == $cursoParaModificar->idUsuario)
-                        echo '<div class="comentarioContainer blueBox" style="width:97%;">';
-                    else
-                        echo '<div class="comentarioContainer whiteBox" style="width:97%;">';
-                    echo '<div class="comentarioAvatar"><img src="' . $comentario->avatar . '"></div>';
-                    echo '<div class="comentarioUsuario"><a href="/usuario/' . $comentario->uniqueUrlUsuario . '&b=' . getRequestUri() . '">' . $comentario->nombreUsuario . '</a></div>';
-                    echo '<div class="comentarioFecha">' . transformaDateDDMMAAAA(strtotime($comentario->fecha)) . '</div>';
-                    echo '<br><div class="comentario">' . $comentario->texto . '</div>';
-                    echo '</div>';
-                    echo '</li>';
-                }
-                echo '</ul>';
-            }else {
-                ?>
-                <div class="whiteBox"><h2 style="padding-left:20px;">No hay comentarios</h2></div>
-                <?php
-            }
-            ?>
-        </div>
-        <div id="tabs-4">
-            <?php
-            if (isset($preguntas)) {
-                echo '<ul id="pageMePreguntas" class="pageMe">';
-                foreach ($preguntas as $pregunta) {
-                    echo '<li>';
-                    echo '<div class="preguntaContainer whiteBox" style="width:97%;">';
-                    echo '<div class="comentarioAvatar"><img src="' . $pregunta->avatar . '"></div>';
-                    echo '<div class="comentarioUsuario"><a href="/usuario/' . $pregunta->uniqueUrlUsuario . '&b=' . getRequestUri() . '">' . $pregunta->nombreUsuario . '</a></div>';
-                    echo '<br><div class="comentario">' . $pregunta->pregunta . '</div>';
-                    if (isset($pregunta->respuesta)) {
-                        echo '<br><div class="respuesta blueBox" style="width: 80%;">';
-                        echo '<div class="comentarioAvatar"><img src="' . $usuarioDelCurso->avatar . '"></div>';
-                        echo '<div class="comentarioUsuario"><a href="/usuario/' . $usuarioDelCurso->uniqueUrl . '&b=' . getRequestUri() . '">' . $usuarioDelCurso->nombreUsuario . '</a></div>';
-                        echo '<br><div class="comentario">' . $pregunta->respuesta . '</div>';
-                        echo '</div>';
-                    } else {
-                        echo '<div class="respuesta">';
-                        echo '<form id="preguntaForm" method="POST" action="/cursos/curso/responderPreguntaCurso/' . $cursoParaModificar->idCurso . '/' . $pregunta->idPregunta . '"  class="preguntarForm">';
-                        echo '<textarea id="pregunta" name="respuesta"  ></textArea>';
-                        echo '<br><input type="submit" value="  Responder  ">';
-                        echo '</form>';
-                        echo '</div>';
-                    }
-                    echo '</div>';
-                    echo '</li>';
-                }
-                echo '</ul>';
-            } else {
-                ?>
-                <div class="whiteBox"><h2 style="padding-left:20px;">No hay preguntas</h2></div>
-                <?php
-            }
-            ?>
         </div>
     </div>
     <div class="row-fluid">

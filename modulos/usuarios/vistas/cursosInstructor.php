@@ -22,18 +22,8 @@ require_once ('layout/headers/headCierre.php');
         } else {
             ?>
             <div class="row-fluid">
-                <div class="span7">
+                <div class="span12">
                     <h3>Eres profesor en <?php echo $numCursos; ?> cursos</h3>
-                </div>
-                <div class="span5" style="margin-top:20px;">
-                    <div  class="span12">
-                        <?php
-                        if ($numPreguntas > 0) {
-                            echo '<a href="/usuarios/cursos/responderPreguntas" class="span12 btn btn-primary">Responder las preguntas pendientes (' . $numPreguntas . ')</a>';
-                        }
-                        ?>
-
-                    </div>
                 </div>
             </div>
             <?php

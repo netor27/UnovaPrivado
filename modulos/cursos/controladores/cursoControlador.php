@@ -136,8 +136,6 @@ function tomarCurso($curso, $usuario, $esAlumno, $backUrl) {
                 $duracion += $clase->duracion;
         }
     }
-    $comentarios = getComentarios($curso->idCurso);
-    $preguntas = getPreguntas($curso->idCurso);
     $usuarioDelCurso = getUsuarioDeCurso($curso->idCurso);
     require_once 'modulos/cursos/modelos/ClaseModelo.php';
     if ($esAlumno)
@@ -158,9 +156,6 @@ function editarCurso($cursoParaModificar, $usuario, $backUrl) {
                 $duracion += transformaMMSStoMinutes($clase->duracion);
         }
     }
-
-    $comentarios = getComentarios($cursoParaModificar->idCurso);
-    $preguntas = getPreguntas($cursoParaModificar->idCurso);
     $usuarioDelCurso = getUsuarioDeCurso($cursoParaModificar->idCurso);
     $tituloPagina = substr($cursoParaModificar->titulo, 0, 50);
     $numAlumnos = getNumeroDeAlumnos($cursoParaModificar->idCurso);
@@ -233,119 +228,6 @@ function editarInformacionCursoSubmit() {
         }
     } else {
         goToIndex();
-    }
-}
-
-function comentarCurso() {
-    require_once 'modulos/cursos/modelos/CursoModelo.php';
-    require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
-    $idCurso = $_GET['i'];
-    $curso = getCurso($idCurso);
-    $texto = removeBadHtmlTags($_POST['comentario']);
-
-    $usuario = getUsuarioActual();
-    if (!is_null($usuario) && strlen(trim($texto)) > 0) {
-        if (esUsuarioUnAlumnoDelCurso($usuario->idUsuario, $curso->idCurso)) {
-            require_once 'modulos/cursos/clases/Comentario.php';
-            require_once 'modulos/cursos/modelos/ComentarioModelo.php';
-            $comentario = new Comentario();
-            $comentario->idCurso = $curso->idCurso;
-            $comentario->idUsuario = $usuario->idUsuario;
-            $comentario->texto = $texto;
-            $idComentario = altaComentario($comentario);
-
-            if ($idComentario >= 0) {
-                $comentario->avatar = $usuario->avatar;
-                $comentario->nombreUsuario = $usuario->nombreUsuario;
-                echo '<li class="page1">';
-                if ($comentario->idUsuario == $curso->idUsuario)
-                    echo '<div class="comentarioContainer blueBox" style="width:97%;">';
-                else
-                    echo '<div class="comentarioContainer whiteBox" style="width:97%;">';
-                echo '<div class="comentarioAvatar"><img src="' . $comentario->avatar . '"></div>';
-                echo '<div class="comentarioUsuario"><a href="/usuario/' . $comentario->uniqueUrlUsuario . '&b=' . getRequestUri() . '">' . $comentario->nombreUsuario . '</a></div>';
-                echo '<div class="comentarioFecha"> Hace unos segundos</div>';
-                echo '<br><br><div class="comentario left">' . $comentario->texto . '</div>';
-                echo '</div>';
-                echo '</li>';
-            } else {
-                echo 'error';
-            }
-        }
-    }
-}
-
-function preguntarCurso() {
-    require_once 'modulos/cursos/modelos/CursoModelo.php';
-    require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
-    $idCurso = $_GET['i'];
-    $curso = getCurso($idCurso);
-    $texto = removeBadHtmlTags($_POST['pregunta']);
-
-    $usuario = getUsuarioActual();
-    if (!is_null($usuario) && strlen(trim($texto)) > 0) {
-        if (esUsuarioUnAlumnoDelCurso($usuario->idUsuario, $curso->idCurso)) {
-            require_once 'modulos/cursos/clases/Pregunta.php';
-            require_once 'modulos/cursos/modelos/PreguntaModelo.php';
-            $pregunta = new Pregunta();
-            $pregunta->idCurso = $curso->idCurso;
-            $pregunta->idUsuario = $usuario->idUsuario;
-            $pregunta->pregunta = $texto;
-            $idPregunta = altaPregunta($pregunta);
-            if ($idPregunta >= 0) {
-                $pregunta->avatar = $usuario->avatar;
-                $pregunta->nombreUsuario = $usuario->nombreUsuario;
-                echo '<li class="page1">';
-                echo '<div class="preguntaContainer whiteBox" style="width:97%;">';
-                echo '<div class="comentarioAvatar"><img src="' . $pregunta->avatar . '"></div>';
-                echo '<div class="comentarioUsuario"><a href="/usuario/' . $pregunta->uniqueUrlUsuario . '&b=' . getRequestUri() . '">' . $pregunta->nombreUsuario . '</a></div>';
-                echo '<div class="comentarioFecha"> Hace unos segundos</div>';
-                echo '<br><div class="comentario">' . $pregunta->pregunta . '</div>';
-                echo '</div>';
-                echo '</li>';
-
-                //enviar email de notificación al dueño del curso de la pregunta
-                //require_once 'modulos/email/modelos/envioEmailModelo.php';
-                //$duenioCurso = getUsuarioDeCurso($curso->idCurso);
-                //if (!enviarMailPreguntaEnCurso($duenioCurso->email, $curso->titulo, 'www.unova.mx/curso/' . $curso->uniqueUrl, $pregunta->pregunta))
-                //    echo 'ERROR AL ENVIAR EMAIL A ' . $duenioCurso->email;
-                //Se quitó esta parte para que no se envíe un mail al profesor cada vez que alguien pregunta algo
-                //ahora se envía un mail semanal con un resumen
-            } else {
-                echo 'error';
-            }
-        }
-    }
-}
-
-function responderPreguntaCurso() {
-    require_once 'modulos/cursos/modelos/CursoModelo.php';
-    require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
-    $idCurso = $_GET['i'];
-    $idPregunta = $_GET['j'];
-
-    $curso = getCurso($idCurso);
-    $texto = removeBadHtmlTags($_POST['respuesta']);
-
-    $usuario = getUsuarioActual();
-    if (!is_null($usuario) && strlen(trim($texto)) > 0) {
-        if ($curso->idUsuario == $usuario->idUsuario) {
-            require_once 'modulos/cursos/clases/Pregunta.php';
-            require_once 'modulos/cursos/modelos/PreguntaModelo.php';
-            if (responderPregunta($idPregunta, $texto)) {
-                require_once 'modulos/email/modelos/envioEmailModelo.php';
-                require_once 'modulos/cursos/modelos/PreguntaModelo.php';
-                $datos = getInfoParaMailRespuestaPregunta($idPregunta);
-                enviarMailRespuestaPregunta($datos['email'], $curso->titulo, getDomainName() . '/curso/' . $curso->uniqueUrl, $datos['pregunta'], $texto);
-                echo '<br><div class="respuesta blueBox" style="width: 80%;">';
-                echo '<div class="comentarioAvatar"><img src="' . $usuario->avatar . '"></div>';
-                echo '<div class="comentarioUsuario"><a href="/usuario/' . $usuario->uniqueUrl . '&b=' . getRequestUri() . '">' . $usuario->nombreUsuario . '</a></div>';
-                echo '<br><div class="comentario">' . $texto . '</div>';
-                echo '</div>';
-            } else {
-                echo 'error';
-            }
-        }
     }
 }
 

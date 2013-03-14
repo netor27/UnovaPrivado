@@ -91,7 +91,6 @@ function instructor() {
                 $offset = $numRows * ($pagina - 1);
             }
         }        
-        $numPreguntas = getNumeroDePreguntasSinResponder($usuario->idUsuario);
         $res = getCursosInstructorDetalles($usuario->idUsuario, "titulo", "ASC", $offset, $numRows);
         $cursos = $res['cursos'];
         $numCursos = $res['n'];
@@ -126,16 +125,6 @@ function inscrito() {
         } else {
             require_once 'modulos/usuarios/vistas/cursosAlumno.php';
         }
-    }
-}
-
-function responderPreguntas() {
-    //mostrar las preguntas que este usuario no ha contestado
-    if (validarUsuarioLoggeado()) {
-        $usuario = getUsuarioActual();
-        require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
-        $preguntas = getPreguntasSinResponder($usuario->idUsuario);
-        require_once 'modulos/usuarios/vistas/responderPreguntas.php';
     }
 }
 

@@ -343,69 +343,6 @@ function getNumeroDeAlumnos($idCurso) {
     return $row['cuenta'];
 }
 
-function getComentarios($idCurso) {
-    require_once 'bd/conex.php';
-    global $conex;
-    $stmt = $conex->prepare("SELECT c.idComentario, c.idUsuario, c.idCurso, c.texto, u.nombreUsuario, u.avatar, u.uniqueUrl, c.fecha
-                            FROM comentario c, usuario u
-                            WHERE c.idUsuario = u.idUsuario AND c.idCurso = :id
-                            ORDER BY c.fecha DESC, c.idComentario DESC");
-    $stmt->bindParam(":id", $idCurso);
-    $stmt->execute();
-    $rows = $stmt->fetchAll();
-    require_once 'modulos/cursos/clases/Comentario.php';
-    $comentarios = null;
-    $comentario = null;
-    $i = 0;
-    foreach ($rows as $row) {
-        $comentario = new Comentario();
-        $comentario->idComentario = $row['idComentario'];
-        $comentario->idUsuario = $row['idUsuario'];
-        $comentario->idCurso = $row['idCurso'];
-        $comentario->texto = $row['texto'];
-        $comentario->nombreUsuario = $row['nombreUsuario'];
-        $comentario->avatar = $row['avatar'];
-        $comentario->fecha = $row['fecha'];
-        $comentario->uniqueUrlUsuario = $row['uniqueUrl'];
-        $comentarios[$i] = $comentario;
-        $i++;
-    }
-    return $comentarios;
-}
-
-function getPreguntas($idCurso) {
-    require_once 'bd/conex.php';
-    global $conex;
-    $stmt = $conex->prepare("SELECT p.idPregunta, p.idCurso, p.idUsuario, p.pregunta, p.respuesta, p.fecha, p.fechaRespuesta, u.nombreUsuario, u.uniqueUrl, u.avatar
-                            FROM pregunta p, usuario u
-                            WHERE p.idUsuario = u.idUsuario AND p.idCurso = :id
-                            ORDER BY p.fecha DESC, p.idPregunta DESC");
-    $stmt->bindParam(":id", $idCurso);
-    $stmt->execute();
-
-    $rows = $stmt->fetchAll();
-    require_once 'modulos/cursos/clases/Pregunta.php';
-    $preguntas = null;
-    $pregunta = null;
-    $i = 0;
-    foreach ($rows as $row) {
-        $pregunta = new Pregunta();
-        $pregunta->idPregunta = $row['idPregunta'];
-        $pregunta->idUsuario = $row['idUsuario'];
-        $pregunta->idCurso = $row['idCurso'];
-        $pregunta->pregunta = $row['pregunta'];
-        $pregunta->respuesta = $row['respuesta'];
-        $pregunta->fechaRespuesta = $row['fechaRespuesta'];
-        $pregunta->nombreUsuario = $row['nombreUsuario'];
-        $pregunta->avatar = $row['avatar'];
-        $pregunta->fecha = $row['fecha'];
-        $pregunta->uniqueUrlUsuario = $row['uniqueUrl'];
-        $preguntas[$i] = $pregunta;
-        $i++;
-    }
-    return $preguntas;
-}
-
 function elTituloEsUnico($uniqueUrl) {
     require_once 'bd/conex.php';
     global $conex;
