@@ -19,13 +19,13 @@ $(function(){
                 }
                 $(this).dialog("close");
                 $("#urlImagen").val("");
-                $('#imagenTabs').tabs('select', 0);
+                $('#imagenTabs').tabs( "option", "active", 0 );
                 $('#colorSeleccionadoImagen').html("");      
                 guardadoAutomatico();
             },
             "Cancelar": function(){
                 $(this).dialog("close");
-                $('#imagenTabs').tabs('select', 0);
+                $('#imagenTabs').tabs( "option", "active", 0 );
                 $('#colorSeleccionadoImagen').html("");
                 $("#urlImagen").val("");
             }
@@ -76,10 +76,12 @@ function mostrarDialogoInsertarImagen(tipo){
     if(tipo == "imagen"){
         $("#formaSubirImagen").show();
         $("#formaElegirForma").hide();
+        $("#dialog-form-imagen").dialog('option', 'title', 'Agregar una imagen');
         formaBandera = false;        
     }else if(tipo == "formas"){        
         $("#formaElegirForma").show();
         $("#formaSubirImagen").hide();
+        $("#dialog-form-imagen").dialog('option', 'title', 'Agregar una forma predefinida');
         formaBandera = true;
     }
     
@@ -106,7 +108,7 @@ function mostrarDialogoInsertarImagen(tipo){
             $('#tiempoInicioImagen').val(transformaSegundos(ui.values[ 0 ]));
             $('#tiempoFinImagen').val(transformaSegundos(ui.values[ 1 ]));
         }
-    });
+    });    
     $("#dialog-form-imagen").dialog("open");
 }
 
@@ -145,10 +147,12 @@ function mostrarDialogoEditarImagen(idImagen, tipo){
     if(tipo == "imagen"){
         $("#formaSubirImagen").show();
         $("#formaElegirForma").hide();
+        $("#dialog-form-imagen").dialog('option', 'title', 'Editar imagen');
         formaBandera = false;        
     }else if(tipo == "formas"){        
         $("#formaElegirForma").show();
         $("#formaSubirImagen").hide();
+        $("#dialog-form-imagen").dialog('option', 'title', 'Editar forma predefinida');
         formaBandera = true;
     }
     
@@ -188,8 +192,8 @@ function editarImagen(){
     var fin = $("#tiempoFinImagen").val();
     var color = $("#colorHiddenImagen").val();
     
-    $containmentWidth = $("#editorContainment").width();
-    $containmentHeight  = $("#editorContainment").height();
+    $containmentWidth = getContainmentWidth();
+    $containmentHeight  = getContainmentHeight();
     
     var position = $("#imagen_"+idEditarImagen).position();   
     position.top = position.top * 100 / $containmentHeight;
@@ -206,9 +210,7 @@ function editarImagen(){
     else
         tipo = "imagen";    
     
-    agregarImagenDiv(imagenes.length, urlImagen, inicio, fin, color, position.top, position.left, width, height, tipo);
     cargarImagenEnArreglo(urlImagen, inicio, fin, color, position.top, position.left, width, height, tipo);
-    
     borrarImagen(idEditarImagen);
 }
 
@@ -249,8 +251,8 @@ function agregarImagenDiv(indice, urlImagen, inicio, fin, color, top, left, widt
             //ui.position - {top, left} current position
             var id = ui.helper.attr("id");
             var indice = id.split("_")[1];
-            $containmentWidth = $("#editorContainment").width();
-            $containmentHeight  = $("#editorContainment").height();            
+            $containmentWidth = getContainmentWidth();
+            $containmentHeight  = getContainmentHeight();
             imagenes[indice].top = ui.offset.top * 100 / $containmentHeight;
             imagenes[indice].left = ui.offset.left * 100 / $containmentWidth;
         },
@@ -270,8 +272,8 @@ function agregarImagenDiv(indice, urlImagen, inicio, fin, color, top, left, widt
             //ui.size - {width, height} current size
             var id = ui.helper.attr("id");
             var indice = id.split("_")[1];
-            $containmentWidth = $("#editorContainment").width();
-            $containmentHeight  = $("#editorContainment").height();            
+            $containmentWidth = getContainmentWidth();
+            $containmentHeight  = getContainmentHeight()
             imagenes[indice].width = ui.size.width * 100 / $containmentWidth;
             imagenes[indice].height = ui.size.height * 100 / $containmentHeight;
         },

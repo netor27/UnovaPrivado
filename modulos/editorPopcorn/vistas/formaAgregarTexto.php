@@ -1,4 +1,4 @@
-<div id="dialog-form-texto" title="Cuadro de Texto"  style="display:none;">
+<div id="dialog-form-texto" title="Agregar texto"  style="display:none;">
     <div id="textTabs">
         <ul>
             <li><a href="#textoTab">Texto</a></li>

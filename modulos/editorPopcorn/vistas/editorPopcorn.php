@@ -37,13 +37,13 @@ if (isset($var['videoData'])) {
         <title>Editor Unova</title>
 
         <link rel="stylesheet" media="screen" type="text/css" href="/lib/js/colorPicker/evol.colorpicker.css" />
-        <link rel="stylesheet" href="/lib/js/jquery-ui/ui-lightness/jquery-ui-1.9.1.custom.css" />
+        <link rel="stylesheet" href="/lib/js/jquery-ui/bootstrap-theme/jquery-ui-1.10.0.custom.css" />
         <link type="text/css" href="/layout/css/headerEditor.css" rel="stylesheet" />	
         <link type="text/css" href="/layout/css/editorPopcorn.css" rel="stylesheet" />	
 
         <script src="/lib/js/jquery-1.8.2.min.js"></script>		
         <script src="/lib/js/ajaxFileUpload/ajaxfileupload.js"></script>
-        <script src="/lib/js/jquery-ui/jquery-ui-1.9.1.custom.min.js"></script>
+        <script src="/lib/js/jquery-ui/jquery-ui-1.10.1.custom.min.js"></script>
         
         <script src="/lib/js/popcorn-complete.min.js"></script>
 
@@ -121,7 +121,11 @@ if (isset($links))
                 <div class="element left ease3">
                     <a class="link" id="btnSalir">
                         <div id="menuLink">
-                            <span class="left">Guardar y Salir</span>
+                            <span class="left">
+                                <img src="/layout/imagenes/regresar.png">
+                                Regresar
+                                
+                            </span>
                         </div>
                     </a>         
                     <div id="menu">

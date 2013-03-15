@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="/lib/js/jqueryFileUpload/jquery.fileupload-ui.css">
 <link rel="stylesheet" href="/layout/css/agregarContenido.css">
 
-<script src="/lib/js/jquery-ui/jquery-ui-1.9.1.custom.min.js"></script>
+<script src="/lib/js/jquery-ui/jquery-ui-1.10.1.custom.min.js"></script>
 
 <script src="/lib/js/jqueryFileUpload/tmpl.min.js"></script>
 <script src="/lib/js/jqueryFileUpload/load-image.min.js"></script>

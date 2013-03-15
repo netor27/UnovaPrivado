@@ -5,8 +5,8 @@ var idEditar = -1;
 $(function(){    
     $("#dialog-form-texto").dialog({
         autoOpen: false,
-        height:510,
-        width: 550,
+        height:550,
+        width: 660,
         modal: true,
         resizable: false,
         buttons:{
@@ -18,14 +18,14 @@ $(function(){
                 }                
                 $(this).dialog("close");
                 $('#textoTinyMce').html("");
-                $('#textTabs').tabs('select', 0);
+                $('#textTabs').tabs( "option", "active", 0 );
                 $('#colorSeleccionadoTexto').html("");
                 guardadoAutomatico();
             },
             "Cancelar": function(){
                 $(this).dialog("close");
                 $('#textoTinyMce').html("");
-                $('#textTabs').tabs('select', 0);
+                $('#textTabs').tabs( "option", "active", 0 );
                 $('#colorSeleccionadoTexto').html("");
             }
         }
@@ -53,16 +53,16 @@ $(function(){
         theme : "advanced",
         skin:"o2k7",    
         skin_variant:"silver",
-        width : "480",        
-        height : "320",
-                
+        width : "600",        
+        height : "320",             
+        language : 'es',
         // Theme options - button# indicated the row# only
-        theme_advanced_buttons1 : "undo,redo,|,cut,copy,paste,|,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,|,bullist,numlist,|,link,preview",
-        theme_advanced_buttons2 : "fontselect,fontsizeselect",
+        theme_advanced_buttons1 : "fontselect,fontsizeselect,|,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,|,bullist,numlist",
+        theme_advanced_buttons2 : "",
         theme_advanced_buttons3 : "",      
         theme_advanced_toolbar_location : "top",
         theme_advanced_toolbar_align : "left",
-        theme_advanced_statusbar_location : "bottom"
+        theme_advanced_statusbar_location : "none"
     });  
     
     $('#textTabs').tabs();
@@ -95,6 +95,7 @@ function mostrarDialogoInsertarTexto(){
             $('#tiempoFinTexto').val(transformaSegundos(ui.values[ 1 ]));
         }
     });
+    $("#dialog-form-texto").dialog('option', 'title', 'Agregar texto');
     $("#dialog-form-texto").dialog("open");
 }
 
@@ -113,15 +114,12 @@ function cargarTextoEnArreglo(texto, inicio, fin, color, top, left, width, heigh
 
 function agregarTexto(){    
     var texto = $("#textoTinyMce").tinymce().getContent();
-    texto = texto.replace(/(\r\n|\n|\r)/gm,"<br>");
+    texto = texto.replace(/(\r\n|\n|\r)/gm,"");
     var inicio = $("#tiempoInicioTexto").val();
     var fin = $("#tiempoFinTexto").val();
     var color = $("#colorHiddenTexto").val();
-    
-    
     agregarTextoDiv(textos.length, texto, inicio, fin, color, 50, 50, 'auto', 'auto');
-    cargarTextoEnArreglo(texto, inicio, fin, color, 50, 50, 'auto', 'auto');
-    
+    cargarTextoEnArreglo(texto, inicio, fin, color, 50, 50, 'auto', 'auto');    
 }
 
 function mostrarDialogoEditarTexto(idTexto){
@@ -158,36 +156,35 @@ function mostrarDialogoEditarTexto(idTexto){
             $('#tiempoFinTexto').val(transformaSegundos(ui.values[ 1 ]));
         }
     });
+    $("#dialog-form-texto").dialog('option', 'title', 'Editar texto');
     $("#dialog-form-texto").dialog("open");
 }
 
 function editarTexto(){
     var texto = $("#textoTinyMce").tinymce().getContent();
-    texto = texto.replace(/(\r\n|\n|\r)/gm,"<br>");
+    texto = texto.replace(/(\r\n|\n|\r)/gm,"");
     var inicio = $("#tiempoInicioTexto").val();
     var fin = $("#tiempoFinTexto").val();
     var color = $("#colorHiddenTexto").val();
     
-    $containmentWidth = $("#editorContainment").width();
-    $containmentHeight  = $("#editorContainment").height();
+    $containmentWidth = getContainmentWidth();
+    $containmentHeight  = getContainmentHeight();
     
-    var position = $("#texto_"+idEditar).position();        
-    position.top = position.top * 100 / $containmentHeight;
-    position.left = position.left * 100 / $containmentWidth;     
+    var top = $("#texto_"+idEditar).draggable().offset().top;        
+    var left = $("#texto_"+idEditar).draggable().offset().left;        
+    top = top * 100 / $containmentHeight;
+    left = left * 100 / $containmentWidth;    
     
     var width = $("#texto_"+idEditar).width();
     var height = $("#texto_"+idEditar).height();
     width = width * 100 / $containmentWidth;
     height = height * 100/ $containmentHeight;
     
-    agregarTextoDiv(textos.length, texto, inicio, fin, color, position.top, position.left, width, height);   
-    cargarTextoEnArreglo(texto, inicio, fin, color, position.top, position.left, width, height);
-    
+    cargarTextoEnArreglo(texto, inicio, fin, color, top, left, width, height);
     borrarTexto(idEditar);
 }
 
 function agregarTextoDiv(indice, texto, inicio, fin, color, top, left, width, height){
-    
     var textoDiv = '<div id="texto_'+indice+'" class="ui-corner-all textoAgregado stack draggable" style="background-color: '+color+'; position: fixed; top: '+getUnidadPx(top)+'; left: '+getUnidadPx(left)+'; width: '+getUnidadPx(width)+'; height: '+getUnidadPx(height)+';">' +
     '<div id="content_'+indice+'" style="width: 100%;height: 100%;overflow-y: auto;overflow-wrap: break-word;">'+
     '<div class="elementButtons" id="eb_txt_'+indice+'">' +
@@ -227,10 +224,10 @@ function agregarTextoDiv(indice, texto, inicio, fin, color, top, left, width, he
             //ui.position - {top, left} current position
             var id = ui.helper.attr("id");
             var indice = id.split("_")[1];
-            $containmentWidth = $("#editorContainment").width();
-            $containmentHeight  = $("#editorContainment").height();
+            $containmentWidth = getContainmentWidth();
+            $containmentHeight = getContainmentHeight();
             textos[indice].top = ui.offset.top * 100 / $containmentHeight;
-            textos[indice].left = ui.offset.left * 100 / $containmentWidth;            
+            textos[indice].left = ui.offset.left * 100 / $containmentWidth;
         },
         snap: true,
         start: function() {
@@ -239,11 +236,11 @@ function agregarTextoDiv(indice, texto, inicio, fin, color, top, left, width, he
                 $(this).data("scrolled", false).trigger("mouseup");
                 return false;
             }
+            return true;
         }
     }).find("*").andSelf().scroll(function() {               
         // bind to the scroll event on current elements, and all children.
-        //  we have to bind to all of them, because scroll doesn't propagate.
-        
+        //  we have to bind to all of them, because scroll doesn't propagate.        
         //set a scrolled data variable for any parents that are draggable, so they don't drag on scroll.
         $(this).parents(".ui-draggable").data("scrolled", true);
         
@@ -262,8 +259,8 @@ function agregarTextoDiv(indice, texto, inicio, fin, color, top, left, width, he
             //ui.size - {width, height} current size
             var id = ui.helper.attr("id");
             var indice = id.split("_")[1];            
-            $containmentWidth = $("#editorContainment").width();
-            $containmentHeight  = $("#editorContainment").height();
+            $containmentWidth = getContainmentWidth();
+            $containmentHeight  = getContainmentHeight();
             textos[indice].height = ui.size.height * 100/ $containmentHeight;
             textos[indice].width = ui.size.width * 100 / $containmentWidth;
         },

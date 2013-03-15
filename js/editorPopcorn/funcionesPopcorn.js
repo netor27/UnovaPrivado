@@ -37,7 +37,8 @@ $(function(){
     
     $("#btnSalir").click(
         function(){
-            $("#modalDialog").html("<h1>Estás apunto de salir</h1>");
+            $("#modalDialog").attr("title","Regresar la curso");
+            $("#modalDialog").html("<h1>¡Estás apunto de salir!</h1> Algunos de tus cambios no se han guardado, ¿Deseas guardarlos?");
             $( "#modalDialog" ).dialog({
                 height: 250,
                 width: 500,
@@ -95,6 +96,7 @@ function cerrarMenuAgregar(){
         $("#flechaMenuAgregar").addClass("flechaAbajo");
     }
 }
+
 function cerrarMenuPerfil(){
     if($("#flechaPerfil").hasClass("flechaArriba")){
         $("#perfil_menu").hide("swing");
@@ -103,6 +105,7 @@ function cerrarMenuPerfil(){
     }
 }
 
+//Funciones para los tamaños
 function getUnidadPx(unidad){
     var aux = ""+unidad;
     if(aux.indexOf("auto") != -1){
@@ -110,6 +113,14 @@ function getUnidadPx(unidad){
     }else{
         return unidad + "%";
     }
+}
+
+function getContainmentWidth(){
+    return $("#editorContainment").width();
+}
+
+function getContainmentHeight(){
+    return $("#editorContainment").height() + 102;
 }
 
 function cambiarColorPicker(hex, id){
@@ -158,8 +169,8 @@ function guardar(u, uuid, cu, cl, salirDespuesDeGuardar){
     
     backgroundColor = $("#editorContainment").css("background-color");
     
-    $containmentWidth = $("#editorContainment").width();
-    $containmentHeight  = $("#editorContainment").height();    
+    $containmentWidth = getContainmentWidth();;
+    $containmentHeight  = getContainmentHeight();
     var videoData = {
         top: $("#videoContainer").position().top * 100 / $containmentHeight,
         left: $("#videoContainer").position().left * 100 / $containmentWidth,

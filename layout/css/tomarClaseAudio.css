@@ -52,6 +52,7 @@
 .draggable{
     cursor:move;
     z-index: 99;
+    
 }
 .dragHandle {
     cursor: move;
@@ -64,4 +65,5 @@
     z-index: 9;
     margin: 0;
     padding: 0;
+    background-color: rgb(42, 128, 145);
 }

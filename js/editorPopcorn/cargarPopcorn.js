@@ -1,8 +1,6 @@
 //variable global para el video principal del curso
 var $popPrincipal;
 var $videoDuration;
-var $containmentWidth = 100;
-var $containmentHeight = 100;
 
 $(function(){
     //Configuración inicial    

@@ -20,13 +20,13 @@ $(function(){
                 $(this).dialog("close");
                 $('#urlLink').val("");
                 $('#textoLink').val("");
-                $('#linkTabs').tabs('select', 0);
+                $('#linkTabs').tabs( "option", "active", 0 );
                 $('#colorSeleccionadoLink').html("");
                 guardadoAutomatico();
             },
             "Cancelar": function(){
                 $(this).dialog("close");
-                $('#linkTabs').tabs('select', 0);
+                $('#linkTabs').tabs( "option", "active", 0 );
                 $('#colorSeleccionadoLink').html("");
             }
         }
@@ -79,6 +79,7 @@ function mostrarDialogoInsertarLink(){
             $('#tiempoFinLink').val(transformaSegundos(ui.values[ 1 ]));
         }
     });
+    $("#dialog-form-link").dialog('option', 'title', 'Agregar un link');
     $("#dialog-form-link").dialog("open");
 }
 
@@ -136,6 +137,7 @@ function mostrarDialogoEditarLink(idLink){
             $('#tiempoFinLink').val(transformaSegundos(ui.values[ 1 ]));
         }
     });
+    $("#dialog-form-link").dialog('option', 'title', 'Editar link');
     $("#dialog-form-link").dialog("open");
 }
 
@@ -146,8 +148,8 @@ function editarLink(){
     var fin = $("#tiempoFinLink").val();
     var color = $("#colorHiddenLink").val();
     
-    $containmentWidth = $("#editorContainment").width();
-    $containmentHeight  = $("#editorContainment").height();
+    $containmentWidth = getContainmentWidth();
+    $containmentHeight  = getContainmentHeight();
     
     var position = $("#link_"+idEditarLink).position();    
     position.top = position.top * 100 / $containmentHeight;
@@ -158,9 +160,7 @@ function editarLink(){
     width = width * 100 / $containmentWidth;
     height = height * 100/ $containmentHeight;
     
-    agregarLinkDiv(links.length, texto, url, inicio, fin, color, position.top, position.left, width, height);
     cargarLinkEnArreglo(texto, url, inicio, fin, color, position.top, position.left, width, height);
-    
     borrarLink(idEditarLink);
 }
 
@@ -203,8 +203,8 @@ function agregarLinkDiv(indice, texto, url, inicio, fin, color, top, left, width
             //ui.position - {top, left} current position
             var id = ui.helper.attr("id");
             var indice = id.split("_")[1];
-            $containmentWidth = $("#editorContainment").width();
-            $containmentHeight  = $("#editorContainment").height();            
+            $containmentWidth = getContainmentWidth();
+            $containmentHeight  = getContainmentHeight();
             links[indice].top = ui.offset.top * 100 / $containmentHeight;
             links[indice].left = ui.offset.left * 100 / $containmentWidth;            
         },
@@ -224,8 +224,8 @@ function agregarLinkDiv(indice, texto, url, inicio, fin, color, top, left, width
             //ui.size - {width, height} current size
             var id = ui.helper.attr("id");
             var indice = id.split("_")[1];
-            $containmentWidth = $("#editorContainment").width();
-            $containmentHeight  = $("#editorContainment").height();
+            $containmentWidth = getContainmentWidth();
+            $containmentHeight  = getContainmentHeight();
             links[indice].width = ui.size.width * 100 / $containmentWidth;
             links[indice].height = ui.size.height * 100/ $containmentHeight;
         },
