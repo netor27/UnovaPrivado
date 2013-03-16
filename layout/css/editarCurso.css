@@ -1,9 +1,3 @@
-#cursoHeader{
-    overflow: hidden;
-}
-#cursoHeader_left{
-    padding: 30px 0px 0px 0px;
-}
 #cursoHeader_img{
     padding: 0px 30px 5px 0px;
 }
@@ -12,96 +6,63 @@
 }
 #cursoHeader_info_titulo h1{    
     padding-top: 0px;
-
 }
-
 #cursoHeader_right{
     text-align:center;
 }
-
+.cursoRating{
+    margin-top: 10px!important;
+    margin-left: -12px!important;
+}
 #cursoTabs{
+    border: 1px solid #aaaaaa;
 }
 .temaHeader{
-    float:left;
-    display:block;
-    /*width:608px;*/
-    width:100%;
+    margin: 0px!important;
 }
 .temaNombre{    
     font-size: 1.2em;
-    margin-right: 10px;
-    margin-left: 10px;
-    margin-bottom: 10px;
     margin-top: 10px;
-}
-.temaContainer{
-    overflow: hidden;
+    padding-left: 10px;
+    font-weight: bolder;
 }
 .connectedSortable { 
-    margin: 0px 0px 15px 0px; 
-    padding: 0px; 
-    float: left; 
-    margin-right: 10px; 
-    background: #eee; 
-    padding: 5px; 
-    width: 100%;
+    margin: 0px;
+    background: #eee;
+    padding-bottom: 10px;
+    min-height: 20px;
+    padding-top: 2px;
+    margin-bottom: 0px;
 }
-
 .connectedSortable li{ 
-    margin: 5px; 
-    padding: 5px; 
-    font-size: 1.2em; 
-    width: 96%; 
+    padding: 5px;
+    margin-bottom: 5px;
 }
-.connectedSortable li span { 
-    position: absolute;
-    margin-left: -1.3em; 
-}
-
 .temaNombreLinks {
-    padding:10px;
-}
-.temaNombreLinks a{
-    padding:10px;
-    font-size: 15px;
+    font-size: 14px;
+    font-weight: normal;
+    margin-top: 10px;
 }
 .temaNombreLinks a:hover{
     text-decoration: underline;
 }
-
-.temaContainerMessage{
-    float: right;
-    width: 250px;      
+.nombreClase{
+    font-size: 15px!important;
+    font-weight: bolder!important;
+    padding-right: 10px;
+}
+.nombreClase:hover{
+    text-decoration: underline!important;
 }
 
-.claseSortableContainer{
-    overflow: hidden;
+.nombreClaseContainer{
+    padding-top: 7px;
 }
-
-.claseLinks{
-    padding:10px 15px 0px 0px;
+.claseLinksContainer{
+    padding-top: 7px;
 }
-
-.claseLinks a{
-    padding:20px;
-    font-size: 11px;
-}
-.claseLinks a:hover{
-    text-decoration: underline;
-}
-
-#descripcion{           
-    width: 99%;  
-    left: 0.5%;    
-    background: white;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
-    margin-top: 10px;
-    margin-bottom: 10px;
-    position: relative;
-    border-radius: 5px;
-    display: block;
-    overflow: hidden;
-
+.claseLinks:hover{
+    text-decoration: underline!important;
 }
 #descripcionContent{
     padding-top: 20px;
@@ -110,26 +71,13 @@
     width: 90%;
     word-wrap: break-word;
 }
-
 #descripcion ul li{
     list-style-position:outside;
     list-style-type:disc;
     list-style-image:initial;
 }
-
 #descripcion ol li{
     list-style-position:outside;
     list-style-type:decimal;
     list-style-image:initial;
-}
-
-#agregarContenido{
-}
-
-a:hover{
-    text-decoration: underline;
-}
-
-.claseNombre{
-    padding:10px;
 }

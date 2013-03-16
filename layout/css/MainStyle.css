@@ -371,6 +371,13 @@ h1, h2, h3, h4, h5, h6
     margin-bottom: 5px;
 }
 
+.img-index:hover{
+    border-color: #08C;
+    -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+    -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+    box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+}
+
 .subir20px{
     margin-top: -20px!important;
 }
