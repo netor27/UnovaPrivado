@@ -19,12 +19,14 @@
 }
 .temaHeader{
     margin: 0px!important;
+    padding: 0px!important;
 }
 .temaNombre{    
     font-size: 1.2em;
     margin-top: 10px;
     padding-left: 10px;
     font-weight: bolder;
+    word-wrap: break-word;
 }
 .connectedSortable { 
     margin: 0px;
@@ -46,6 +48,9 @@
 .temaNombreLinks a:hover{
     text-decoration: underline;
 }
+.temaNombreIcon{
+    padding-left: 5px;
+}
 .nombreClase{
     font-size: 15px!important;
     font-weight: bolder!important;
@@ -57,6 +62,8 @@
 
 .nombreClaseContainer{
     padding-top: 7px;
+    word-wrap: break-word;
+    margin-left: 0px!important;
 }
 .claseLinksContainer{
     padding-top: 7px;

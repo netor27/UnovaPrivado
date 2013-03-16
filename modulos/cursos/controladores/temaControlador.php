@@ -140,10 +140,10 @@ function borrarTema() {
                 $numClases = numeroDeClasesDelTema($idTema);
                 if ($numClases > 0) {
                     //no puedes borrar el tema porque tiene clases asignadas
-                    echo "<div> <h3 class='error'>No puedes borrar este tema porque todavía tiene clases.<br> Borra las clases primero</h3></div>";
+                    echo "<div><h4 class='black'>No puedes borrar este tema porque todavía tiene clases.<br>Borra las clases primero.</h4></div>";
                 } else {
                     if (bajaTema($idTema) <= 0)
-                        echo "<div><h3 class='error'> Ocurrió un error al borrar el tema. Intenta de nuevo más tarde.</h3></div>";
+                        echo "<div><h4 class='black'> Ocurrió un error al borrar el tema. Intenta de nuevo más tarde.</h4></div>";
                     else {
                         //echo "<div><h3 class='info'></h3></div>";
                         echo "ok"; //Si fue satisfactorio no regresamos ningun resultado

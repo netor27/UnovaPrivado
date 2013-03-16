@@ -108,16 +108,12 @@ require_once('layout/headers/headCierre.php');
                             <div class="row-fluid">
                                 <div class="temaContainer span12">
                                     <input type="hidden" name="idTema<?php echo $i; ?>" id="idTema<?php echo $i; ?>" value="<?php echo $temas[$i]->idTema; ?>" />
-                                    <div class="row-fluid ui-state-highlight ui-corner-top temaHeader">                                    
-
+                                    <div class="row-fluid ui-state-highlight ui-corner-top temaHeader">       
                                         <div class="span7 temaNombre">
                                             <?php
-                                            if (strlen($temas[$i]->nombre) > 47)
-                                                echo substr($temas[$i]->nombre, 0, 47) . "...";
-                                            else
-                                                echo $temas[$i]->nombre;
+                                            echo $temas[$i]->nombre;
                                             ?>
-                                            <a href="/temas/tema/editarTema/<?php echo $cursoParaModificar->idCurso . '/' . $temas[$i]->idTema; ?>">
+                                            <a class="temaNombreIcon" href="/temas/tema/editarTema/<?php echo $cursoParaModificar->idCurso . '/' . $temas[$i]->idTema; ?>">
                                                 <i class="icon-pencil"></i>
                                             </a>
                                         </div>
@@ -196,13 +192,15 @@ require_once('layout/headers/headCierre.php');
                     }
                 }
                 ?>
-                <div class="row-fluid ui-state-highlight ui-corner-top temaHeader">                                   
-                    <div class="span3 offset5 temaNombre">
-                        <a href="/temas/tema/agregarTema/<?php echo $cursoParaModificar->idCurso; ?>">
-                            <i class="icon icon-plus"></i>
-                            Agregar un tema
-                        </a>
-                    </div>                               
+                <div class="row-fluid ui-state-highlight ui-corner-top temaHeader btn">                                   
+                    <a href="/temas/tema/agregarTema/<?php echo $cursoParaModificar->idCurso; ?>">
+                        <div class="span12">
+                            <div class="span3 offset5 temaNombre">                        
+                                <i class="icon icon-plus"></i>
+                                Agregar un tema                        
+                            </div>                 
+                        </div>
+                    </a>
                 </div>
             </div>
             <div id="tabs-2">

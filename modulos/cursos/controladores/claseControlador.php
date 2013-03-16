@@ -14,7 +14,7 @@ function borrarClase() {
                 if ($clase->transformado == 1) {
                     if (bajaClase($idClase) <= 0) {
                         //Error al dar de baja la clase
-                        echo "<div><h3 class='error'> Ocurrió un error al borrar la clase. Intenta de nuevo más tarde.</h3></div>";
+                        echo "<div><h4 class='black'> Ocurrió un error al borrar la clase. Intenta de nuevo más tarde.</h4></div>";
                     } else {
                         //Si fue satisfactorio, borramos el archivo
                         require_once 'modulos/aws/modelos/s3Modelo.php';
@@ -23,21 +23,21 @@ function borrarClase() {
                             //si es video o audio borramos el archivo2
                             deleteFileFromS3ByUrl($clase->archivo2);
                         }
-                        echo "<div><h3 class='success'>Se borró la clase correctamente</h3></div>";
+                        echo "success";
                     }
                 } else {
-                    echo "<div><h3 class='error'> Debes esperar a que se transforme para poder borrar esta clase.</h3></div>";
+                    echo "<div><h4 class='black'> Debes esperar a que termine la transformación para poder borrar esta clase.</h4></div>";
                 }
             } else {
                 //Error, el usuario no es dueño de este curso, no puede borrar
-                echo "<div><h3 class='error'>Error. No puedes modificar este curso</h3></div>";
+                echo "<div><h4 class='black'>Error. No puedes modificar este curso</h4></div>";
             }
         } else {
             //Error, no hay get['i']
-            echo "<div><h3 class='error'>Error. I</h3></div>";
+            echo "<div><h4 class='black'>Error. I</h4></div>";
         }
     } else {
-        echo "<div><h3 class='error'>Error. U</h3></div>";
+        echo "<div><h4 class='black'>Error. U</h4></div>";
 //Error, no hay usuario loggeado para ejecutar acción Ajax, no hacer nada
     }
 }
