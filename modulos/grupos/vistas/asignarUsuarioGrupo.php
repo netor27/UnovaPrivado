@@ -3,20 +3,15 @@ require_once('layout/headers/headInicio.php');
 require_once('layout/headers/headAsignarUsuarioGrupo.php');
 require_once('layout/headers/headCierre.php');
 ?>
-
-<div class="contenido">
-    <div class="row-fluid">
-        <div class="span12">
-            <h4>Agregar usuarios al grupo:</h4>
-        </div>
-    </div>
-    <div class="row-fluid">
-        <div class="span7">
-            <h5><?php echo $grupo->nombre; ?></h5>
-            <h6><?php echo $grupo->descripcion; ?></h6>
-        </div>                
-    </div>    
+<div class="row-fluid">
     <div class="well">
+        <div class="row-fluid">
+            <div class="span12">
+                <legend>
+                    <h4 class="black">Agregar usuarios al grupo: "<?php echo $grupo->nombre; ?>"</h4>
+                </legend>
+            </div>
+        </div>
         <div class="row-fluid">
             <div class="span1">
                 Filtrar
@@ -62,7 +57,7 @@ require_once('layout/headers/headCierre.php');
             </div>
             <div class="row-fluid">
                 <div class="span5">
-                    <div class="span8 offset2 btn btn-primary" id="btnAgregar">                        
+                    <div class="span8 offset2 btn btn-success" id="btnAgregar">                        
                         Agregar al grupo
                         <i class="icon-white icon-arrow-right"></i>
                     </div>
@@ -84,7 +79,7 @@ require_once('layout/headers/headCierre.php');
                     </div>
                 </div>
                 <div class="span3">
-                    <div class="span12 btn btn-success" id="btnGuardar">
+                    <div class="span12 btn btn-primary" id="btnGuardar">
                         <i class="icon-white icon-ok"></i>
                         Guardar Cambios
                     </div>
@@ -92,11 +87,7 @@ require_once('layout/headers/headCierre.php');
             </div>
         </div>
     </div>
-
 </div>
-
-
-
 <?php
 require_once('layout/foot.php');
 ?>

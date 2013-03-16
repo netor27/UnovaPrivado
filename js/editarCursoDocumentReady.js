@@ -1,6 +1,6 @@
 $(function(){    
     $('.wow').rating();    
-    $("#cursoTabs").tabs();    
+//    $("#cursoTabs").tabs();    
     var i;
     var n = 0;
     try{

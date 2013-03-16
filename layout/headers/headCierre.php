@@ -1,11 +1,10 @@
 </head>
-
 <body>
     <script>
         var layout = "<?php echo getTipoLayout(); ?>";
     </script>
     <div id="e_bar">
-        <div id="top-bar">
+        <div class="container" id="top-bar">
             <a href="/" class="logo left" id="logo"> <img src="/layout/imagenes/Unova_Logo_135x47.png"></a>
             <?php
             switch (tipoUsuario()) {
@@ -26,12 +25,15 @@
         </div>
     </div>
     <div id="e_site">    
-        <div id="modalDialog"></div>
         <?php
         $sessionMessage = getSessionMessage();
         if (!is_null($sessionMessage)) {
-            echo '<div id="sessionMessage" class="centerText" >';
-            echo $sessionMessage;
-            echo '</div>';
+            ?>
+            <div id="sessionMessage" class="centerText" >
+                <?php echo $sessionMessage; ?>
+            </div>
+            <?php
         }
         ?>
+        <div class="container">
+            <div class="row-fluid"><h1></h1></div>

@@ -3,7 +3,7 @@ require_once('layout/headers/headInicio.php');
 require_once('layout/headers/headIndex.php');
 require_once('layout/headers/headCierre.php');
 ?>
-<div class="contenido">    
+<div class="row-fluid">    
     <h1>Página de inicio</h1>
     <h2>Alumno</h2>
 </div>

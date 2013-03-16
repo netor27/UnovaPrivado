@@ -4,78 +4,72 @@ require_once('layout/headers/headEditarCurso.php');
 require_once('layout/headers/headStarRating.php');
 require_once('layout/headers/headCierre.php');
 ?>
-<div class="container">
-    <div class="contenido">    
-        <div class="row-fluid"><div class="span12"></div></div>
+<div class="row-fluid">
+    <div class="span12 well well-large">
         <div class="row-fluid">
-            <div id="cursoHeader">
-                <div id="cursoHeader_left">  
-                    <div class="row-fluid">
-                        <div class="span3">
-                            <div id="cursoHeader_img">
-                                <img src="<?php echo $cursoParaModificar->imagen; ?>" class="img-polaroid"/>
-                                <br>
-                                <a style="margin-left: 60px;" href="/cursos/curso/cambiarImagen/<?php echo $cursoParaModificar->idCurso; ?>">Cambiar imagen</a>
-                            </div>            
-                        </div>
-                        <div class="span9">
-                            <div id="cursoHeader_info">
-                                <div class="row-fluid">
-                                    <div id="cursoHeader_info_titulo">
-                                        <h2 itemprop="name">
-                                            <?php echo $cursoParaModificar->titulo; ?>
-                                            <a href="/cursos/curso/editarInformacionCurso/<?php echo $cursoParaModificar->idCurso; ?>" >
-                                                <i class="icon-pencil"></i>
-                                            </a>
-                                        </h2>
-                                    </div>
-                                </div>
-                                <div class="row-fluid">
-                                    <div class="span12">
-                                        <strong>Descripción: </strong><?php echo $cursoParaModificar->descripcionCorta; ?>
-                                    </div>
-                                </div>
-                                <div class="row-fluid"><div class="span12"></div></div>
-                                <div class="row-fluid">
-                                    <div class="span4">
-                                        <?php
-                                        if ($numAlumnos == 0) {
-                                            echo '<h5 class="black">No hay ningún usuario inscrito</h5>';
-                                        } else if ($numAlumnos == 1) {
-                                            echo '<h5 class="black"><span style="font-weight:bold;">1</span> alumno inscrito</h5>';
-                                        } else {
-                                            echo '<h5 class="black">' . $numAlumnos . ' alumnos inscritos</h5>';
-                                        }
-                                        ?>
-                                    </div>
-                                    <div class="span3">
-                                        <h5 class="black">Calificación del curso:</h5>
-                                    </div>
-                                    <div class="span2 cursoRating">
-                                        <?php
-                                        for ($i = 1; $i <= 5; $i++) {
-                                            if ($cursoParaModificar->rating == $i)
-                                                echo '<input title="' . $i . '" name="adv2" type="radio" disabled="disabled" class="wow" checked="checked"/>';
-                                            else
-                                                echo '<input title="' . $i . '" name="adv2" type="radio" disabled="disabled" class="wow"/>';
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>
+            <div class="span3">
+                <div>
+                    <img src="<?php echo $cursoParaModificar->imagen; ?>" class="img-polaroid"/>
+                    <br>
+                    <a style="margin-left: 55px;" href="/cursos/curso/cambiarImagen/<?php echo $cursoParaModificar->idCurso; ?>">Cambiar imagen</a>
+                </div>            
+            </div>
+            <div class="span9">
+                <div class="row-fluid">                    
+                    <legend>
+                        <h2>
+                            <?php echo $cursoParaModificar->titulo; ?>
+                            <a href="/cursos/curso/editarInformacionCurso/<?php echo $cursoParaModificar->idCurso; ?>" >
+                                <i class="icon-pencil"></i>
+                            </a>
+                        </h2>
+                    </legend>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <strong>Descripción: </strong><?php echo $cursoParaModificar->descripcionCorta; ?>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span4">
+                        <?php
+                        if ($numAlumnos == 0) {
+                            echo '<h5 class="black">No hay ningún usuario inscrito</h5>';
+                        } else if ($numAlumnos == 1) {
+                            echo '<h5 class="black"><span style="font-weight:bold;">1</span> alumno inscrito</h5>';
+                        } else {
+                            echo '<h5 class="black">' . $numAlumnos . ' alumnos inscritos</h5>';
+                        }
+                        ?>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span3">
+                        <h5 class="black">Calificación del curso:</h5>
+                    </div>
+                    <div class="span2 cursoRating">
+                        <?php
+                        for ($i = 1; $i <= 5; $i++) {
+                            if ($cursoParaModificar->rating == $i)
+                                echo '<input title="' . $i . '" name="adv2" type="radio" disabled="disabled" class="wow" checked="checked"/>';
+                            else
+                                echo '<input title="' . $i . '" name="adv2" type="radio" disabled="disabled" class="wow"/>';
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row-fluid"><div class="span12"></div></div>
-        <div id="cursoTabs">
-            <ul>
-                <li><a href="#tabs-1">Clases</a></li>
-                <li><a href="#tabs-2">Descripción</a></li>
-            </ul>
-
-            <div id="tabs-1">
+    </div>
+</div>
+<div class="row-fluid">
+    <div id="cursoTabs" class="well well-small">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tabs-1" data-toggle="tab">Clases</a></li>
+            <li><a href="#tabs-2" data-toggle="tab">Descripción</a></li>
+        </ul>
+        <div class="tab-content" style="overflow:visible;">
+            <div id="tabs-1" class="tab-pane active">
                 <?php
                 if ((isset($error) && $error != "") || (isset($info) && $info != "")) {
                     ?>
@@ -192,7 +186,7 @@ require_once('layout/headers/headCierre.php');
                     }
                 }
                 ?>
-                <div class="row-fluid ui-state-highlight ui-corner-top temaHeader btn">                                   
+                <div class="row-fluid ui-state-highlight ui-corner-top temaHeader agregarTemaBoton">                                   
                     <a href="/temas/tema/agregarTema/<?php echo $cursoParaModificar->idCurso; ?>">
                         <div class="span12">
                             <div class="span3 offset5 temaNombre">                        
@@ -203,13 +197,15 @@ require_once('layout/headers/headCierre.php');
                     </a>
                 </div>
             </div>
-            <div id="tabs-2">
+            <div id="tabs-2" class="tab-pane">
                 <div class="right">
                     <a href="/cursos/curso/editarInformacionCurso/<?php echo $cursoParaModificar->idCurso; ?>" class="btn"><i class="icon-pencil"></i> Editar esta información</a>
                 </div>
                 <br>
                 <div id="descripcion" style="margin-top:30px;">
-                    <h2 style="padding-left: 20px;">Descripción corta</h2>   
+                    <legend>
+                        <h2>Descripción corta</h2>   
+                    </legend>
                     <div id="descripcionContent">
                         <p itemprop="description">
                             <?php
@@ -219,38 +215,39 @@ require_once('layout/headers/headCierre.php');
                     </div>
                 </div>
                 <div id="descripcion">                
-                    <h2 style="padding-left: 20px;">Descripción</h2>
+                    <legend>
+                        <h2 >Descripción</h2>
+                    </legend>
                     <div id="descripcionContent">
                         <?php
                         echo $cursoParaModificar->descripcion;
                         ?>
                     </div>
                 </div>
-
             </div>
         </div>
-        <div class="row-fluid"><div class="span12"></div></div>
-        <div class="row-fluid">
-            <div class="span2">
-                <?php
-                if (isset($backUrl)) {
-                    ?>
-                    <a href="<?php echo $backUrl; ?>" class="btn btn-inverse btn-small">
-                        <i class="icon-white icon-arrow-left"></i>
-                        Regresar
-                    </a>
-                    <?php
-                } else {
-                    ?>
-                    <a href="/" class="btn btn-inverse btn-small">
-                        <i class="icon-white icon-arrow-left"></i>
-                        Regresar al inicio
-                    </a>
-                    <?php
-                }
-                ?>
-            </div>
-        </div>
+    </div>
+</div>
+<div class="row-fluid"><h4></h4></div>
+<div class="row-fluid">
+    <div class="span2">
+        <?php
+        if (isset($backUrl)) {
+            ?>
+            <a href="<?php echo $backUrl; ?>" class="btn btn-inverse btn-small">
+                <i class="icon-white icon-arrow-left"></i>
+                Regresar
+            </a>
+            <?php
+        } else {
+            ?>
+            <a href="/" class="btn btn-inverse btn-small">
+                <i class="icon-white icon-arrow-left"></i>
+                Regresar al inicio
+            </a>
+            <?php
+        }
+        ?>
     </div>
 </div>
 <?php

@@ -3,20 +3,13 @@ require_once('layout/headers/headInicio.php');
 require_once('layout/headers/headAsignarGrupoCurso.php');
 require_once('layout/headers/headCierre.php');
 ?>
-
-<div class="contenido">
-    <div class="row-fluid">
-        <div class="span12">
-            <h4>Agregar grupos al curso:</h4>
-        </div>
-    </div>
-    <div class="row-fluid">
-        <div class="span7">
-            <h5><?php echo $curso->titulo; ?></h5>
-            <h6><?php echo $curso->descripcionCorta; ?></h6>
-        </div>                
-    </div>    
+<div class="row-fluid">
     <div class="well">
+        <div class="row-fluid">
+            <legend>
+                <h4 class="black">Agregar grupos al curso: "<?php echo $curso->titulo; ?>"</h4>
+            </legend>
+        </div>
         <div class="row-fluid">
             <div class="span1">
                 Filtrar
@@ -25,14 +18,7 @@ require_once('layout/headers/headCierre.php');
                 <input type="text" id="textUsuarios">
             </div>
             <div class="span2">
-
             </div>
-            <!--<div class="span1">
-                Filtrar
-            </div>
-            <div class="span4">
-                <input type="text" id="textInscritos">
-            </div>-->
         </div>
         <div class="row-fluid">
             <div class="span5">
@@ -62,7 +48,7 @@ require_once('layout/headers/headCierre.php');
             </div>
             <div class="row-fluid">
                 <div class="span5">
-                    <div class="span8 offset2 btn btn-primary" id="btnAgregar">                        
+                    <div class="span8 offset2 btn btn-success" id="btnAgregar">                        
                         Agregar al curso
                         <i class="icon-white icon-arrow-right"></i>
                     </div>
@@ -84,7 +70,7 @@ require_once('layout/headers/headCierre.php');
                     </div>
                 </div>
                 <div class="span3">
-                    <div class="span12 btn btn-success" id="btnGuardar">
+                    <div class="span12 btn btn-primary" id="btnGuardar">
                         <i class="icon-white icon-ok"></i>
                         Guardar Cambios
                     </div>
@@ -92,7 +78,6 @@ require_once('layout/headers/headCierre.php');
             </div>
         </div>
     </div>
-
 </div>
 
 

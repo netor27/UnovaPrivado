@@ -64,7 +64,7 @@ h1, h2, h3, h4, h5, h6
 #e_bar{ 
     color: white;   
     background: #333 url('images/headerbg.png') 50% 50% repeat-x;    
-    position: fixed; 
+    position: absolute; 
     top:0px;
     left:0px;
     width: 100%;
