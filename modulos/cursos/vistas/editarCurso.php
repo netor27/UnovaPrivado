@@ -65,7 +65,7 @@ require_once('layout/headers/headCierre.php');
 <div class="row-fluid">
     <div id="cursoTabs" class="well well-small">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tabs-1" data-toggle="tab">Clases</a></li>
+            <li class="active"><a href="#tabs-1" data-toggle="tab">Contenido del curso</a></li>
             <li><a href="#tabs-2" data-toggle="tab">Descripción</a></li>
         </ul>
         <div class="tab-content" style="overflow:visible;">
@@ -105,7 +105,7 @@ require_once('layout/headers/headCierre.php');
                                     <div class="row-fluid ui-state-highlight ui-corner-top temaHeader">       
                                         <div class="span7 temaNombre">
                                             <?php
-                                            echo $temas[$i]->nombre;
+                                            echo "Tema " . ($i+1) . ": " . $temas[$i]->nombre;
                                             ?>
                                             <a class="temaNombreIcon" href="/temas/tema/editarTema/<?php echo $cursoParaModificar->idCurso . '/' . $temas[$i]->idTema; ?>">
                                                 <i class="icon-pencil"></i>

@@ -1,6 +1,5 @@
 $(function(){
     $('.wow').rating();
-    
     $('.calificar').rating({
         callback: function(value, link){        
             if(value == undefined)
@@ -16,5 +15,5 @@ $(function(){
                 }
             }); 
         }
-    });
+    }); 
 });

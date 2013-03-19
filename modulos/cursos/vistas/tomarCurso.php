@@ -93,73 +93,67 @@ require_once('layout/headers/headCierre.php');
 <div class="row-fluid">            
     <div id="cursoTabs" class="well well-small">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tabs-1" data-toggle="tab" >Clases</a></li>
+            <li class="active"><a href="#tabs-1" data-toggle="tab" >Contenido del curso</a></li>
         </ul>
-        <div class="tab-content">
+        <div class="tab-content" style="overflow-x: visible">
             <div id="tabs-1" class="tab-pane active"> 
-                <div class="span12">
+                <div class="span12" style="width:99%;">
                     <?php
                     $i = 1;
                     $j = 1;
                     if (isset($temas) && isset($clases)) {
                         foreach ($temas as $tema) {
                             ?>
-                            <div class="row-fluid">
-                                <div class="span12 temaContainer">
-                                    <h4>Tema <?php echo $i . ": " . "<em>" . $tema->nombre . "</em>" ?></h4>
+                            <div class="temasContainer">
+                                <div class="row-fluid">
+                                    <div class="temaContainer span12">
+                                        <div class="row-fluid ui-state-highlight ui-corner-top temaHeader">
+                                            <div class="span7 temaNombre">
+                                                <?php
+                                                echo "Tema " . ($i + 1) . ": " . $tema->nombre;
+                                                ?>
+                                            </div>
+                                        </div>
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                                <ul id="sortable<?php echo $i; ?>" class="connectedSortable">
+                                                    <?php
+                                                    for ($j = 0; $j < sizeof($clases); $j++) {
+                                                        if ($clases[$j]->idTema == $tema->idTema) {
+                                                            ?>
+                                                            <li id="clase_<?php echo $clases[$j]->idClase; ?>"  class="ui-state-default ui-corner-all">
+                                                                <div class="row-fluid">
+                                                                    <div class="span10">
+                                                                        <div class="span1">
+                                                                            <img class="iconClase" src="<?php echo getImagenTipoClase($clases[$j]->idTipoClase); ?>">
+                                                                        </div>
+                                                                        <div class="span11 nombreClaseContainer">
+                                                                            <a class="nombreClase" href="/curso/<?php echo $curso->uniqueUrl . "/" . $clases[$j]->idClase; ?>">
+                                                                                <?php
+                                                                                echo $clases[$j]->titulo;
+                                                                                ?>  
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="span2 claseLinksContainer">
+                                                                        <a class="nombreClase" href="/curso/<?php echo $curso->uniqueUrl . "/" . $clases[$j]->idClase; ?>">
+                                                                            Tomar clase
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row-fluid"><div class="span12"></div></div>
-                            <?
-                            $j = 1;
-                            foreach ($clases as $clase) {
-                                if ($tema->idTema == $clase->idTema) {
-                                    $thumb = "";
-                                    switch ($clase->idTipoClase) {
-                                        case 0:
-                                            $thumb = "/layout/imagenes/video.png";
-                                            break;
-                                        case 1:
-                                            $thumb = "/layout/imagenes/document.png";
-                                            break;
-                                        case 2:
-                                            $thumb = "/layout/imagenes/presentation.png";
-                                            break;
-                                        case 3:
-                                            $thumb = "/layout/imagenes/document.png";
-                                            break;
-                                        case 4:
-                                            $thumb = "/layout/imagenes/audio.png";
-                                            break;
-                                        default:
-                                            $thumb = "/layout/imagenes/document.png";
-                                            break;
-                                    }
-                                    ?>
-                                    <div class="row-fluid" style="margin-bottom: 10px;">
-                                        <a href="/curso/<?php echo $curso->uniqueUrl . '/' . $clase->idClase; ?>">
-                                            <div class="span1">
-                                                <div class="span9">
-                                                    <img class="span12" src="<?php echo $thumb; ?>"/>
-                                                </div>
-                                            </div>
-                                            <div class="span10">
-                                                <h4>
-                                                    <strong><?php echo $j; ?>- </strong> <?php echo $clase->titulo; ?>
-                                                </h4>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <legend></legend>
-                                    <?php
-                                    $j++;
-                                }
-                                ?>
-                                <?php
-                            }
-                            $i++;
-                            ?>
                             <?php
+                            $i++;
                         }
                     } else {
                         ?>
