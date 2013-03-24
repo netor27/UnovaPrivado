@@ -11,7 +11,7 @@ if (isset($cursos)) {
     ?>
     <div class="row-fluid">
         <div class="span12">
-            <h3>Cursos a los que estoy inscrito (<?php echo sizeof($cursos) ?>)</h3>
+            <h3>Cursos a los que estoy inscrito (<?php echo $numCursos; ?>)</h3>
         </div>
     </div>
     <div class="row-fluid">
