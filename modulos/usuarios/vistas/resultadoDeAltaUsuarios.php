@@ -1,6 +1,5 @@
 <?php
 require_once('layout/headers/headInicio.php');
-require_once('layout/headers/headGridster.php');
 require_once('layout/headers/headListaUsuarios.php');
 require_once('layout/headers/headCierre.php');
 ?>
@@ -113,7 +112,6 @@ require_once('layout/headers/headCierre.php');
 </div>
 
 <?php
-require_once('lib/js/jqueryGridster/gridsterSinDraggable.php');
 require_once('layout/foot.php');
 ?>
             

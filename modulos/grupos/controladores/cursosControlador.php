@@ -13,7 +13,6 @@ function asignados() {
                 if (isset($_GET['p'])) {
                     if (is_numeric($_GET['p'])) {
                         $pagina = intval($_GET['p']);
-                        echo "pagina = " . $pagina . '<br>';
                         $offset = $numRows * ($pagina - 1);
                     }
                 }

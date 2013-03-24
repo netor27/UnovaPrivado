@@ -1,39 +1,68 @@
 </head>
 <body>
-    <script>
-        var layout = "<?php echo getTipoLayout(); ?>";
-    </script>
-    <div id="e_bar">
-        <div class="container" id="top-bar">
-            <a href="/" class="logo left" id="logo"> <img src="/layout/imagenes/Unova_Logo_135x47.png"></a>
-            <?php
-            switch (tipoUsuario()) {
-                case 'usuario':
-                    require_once 'modulos/principal/vistas/topBarUsuario.php';
-                    break;
-                case 'administradorPrivado':
-                    require_once 'modulos/principal/vistas/topBarAdministradorPrivado.php';
-                    break;
-                case 'profesor':
-                    require_once 'modulos/principal/vistas/topBarProfesor.php';
-                    break;
-                case 'administrador':
-                    require_once 'modulos/principal/vistas/topBarUsuario.php';
-                    break;
-            }
-            ?>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">                
+                <a class="brand" href="/" style="padding: 0px;"><img src="/layout/imagenes/Unova_Logo_135x47.png"></a>
+                <?php
+                $usuarioHead = getUsuarioActual();
+                if (isset($usuarioHead)) {
+                    ?>
+                    <button type="button" class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mis Cursos
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/usuarios/cursos/inscrito">Cursos a los que estoy inscrito</a></li>
+                                    <?php
+                                    if (tipoUsuario() != "usuario") {
+                                        ?>
+                                        <li><a href="/usuarios/cursos/instructor">Cursos que imparto</a></li>
+                                        <?php
+                                    }
+                                    ?>
+                                </ul>                                
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <?php
+                                    //echo substr($usuarioHead->nombreUsuario, 0, 14); 
+                                    echo $usuarioHead->nombreUsuario;
+                                    ?> <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/usuario/<?php echo $usuarioHead->uniqueUrl; ?>">Mi perfil</a></li>
+                                    <li class="divider"></li>                                
+                                    <li><a href="/login/login/logout">Cerrar sesión</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
         </div>
     </div>
-    <div id="e_site">    
-        <?php
-        $sessionMessage = getSessionMessage();
-        if (!is_null($sessionMessage)) {
-            ?>
+
+    <?php
+    $sessionMessage = getSessionMessage();
+    if (!is_null($sessionMessage)) {
+        ?>
+        <div class="container">
             <div id="sessionMessage" class="centerText" >
                 <?php echo $sessionMessage; ?>
             </div>
-            <?php
-        }
-        ?>
-        <div class="container">
-            <div class="row-fluid"><h1></h1></div>
+        </div>
+
+        <?php
+    }
+    ?>
+    <div class="container" style="padding-bottom: 175px;">

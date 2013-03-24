@@ -3,8 +3,6 @@ require_once('layout/headers/headInicio.php');
 require_once('layout/headers/headEditarClase.php');
 require_once('layout/headers/headCierre.php');
 ?>
-
-
 <div class="row-fluid">
     <?php
     if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
@@ -24,18 +22,20 @@ require_once('layout/headers/headCierre.php');
         <div class="row-fluid">
             <legend><h4 class="black">Editar clase</h4></legend>
         </div>
-        <?php
-        if (isset($msgForma)) {
-            ?>
-            <div class="row-fluid">
-                <div class="alert alert-error">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    <strong>¡Error! </strong> <?php echo $msgForma; ?>
-                </div>
-            </div>
+        <div id="errorMessage">
             <?php
-        }
-        ?>
+            if (isset($msgForma)) {
+                ?>
+                <div class="row-fluid">
+                    <div class="alert alert-error">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>¡Error! </strong> <?php echo $msgForma; ?>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+        </div>
         <div class="row-fluid">
             <form id="customForm" action="/clases/clase/editarClaseSubmit" method="post" class="form-horizontal">
                 <div class="control-group">

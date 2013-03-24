@@ -1,6 +1,5 @@
 <?php
 require_once('layout/headers/headInicio.php');
-require_once('layout/headers/headIndex.php');
 require_once('layout/headers/headCierre.php');
 ?>
 <div class="row-fluid">    

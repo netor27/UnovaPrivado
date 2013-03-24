@@ -1,127 +1,67 @@
-<script>
-    var layout = "<?php echo getTipoLayout(); ?>";
-</script>
 </head>
-<body style="z-index: -100;">
-    <div id="e_bar">
-        <div id="top-bar">
-            <a href="/" class="logo left" id="logo"> <img src="/layout/imagenes/Unova_Logo_135x47.png"></a>
-            <div style="margin-left: 20px;">
-                <div  class="element left ease3">
-                    <a href="/curso/<?php echo $curso->uniqueUrl; ?>" class="link" id="menuSiguienteClase" > 
-                        <img src="/layout/imagenes/regresar.png">
-                        Regresar al curso
-                    </a>                    
-                </div>
-                <div  class="element left ease3" style="width:190px;">
-                    <?php
-                    if (getTipoLayout() == "desktop") {
-                        ?>
-                        <a class="link" > 
-                            <div id="menuClasesLink">
-                                <span class="left">
-                                    Clases de este curso 
-                                </span>
-                                <div id="flechaClases" class="flechaAbajo left"></div>
-                            </div>
-                        </a>
-                        <div id="flechitaClases"></div>
-                        <div id="clases_menu">                            
-                            <?php
-                            if (isset($temas) && isset($clases)) {
-                                foreach ($temas as $tema) {
-                                    echo '<div class="clasesMenuHeader">';
-                                    echo $tema->nombre;
-                                    echo '</div>';
-                                    foreach ($clases as $claseF) {
-                                        if ($tema->idTema == $claseF->idTema) {
-
-                                            echo '<a href="/curso/' . $curso->uniqueUrl . '/' . $claseF->idClase . '">';
-                                            if ($claseF->idClase == $clase->idClase)
-                                                echo '<div class="clasesMenuElement clasesMenuElementActual">';
-                                            else
-                                                echo '<div class="clasesMenuElement">';
-
-                                            switch ($claseF->idTipoClase) {
-                                                case 0:
-                                                    echo '<img src="/layout/imagenes/video.png">';
-                                                    break;
-                                                case 1:
-                                                    echo '<img src="/layout/imagenes/presentation.png">';
-                                                    break;
-                                                case 2:
-                                                    echo '<img src="/layout/imagenes/document.png">';
-                                                    break;
-                                                default:
-                                                    echo '<img src="/layout/imagenes/video.png">';
-                                                    break;
-                                            }
-                                            echo '<span class="left">' . $claseF->titulo . '</span>';
-                                            if ($claseF->idTipoClase == 0) {
-                                                echo '<br><span class="left">' . $claseF->duracion . '</span>';
-                                            }
-
-                                            echo ' </div>';
-                                            echo '</a>';
-                                        }
+<body style="z-index: -100;min-height: 0%;">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <button type="button" class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="brand" href="/" style="padding: 0px; padding-right: 40px;"><img src="/layout/imagenes/Unova_Logo_135x47.png"></a>
+                <?php
+                $usuarioHead = getUsuarioActual();
+                if (isset($usuarioHead)) {
+                    ?>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav ">
+                            <li class="dropdown ">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    Menú del curso
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/curso/<?php echo $curso->uniqueUrl; ?>"><i class="icon-arrow-up"></i> Regresar al curso</a></li>
+                                    <li class="divider"></li>
+                                    <?php
+                                    if ($clases['anterior'] >= 0)
+                                        echo '<li><a href="/curso/' . $curso->uniqueUrl . '/' . $clases['anterior'] . '"><i class="icon-fast-backward "></i> Clase anterior</a></li>';
+                                    if ($clases['siguiente'] >= 0) {
+                                        echo '<li><a href="/curso/' . $curso->uniqueUrl . '/' . $clases['siguiente'] . '"><i class="icon-fast-forward"></i> Siguiente clase</a></li>';
+                                    } else {
+                                        echo '<li><p style="padding:5px;">Ya no hay más clases.</p></li>';
                                     }
-                                }
-                            }
-                            ?>
-                        </div>
-                        <?php
-                    } else {
-                        //si no es desktop no mostramos la lista de cursos
-                        ?>
-                        <a class="link" href="/curso/<?php echo $curso->uniqueUrl; ?>"> 
-                            <div id="menuClasesLink">
-                                <span class="left">
-                                    Clases de este curso 
-                                </span>
-                            </div>
-                        </a>
-                        <?php
-                    }
-                    ?>
-                </div>
-                <div  class="element left ease3">
+                                    ?>                                                             
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="nav pull-right">                            
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mis Cursos
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/usuarios/cursos/inscrito">Cursos a los que estoy inscrito</a></li>
+                                    <li><a href="/usuarios/cursos/instructor">Cursos que imparto</a></li>
+                                </ul>                                
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <?php
+                                    echo $usuarioHead->nombreUsuario;
+                                    ?> <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/usuario/<?php echo $usuarioHead->uniqueUrl; ?>">Mi perfil</a></li>
+                                    <li class="divider"></li>                                
+                                    <li><a href="/login/login/logout">Cerrar sesión</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                     <?php
-                    if ($idSiguienteClase > 0) {
-                        ?>
-                        <a href="/curso/<?php echo $curso->uniqueUrl . "/" . $idSiguienteClase; ?>" class="link" id="menuSiguienteClase" > 
-                            Siguiente Clase 
-                            <img src="/layout/imagenes/siguiente.png">
-                        </a>
-                        <?php
-                    }
-                    ?>
-                </div>
+                }
+                ?>
             </div>
-            <?php
-            switch (tipoUsuario()) {
-                case 'usuario':
-                    require_once 'modulos/principal/vistas/topBarUsuario.php';
-                    break;
-                case 'administradorPrivado':
-                    require_once 'modulos/principal/vistas/topBarAdministradorPrivado.php';
-                    break;
-                case 'profesor':
-                    require_once 'modulos/principal/vistas/topBarProfesor.php';
-                    break;
-                case 'administrador':
-                    require_once 'modulos/principal/vistas/topBarUsuario.php';
-                    break;
-            }
-            ?>
         </div>
-    </div>
-    <div id="e_site"  style="z-index: -90;">
-        <div id="modalDialog"></div>
-        <?php
-        $sessionMessage = getSessionMessage();
-        if (!is_null($sessionMessage)) {
-            echo '<div id="sessionMessage" class="centerText" >';
-            echo $sessionMessage;
-            echo '</div>';
-        }
-        ?>
+    </div>    

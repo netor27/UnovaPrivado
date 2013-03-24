@@ -1,6 +1,5 @@
 <?php
 require_once('layout/headers/headInicio.php');
-require_once('layout/headers/headGridster.php');
 require_once('layout/headers/headListaUsuarios.php');
 require_once('layout/headers/headCierre.php');
 ?>
@@ -36,7 +35,6 @@ require_once('layout/headers/headCierre.php');
 <div class="row-fluid"><h1></h1></div>
 <div class="row-fluid">
     <div class="well well-large">
-
         <legend>
             <h4>
                 <?php
@@ -54,55 +52,51 @@ require_once('layout/headers/headCierre.php');
                 ?>
             </h4>
         </legend>
-
         <?php
         $columna = 1;
         $fila = 1;
         if (isset($usuarios)) {
             ?>
             <div class="row-fluid">
-                <div id="alumnosContainer" class="span12">
-                    <div class="gridster ready">
-                        <ul style="height: 480px; position: relative; ">
-                            <?php
-                            foreach ($usuarios as $usuario) {
-                                ?>
-                                <li class="cuadro ui-corner-all" data-row="1" data-col="1" data-sizex="1" data-sizey="1" style="background: url('<?php echo $usuario->avatar; ?>')">
-                                    <div class="cuadroFooter ui-corner-bottom ease3">
-                                        <span class="cuadroFooterTitulo">
-                                            <a href="/usuario/<?php echo $usuario->uniqueUrl . '&b=' . getRequestUri(); ?>">
-                                                <?php echo $usuario->nombreUsuario; ?>
-                                            </a>
-                                        </span>
-                                        <br>
-                                        <span class="cuadroFooterLink">
-                                            <a class="btn btn-mini btn-danger borrarUsuario" id="<?php echo $usuario->idUsuario; ?>">
-                                                <i class="icon-white icon-trash"></i>
-                                                <?php
-                                                switch ($tipo) {
-                                                    case 'alumnos':
-                                                        echo 'Eliminar alumno';
-                                                        break;
-                                                    case 'profesores':
-                                                        echo 'Eliminar profesor';
-                                                        break;
-                                                    case 'administradores':
-                                                        echo 'Eliminar admin';
-                                                        break;
-                                                }
-                                                ?>                                                    
-                                            </a>
-                                        </span>
-                                    </div>
-                                </li>
-                                <?php
-                            }
-                            ?>                        
-                        </ul>
-                    </div>
-
-                </div>
+                <ul class="thumbnails">
+                    <?php
+                    $i = 1;
+                    foreach ($usuarios as $usuario) {
+                        if ($i % 6 === 1) {
+                            echo '<div class="row-fluid">';
+                        }
+                        ?>
+                        <div class="span2">
+                            <div class="thumbnail hoverBlueBorder">
+                                <div class="caption centerText break-words">
+                                    <a href="/usuario/<?php echo $usuario->uniqueUrl . '&b=' . getRequestUri(); ?>">
+                                        <?php echo $usuario->nombreUsuario; ?>                                    
+                                        <img src="<?php echo $usuario->avatar; ?>"/>
+                                    </a>
+                                </div>
+                                <div class="caption centerText">
+                                    <a class="btn btn-mini btn-danger borrarUsuario" id="<?php echo $usuario->idUsuario; ?>">
+                                        <i class="icon-white icon-trash"></i>
+                                        Eliminar                                          
+                                    </a>
+                                </div>      
+                            </div>                                
+                        </div>
+                        <?php
+                        if ($i % 6 === 0) {
+                            echo '</div>';
+                            echo '<div class="row-fluid"><div class=span12></div></div>';
+                        }
+                        $i++;
+                    }
+                    if ($i % 6 !== 1) {
+                        echo '</div>';
+                    }
+                    ?>                   
+                </ul>
             </div>
+
+
             <div class="row-fluid">
                 <div class="span12">
                     <div class="pagination pagination-centered">
@@ -152,7 +146,6 @@ require_once('layout/headers/headCierre.php');
 
 
 <?php
-require_once('lib/js/jqueryGridster/gridsterSinDraggable.php');
 require_once('layout/foot.php');
 ?>
             

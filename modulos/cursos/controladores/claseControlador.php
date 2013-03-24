@@ -134,15 +134,13 @@ function tomarClase() {
                 $tipoUsuario == "administrador" ||
                 $tipoUsuario == "administradorPrivado") {
             $clase = getClase($idClase);
-            $temas = getTemas($curso->idCurso);
-            $clases = getClases($curso->idCurso);
             if ($tipoUsuario != "administrador") {
                 //si no es un administrador, contar las views
                 sumarVistaClase($idClase);
                 sumarTotalView($curso->idCurso);
                 registrarClaseTomada($usuario->idUsuario, $idClase);
             }
-            $idSiguienteClase = obtenerIdSiguienteClase($clase->idClase, $clases);
+            $clases = obtenerClaseSiguienteYanterior($curso->idCurso, $idClase);
             $usoEnDisco = 0;
             switch ($clase->idTipoClase) {
                 case 0:

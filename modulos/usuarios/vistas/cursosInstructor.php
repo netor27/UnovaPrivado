@@ -20,7 +20,7 @@ if ($numCursos == 0 && !isset($cursos)) {
     ?>
     <div class="row-fluid">
         <div class="span6">
-            <h3>Mis cursos</h3>
+            <h3>Cursos que imparto (<?php echo $numCursos;?>)</h3>
         </div>
         <div class="span3 offset3">
             <div style="padding-top: 20px;">

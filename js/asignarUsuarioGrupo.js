@@ -51,21 +51,25 @@ $(function() {
     });
   
     $("#btnAgregar").click(function(){
-        var $id = $('#listaUsuarios option:selected').attr("value");
-        var bandera = false;
-        $('#listaInscritos option').each(function(i) {
-            if($id == this.value){
-                bandera = true;
+        $('#listaUsuarios option:selected').each(function(index, value){
+            var $id = $(value).attr("value");
+            var bandera = false;
+            $('#listaInscritos option').each(function(i) {
+                if($id == this.value){
+                    bandera = true;
+                }
+            });        
+            if(!bandera){
+                $(value).clone().appendTo('#listaInscritos');
             }
-        });        
-        if(!bandera){
-            $('#listaUsuarios option:selected').clone().appendTo('#listaInscritos');
-        }
+        });
     });
   
     $("#btnQuitar").click(function(){
-        var valor = $('#listaInscritos option:selected').attr("value");
-        usuariosQuitar.push(valor);        
+        $('#listaInscritos option:selected').each(function(index, value){
+            var valor = $(value).attr("value");
+            usuariosQuitar.push(valor);
+        });
         $('#listaInscritos option:selected').remove();
     });
     
@@ -96,7 +100,17 @@ $(function() {
                 success: function(data) {
                     var str = data.toString();
                     if(str.indexOf("ok") != -1){                    
-                        bootbox.alert("Se actualizaron los datos correctamente");
+                        bootbox.dialog("<h4>Se actualizaron los datos correctamente.<br>¿Qué deseas hacer?</h4>", 
+                            [{
+                                "label" : "Seguir modificando",
+                                "class" : "btn"
+                            }, {
+                                "label" : "Salir",
+                                "class" : "btn-primary",
+                                "callback": function() {
+                                    regresar();
+                                }                                
+                            }]);
                     }else{ 
                         bootbox.alert("Ocurrió un error al actualizar los datos. <br>Intenta de nuevo más tarde");
                     }
@@ -110,7 +124,12 @@ $(function() {
     });
   
     $("#btnCancelar").click(function(){
-        $url = "/grupos/usuarios/inscritos/"+grupo;
-        redirect($url);
+        regresar();
+        
     });
 });  
+
+function regresar(){
+    $url = "/grupos/usuarios/inscritos/"+grupo;
+    redirect($url);
+}

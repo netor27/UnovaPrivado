@@ -4,24 +4,16 @@ require_once ('layout/headers/headListaCursos.php');
 require_once ('layout/headers/headCierre.php');
 ?>
 
-<div class="row-fluid">
-    <div class="span12">
-        <?php
-        if ($numCursos == 1) {
-            ?>
-            <h3>Estás inscrito a un curso</h3>
-            <?php
-        } else if ($numCursos > 0) {
-            echo '<h3 >Estás inscrito a ' . $numCursos . ' cursos</h3>';
-        }
-        ?>
-    </div>
-</div>
 <?php
 $columna = 1;
 $fila = 1;
 if (isset($cursos)) {
     ?>
+    <div class="row-fluid">
+        <div class="span12">
+            <h3>Cursos a los que estoy inscrito (<?php echo sizeof($cursos) ?>)</h3>
+        </div>
+    </div>
     <div class="row-fluid">
         <div class="span12">
             <?php

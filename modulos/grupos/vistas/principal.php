@@ -52,12 +52,12 @@ if (isset($grupos)) {
                     </div>
 
                     <div class="row-fluid">
-                        <div class="btn-group span3 offset8 ">
-                            <a class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <div class="btn-group span12">
+                            <a class="pull-right btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown">
                                 <i class="icon-pencil icon-white"></i> Editar 
                                 <span class="caret"></span>
                             </a>                                            
-                            <ul class="dropdown-menu">
+                            <ul class="pull-right dropdown-menu">
                                 <li><a href="/grupos/usuarios/inscritos/<?php echo $grupo->idGrupo; ?>"><i class="icon-user"></i> Editar usuarios del grupo</a></li>
                                 <li><a href="/grupos/grupo/modificar/<?php echo $grupo->idGrupo; ?>"><i class="icon-pencil"></i> Editar información del grupo</a></li>
                                 <li class="divider"></li>

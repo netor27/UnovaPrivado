@@ -8,18 +8,20 @@ require_once('layout/headers/headCierre.php');
         <div class="row-fluid">
             <legend><h4 class="black">Crear un curso</h4></legend>
         </div>
-        <?php
-        if (isset($msgForma)) {
-            ?>
-            <div class="row-fluid">
-                <div class="alert alert-error">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    <strong>¡Error! </strong> <?php echo $msgForma; ?>
-                </div>
-            </div>
+        <div id="errorMessage">
             <?php
-        }
-        ?>
+            if (isset($msgForma)) {
+                ?>
+                <div class="row-fluid">
+                    <div class="alert alert-error">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>¡Error! </strong> <?php echo $msgForma; ?>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+        </div>
         <div class="row-fluid">
             <form id="customForm" action="/cursos/curso/crearCursoSubmit" method="post" class="form-horizontal">
                 <div class="control-group">
@@ -36,8 +38,8 @@ require_once('layout/headers/headCierre.php');
                 </div>
                 <div class="control-group">
                     <div class="controls">
-                        <button type="submit" class="span3 btn btn-primary">Crear curso</button>  
-                        <a href="/cursos" class="span3 offset1 btn">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Crear curso</button>  
+                        <a href="/cursos" class="offset1 btn">Cancelar</a>
                     </div>
                 </div>
             </form>

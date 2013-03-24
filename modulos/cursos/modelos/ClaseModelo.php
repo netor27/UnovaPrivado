@@ -194,21 +194,38 @@ function sumarVistaClase($idClase) {
     return $stmt->execute();
 }
 
-function obtenerIdSiguienteClase($idClase, $clases) {
-    $idSiguienteClase = -1;
-    $bandera = true;
+function obtenerClaseSiguienteYanterior($idCurso, $idClase) {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("SELECT c.idClase, c.idTema, c.titulo, c.orden, c.idTipoClase, c.transformado, c.views, c.duracion
+                            FROM clase c, tema t
+                            WHERE c.idTema = t.idTema AND t.idCurso = :id
+                            ORDER BY  t.idTema, orden ASC ");
+    $stmt->bindParam(':id', $idCurso);
+    if (!$stmt->execute())
+        print_r($stmt->errorInfo());
+    $rows = $stmt->fetchAll();
+    $anterior = -1;
+    $siguiente = -1;
+    $encontrada = false;
     $i = 0;
-    $numClases = sizeof($clases);
-    while ($bandera && $i < $numClases) {
-        if ($clases[$i]->idClase == $idClase) {
-            if ($i + 1 < sizeof($clases)) {
-                $idSiguienteClase = $clases[$i + 1]->idClase;
-                $bandera = false;
-            }
+    while ($i < sizeof($rows) && !$encontrada) {
+        if ($rows[$i]['idClase'] == $idClase) {
+            $encontrada = true;
+        } else {
+            $anterior = $rows[$i]['idClase'];
         }
         $i++;
     }
-    return $idSiguienteClase;
+    if($encontrada){
+        if(isset($rows[$i])){
+            $siguiente = $rows[$i]['idClase'];
+        }
+    }
+    return array(
+        "anterior" => $anterior,
+        "siguiente" => $siguiente
+    );
 }
 
 function getTotalDiscoUtilizado() {

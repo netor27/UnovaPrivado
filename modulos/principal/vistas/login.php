@@ -3,7 +3,7 @@ require_once('layout/headers/headInicio.php');
 require_once('layout/headers/headCierre.php');
 ?>
 <div class="row">
-    <div class="well span8 offset1">
+    <div class="well span8 offset2">
         <div class="row-fluid">
             <legend><h4>Iniciar sesión</h4></legend>
         </div>
@@ -60,7 +60,7 @@ require_once('layout/headers/headCierre.php');
                             }
                             ?>
                         </label>
-                        <button type="submit" class="btn">Aceptar</button>
+                        <button type="submit" class="btn btn-primary">Aceptar</button>
                     </div>
                 </div>
                 <?php

@@ -22,7 +22,7 @@ require_once('layout/headers/headCierre.php');
         </div>
         <div class="row-fluid">
             <div class="span5">
-                <select name="grupos[]" id="listaGrupos" class="listaGrupos" size="20">
+                <select name="grupos[]" id="listaGrupos" class="listaGrupos" size="20" multiple="true">
                     <?php
                     if (isset($grupos)) {
                         foreach ($grupos as $grupo) {
@@ -36,7 +36,7 @@ require_once('layout/headers/headCierre.php');
 
             </div>
             <div class="span5">
-                <select name="inscritos[]" id="listaInscritos" class="listaGrupos" size="20">
+                <select name="inscritos[]" id="listaInscritos" class="listaGrupos" size="20" multiple="true">
                     <?php
                     if (isset($gruposDelCurso)) {
                         foreach ($gruposDelCurso as $grupo) {

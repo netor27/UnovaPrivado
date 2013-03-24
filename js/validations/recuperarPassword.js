@@ -1,23 +1,19 @@
 $(document).ready(function(){
     var form = $("#customForm");  
     var correo = $("#inputEmail");  
+    var msgError = '<div class="row-fluid"><div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button><strong>¡Error! </strong>';
+    var aux;
     
     function validateCorreo(){  
         if(validateEmail(correo.val())){  
             //Es valido
-            $('#inputEmail').popover('hide');
             return true;  
         } else {  
-            $('#inputEmail').attr("data-original-title","Error");
-            $('#inputEmail').attr("data-content","Introduce un correo electrónico válido");
-            $('#inputEmail').popover("show");
+            aux =  msgError + 'Introduce un correo electrónico válido</div></div>';            
+            $("#errorMessage").html(aux);
             return false;  
         }  
     } 
-   
-    //On blur
-    correo.blur(validateCorreo);  
-    
     form.submit(function(){  
         if(validateCorreo())  
             return true  

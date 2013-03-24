@@ -41,7 +41,8 @@ if (isset($var['videoData'])) {
         <link type="text/css" href="/layout/css/headerEditor.css" rel="stylesheet" />	
         <link type="text/css" href="/layout/css/editorPopcorn.css" rel="stylesheet" />	
 
-        <script src="/lib/js/jquery-1.8.2.min.js"></script>		
+        <script src="/lib/js/jquery-1.9.1.min.js"></script>	        
+        <script src="/lib/js/jquery-migrate-1.1.1.js"></script>	        
         <script src="/lib/js/ajaxFileUpload/ajaxfileupload.js"></script>
         <script src="/lib/js/jquery-ui/jquery-ui-1.10.1.custom.min.js"></script>
         

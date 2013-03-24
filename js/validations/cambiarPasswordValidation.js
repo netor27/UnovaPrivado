@@ -3,52 +3,43 @@ $(document).ready(function(){
     var passAnterior = $("#inputPassAnt");    
     var pass1 = $("#inputPass1");      
     var pass2 = $("#inputPass2");  
-
+    var msgError = '<div class="row-fluid"><div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button><strong>¡Error! </strong>';
+    var aux;
     function validatePassAnterior(){
         if(passAnterior.val().length < 1){
-            $('#inputPassAnt').attr("data-original-title","Error");
-            $('#inputPassAnt').attr("data-content","Introduce tu contraseña anterior");
-            $('#inputPassAnt').popover("show");
+            aux =  msgError + 'Introduce tu contraseña anterior</div></div>';            
+            $("#errorMessage").html(aux);
             return false;
         }else{
-            $('#inputPassAnt').popover("hide");
             return true;
         }
     }
     
     function validatePass1(){  
         if(pass1.val().length <5){  
-            $('#inputPass1').attr("data-original-title","Error");
-            $('#inputPass1').attr("data-content","Tu contraseña debe tener mínimo 5 caracteres");
-            $('#inputPass1').popover("show");
+            aux =  msgError + 'Tu contraseña debe tener mínimo 5 caracteres</div></div>';            
+            $("#errorMessage").html(aux);
             return false;  
         }else{  
-            $('#inputPass1').popover("hide");
             return true;  
         }  
     }  
     function validatePass2(){  
 
         if( pass1.val() != pass2.val() ){  
-            $('#inputPass2').attr("data-original-title","Error");
-            $('#inputPass2').attr("data-content","Las contraseñas no coinciden");
-            $('#inputPass2').popover("show");
+            var aux =  msgError + 'Las contraseñas no coinciden</div></div>';            
+            $("#errorMessage").html(aux);
             return false;  
         }else{  
-            $('#inputPass2').popover("hide");
             return true;  
         }  
     } 
 
-    //On blur
-    passAnterior.blur(validatePassAnterior);
-    pass1.blur(validatePass1);  
-    pass2.blur(validatePass2);      
-
-    form.submit(function(){  
-        if(validatePassAnterior() && validatePass1() && validatePass2())  
-            return true  
-        else  
-            return false;  
+form.submit(function(){  
+        if(validatePassAnterior())
+            if(validatePass1())
+                if(validatePass2())  
+                    return true                    
+        return false;  
     });  
 });

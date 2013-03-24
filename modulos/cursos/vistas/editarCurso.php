@@ -8,10 +8,11 @@ require_once('layout/headers/headCierre.php');
     <div class="span12 well well-large">
         <div class="row-fluid">
             <div class="span3">
-                <div>
-                    <img src="<?php echo $cursoParaModificar->imagen; ?>" class="img-polaroid"/>
-                    <br>
-                    <a style="margin-left: 55px;" href="/cursos/curso/cambiarImagen/<?php echo $cursoParaModificar->idCurso; ?>">Cambiar imagen</a>
+                <div class="row-fluid">
+                    <img src="<?php echo $cursoParaModificar->imagen; ?>" class="span12 img-polaroid"/>
+                </div>
+                <div class="row-fluid">
+                    <a class="span12 centerText" href="/cursos/curso/cambiarImagen/<?php echo $cursoParaModificar->idCurso; ?>">Cambiar imagen</a>
                 </div>            
             </div>
             <div class="span9">
@@ -67,6 +68,7 @@ require_once('layout/headers/headCierre.php');
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tabs-1" data-toggle="tab">Contenido del curso</a></li>
             <li><a href="#tabs-2" data-toggle="tab">Descripción</a></li>
+            <li><a href="#tabs-3" data-toggle="tab">Foro</a></li>
         </ul>
         <div class="tab-content" style="overflow:visible;">
             <div id="tabs-1" class="tab-pane active">
@@ -105,7 +107,7 @@ require_once('layout/headers/headCierre.php');
                                     <div class="row-fluid ui-state-highlight ui-corner-top temaHeader">       
                                         <div class="span7 temaNombre">
                                             <?php
-                                            echo "Tema " . ($i+1) . ": " . $temas[$i]->nombre;
+                                            echo "Tema " . ($i + 1) . ": " . $temas[$i]->nombre;
                                             ?>
                                             <a class="temaNombreIcon" href="/temas/tema/editarTema/<?php echo $cursoParaModificar->idCurso . '/' . $temas[$i]->idTema; ?>">
                                                 <i class="icon-pencil"></i>
@@ -142,7 +144,7 @@ require_once('layout/headers/headCierre.php');
                                                             ?>
                                                             <div class="row-fluid">
                                                                 <div class="span10">
-                                                                    <div class="span1">
+                                                                    <div class="span1 centerText">
                                                                         <img class="iconClase" src="<?php echo getImagenTipoClase($clases[$j]->idTipoClase); ?>">
                                                                     </div>
                                                                     <div class="span11 nombreClaseContainer">
@@ -156,7 +158,7 @@ require_once('layout/headers/headCierre.php');
                                                                         </a>
                                                                     </div>
                                                                 </div>
-                                                                <div class="span1 claseLinksContainer">
+                                                                <div class="span1 claseLinksContainer hidden-phone hidden-tablet">
                                                                     <?php
                                                                     if ($clases[$j]->idTipoClase == 0 || $clases[$j]->idTipoClase == 4) {
                                                                         ?>
@@ -224,6 +226,9 @@ require_once('layout/headers/headCierre.php');
                         ?>
                     </div>
                 </div>
+            </div>
+            <div id="tabs-3" class="tab-pane">
+                <h1>Aquí va el foro</h1>
             </div>
         </div>
     </div>

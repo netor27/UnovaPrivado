@@ -6,15 +6,21 @@ require_once('layout/headers/headCierre.php');
 <div class="row-fluid">
     <div class="span12 well well-large">
         <div class="span3">
-            <img class="span12 img-polaroid"src="<?php echo $usuarioPerfil->avatar; ?>" >
+            <div class="row-fluid">
+                <img class="span12 img-polaroid"src="<?php echo $usuarioPerfil->avatar; ?>" >
+            </div>
             <?php
             if ($miPerfil) {
-                echo '<a href="/usuarios/usuario/cambiarImagen" style="padding-left: 53px;">Cambiar imagen</a>';
+                ?>
+                <div class="row-fluid">
+                    <a href="/usuarios/usuario/cambiarImagen" class="span12 centerText">Cambiar imagen</a>
+                </div>
+                <?
             }
             ?>
         </div>
         <div class="span9">
-            <legend>
+            <legend class="break-words">
                 <h3><?php echo $usuarioPerfil->nombreUsuario; ?></h3>
             </legend>
             <div class="row-fluid">
@@ -53,15 +59,15 @@ require_once('layout/headers/headCierre.php');
                         ?>
                         <div class="row-fluid">
                             <div class="span12">
-                            <a  href="/usuarios/usuario/editarInformacion/<?php echo $usuarioPerfil->idUsuario; ?>">
-                                <div class="btn span12">
-                                    <i class=" icon-pencil"></i>
-                                    Editar mi información
-                                </div>
-                            </a>
+                                <a  href="/usuarios/usuario/editarInformacion/<?php echo $usuarioPerfil->idUsuario; ?>">
+                                    <div class="btn span12">
+                                        <i class=" icon-pencil"></i>
+                                        Editar mi información
+                                    </div>
+                                </a>
                             </div>
                         </div>
-                    <div class="row-fluid"><h4></h4></div>
+                        <div class="row-fluid"><h4></h4></div>
                         <div class="row-fluid">
                             <div class="span12">
                                 <a href="/usuarios/usuario/cambiarPassword">

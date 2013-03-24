@@ -37,16 +37,18 @@ $(function() {
     //$('#listaInscritos').filterByText($('#textInscritos'), true);
   
     $("#btnAgregar").click(function(){
-        var $id = $('#listaUsuarios option:selected').attr("value");
-        var bandera = false;
-        $('#listaInscritos option').each(function(i) {
-            if($id == this.value){
-                bandera = true;
+        $('#listaUsuarios option:selected').each(function(index, value){
+            var $id = $(value).attr("value");
+            var bandera = false;
+            $('#listaInscritos option').each(function(i) {
+                if($id == this.value){
+                    bandera = true;
+                }
+            });        
+            if(!bandera){
+                $(value).clone().appendTo('#listaInscritos');
             }
-        });        
-        if(!bandera){
-            $('#listaUsuarios option:selected').clone().appendTo('#listaInscritos');
-        }
+        });
     });
     
     //dobleclick para agregar
@@ -64,8 +66,10 @@ $(function() {
     });
   
     $("#btnQuitar").click(function(){
-        var valor = $('#listaInscritos option:selected').attr("value");
-        usuariosQuitar.push(valor);        
+        $('#listaInscritos option:selected').each(function(index, value){
+            var valor = $(value).attr("value");
+            usuariosQuitar.push(valor);
+        });
         $('#listaInscritos option:selected').remove();
     });
     
@@ -126,5 +130,5 @@ $(function() {
 
 function regresar(){
     $url = "/cursos/curso/alumnos/"+curso;
-        redirect($url);
+    redirect($url);
 }

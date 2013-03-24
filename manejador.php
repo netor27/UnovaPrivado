@@ -14,7 +14,6 @@ session_start();
 //validamos que una sesión no este siendo usada por varias computadoras al mismo tiempo
 if (validarUniqueSession()) {
     guardarTipoLayout();
-    cargarCursosSession();
 
     if (!empty($_GET['c']))
         $controlador = $_GET['c'];

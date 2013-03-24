@@ -2,17 +2,16 @@ $(document).ready(function(){
     var form = $("#customForm");  
     var titulo = $("#inputTitulo");  
     var descripcionCorta = $("#inputDescripcion");      
-
+    var msgError = '<div class="row-fluid"><div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button><strong>¡Error! </strong>';
+    var aux;
     function validateTitulo(){  
         if(trim(titulo.val()).length < 10 ){  
-            $('#inputTitulo').attr("data-original-title","Error");
-            $('#inputTitulo').attr("data-content","El título debe tener por lo menos 10 letras");
-            $('#inputTitulo').popover("show");
+            aux =  msgError + 'El título debe tener por lo menos 10 letras</div></div>';            
+            $("#errorMessage").html(aux);
             return false;  
         } else if(trim(titulo.val()).length > 100){
-            $('#inputTitulo').attr("data-original-title","Error");
-            $('#inputTitulo').attr("data-content","El título no puede tener más de  100 letras");
-            $('#inputTitulo').popover('show');
+            aux =  msgError + 'El título no puede tener más de  100 letras</div></div>';            
+            $("#errorMessage").html(aux);
             return false;  
         } else{  
             //Es valido
@@ -23,14 +22,12 @@ $(document).ready(function(){
     function validateDescripcionCorta(){        
         //Si no es valido        
         if(trim(descripcionCorta.val()).length < 10 ){  
-            $('#inputDescripcion').attr("data-original-title","Error");
-            $('#inputDescripcion').attr("data-content","La descripción corta debe tener por lo menos 10 letras");
-            $('#inputDescripcion').popover("show");
+            aux =  msgError + 'La descripción corta debe tener por lo menos 10 letras</div></div>';            
+            $("#errorMessage").html(aux);
             return false;  
         } else if(trim(descripcionCorta.val()).length > 140){
-            $('#inputDescripcion').attr("data-original-title","Error");
-            $('#inputDescripcion').attr("data-content","La descripción corta no puede tener más de  140 letras");
-            $('#inputDescripcion').popover('show');
+            aux =  msgError + 'La descripción corta no puede tener más de  140 letras</div></div>';            
+            $("#errorMessage").html(aux);
             return false;  
         }
         else{  
@@ -39,27 +36,11 @@ $(document).ready(function(){
             return true;  
         }  
     }    
-    function trimDescripcionCorta(){
-        if(trim(descripcionCorta.val()).length > 140){
-            var str = trim(descripcionCorta.val());
-            str = str.substr(0, 140);
-            descripcionCorta.val(str);
-            $('#inputDescripcion').attr("data-original-title","Error");
-            $('#inputDescripcion').attr("data-content","La descripción corta no puede tener más de  140 letras");
-            $('#inputDescripcion').popover('show');
-        }
-    }
     
-    //On blur
-    titulo.blur(validateTitulo);  
-    descripcionCorta.blur(validateDescripcionCorta);  
-//    //On key press  
-//    titulo.keyup(validateTitulo);  
-    descripcionCorta.keyup(trimDescripcionCorta);
-
     form.submit(function(){  
-        var t = validateTitulo();
-        var d = validateDescripcionCorta();
-        return (t && d);
+        if(validateTitulo())
+            if(validateDescripcionCorta())
+                return true;
+        return false;
     });
 });

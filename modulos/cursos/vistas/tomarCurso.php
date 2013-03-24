@@ -41,7 +41,7 @@ require_once('layout/headers/headCierre.php');
                             }
                         }
                         ?>
-                    </div>
+                    </div><br>
                 </div>
                 <div class="span4">
                     <?php
@@ -84,7 +84,6 @@ require_once('layout/headers/headCierre.php');
                         echo '<strong>Este curso tiene ' . $numAlumnos . ' alumnos inscritos</strong> ';
                     }
                     ?>
-
                 </div>
             </div>
         </div>
@@ -94,6 +93,7 @@ require_once('layout/headers/headCierre.php');
     <div id="cursoTabs" class="well well-small">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tabs-1" data-toggle="tab" >Contenido del curso</a></li>
+            <li ><a href="#tabs-2" data-toggle="tab" >Foro</a></li>
         </ul>
         <div class="tab-content" style="overflow-x: visible">
             <div id="tabs-1" class="tab-pane active"> 
@@ -122,25 +122,20 @@ require_once('layout/headers/headCierre.php');
                                                         if ($clases[$j]->idTema == $tema->idTema) {
                                                             ?>
                                                             <li id="clase_<?php echo $clases[$j]->idClase; ?>"  class="ui-state-default ui-corner-all">
-                                                                <div class="row-fluid">
-                                                                    <div class="span10">
-                                                                        <div class="span1">
-                                                                            <img class="iconClase" src="<?php echo getImagenTipoClase($clases[$j]->idTipoClase); ?>">
-                                                                        </div>
-                                                                        <div class="span11 nombreClaseContainer">
-                                                                            <a class="nombreClase" href="/curso/<?php echo $curso->uniqueUrl . "/" . $clases[$j]->idClase; ?>">
+                                                                <a href="/curso/<?php echo $curso->uniqueUrl . "/" . $clases[$j]->idClase; ?>">
+                                                                    <div class="row-fluid">
+                                                                        <div class="span12">
+                                                                            <div class="span1">
+                                                                                <img class="iconClase" src="<?php echo getImagenTipoClase($clases[$j]->idTipoClase); ?>">
+                                                                            </div>
+                                                                            <div class="span11 nombreClaseContainer">
                                                                                 <?php
                                                                                 echo $clases[$j]->titulo;
                                                                                 ?>  
-                                                                            </a>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="span2 claseLinksContainer">
-                                                                        <a class="nombreClase" href="/curso/<?php echo $curso->uniqueUrl . "/" . $clases[$j]->idClase; ?>">
-                                                                            Tomar clase
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
+                                                                </a>
                                                             </li>
                                                             <?php
                                                         }
@@ -163,6 +158,9 @@ require_once('layout/headers/headCierre.php');
                     ?>
                 </div>
 
+            </div>
+            <div id="tabs-2" class="tab-pane">
+                <h1>Aquí va el foro</h1>
             </div>
         </div>
     </div>

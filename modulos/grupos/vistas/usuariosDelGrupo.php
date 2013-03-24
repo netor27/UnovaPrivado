@@ -1,6 +1,5 @@
 <?php
 require_once('layout/headers/headInicio.php');
-require_once('layout/headers/headGridster.php');
 require_once('layout/headers/headListaUsuariosDeGrupo.php');
 require_once('layout/headers/headCierre.php');
 ?>
@@ -32,36 +31,47 @@ require_once('layout/headers/headCierre.php');
         $fila = 1;
         if (isset($usuarios)) {
             ?>
-            <div class="row-fluid">
-                <div id="alumnosContainer" class="span12">
-                    <div class="gridster ready">
-                        <ul style="height: 480px; position: relative; ">
-                            <?php
-                            foreach ($usuarios as $usuario) {
-                                ?>
-                                <li class="cuadro ui-corner-all" data-row="1" data-col="1" data-sizex="1" data-sizey="1" style="background: url('<?php echo $usuario->avatar; ?>')">
-                                    <div class="cuadroFooter ui-corner-bottom ease3">
-                                        <span class="cuadroFooterTitulo">
-                                            <a href="/usuario/<?php echo $usuario->uniqueUrl . '&b=' . getRequestUri(); ?>">
-                                                <?php echo $usuario->nombreUsuario; ?>
-                                            </a>
-                                        </span>
-                                        <br>
-                                        <span class="cuadroFooterLink">
-                                            <a class="btn btn-mini btn-danger btnQuitar" id="<?php echo $usuario->idUsuario; ?>">
-                                                <i class="icon-white icon-trash"></i>
-                                                Quitar usuario del grupo                                                
-                                            </a>
-                                        </span>
-                                    </div>
-                                </li>
-                                <?php
-                            }
-                            ?>                        
-                        </ul>
-                    </div>
-
-                </div>
+        <div class="row-fluid">
+                <ul class="thumbnails">
+                    <?php
+                    $i = 1;
+                    foreach ($usuarios as $usuario) {
+                        if ($i % 6 === 1) {
+                            echo '<div class="row-fluid">';
+                        }
+                        ?>
+                        <div class="span2">
+                            <div class="thumbnail hoverBlueBorder">
+                                <div class="caption centerText break-words">
+                                    <a href="/usuario/<?php echo $usuario->uniqueUrl . '&b=' . getRequestUri(); ?>">
+                                        <div class="row-fluid">
+                                            <?php echo $usuario->nombreUsuario; ?>
+                                        </div>
+                                        <div class="row-fluid">
+                                        <img src="<?php echo $usuario->avatar; ?>">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="caption centerText">
+                                    <a class=" btn btn-mini btn-danger borrarInscripcion" id="<?php echo $usuario->idUsuario; ?>">
+                                        <i class="icon-white icon-trash"></i>
+                                        Quitar de este curso
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        if ($i % 6 === 0) {
+                            echo '</div>';
+                            echo '<div class="row-fluid"><div class=span12></div></div>';
+                        }
+                        $i++;
+                    }
+                    if($i % 6 !== 1){
+                        echo '</div>';
+                    }
+                    ?>
+                </ul>
             </div>
             <div class="row-fluid">
                 <div class="span12">
@@ -110,7 +120,6 @@ require_once('layout/headers/headCierre.php');
     </div>
 </div>
 <?php
-require_once('lib/js/jqueryGridster/gridsterSinDraggable.php');
 require_once('layout/foot.php');
 ?>
             

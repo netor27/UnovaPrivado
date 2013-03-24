@@ -1,398 +1,67 @@
 /* Estilos generales */
 li{list-style:none;}
+html
+{
+    height:100%;
+}
 body{   
     font-family: "Trebuchet MS", Helvetica, sans-serif !important;    
     font-size: 12px;  
-
-    margin:0px; 
-    padding:0px; 
-    border:0px none;  
-
     background-image: url("/layout/css/images/bg.jpg");
     background-position: center;
     background-repeat: repeat;
     background-color: #dedde3;
-    position: relative;
-}
-
-.left{ 
-    float:left; 
-    display: block;
-}
-.right{ 
-    float: right;   
-    display: block; 
-}
-.center{    
-    margin: 0 auto; 
-    display: block; 
+    padding-top: 60px;
+    padding-bottom: 50px;
+    position:relative;
+    min-height: 100%;
 }
 .centerText{    
     text-align: center;
-}
-
-ul{
-    padding: 0px;
-}
-
-a{  
-    text-decoration: none;  
-    font-weight: bold;  
-}
-a:visited{  
-    text-decoration: none; 
-    text-transform: none;   
-    font-size: inherit; 
-}
-a:hover{   
-    cursor: pointer;
-    text-decoration: underline;
-}
-img{    
-    border: none;  
-    padding: 0px 0px 0px 0px;  
 }
 h1, h2, h3, h4, h5, h6
 {
     color:#dc5f21 !important;
 }
-
-/* Transiciones en .3 segundos*/
-.ease3 {    -webkit-transition: all .3s ease;   -moz-transition: all .3s ease;  -o-transition: all .3s ease;    -ms-transition: all .3s ease;   transition: all .3s ease;   }
-
-/* Barra de navegación */
-#e_bar{ 
-    color: white;   
-    background: #333 url('images/headerbg.png') 50% 50% repeat-x;    
-    position: absolute; 
-    top:0px;
-    left:0px;
-    width: 100%;
-    height: 50px;
-    /* Sombra   */
-    box-shadow: rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
-    -webkit-box-shadow:rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
-    -moz-box-shadow:rgba(31, 31, 31, 0.816406) 0px;
-}
-#top-bar{   margin: auto;   width: 960px;    color: #333;    }
-#top-bar .logo{ 
-    width: 135px;   
-}
-#top-bar .element{
-    width: 150px;
-}
-#top-bar .element .link{  
-    line-height: 47px; 
-    color: white;  
-    font-size: 14px;   
-    font-weight: normal;    
-}
-#top-bar .element .link:hover{   
-    text-decoration: underline;
-}
-/* Top bar search box*/
-#top-bar #e_search-box-wrapper{ 
-    float:left; 
-    height: 37px;   
-    padding: 10px 0px 0px 80px; 
-
-}
 #sessionMessage{
-    box-shadow: rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
-    -webkit-box-shadow: rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
-    -moz-box-shadow: rgba(31, 31, 31, 0.816406) 0px;
     border-radius: 4px; 
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     padding-top: 2px;
 }
-#e_search-box [type=text]{ 
-    float: left; 
-    height: 15px;   
-    width: 200px;  
-    padding: 5px 25px 5px 10px;    
-    background-color: #FFFFFF;  
-    background-position: 164px center; 
-    background-repeat: no-repeat;  
-    color: #ccc;    
-    font-size: 12px;    
-    border-radius: 4px; 
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border: 1px solid #222; 
-    outline: none;  
-    position: relative;  
+.black{
+    color: #333!important;
 }
-#e_search-box [type=text]:focus{    
-
-    background-color: #FFFFFF; 
-    color: #333;   
+.margin-top20{
+    margin-top:20px;
 }
-#e_search-box [type=submit]{
-    color: rgba(0,0,0,0);
-    width: 15px;   
-    height: 15px;  
-    background: url(images/magnifier.png); 
-    cursor: pointer;   
-    float:left; 
-    margin: 6px 0 0 -20px; 
-    position: relative;
-    padding:0px;   
-    border:0px none;   
+.margin-top10{
+    margin-top:10px;
 }
-
-.flechaArriba{
-    display:block;
-    width: 13px;
-    height: 13px;
-    background: url('../imagenes/up.png') no-repeat;
-    margin-left: 6px;
-    margin-top: 17px;
-}
-.flechaAbajo{
-    display:block;
-    width: 13px;
-    height: 13px;
-    background: url('../imagenes/down.png') no-repeat; 
-    margin-left: 6px;
-    margin-top: 16px;
-}
-/* Drop down menu*/
-.dropdownContainer{ position:relative;  width:960px; margin: 0 auto; overflow:hidden;}
-
-#flechitaPerfil{
-    background-image: url(../imagenes/flechita.png);
-    background-repeat: no-repeat;
-    background-size: auto;
-    height: 11px;
-    position: absolute;
-    top: -11px;
-    width: 20px;
-    left:100px;
-}
-#perfil_menu {  
-    display: none; 
-    text-align: left; 
-    position: relative; 
-    right:55px;  
-    top:12px;
-    background-color: #f5f5f5;
-    color: black; 
-    min-width:200px; 
-    z-index: 100; 
-    border: solid #333; 
-    margin-top: 47px;
-    border-radius: 7px;
-    -webkit-border-radius: 7px;
-    -moz-border-radius: 7px;
-    /* Sombra   */
-    box-shadow: rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
-    -webkit-box-shadow:rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
-    -moz-box-shadow:rgba(31, 31, 31, 0.816406) 0px;
-}
-#perfil_menu a:hover{   text-decoration: underline;}
-
-#perfil_image{    
-    overflow: hidden;
-    border-bottom-style: solid;
-    border-bottom-width: 2px;
-    border-bottom-color: #233E6A;
-    padding: 10px 10px 10px 10px;
-}
-#perfil_image:hover{
-    background-color: #006187;
-
-}
-#perfil_image:hover span{
-    color:white;    
-}
-#perfil_image img{
-    width: 50px;
-    float:left;
-}
-#perfil_image span{
-    color: #006187;
-    font-size: 14px;
-    float: left;
-    font-weight: bold;
-    padding-left: 10px;
-}
-#perfil_links{
-    overflow: hidden;
-}
-#perfil_links a{
-    float:left;
-    color: #006187;
-    font-weight: bolder;
-    font-size: 14px;
-    width: 100%;
-    padding: 10px 0px 10px 10px;
-}
-#perfil_links a:hover{
-    background-color: #006187;
-    color:white;    
-    font-weight: 100;
-    font-size: 14px;
-    font-weight: bolder;
-    text-decoration: none;
-}
-#perfil_links a:hover span{
-    color: white;
-}
-#perfil_saldo{
-    float:right;
-    font-size: smaller;
-    padding: 0px;
-    padding-right: 20px;
-    color: rgb(72,148,74);
-}
-#perfil_saldo_cero{
-    float:right;
-    font-size: smaller;
-    padding: 0px;
-    padding-right: 20px;
-    color: rgb(187,31,14);
-}
-#perfil_links a span{
-    padding-left: 10px;    
-}
-
-#flechitaCursos{
-    background-image: url(../imagenes/flechita.png);
-    background-repeat: no-repeat;
-    background-size: auto;
-    height: 11px;
-    position: absolute;
-    top: -11px;
-    width: 20px;
-    left: 120px;
-}
-#cursos_menu {  
-    display: none; 
-    text-align: left; 
-    position: relative; 
-    right:70px; 
-    top:12px;
-    background-color: #f5f5f5;
-    color: black;
-    min-width:270px; 
-    z-index: 100; 
-    border: solid #333; 
-    margin-top: 47px;
-    border-radius: 7px;
-    -webkit-border-radius: 7px;
-    -moz-border-radius: 7px;
-    /* Sombra   */
-    box-shadow: rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
-    -webkit-box-shadow:rgba(31, 31, 31, 0.816406) 0px 0px 15px 3px;
-    -moz-box-shadow:rgba(31, 31, 31, 0.816406) 0px;    
-    max-height: 600px;
-
-}
-#cursos_menu a:hover{text-decoration: none;}
-
-.cursosMenuHeader{
-    background: #233E6A url('images/headerbg.png') repeat-x; 
-    padding: 10px 5px 10px 5px;    
-    font-size: 12px;
-    color: #ffffff;
-}
-.cursoMenuElement{    
-    background-color: #f5f5f5;
-    overflow: hidden;
-    padding: 5px 5px 5px 5px;   
-}
-.cursoMenuElement:hover{    
-    overflow: hidden;
-    padding: 5px 5px 5px 5px;
-    background-color: #006187;
-    color:white;
-}
-.cursoMenuElement:hover h6{
-    color:white;
-}
-.cursoMenuElement img{
-    float:left;
-    width:50px;
-    margin: 0px 10px 0px 0px;
-}
-.cusosMenuVerMas{
-    text-align: right;
-    padding: 0px 10px 5px 0px;
-}
-
-/* Body */
-#e_site{    
-    position: relative; top:50px; width: 960px;   margin: 0 auto;  z-index: 1; min-height: 500px; 
-}
-.contenido{ 
-}
-
-
-/* Footer */
-#site-footer {  
-    color: #333;    margin: 0px;    margin-top: 20px;   min-height: 50px;
-    margin: 70px 0px 0px 0px;
-}
-
-#site-footer .centerer{ width: 960px;   margin: auto;   }
-
-#site-footer ul {   margin: 0 auto ; text-align: center;    padding: 30px;  }
-#site-footer ul li{ display:inline; margin:50px;    }
-#site-footer ul li a {  text-decoration:none;   color:#30377a; }
-#site-footer ul li a:hover{ color:#dc5f21; }
-
-#formDiv{
-    text-align: left;
-    margin: 0 auto;
-}
-
-.whiteBox{
-
-    left: 0.5%;    
-    background: white;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding-left: 5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    position: relative;
-    border-radius: 5px;
-    display: block;
-    overflow: hidden;
-}
-.blueBox{
-    width: 99%;  
-    left: 0.5%;    
-    background: rgba(213,236,247,1);
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding-left: 10px;
-    padding-top: 5px;
-    position: relative;
-    border-radius: 5px;
-    display: block;
-    overflow: hidden;    
-}
-
-.img-index{
-    margin-left: 2.127659574468085%!important;
-    margin-bottom: 5px;
-}
-
-.img-index:hover{
+.hoverBlueBorder:hover{
     border-color: #08C;
     -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
     -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
     box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
 }
-
-.subir20px{
-    margin-top: -20px!important;
+#pushfooter {
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+    height: 200px;
 }
 
-.black{
-    color: #333!important;
+footer{    
+    margin-left: -20px;
+    background: url("images/footer_bg.jpg") 0 0 repeat;
+    color: #fff;
+    height: 100%;
+}
+footer .copyright .copy p {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.break-words{
+    word-wrap:break-word;
 }

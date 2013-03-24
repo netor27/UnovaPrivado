@@ -133,7 +133,7 @@ function editarInformacionSubmit() {
             $usuarioParaEditar->uniqueUrl = getUsuarioUniqueUrl($usuarioParaEditar->nombreUsuario);
         }
         if (actualizaInformacionUsuario($usuarioParaEditar)) {
-
+            cargarUsuarioSession();
             setSessionMessage("Se actualizó tu información de perfil", " ¡Bien! ", "success");
             redirect("/usuario/" . $usuarioParaEditar->uniqueUrl);
         } else {

@@ -37,7 +37,7 @@ $(function(){
     
     $("#btnSalir").click(
         function(){
-            $("#modalDialog").attr("title","Regresar la curso");
+            $("#modalDialog").attr("title","Regresar al curso");
             $("#modalDialog").html("<h1>¡Estás apunto de salir!</h1> Algunos de tus cambios no se han guardado, ¿Deseas guardarlos?");
             $( "#modalDialog" ).dialog({
                 height: 250,

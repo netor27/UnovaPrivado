@@ -204,7 +204,6 @@ function editarInformacionCursoSubmit() {
 
                     if (actualizaInformacionCurso($curso)) {
                         require_once 'funcionesPHP/CargarInformacionSession.php';
-                        cargarCursosSession();
                         setSessionMessage("Se modificó correctamente la información del curso.", " ¡Bien! ", "success");
                     } else {
                         setSessionMessage("Ocurrió un error al modificar el curso. Intenta de nuevo más tarde.", " ¡Error! ", "error");
@@ -287,7 +286,6 @@ function cambiarImagenSubmit() {
                                         //Es una imagen predefinida, no borrar!
                                     }
                                     require_once 'funcionesPHP/CargarInformacionSession.php';
-                                    cargarCursosSession();
                                     setSessionMessage("Cambiaste correctamente tu imagen", " ¡Bien! ", "success");
                                     redirect("/curso/" . $cursoParaModificar->uniqueUrl);
                                 } else {

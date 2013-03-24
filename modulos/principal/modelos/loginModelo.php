@@ -32,12 +32,8 @@ function loginUsuario($email, $password, $setCookies) {
             setcookie("usrcookiePrv", $email, time() + $tiempo, '/');
             setcookie("clvcookiePrv", $password, time() + $tiempo, '/');
         }
-
         //actualizamos en la base de datos el sessionId actual
         actualizarIdSession($usuario->idUsuario);
-
-        require_once 'funcionesPHP/CargarInformacionSession.php';
-        cargarCursosSession();
     } else {
         //echo "rowCount = " . $stmt->rowCount();
     }

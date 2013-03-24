@@ -51,21 +51,25 @@ $(function() {
     });
   
     $("#btnAgregar").click(function(){
-        var $id = $('#listaGrupos option:selected').attr("value");
-        var bandera = false;
-        $('#listaGrupos option').each(function(i) {
-            if($id == this.value){
-                bandera = true;
+        $('#listaGrupos option:selected').each(function(index, value){
+            var $id = $(value).attr("value");
+            var bandera = false;
+            $('#listaInscritos option').each(function(i) {
+                if($id == this.value){
+                    bandera = true;
+                }
+            });        
+            if(!bandera){
+                $(value).clone().appendTo('#listaInscritos');
             }
-        });        
-        if(!bandera){
-            $('#listaGrupos option:selected').clone().appendTo('#listaInscritos');
-        }
+        });
     });
   
     $("#btnQuitar").click(function(){
-        var valor = $('#listaInscritos option:selected').attr("value");
-        gruposQuitar.push(valor);        
+        $('#listaInscritos option:selected').each(function(index, value){
+            var valor = $(value).attr("value");
+            gruposQuitar.push(valor);
+        });
         $('#listaInscritos option:selected').remove();
     });
     

@@ -8,22 +8,24 @@ require_once('layout/headers/headCierre.php');
         <div class="row-fluid">
             <legend><h4 class="black">Recuperar contraseña</h4></legend>
         </div>
-        <?php
-        if (isset($msgForma)) {
-            ?>
-            <div class="row-fluid">
-                <div class="alert alert-error">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    <strong>¡Error! </strong> <?php echo $msgForma; ?>
-                </div>
-            </div>
+        <div id="errorMessage">
             <?php
-        }
-        ?>
+            if (isset($msgForma)) {
+                ?>
+                <div class="row-fluid">
+                    <div class="alert alert-error">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>¡Error! </strong> <?php echo $msgForma; ?>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+        </div>
         <div class="row-fluid">
             <div class="row-fluid">
                 <div class="span12">
-                    <h4>Te enviaremos un link para que recuperes tu contraseña</h4>
+                    <h4>Te enviaremos un correo con un link para que recuperes tu contraseña</h4>
                 </div>
             </div>
             <br>
@@ -37,6 +39,7 @@ require_once('layout/headers/headCierre.php');
                 <div class="control-group">
                     <div class="controls">
                         <button type="submit" class="btn btn-primary"> Aceptar </button>  
+                        <a class="btn offset1" href="/"> Cancelar </a>
                     </div>
                 </div>
             </form>

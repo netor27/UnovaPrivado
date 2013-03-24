@@ -6,11 +6,13 @@ $(document).ready(function(){
         if(trim(titulo.val()).length < 5 ){  
             $('#inputTitulo').attr("data-original-title","Error");
             $('#inputTitulo').attr("data-content","El título debe tener por lo menos 5 letras");
+            $('#inputTitulo').attr("data-placement","top");
             $('#inputTitulo').popover("show");
             return false;  
         } else if(trim(titulo.val()).length > 50){
             $('#inputTitulo').attr("data-original-title","Error");
             $('#inputTitulo').attr("data-content","El título no puede tener más de  50 letras");
+            $('#inputTitulo').attr("data-placement","top");
             $('#inputTitulo').popover('show');
             return false;  
         } else{  

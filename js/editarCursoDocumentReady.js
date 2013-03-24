@@ -1,16 +1,25 @@
 $(function(){    
     $('.wow').rating();    
-//    $("#cursoTabs").tabs();    
-    var i;
-    var n = 0;
-    try{
-        n = document.getElementById("numTemas").value;
-    }catch(err){
-        n = 0;
-    }    
-    for(i=0; i < n; i++){            
-        makeSortable(i);
-    }    
+    //    $("#cursoTabs").tabs();    
+    if(layout == "desktop"){
+        var i;
+        var n = 0;
+        try{
+            n = document.getElementById("numTemas").value;
+        }catch(err){
+            n = 0;
+        }    
+        for(i=0; i < n; i++){            
+            makeSortable(i);
+        }    
+        $(".mensajeArrastrarContainer").popover({
+            trigger: 'hover',        
+            placement: 'top',
+            title: 'Ordenanos arrastrandonos con tu mouse',
+            content: 'Puedes arrastrarnos con el mouse para establecer el orden que tu quieras.'        
+        });    
+    }
+    
     $('.deleteTema').click(function() {
         var me = $(this);
         var parent = $(this).closest('.temaContainer');
@@ -67,13 +76,7 @@ $(function(){
                     });   
                 }
             }]);
-    });    
-    $(".mensajeArrastrarContainer").popover({
-        trigger: 'hover',        
-        placement: 'top',
-        title: 'Ordenanos arrastrandonos con tu mouse',
-        content: 'Puedes arrastrarnos con el mouse para establecer el orden que tu quieras.'        
-    });    
+    });        
 });
 
 function makeSortable(num){

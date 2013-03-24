@@ -1,34 +1,26 @@
-#e_site{
-    display:none;
-}
 .littleBox{
     margin: 2px;
     position: relative;
     padding: 4px 0;
     float: left;
 }
-
 .videoClass{
     z-index: 1;
 }
-
 #mediaPopcorn{
     display:block;
     width: 100%;
     height: 100%;
 }
-
 .imagenes{
     width:100%;
     height:100%;
     border: none;
 }
-
 .videoPopcorn object{
     width: 100%;
     height: 100%;
 }
-
 .textoLink div{
     text-align:center;
     font-size: 24px;
@@ -46,7 +38,7 @@
     width: 100%;
     display: block;
     position: fixed;
-    top: 50px;
+    top: 42px;
     bottom: 0%;
 }
 .draggable{
