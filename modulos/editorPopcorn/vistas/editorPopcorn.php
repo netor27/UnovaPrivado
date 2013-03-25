@@ -1,10 +1,7 @@
 <?php
 $usuarioHead = getUsuarioActual();
-
 $json = $clase->codigo;
-
 $var = json_decode($json, true);
-
 if (isset($var['textos']))
     $textos = $var['textos'];
 if (isset($var['imagenes']))
@@ -13,9 +10,6 @@ if (isset($var['videos']))
     $videos = $var['videos'];
 if (isset($var['links']))
     $links = $var['links'];
-
-
-
 if (isset($var['videoData'])) {
     $videoData = $var['videoData'];
     $top = $videoData['top'];
@@ -29,23 +23,27 @@ if (isset($var['videoData'])) {
     $height = 50;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es" xml:lang="es">
     <head>
         <meta charset="utf-8" />
         <title>Editor Unova</title>
 
+        <link rel="stylesheet" href="/layout/css/MainStyle.css" />
+        <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-responsive.min.css">
+
         <link rel="stylesheet" media="screen" type="text/css" href="/lib/js/colorPicker/evol.colorpicker.css" />
         <link rel="stylesheet" href="/lib/js/jquery-ui/bootstrap-theme/jquery-ui-1.10.0.custom.css" />
-        <link type="text/css" href="/layout/css/headerEditor.css" rel="stylesheet" />	
         <link type="text/css" href="/layout/css/editorPopcorn.css" rel="stylesheet" />	
+        <link rel="stylesheet" href="/layout/css/cus-icons.css" />
 
         <script src="/lib/js/jquery-1.9.1.min.js"></script>	        
         <script src="/lib/js/jquery-migrate-1.1.1.js"></script>	        
+        <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
         <script src="/lib/js/ajaxFileUpload/ajaxfileupload.js"></script>
         <script src="/lib/js/jquery-ui/jquery-ui-1.10.1.custom.min.js"></script>
-        
+
         <script src="/lib/js/popcorn-complete.min.js"></script>
 
         <script src="/lib/js/colorPicker/evol.colorpicker.min.js"></script>
@@ -57,6 +55,7 @@ if (isset($var['videoData'])) {
         <script src="/js/editorPopcorn/agregarTexto.js"></script>
         <script src="/js/editorPopcorn/agregarVideo.js"></script>
         <script src="/js/editorPopcorn/agregarLink.js"></script>
+        <script src="/js/editorPopcorn/agregarCuestionario.js"></script>
 
         <script src="/js/editorPopcorn/cargarPopcorn.js"></script>
         <script src="/js/funciones.js"></script>        
@@ -97,7 +96,7 @@ if (isset($videos))
 if (isset($links))
     foreach ($links as $link) {
         ?>
-                        cargarLinkEnArreglo('<?php echo $link['texto']; ?>','<?php echo $link['url']; ?>','<?php echo $link['inicio']; ?>','<?php echo $link['fin']; ?>','<?php echo $link['color']; ?>','<?php echo $link['top']; ?>','<?php echo $link['left']; ?>','<?php echo $link['width']; ?>','<?php echo $link['height']; ?>');
+                        cargarLinkEnArreglo('','<?php echo $link['url']; ?>','<?php echo $link['inicio']; ?>','<?php echo $link['fin']; ?>','<?php echo $link['color']; ?>','<?php echo $link['top']; ?>','<?php echo $link['left']; ?>','<?php echo $link['width']; ?>','<?php echo $link['height']; ?>');
         <?php
     }
 ?>
@@ -116,106 +115,119 @@ if (isset($links))
         <div id="modalDialog">
 
         </div>
-        <div id="e_bar">
-            <div id="top-bar">
-                <a  class="logo left" id="logo"> <img src="/layout/imagenes/Unova_Logo_135x47.png"></a>
-                <div class="element left ease3">
-                    <a class="link" id="btnSalir">
-                        <div id="menuLink">
-                            <span class="left">
-                                <img src="/layout/imagenes/regresar.png">
-                                Regresar
-                                
-                            </span>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <button type="button" class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="brand" href="/" style="padding: 0px; padding-right: 40px;"><img src="/layout/imagenes/Unova_Logo_135x47.png"></a>
+                    <?php
+                    $usuarioHead = getUsuarioActual();
+                    if (isset($usuarioHead)) {
+                        ?>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav ">
+                                <li class="dropdown ">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Menú
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a id="btnSalir" href="#"><i class="icon-arrow-up"></i> Regresar al curso</a></li>                                                         
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul class="nav pull-right">                            
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mis Cursos
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/usuarios/cursos/inscrito">Cursos a los que estoy inscrito</a></li>
+                                        <li><a href="/usuarios/cursos/instructor">Cursos que imparto</a></li>
+                                    </ul>                                
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <?php
+                                        echo $usuarioHead->nombreUsuario;
+                                        ?> <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/usuario/<?php echo $usuarioHead->uniqueUrl; ?>">Mi perfil</a></li>
+                                        <li class="divider"></li>                                
+                                        <li><a href="/login/login/logout">Cerrar sesión</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </div>
-                    </a>         
-                    <div id="menu">
-                        <div id="flechitaMenu"></div>
-                        <div id="menuLinks">
-                            <a id="btnGuardar">
-                                <div class="menuElement">
-                                    <div class="">Guardar</div>
-                                </div>
-                            </a>
-                            <a id="btnSalir">
-                                <div class="menuElement">
-                                    <div class="">Salir</div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="element left ease3">
-                    <a class="link">
-                        <div id="menuAgregarLink">
-                            <span class="left">Editar</span>  
-                            <div id="flechaMenuAgregar" class="flechaAbajo left"></div>
-                        </div>
-                    </a>         
-                    <div id="menuAgregar">
-                        <div id="flechitaMenuAgregar"></div>
-                        <div id="menuAgregarLinks">
-                            <a id="btnAgregarTexto" onClick="mostrarDialogoInsertarTexto()">
-                                <div class="menuAgregarElement">
-                                    <div class="">
-                                        <span>Agregar texto</span>
-                                    </div>
-                                </div>
-                            </a>
-                            <a id="btnAgregarImagen" onClick="mostrarDialogoInsertarImagen('imagen')">
-                                <div class="menuAgregarElement">
-                                    <div class=""><span>Agregar imagen</span></div>
-                                </div>
-                            </a>
-                            <a id="btnAgregarForma" onClick="mostrarDialogoInsertarImagen('formas')">
-                                <div class="menuAgregarElement">
-                                    <div class=""><span>Agregar forma predefinida</span></div>
-                                </div>
-                            </a>
-                            <a id="btnAgregarVideo" onClick="mostrarDialogoInsertarVideo()">
-                                <div class="menuAgregarElement">
-                                    <div class=""><span>Agregar video</span></div>
-                                </div>
-                            </a>
-                            <a id="btnAgregarPagina" onClick="mostrarDialogoInsertarLink()">
-                                <div class="menuAgregarElement">
-                                    <div class=""><span>Agregar página web</span></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="element right ease3">
-                    <a  class="link" >
-                        <div id="menuPerfilLink">
-                            <span class="left">
-                                <?php echo substr($usuarioHead->nombreUsuario, 0, 14); ?>
-                            </span>
-                            <div id="flechaPerfil" class="flechaAbajo left"></div>
-                        </div>
-                    </a>
-                    <div id="perfil_menu"> 
-                        <div id="flechitaPerfil"></div>
-                        <a href="/usuario/<?php echo $usuarioHead->uniqueUrl; ?>">
-                            <div id="perfil_image">
-                                <img src="<?php echo $usuarioHead->avatar; ?>" class="img-polaroid">
-                                <span><?php echo substr($usuarioHead->nombreUsuario, 0, 14); ?></span>
-                                <br><br>
-                                <span style="font-size: smaller">Editar perfil</span>
-                            </div>
-                        </a>
-                        <div id="perfil_links">
-                            <a href="/login/login/logout"><span>Cerrar Sesión</span></a><br>
-                        </div>
-                    </div>
+                        <?php
+                    }
+                    ?>
                 </div>
             </div>
-        </div>
+        </div>    
         <div id="guardando">
             <img src="/layout/imagenes/loading.gif">Guardando...
-        </div>
+        </div>        
         <div id="editorContainment">
+            <div id="tools" class="ui-corner-all"  style="z-index:9999;">
+                <div class="row-fluid">
+                    <div class="span12 centerText">
+                        <a href="#" id="btnMostrarHerramientas">
+                            Insertar
+                            <li class="divider"></li>     
+                        </a>
+                    </div>                    
+                </div>
+                <div class="row-fluid" id="herramientas">
+                    <div class="row-fluid">
+                        <div class="span12 ">
+                            <a href="#" onclick="mostrarDialogoInsertarTexto()">
+                                <i class="cus-application-add herramientasIcon"></i>Texto
+                            </a>
+                        </div>
+                    </div>    
+                    <div class="row-fluid">
+                        <div class="span12 ">
+                            <a href="#" onclick="mostrarDialogoInsertarImagen('imagen')">
+                                <i class="cus-picture-add herramientasIcon"></i>Imagen
+                            </a>
+                        </div>
+                    </div>    
+                    <div class="row-fluid">
+                        <div class="span12 ">
+                            <a href="#" onclick="mostrarDialogoInsertarImagen('formas')">
+                                <i class="cus-pictures herramientasIcon"></i>Forma predefinida
+                            </a>
+                        </div>
+                    </div>    
+                    <div class="row-fluid">
+                        <div class="span12 ">
+                            <a href="#" onclick="mostrarDialogoInsertarVideo()">
+                                <i class="cus-film-add herramientasIcon"></i>Video
+                            </a>
+                        </div>
+                    </div>    
+                    <div class="row-fluid">
+                        <div class="span12 ">
+                            <a href="#" onclick="mostrarDialogoInsertarLink()">
+                                <i class="cus-world-add herramientasIcon"></i>Página web
+                            </a>
+                        </div>
+                    </div>          
+                    <div class="row-fluid">
+                        <div class="span12 ">
+                            <a href="#" onclick="mostrarDialogoInsertarCuestionario()">
+                                <i class="cus-report-add herramientasIcon"></i>Cuestionario
+                            </a>
+                        </div>
+                    </div>          
+                </div>
+            </div>
             <div id="videoContainer" class="draggable resizable" style="z-index:-10; position: absolute; top: <?php echo $top . '%'; ?>; left: <?php echo $left . '%'; ?>; width: <?php echo $width . '%'; ?>; height: <?php echo $height . '%'; ?>;">				
                 <?php
                 if ($clase->idTipoClase == 0) {
@@ -260,6 +272,7 @@ if (isset($links))
         require_once 'modulos/editorPopcorn/vistas/formaAgregarImagen.php';
         require_once 'modulos/editorPopcorn/vistas/formaAgregarVideo.php';
         require_once 'modulos/editorPopcorn/vistas/formaAgregarLink.php';
+        require_once 'modulos/editorPopcorn/vistas/formaAgregarCuestionario.php';
         ?>
     </body>
 </html>

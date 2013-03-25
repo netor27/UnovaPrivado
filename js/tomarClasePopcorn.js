@@ -5,9 +5,9 @@ $(function(){
     validarSesion();
     var segundos  = 30;
     setInterval(validarSesion, segundos * 1000);
-//    $("body").bind("contextmenu", function(e) {
-//        e.preventDefault();
-//    });
+    //    $("body").bind("contextmenu", function(e) {
+    //        e.preventDefault();
+    //    });
     //mantener la sesión abierta
     KeepAlive();
     setInterval(KeepAlive, '600000');
@@ -21,7 +21,7 @@ function validarSesion(){
         success: function(data) {
             var str = data.toString();
             if(str.indexOf("valid session") != -1){  
-                //Es una sesión válida
+            //Es una sesión válida
             }else{
                 //Ya no es una sesión válida. Redireccionando..
                 redirect("/?e=1&msg=sesionNoValida");
@@ -109,23 +109,26 @@ function agregarImagenDiv(urlImagen, inicio, fin, color, top, left, width, heigh
 }
 
 function agregarLinkDiv(texto, url, inicio, fin, color, top, left, width, height){
-    var textoDiv = '<div id="drag_'+$indice+'"  class="ui-corner-all linkAgregado stack draggable" style="background-color: '+color+'; position: fixed; top: '+getUnidadPx(top)+'; left: '+getUnidadPx(left)+'; width: '+getUnidadPx(width)+'; height: '+getUnidadPx(height)+';">' +
-    '<a href="'+url+'" target="_blank" onclick="pauseVideo()" class="textoLink">'+
-    '<div>' +
-    decode_utf8(texto) +
-    '</div>' +
-    '</a>'+
+    var textoDiv = '<div id="link_'+$indice+'" class="ui-corner-all linkAgregado stack draggable" style="background-color: '+color+'; position: fixed; top: '+getUnidadPx(top)+'; left: '+getUnidadPx(left)+'; width: '+getUnidadPx(width)+'; height: '+getUnidadPx(height)+';">'+
+    '<p class="ui-widget-header dragHandle">Arr&aacute;strame de aqu&iacute;<br></p>'+
     '</div>';
-    
     $popPrincipal.footnote({
         start: inicio,
         end: fin,
         text: textoDiv,
         target: "footnotediv"
-    });
-    $("#drag_"+$indice).draggable({
+    });    
+    $("#link_"+$indice).draggable({
+        handle: "p", 
         containment: "#editorContainment",
         stack: ".stack"
+    });
+    $popPrincipal.webpage({
+        id: "webpages_"+$indice,
+        start: inicio,
+        end: fin,
+        src: url,
+        target: "link_"+$indice
     });
     $indice++;
 }

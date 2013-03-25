@@ -1,94 +1,71 @@
-var textos = [];
-var editarTextoBandera = false;
+var cuestionarios = [];
+var editarCuestionarioBandera = false;
 var idEditar = -1;
-
 $(function(){    
-    $("#dialog-form-texto").dialog({
+    $("#dialog-form-cuestionario").dialog({
         autoOpen: false,
         height:550,
-        width: 660,
+        width: 960,
         modal: true,
         resizable: false,
         buttons:{
             "Aceptar": function(){
-                if(editarTextoBandera){
-                    editarTexto();
+                if(editarCuestionarioBandera){
+                //editarTexto();
                 }else{
-                    agregarTexto();    
+                //agregarTexto();    
                 }                
                 $(this).dialog("close");
-                $('#textoTinyMce').html("");
-                $('#textTabs').tabs( "option", "active", 0 );
-                $('#colorSeleccionadoTexto').html("");
+                $('#cuestionarioTabs').tabs( "option", "active", 0 );
                 guardadoAutomatico();
             },
             "Cancelar": function(){
                 $(this).dialog("close");
-                $('#textoTinyMce').html("");
-                $('#textTabs').tabs( "option", "active", 0 );
-                $('#colorSeleccionadoTexto').html("");
             }
         }
-    });	
-    
-    $("#colorHiddenTexto").val("#FFFFFF");
-    $('#colorSelectorTexto').colorpicker({
-        color: "#ffffff",
-        history: false,
-        strings: "Escoje un color,Colores estándar,Más colores,Regresar"
-    });
-    
-    $("#colorSelectorTexto").on("change.color", function(event, color){
-        $('#colorSeleccionadoTexto').css('backgroundColor', color);
-        $('#colorSeleccionadoTexto').html("");
-        $("#colorHiddenTexto").val(color);
-    })
-    
-    $('#textoTinyMce').tinymce({
-        script_url : '/lib/js/tiny_mce/tiny_mce.js',
-        theme : "advanced",
-        skin:"o2k7",    
-        skin_variant:"silver",
-        width : "600",        
-        height : "320",             
-        language : 'es',
-        // Theme options - button# indicated the row# only
-        theme_advanced_buttons1 : "fontselect,fontsizeselect,|,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,|,bullist,numlist",
-        theme_advanced_buttons2 : "",
-        theme_advanced_buttons3 : "",      
-        theme_advanced_toolbar_location : "top",
-        theme_advanced_toolbar_align : "left",
-        theme_advanced_statusbar_location : "none"
-    });  
-    
-    $('#textTabs').tabs();
-    
-    $("#sinColorTexto").click(function(){
-        $("#colorSelectorTexto").colorpicker("val", "transparent");
-        $('#colorSeleccionadoTexto').css('backgroundColor', 'transparent');
-        $('#colorSeleccionadoTexto').html("Sin color");
-        $("#colorHiddenTexto").val('transparent');        
-    });
-    $("#sinColorTexto").button();
-    
+    });	    
     //validamos el tiempo que escriben en el campo de texto
-    $("#tiempoInicioTexto").change(function() {
-        validarTiemposTexto("inicio");
+    $("#tiempoInicioCuestionario").change(function() {
+        validarTiempoCuestionario();
     });
-    $("#tiempoFinTexto").change(function() {
-        validarTiemposTexto("fin");
-    });
+    $('#cuestionarioTabs').tabs();
 });
 
-function mostrarDialogoInsertarTexto(){    
-    editarTextoBandera = false;    
+function mostrarDialogoInsertarCuestionario(){
+    editarCuestionarioBandera = false;    
     pauseVideo();
-    var currentTime = getCurrentTime();
-    inicializarSlidersTexto(currentTime, currentTime+10);
-    $("#dialog-form-texto").dialog('option', 'title', 'Agregar texto');
-    $("#dialog-form-texto").dialog("open");
+    var currentTime = getCurrentTime();    
+    inicializarSlidersCuestionario(currentTime);
+    $("#dialog-form-cuestionario").dialog('option', 'title', 'Agregar cuestionario');
+    $("#dialog-form-cuestionario").dialog("open");
+    crearCuestionario();
 }
 
+function crearCuestionario(){
+    var data = {
+        u: iu,
+        uuid: uuid,
+        cu: ic,
+        cl: icl
+    };    
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: '/cursos/control/agregarControlSubmit',
+        data: data
+    }).done(function( html ) {
+        var res = jQuery.parseJSON(html);        
+        if(res.resultado == "error"){
+            console.log("Error -- " + html);
+            
+        }else{
+            var idCuestionario = res.mensaje;
+            
+        }
+    });
+}
+
+/*
 function cargarTextoEnArreglo(texto, inicio, fin, color, top, left, width, height){
     textos.push({
         texto : texto, 
@@ -116,12 +93,36 @@ function mostrarDialogoEditarTexto(idTexto){
     editarTextoBandera = true;
     idEditar = idTexto;
     pauseVideo();
-    $('#textoTinyMce').html(textos[idTexto].texto);    
+    $('#textoTinyMce').html(textos[idTexto].texto);
+    
     var inicio = stringToSeconds(textos[idTexto].inicio);
     var fin = stringToSeconds(textos[idTexto].fin);
-    var color = textos[idTexto].color;    
-    cambiarColorPicker(color,"Texto");    
-    inicializarSlidersTexto(inicio, fin);
+    var totalTime = getTotalTime();
+    
+    var color = textos[idTexto].color;
+    
+    cambiarColorPicker(color,"Texto");
+    
+    $('#tiempoInicioTexto').val(textos[idTexto].inicio);
+    $('#tiempoFinTexto').val(textos[idTexto].fin);
+    $('#tiempoRangeSliderTexto').slider({
+        range: true,
+        min: 0,
+        max: totalTime,
+        values: [ inicio, fin ],
+        slide: function( event, ui ) {
+            if(ui.values[0] == ui.values[1]){
+                if(ui.values[1] == 0){
+                    ui.values[1] = 1;
+                }
+                if(ui.values[0] == totalTime){
+                    ui.values[0] = totalTime - 1;
+                }
+            }
+            $('#tiempoInicioTexto').val(transformaSegundos(ui.values[ 0 ]));
+            $('#tiempoFinTexto').val(transformaSegundos(ui.values[ 1 ]));
+        }
+    });
     $("#dialog-form-texto").dialog('option', 'title', 'Editar texto');
     $("#dialog-form-texto").dialog("open");
 }
@@ -235,12 +236,9 @@ function agregarTextoDiv(indice, texto, inicio, fin, color, top, left, width, he
 }
 
 function dialogoBorrarTexto(indice){
-    $( "#modalDialog" ).dialog( "option", "title", "Eliminar texto" );
     $("#modalDialog").html("<p>&iquest;Seguro que deseas eliminar este elemento?</p>");
     $( "#modalDialog" ).dialog({
-        draggable: false,
-        resizable: false,
-        height: 200,
+        height: 160,
         width: 400,
         modal: true,
         buttons: {
@@ -275,65 +273,34 @@ function cargarTextos(){
         agregarTextoDiv(i, textos[i].texto, textos[i].inicio, textos[i].fin, textos[i].color, textos[i].top, textos[i].left, textos[i].width, textos[i].height);
     }
 }
+*/
 
-function validarTiemposTexto($respetar){        
+//Valida el input de los tiempos en el slider
+function validarTiemposCuestionario(){        
     var $videoDuration = getTotalTime();
-    $("#tiempoInicioTexto").val($("#tiempoInicioTexto").val().substr(0, 5));
-    $("#tiempoFinTexto").val($("#tiempoFinTexto").val().substr(0, 5));
-    
-    var $ini = stringToSeconds($("#tiempoInicioTexto").val());
-    var $fin = stringToSeconds($("#tiempoFinTexto").val());
-    
-    console.log("Validando tiempos ["+$ini+","+$fin+"]");
+    $("#tiempoInicioCuestionario").val($("#tiempoInicioCuestionario").val().substr(0, 5));
+    var $ini = stringToSeconds($("#tiempoInicioCuestionario").val());
     //validar los limites inferiores
     if($ini < 0)
         $ini = 0;
-    if($fin <= 0)
-        $fin = 1;
-    
     //validar los limites superiores
     if($ini >= $videoDuration)
         $ini = $videoDuration-1;    
-    if($fin > $videoDuration)
-        $fin = $videoDuration;
-    
-    //validar entre inicio y fin
-    if($ini >= $fin){
-        if($respetar == "inicio"){
-            $fin = $ini + 1;
-        }else if($respetar == "fin"){
-            $ini = $fin - 1;
-        }
-    }
-    $("#tiempoInicioSliderTexto").slider( "option", "value", $ini);    
-    $("#tiempoFinSliderTexto").slider( "option", "value", $fin );    
-    
-    $("#tiempoInicioTexto").val(transformaSegundos($ini));
-    $("#tiempoFinTexto").val(transformaSegundos($fin));
+    $("#tiempoInicioSliderCuestionario").slider( "option", "value", $ini);    
+    $("#tiempoInicioCuestionario").val(transformaSegundos($ini));
 }
 
-function inicializarSlidersTexto($inicio, $fin){
+function inicializarSlidersCuestionario($inicio){
     var totalTime = getTotalTime();
-    $('#tiempoInicioTexto').val(transformaSegundos($inicio));
-    $('#tiempoInicioSliderTexto').slider({
+    $('#tiempoInicioCuestionario').val(transformaSegundos($inicio));
+    $('#tiempoInicioSliderCuestionario').slider({
         range: "min",
         min: 0,
         max: totalTime,
         value: $inicio,
         slide: function( event, ui ) {
-            $("#tiempoInicioTexto").val(transformaSegundos(ui.value));
-            validarTiemposTexto("inicio");
-        }
-    });
-    $('#tiempoFinTexto').val(transformaSegundos($fin));
-    $('#tiempoFinSliderTexto').slider({
-        range: "min",
-        min: 0,
-        max: totalTime,
-        value: $fin,
-        slide: function( event, ui ) {
-            $("#tiempoFinTexto").val(transformaSegundos(ui.value));
-            validarTiemposTexto("fin");
+            $("#tiempoInicioCuestionario").val(transformaSegundos(ui.value));
+            validarTiemposCuestionario();
         }
     });
 }

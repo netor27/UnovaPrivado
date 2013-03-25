@@ -2,8 +2,7 @@ var videos = [];
 var editarVideoBandera = false;
 var idEditarVideo = -1;
 
-$(function(){
-    
+$(function(){    
     $("#dialog-form-video").dialog({
         autoOpen: false,
         height:450,
@@ -44,11 +43,7 @@ $(function(){
         $('#colorSeleccionadoVideo').html("");
         $("#colorHiddenVideo").val(color);
     })
-    
-    //validamos el tiempo que escriben en el campo de Video
-    $("#tiempoInicioVideo").blur(validarTiemposVideo);
-    $("#tiempoFinVideo").blur(validarTiemposVideo);
-    
+       
     $("#sinColorVideo").click(function(){
         $("#colorSelectorVideo").colorpicker("val", "transparent");
         $('#colorSeleccionadoVideo').css('backgroundColor', 'transparent');
@@ -56,27 +51,20 @@ $(function(){
         $("#colorHiddenVideo").val('transparent');        
     });
     $("#sinColorVideo").button();
+    //validamos el tiempo que escriben en el campo de texto
+    $("#tiempoInicioTexto").change(function() {
+        validarTiemposTexto("inicio");
+    });
+    $("#tiempoFinTexto").change(function() {
+        validarTiemposTexto("fin");
+    });
 });
 
 function mostrarDialogoInsertarVideo(){
     editarVideoBandera = false;    
     pauseVideo();
     var currentTime = getCurrentTime();
-    var totalTime = getTotalTime();
-    $('#tiempoInicioVideo').val(transformaSegundos(currentTime));
-    $('#tiempoFinVideo').val(transformaSegundos(currentTime + 10));
-    $('#tiempoRangeSliderVideo').slider({
-        range: true,
-        min: 0,
-        max: totalTime,
-        values: [ currentTime, currentTime + 10 ],
-        slide: function( event, ui ) {
-            if(ui.values[0] == ui.values[1])
-                ui.values[1] = ui.values[1]+1;
-            $('#tiempoInicioVideo').val(transformaSegundos(ui.values[ 0 ]));
-            $('#tiempoFinVideo').val(transformaSegundos(ui.values[ 1 ]));
-        }
-    });
+    inicializarSlidersVideo(currentTime, currentTime+10);
     $("#dialog-form-video").dialog("open");
 }
 
@@ -97,41 +85,21 @@ function agregarVideo(){
     var urlVideo = $("#urlVideo").val();
     var inicio = $("#tiempoInicioVideo").val();
     var fin = $("#tiempoFinVideo").val();
-    var color = $("#colorHiddenVideo").val();
-    
+    var color = $("#colorHiddenVideo").val();    
     agregarVideoDiv(videos.length, urlVideo, inicio, fin, color, 50, 50, 20, 18);
-    cargarVideoEnArreglo(urlVideo, inicio, fin, color, 50, 50, 20, 18);
-    
+    cargarVideoEnArreglo(urlVideo, inicio, fin, color, 50, 50, 20, 18);    
 }
 
 function mostrarDialogoEditarVideo(idVideo){
     editarVideoBandera = true;
     idEditarVideo = idVideo;
     pauseVideo();
-    $("#urlVideo").val(videos[idVideo].urlVideo);
-    
+    $("#urlVideo").val(videos[idVideo].urlVideo);    
     var inicio = stringToSeconds(videos[idVideo].inicio);
-    var fin = stringToSeconds(videos[idVideo].fin);
-    var totalTime = getTotalTime();
-    
-    var color = videos[idVideo].color;
-    
-    cambiarColorPicker(color,"Video");
-    
-    $('#tiempoInicioVideo').val(videos[idVideo].inicio);
-    $('#tiempoFinVideo').val(videos[idVideo].fin);
-    $('#tiempoRangeSliderVideo').slider({
-        range: true,
-        min: 0,
-        max: totalTime,
-        values: [ inicio, fin ],
-        slide: function( event, ui ) {
-            if(ui.values[0] == ui.values[1])
-                ui.values[1] = ui.values[1]+1;
-            $('#tiempoInicioVideo').val(transformaSegundos(ui.values[ 0 ]));
-            $('#tiempoFinVideo').val(transformaSegundos(ui.values[ 1 ]));
-        }
-    });
+    var fin = stringToSeconds(videos[idVideo].fin);    
+    var color = videos[idVideo].color;    
+    cambiarColorPicker(color,"Video");    
+    inicializarSlidersVideo(inicio, fin);
     $("#dialog-form-video").dialog("open");
 }
 
@@ -240,9 +208,12 @@ function agregarVideoDiv(indice, urlVideo, inicio, fin, color, top, left, width,
 }
 
 function dialogoBorrarVideo(indice){
-    $("#modalDialog").html("<p>&iquest;Seguro que deseas eliminar este elemento?</p>");
+    $( "#modalDialog" ).dialog( "option", "title", "Eliminar video" );
+    $("#modalDialog").html("<p>&iquest;Seguro que deseas eliminar este elemento?</p>");    
     $( "#modalDialog" ).dialog({
-        height: 160,
+        draggable: false,
+        resizable: false,
+        height: 200,
         width: 400,
         modal: true,
         buttons: {
@@ -279,30 +250,63 @@ function cargarVideos(){
 }
 
 //Valida el input de los tiempos en el slider
-function validarTiemposVideo(){    
+function validarTiemposVideo($respetar){        
     var $videoDuration = getTotalTime();
     $("#tiempoInicioVideo").val($("#tiempoInicioVideo").val().substr(0, 5));
     $("#tiempoFinVideo").val($("#tiempoFinVideo").val().substr(0, 5));
     
-    var $ini = stringToSeconds($("#tiempoInicioVideo").val().substr(0, 5));
-    var $fin = stringToSeconds($("#tiempoFinVideo").val().substr(0, 5));
+    var $ini = stringToSeconds($("#tiempoInicioVideo").val());
+    var $fin = stringToSeconds($("#tiempoFinVideo").val());
     
+    //validar los limites inferiores
     if($ini < 0)
         $ini = 0;
-    if($fin < 0)
+    if($fin <= 0)
         $fin = 1;
+    
+    //validar los limites superiores
     if($ini >= $videoDuration)
-        $ini = $videoDuration-1;
-    
-    if($ini >= $fin)
-        $fin = $ini +1;
-    
+        $ini = $videoDuration-1;    
     if($fin > $videoDuration)
         $fin = $videoDuration;
     
-    $("#tiempoRangeSliderVideo").slider( "option", "values", [$ini,$fin] );
+    //validar entre inicio y fin
+    if($ini >= $fin){
+        if($respetar == "inicio"){
+            $fin = $ini + 1;
+        }else if($respetar == "fin"){
+            $ini = $fin - 1;
+        }
+    }
+    $("#tiempoInicioSliderVideo").slider( "option", "value", $ini);    
+    $("#tiempoFinSliderVideo").slider( "option", "value", $fin );    
     
     $("#tiempoInicioVideo").val(transformaSegundos($ini));
     $("#tiempoFinVideo").val(transformaSegundos($fin));
 }
 
+function inicializarSlidersVideo($inicio, $fin){
+    var totalTime = getTotalTime();
+    $('#tiempoInicioVideo').val(transformaSegundos($inicio));
+    $('#tiempoInicioSliderVideo').slider({
+        range: "min",
+        min: 0,
+        max: totalTime,
+        value: $inicio,
+        slide: function( event, ui ) {
+            $("#tiempoInicioVideo").val(transformaSegundos(ui.value));
+            validarTiemposVideo("inicio");
+        }
+    });
+    $('#tiempoFinVideo').val(transformaSegundos($fin));
+    $('#tiempoFinSliderVideo').slider({
+        range: "min",
+        min: 0,
+        max: totalTime,
+        value: $fin,
+        slide: function( event, ui ) {
+            $("#tiempoFinVideo").val(transformaSegundos(ui.value));
+            validarTiemposVideo("fin");
+        }
+    });
+}

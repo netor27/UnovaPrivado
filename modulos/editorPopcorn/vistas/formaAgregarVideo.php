@@ -12,17 +12,32 @@
         </div>
         
         <div id="tiempoTab">
-            <table>
-                <tr>
-                    <td><label for="Tiempo Inicial">Tiempo inicial</label></td>
-                    <td><input type="text" name="tiempoInicio" id="tiempoInicioVideo" class="text ui-widget-content ui-corner-all" style="width:40px;"/><br></td>
-                </tr>
-                <tr>
-                    <td><label for="Tiempo Final">Tiempo final</label></td>
-                    <td><input type="text" name="tiempoFin" id="tiempoFinVideo" class="text ui-widget-content ui-corner-all" style="width:40px;"/></td>
-                </tr> 
-            </table>
-            <div id="tiempoRangeSliderVideo"></div>
+            <div class="row-fluid">
+                <div class="span12">
+                    <legend>Tiempo inicial</legend>
+                    <div class="row-fluid">                    
+                        <div class="span2">
+                            <input type="text" name="tiempoInicio" id="tiempoInicioVideo" class="text ui-widget-content ui-corner-all span12" style="text-align: center;" />
+                        </div>
+                        <div class="span10">
+                            <div id="tiempoInicioSliderVideo" class="tiempoSlider"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span12">
+                    <legend>Tiempo final</legend>
+                    <div class="row-fluid">
+                        <div class="span2">
+                            <input type="text" name="tiempoFin" id="tiempoFinVideo" class="text ui-widget-content ui-corner-all span12" style="text-align: center;"/>
+                        </div>
+                        <div class="span10">
+                            <div id="tiempoFinSliderVideo" class="tiempoSlider"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <div id="colorFondoTab" style="overflow: hidden">

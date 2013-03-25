@@ -2,8 +2,7 @@ var links = [];
 var editarLinkBandera = false;
 var idEditarLink = -1;
 
-$(function(){
-    
+$(function(){    
     $("#dialog-form-link").dialog({
         autoOpen: false,
         height:450,
@@ -43,14 +42,8 @@ $(function(){
         $('#colorSeleccionadoLink').css('backgroundColor', color);
         $('#colorSeleccionadoLink').html("");
         $("#colorHiddenLink").val(color);
-    })
-    
-    //validamos el tiempo que escriben en el campo del link
-    $("#tiempoInicioLink").blur(validarTiemposLink);
-    $("#tiempoFinLink").blur(validarTiemposLink);
-    
-    $('#linkTabs').tabs();
-    
+    });
+    $('#linkTabs').tabs();    
     $("#sinColorLink").click(function(){
         $("#colorSelectorLink").colorpicker("val", "transparent");
         $('#colorSeleccionadoLink').css('backgroundColor', 'transparent');
@@ -58,27 +51,20 @@ $(function(){
         $("#colorHiddenLink").val('transparent');        
     });
     $("#sinColorLink").button();
+    //validamos el tiempo que escriben en el campo de texto
+    $("#tiempoInicioLink").change(function() {
+        validarTiemposLink("inicio");
+    });
+    $("#tiempoFinLink").change(function() {
+        validarTiemposLink("fin");
+    });
 });
 
 function mostrarDialogoInsertarLink(){
     editarLinkBandera = false;    
     pauseVideo();
     var currentTime = getCurrentTime();
-    var totalTime = getTotalTime();
-    $('#tiempoInicioLink').val(transformaSegundos(currentTime));
-    $('#tiempoFinLink').val(transformaSegundos(currentTime + 10));
-    $('#tiempoRangeSliderLink').slider({
-        range: true,
-        min: 0,
-        max: totalTime,
-        values: [ currentTime, currentTime + 10 ],
-        slide: function( event, ui ) {
-            if(ui.values[0] == ui.values[1])
-                ui.values[1] = ui.values[1]+1;
-            $('#tiempoInicioLink').val(transformaSegundos(ui.values[ 0 ]));
-            $('#tiempoFinLink').val(transformaSegundos(ui.values[ 1 ]));
-        }
-    });
+    inicializarSlidersLink(currentTime, currentTime+10);
     $("#dialog-form-link").dialog('option', 'title', 'Agregar un link');
     $("#dialog-form-link").dialog("open");
 }
@@ -104,8 +90,8 @@ function agregarLink(){
     var fin = $("#tiempoFinLink").val();
     var color = $("#colorHiddenLink").val();
     
-    agregarLinkDiv(links.length, texto, url, inicio, fin, color, 50, 50, 'auto', 'auto');
-    cargarLinkEnArreglo(texto, url, inicio, fin, color, 50, 50, 'auto', 'auto'); 
+    agregarLinkDiv(links.length, texto, url, inicio, fin, color, 10, 10, 50, 50);
+    cargarLinkEnArreglo(texto, url, inicio, fin, color, 10, 10, 50, 50); 
 }
 
 function mostrarDialogoEditarLink(idLink){
@@ -123,20 +109,7 @@ function mostrarDialogoEditarLink(idLink){
     
     cambiarColorPicker(color,"Link");
     
-    $('#tiempoInicioLink').val(links[idLink].inicio);
-    $('#tiempoFinLink').val(links[idLink].fin);
-    $('#tiempoRangeSliderLink').slider({
-        range: true,
-        min: 0,
-        max: totalTime,
-        values: [ inicio, fin ],
-        slide: function( event, ui ) {
-            if(ui.values[0] == ui.values[1])
-                ui.values[1] = ui.values[1]+1;
-            $('#tiempoInicioLink').val(transformaSegundos(ui.values[ 0 ]));
-            $('#tiempoFinLink').val(transformaSegundos(ui.values[ 1 ]));
-        }
-    });
+    inicializarSlidersLink(inicio, fin);
     $("#dialog-form-link").dialog('option', 'title', 'Editar link');
     $("#dialog-form-link").dialog("open");
 }
@@ -166,6 +139,7 @@ function editarLink(){
 
 function agregarLinkDiv(indice, texto, url, inicio, fin, color, top, left, width, height){
     var textoDiv = '<div id="link_'+indice+'" class="ui-corner-all linkAgregado stack draggable" style="background-color: '+color+'; position: fixed; top: '+getUnidadPx(top)+'; left: '+getUnidadPx(left)+'; width: '+getUnidadPx(width)+'; height: '+getUnidadPx(height)+';">' +
+    '<p class="ui-widget-header dragHandle">Arr&aacute;strame de aqu&iacute;<br></p>'+
     '<div class="elementButtons"id="eb_lnk_'+indice+'">' +
     '<a href="#" onclick=mostrarDialogoEditarLink('+indice+')>'+
     '<div class="ui-state-default ui-corner-all littleBox">' +
@@ -182,11 +156,6 @@ function agregarLinkDiv(indice, texto, url, inicio, fin, color, top, left, width
     '</div>' +
     '</a>'+    
     '</div>' +
-    '<a href="'+url+'" target="_blank" class="textoLink">'+
-    '<div>' +
-    texto +
-    '</div>' +
-    '</a>'+
     '</div>';
     
     $popPrincipal.footnote({
@@ -197,6 +166,7 @@ function agregarLinkDiv(indice, texto, url, inicio, fin, color, top, left, width
     });
     
     $("#link_"+indice).draggable({
+        handle: "p", 
         containment: "#editorContainment",
         stack: ".stack",
         stop: function(event, ui){
@@ -207,8 +177,7 @@ function agregarLinkDiv(indice, texto, url, inicio, fin, color, top, left, width
             $containmentHeight  = getContainmentHeight();
             links[indice].top = ui.offset.top * 100 / $containmentHeight;
             links[indice].left = ui.offset.left * 100 / $containmentWidth;            
-        },
-        snap: true
+        }
     });
     
     $("#link_"+indice).hover(function(){
@@ -231,12 +200,24 @@ function agregarLinkDiv(indice, texto, url, inicio, fin, color, top, left, width
         },
         containment: "#editorContainment"
     });
+    
+    $popPrincipal.webpage({
+        id: "webpages_"+indice,
+        start: inicio,
+        end: fin,
+        src: url,
+        target: "link_"+indice
+      });
 }
 
 function dialogoBorrarLink(indice){
+    $( "#modalDialog" ).dialog( "option", "title", "Eliminar p&aacute;gina web" );
     $("#modalDialog").html("<p>&iquest;Seguro que deseas eliminar este elemento?</p>");
-    $( "#modalDialog" ).dialog({
-        height: 160,
+    $("#modalDialog").destroy();
+    $("#modalDialog" ).dialog({
+        draggable: false,
+        resizable: false,
+        height: 200,
         width: 400,
         modal: true,
         buttons: {
@@ -273,30 +254,64 @@ function cargarLinks(){
 }
 
 //Valida el input de los tiempos en el slider
-function validarTiemposLink(){    
+function validarTiemposLink($respetar){        
     var $videoDuration = getTotalTime();
     $("#tiempoInicioLink").val($("#tiempoInicioLink").val().substr(0, 5));
     $("#tiempoFinLink").val($("#tiempoFinLink").val().substr(0, 5));
     
-    var $ini = stringToSeconds($("#tiempoInicioLink").val().substr(0, 5));
-    var $fin = stringToSeconds($("#tiempoFinLink").val().substr(0, 5));
+    var $ini = stringToSeconds($("#tiempoInicioLink").val());
+    var $fin = stringToSeconds($("#tiempoFinLink").val());
     
+    //validar los limites inferiores
     if($ini < 0)
         $ini = 0;
-    if($fin < 0)
+    if($fin <= 0)
         $fin = 1;
+    
+    //validar los limites superiores
     if($ini >= $videoDuration)
-        $ini = $videoDuration-1;
-    
-    if($ini >= $fin)
-        $fin = $ini +1;
-    
+        $ini = $videoDuration-1;    
     if($fin > $videoDuration)
         $fin = $videoDuration;
     
-    $("#tiempoRangeSliderLink").slider( "option", "values", [$ini,$fin] );
+    //validar entre inicio y fin
+    if($ini >= $fin){
+        if($respetar == "inicio"){
+            $fin = $ini + 1;
+        }else if($respetar == "fin"){
+            $ini = $fin - 1;
+        }
+    }
+    $("#tiempoInicioSliderLink").slider( "option", "value", $ini);    
+    $("#tiempoFinSliderLink").slider( "option", "value", $fin );    
     
     $("#tiempoInicioLink").val(transformaSegundos($ini));
     $("#tiempoFinLink").val(transformaSegundos($fin));
+}
+
+function inicializarSlidersLink($inicio, $fin){
+    var totalTime = getTotalTime();
+    $('#tiempoInicioLink').val(transformaSegundos($inicio));
+    $('#tiempoInicioSliderLink').slider({
+        range: "min",
+        min: 0,
+        max: totalTime,
+        value: $inicio,
+        slide: function( event, ui ) {
+            $("#tiempoInicioLink").val(transformaSegundos(ui.value));
+            validarTiemposLink("inicio");
+        }
+    });
+    $('#tiempoFinLink').val(transformaSegundos($fin));
+    $('#tiempoFinSliderLink').slider({
+        range: "min",
+        min: 0,
+        max: totalTime,
+        value: $fin,
+        slide: function( event, ui ) {
+            $("#tiempoFinLink").val(transformaSegundos(ui.value));
+            validarTiemposLink("fin");
+        }
+    });
 }
 

@@ -4,9 +4,17 @@ var $videoDuration;
 
 $(function(){
     //Configuración inicial    
+    
+    $( "#modalDialog" ).dialog({
+        autoOpen: false,
+        draggable: false,
+        resizable: false,
+        height: 200,
+        width: 400        
+    });  
+    
     $("#videoContainer").draggable({
-        containment: "#editorContainment",
-        snap: true
+        containment: "#editorContainment"
     });
     $("#videoContainer").resizable({
         resize: function(event, ui) {
@@ -21,6 +29,13 @@ $(function(){
     });	
     $(".videoClass").bind("contextmenu", function(e) {
         e.preventDefault();
+    });
+    $("#tools").draggable({
+        containment: "#editorContainment"
+    });
+    
+    $("#btnMostrarHerramientas").click(function(){
+        $("#herramientas").toggle("slow");
     });
 });
 

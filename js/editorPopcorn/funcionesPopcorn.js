@@ -120,7 +120,7 @@ function getContainmentWidth(){
 }
 
 function getContainmentHeight(){
-    return $("#editorContainment").height() + 102;
+    return $("#editorContainment").height() + 94;
 }
 
 function cambiarColorPicker(hex, id){
@@ -165,10 +165,8 @@ function stringToSeconds(str){
 
 //Guardar los datos
 function guardar(u, uuid, cu, cl, salirDespuesDeGuardar){    
-    $("#guardando").show("blind");    
-    
-    backgroundColor = $("#editorContainment").css("background-color");
-    
+    $("#guardando").show("blind");        
+    backgroundColor = $("#editorContainment").css("background-color");    
     $containmentWidth = getContainmentWidth();;
     $containmentHeight  = getContainmentHeight();
     var videoData = {
@@ -176,8 +174,7 @@ function guardar(u, uuid, cu, cl, salirDespuesDeGuardar){
         left: $("#videoContainer").position().left * 100 / $containmentWidth,
         width: $("#videoContainer").width() * 100 / $containmentWidth,
         height: $("#videoContainer").height() * 100 / $containmentHeight
-    }
-    
+    }    
     var data = {
         u: u,
         uuid: uuid,
@@ -189,8 +186,7 @@ function guardar(u, uuid, cu, cl, salirDespuesDeGuardar){
         imagenes: imagenes,
         videos: videos,
         links: links
-    };
-    
+    };    
     $.ajax({
         type: 'post',
         cache: false,

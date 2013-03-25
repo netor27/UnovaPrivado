@@ -32,10 +32,6 @@ $(function(){
         }
     });	 
     
-    //validamos el tiempo que escriben en el campo de Imagen
-    $("#tiempoInicioImagen").blur(validarTiemposImagen);
-    $("#tiempoFinImagen").blur(validarTiemposImagen);
-    
     $('#imagenTabs').tabs();
     
     $("#colorHiddenImagen").val("#FFFFFF");
@@ -63,16 +59,19 @@ $(function(){
         $("#urlImagen").val(url);
         $(".formaPredefinida").removeClass("formaSelected");
         $(this).addClass("formaSelected");
+    });    
+    $("#sinColorImagen").button();        
+    $("#buttonUpload").button();     
+    //validamos el tiempo que escriben en el campo de texto
+    $("#tiempoInicioImagen").change(function() {
+        validarTiemposImagen("inicio");
     });
-    
-    $("#sinColorImagen").button();
-        
-    $("#buttonUpload").button();  
-    
+    $("#tiempoFinImagen").change(function() {
+        validarTiemposImagen("fin");
+    });
 });
 
-function mostrarDialogoInsertarImagen(tipo){
-    
+function mostrarDialogoInsertarImagen(tipo){        
     if(tipo == "imagen"){
         $("#formaSubirImagen").show();
         $("#formaElegirForma").hide();
@@ -83,32 +82,15 @@ function mostrarDialogoInsertarImagen(tipo){
         $("#formaSubirImagen").hide();
         $("#dialog-form-imagen").dialog('option', 'title', 'Agregar una forma predefinida');
         formaBandera = true;
-    }
-    
+    }    
     //mostramos la forma como nueva
     $("#loadingUploadImage").hide();    
     $("#resultadoDeSubirImagen").hide();
     $("#resultadoDeSubirImagen").html("");
-    
-    
     editarImagenBandera = false;    
     pauseVideo();
     var currentTime = getCurrentTime();
-    var totalTime = getTotalTime();
-    $('#tiempoInicioImagen').val(transformaSegundos(currentTime));
-    $('#tiempoFinImagen').val(transformaSegundos(currentTime + 10));
-    $('#tiempoRangeSliderImagen').slider({
-        range: true,
-        min: 0,
-        max: totalTime,
-        values: [ currentTime, currentTime + 10 ],
-        slide: function( event, ui ) {
-            if(ui.values[0] == ui.values[1])
-                ui.values[1] = ui.values[1]+1;
-            $('#tiempoInicioImagen').val(transformaSegundos(ui.values[ 0 ]));
-            $('#tiempoFinImagen').val(transformaSegundos(ui.values[ 1 ]));
-        }
-    });    
+    inicializarSlidersImagen(currentTime, currentTime+10);
     $("#dialog-form-imagen").dialog("open");
 }
 
@@ -155,34 +137,16 @@ function mostrarDialogoEditarImagen(idImagen, tipo){
         $("#dialog-form-imagen").dialog('option', 'title', 'Editar forma predefinida');
         formaBandera = true;
     }
-    
     editarImagenBandera = true;
     idEditarImagen = idImagen;
     pauseVideo();
-    $("#urlImagen").val(imagenes[idImagen].urlImagen);
-    
+    $("#urlImagen").val(imagenes[idImagen].urlImagen);    
     var inicio = stringToSeconds(imagenes[idImagen].inicio);
     var fin = stringToSeconds(imagenes[idImagen].fin);
-    var totalTime = getTotalTime();
-    
-    var color = imagenes[idImagen].color;
-    
-    cambiarColorPicker(color,"Imagen");
-    
-    $('#tiempoInicioImagen').val(imagenes[idImagen].inicio);
-    $('#tiempoFinImagen').val(imagenes[idImagen].fin);
-    $('#tiempoRangeSliderImagen').slider({
-        range: true,
-        min: 0,
-        max: totalTime,
-        values: [ inicio, fin ],
-        slide: function( event, ui ) {
-            if(ui.values[0] == ui.values[1])
-                ui.values[1] = ui.values[1]+1;
-            $('#tiempoInicioImagen').val(transformaSegundos(ui.values[ 0 ]));
-            $('#tiempoFinImagen').val(transformaSegundos(ui.values[ 1 ]));
-        }
-    });
+    var totalTime = getTotalTime();    
+    var color = imagenes[idImagen].color;    
+    cambiarColorPicker(color,"Imagen");    
+    inicializarSlidersImagen(inicio, fin);
     $("#dialog-form-imagen").dialog("open");
 }
 
@@ -282,9 +246,12 @@ function agregarImagenDiv(indice, urlImagen, inicio, fin, color, top, left, widt
 }
 
 function dialogoBorrarImagen(indice){
+    $( "#modalDialog" ).dialog( "option", "title", "Eliminar imagen" );
     $("#modalDialog").html("<p>&iquest;Seguro que deseas eliminar este elemento?</p>");
     $( "#modalDialog" ).dialog({
-        height: 160,
+        draggable: false,
+        resizable: false,
+        height: 200,
         width: 400,
         modal: true,
         buttons: {
@@ -321,30 +288,65 @@ function cargarImagenes(){
 }
 
 //Valida el input de los tiempos en el slider
-function validarTiemposImagen(){    
+function validarTiemposImagen($respetar){        
     var $videoDuration = getTotalTime();
     $("#tiempoInicioImagen").val($("#tiempoInicioImagen").val().substr(0, 5));
     $("#tiempoFinImagen").val($("#tiempoFinImagen").val().substr(0, 5));
     
-    var $ini = stringToSeconds($("#tiempoInicioImagen").val().substr(0, 5));
-    var $fin = stringToSeconds($("#tiempoFinImagen").val().substr(0, 5));
+    var $ini = stringToSeconds($("#tiempoInicioImagen").val());
+    var $fin = stringToSeconds($("#tiempoFinImagen").val());
     
+    //validar los limites inferiores
     if($ini < 0)
         $ini = 0;
-    if($fin < 0)
+    if($fin <= 0)
         $fin = 1;
+    
+    //validar los limites superiores
     if($ini >= $videoDuration)
-        $ini = $videoDuration-1;
-    
-    if($ini >= $fin)
-        $fin = $ini +1;
-    
+        $ini = $videoDuration-1;    
     if($fin > $videoDuration)
         $fin = $videoDuration;
     
-    $("#tiempoRangeSliderImagen").slider( "option", "values", [$ini,$fin] );    
+    //validar entre inicio y fin
+    if($ini >= $fin){
+        if($respetar == "inicio"){
+            $fin = $ini + 1;
+        }else if($respetar == "fin"){
+            $ini = $fin - 1;
+        }
+    }
+    $("#tiempoInicioSliderImagen").slider( "option", "value", $ini);    
+    $("#tiempoFinSliderImagen").slider( "option", "value", $fin );    
+    
     $("#tiempoInicioImagen").val(transformaSegundos($ini));
     $("#tiempoFinImagen").val(transformaSegundos($fin));
+}
+
+function inicializarSlidersImagen($inicio, $fin){
+    var totalTime = getTotalTime();
+    $('#tiempoInicioImagen').val(transformaSegundos($inicio));
+    $('#tiempoInicioSliderImagen').slider({
+        range: "min",
+        min: 0,
+        max: totalTime,
+        value: $inicio,
+        slide: function( event, ui ) {
+            $("#tiempoInicioImagen").val(transformaSegundos(ui.value));
+            validarTiemposImagen("inicio");
+        }
+    });
+    $('#tiempoFinImagen').val(transformaSegundos($fin));
+    $('#tiempoFinSliderImagen').slider({
+        range: "min",
+        min: 0,
+        max: totalTime,
+        value: $fin,
+        slide: function( event, ui ) {
+            $("#tiempoFinImagen").val(transformaSegundos(ui.value));
+            validarTiemposImagen("fin");
+        }
+    });
 }
 
 function ajaxImageFileUpload(){

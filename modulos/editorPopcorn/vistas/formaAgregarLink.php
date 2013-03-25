@@ -1,32 +1,41 @@
-<div id="dialog-form-link" title="Agregar un link"  style="display:none;">
+<div id="dialog-form-link" title="Agregar una página web"  style="display:none;">
     <div id="linkTabs">
         <ul>
             <li><a href="#linkTab">Página web</a></li>
             <li><a href="#tiempoTab">Tiempo</a></li>
             <li><a href="#colorFondoTab">Color de fondo</a></li>
         </ul>
-
         <div id="linkTab">
-            <label>Texto: </label><br>
-            <input type="text" name="url" id="textoLink" class="text ui-widget-content ui-corner-all"  style="width:97%;"/>
-            <br><br>
             <label>Link a la página:</label><br>
-            <input type="text" name="url" id="urlLink" class="text ui-widget-content ui-corner-all"  style="width:97%;"/>
+            <input type="text" name="url" id="urlLink" class="text ui-widget-content ui-corner-all"  style="width:97%;" value="http://"/>
         </div>
-
-
         <div id="tiempoTab">
-            <table>
-                <tr>
-                    <td><label for="Tiempo Inicial">Tiempo inicial</label></td>
-                    <td><input type="text" name="tiempoInicio" id="tiempoInicioLink" class="text ui-widget-content ui-corner-all" style="width:40px;"/><br></td>
-                </tr>
-                <tr>
-                    <td><label for="Tiempo Final">Tiempo final</label></td>
-                    <td><input type="text" name="tiempoFin" id="tiempoFinLink" class="text ui-widget-content ui-corner-all" style="width:40px;"/></td>
-                </tr> 
-            </table>
-            <div id="tiempoRangeSliderLink"></div>
+            <div class="row-fluid">
+                <div class="span12">
+                    <legend>Tiempo inicial</legend>
+                    <div class="row-fluid">                    
+                        <div class="span2">
+                            <input type="text" name="tiempoInicio" id="tiempoInicioLink" class="text ui-widget-content ui-corner-all span12" style="text-align: center;" />
+                        </div>
+                        <div class="span10">
+                            <div id="tiempoInicioSliderLink" class="tiempoSlider"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span12">
+                    <legend>Tiempo final</legend>
+                    <div class="row-fluid">
+                        <div class="span2">
+                            <input type="text" name="tiempoFin" id="tiempoFinLink" class="text ui-widget-content ui-corner-all span12" style="text-align: center;"/>
+                        </div>
+                        <div class="span10">
+                            <div id="tiempoFinSliderLink" class="tiempoSlider"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="colorFondoTab" style="overflow: hidden">
