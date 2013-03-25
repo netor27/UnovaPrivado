@@ -160,7 +160,10 @@ require_once('layout/headers/headCierre.php');
 
             </div>
             <div id="tabs-2" class="tab-pane">
-                <h1>Aquí va el foro</h1>
+                <?php
+                $cursoAux = $curso;
+                require_once 'modulos/cursos/vistas/vistaForo.php';
+                ?>
             </div>
         </div>
     </div>

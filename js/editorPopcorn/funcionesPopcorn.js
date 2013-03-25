@@ -37,12 +37,12 @@ $(function(){
     
     $("#btnSalir").click(
         function(){
-            $("#modalDialog").attr("title","Regresar al curso");
+            $( "#modalDialog" ).dialog( "option", "title", "Regresar al curso" );
             $("#modalDialog").html("<h1>¡Estás apunto de salir!</h1> Algunos de tus cambios no se han guardado, ¿Deseas guardarlos?");
             $( "#modalDialog" ).dialog({
                 height: 250,
                 width: 500,
-                draggable: true,
+                draggable: false,
                 resizable: false,
                 modal: true,
                 buttons:{ 
@@ -57,6 +57,7 @@ $(function(){
                     }
                 }
             });
+            $( "#modalDialog" ).dialog("open");
         });
     $(document).mouseup(function(e){       
         var id = $(e.target).parents("div").attr("id");
@@ -167,7 +168,8 @@ function stringToSeconds(str){
 function guardar(u, uuid, cu, cl, salirDespuesDeGuardar){    
     $("#guardando").show("blind");        
     backgroundColor = $("#editorContainment").css("background-color");    
-    $containmentWidth = getContainmentWidth();;
+    $containmentWidth = getContainmentWidth();
+    ;
     $containmentHeight  = getContainmentHeight();
     var videoData = {
         top: $("#videoContainer").position().top * 100 / $containmentHeight,

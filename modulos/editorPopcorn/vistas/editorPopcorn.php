@@ -219,13 +219,13 @@ if (isset($links))
                             </a>
                         </div>
                     </div>          
-                    <div class="row-fluid">
+<!--                    <div class="row-fluid">
                         <div class="span12 ">
                             <a href="#" onclick="mostrarDialogoInsertarCuestionario()">
                                 <i class="cus-report-add herramientasIcon"></i>Cuestionario
                             </a>
                         </div>
-                    </div>          
+                    </div>          -->
                 </div>
             </div>
             <div id="videoContainer" class="draggable resizable" style="z-index:-10; position: absolute; top: <?php echo $top . '%'; ?>; left: <?php echo $left . '%'; ?>; width: <?php echo $width . '%'; ?>; height: <?php echo $height . '%'; ?>;">				
