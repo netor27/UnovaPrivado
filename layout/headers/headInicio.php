@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="/layout/css/MainStyle.css" />
         <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-responsive.min.css">
+        <link rel="stylesheet" href="/layout/css/cus-icons.css" />
         <script>
             var layout = "<?php echo getTipoLayout(); ?>";
         </script>

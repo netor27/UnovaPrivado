@@ -169,7 +169,6 @@ function guardar(u, uuid, cu, cl, salirDespuesDeGuardar){
     $("#guardando").show("blind");        
     backgroundColor = $("#editorContainment").css("background-color");    
     $containmentWidth = getContainmentWidth();
-    ;
     $containmentHeight  = getContainmentHeight();
     var videoData = {
         top: $("#videoContainer").position().top * 100 / $containmentHeight,

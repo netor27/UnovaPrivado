@@ -193,7 +193,7 @@ function transformaMysqlDateDDMMAAAA($date) {
 
 function transformaMysqlDateDDMMAAAAConHora($date) {
     $time = strtotime($date);
-    return date('d/m/Y -- h:i a', $time);
+    return date('d/m/Y  h:i a', $time);
 }
 
 function getUniqueCode($length = 32) {

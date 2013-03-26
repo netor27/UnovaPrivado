@@ -1,0 +1,25 @@
+.discusion:hover{
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: bolder;
+    font-size: 18px;
+    
+}
+.discusionNombreUsuario{
+    font-size: 14px;
+    font-weight: bold;
+}
+.discusionTiempo{
+    font-weight: bold;
+}
+.discusionTitulo{
+    color: #08c;
+    font-size: 16px;
+}
+.discusionAvatarUsuario{
+    max-width: 67px;
+}
+
+.discusionVotacion{
+    cursor: pointer;
+}
