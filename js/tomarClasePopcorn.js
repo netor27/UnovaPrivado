@@ -1,7 +1,7 @@
 var $popPrincipal;
 var $indice = 0;
 
-$(function(){    
+$(document).ready(function() {    
     validarSesion();
     var segundos  = 30;
     setInterval(validarSesion, segundos * 1000);

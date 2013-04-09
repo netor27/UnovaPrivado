@@ -1,2 +1,2 @@
-$(function(){ 
+$(document).ready(function() { 
 });

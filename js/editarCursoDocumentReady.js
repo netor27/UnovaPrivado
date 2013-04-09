@@ -1,4 +1,4 @@
-$(function(){    
+$(document).ready(function() {    
     $('.wow').rating();    
     //    $("#cursoTabs").tabs();    
     if(layout == "desktop"){

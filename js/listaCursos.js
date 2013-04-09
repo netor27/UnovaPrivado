@@ -1,4 +1,4 @@
-$(function(){
+$(document).ready(function() {
     $("a.borrarCurso").click(function(e) {
         e.preventDefault();
         var id = $(this).attr("id");

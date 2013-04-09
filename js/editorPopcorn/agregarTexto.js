@@ -2,7 +2,7 @@ var textos = [];
 var editarTextoBandera = false;
 var idEditar = -1;
 
-$(function(){    
+$(document).ready(function() {    
     $("#dialog-form-texto").dialog({
         autoOpen: false,
         height:550,

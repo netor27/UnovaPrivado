@@ -3,7 +3,7 @@ var editarImagenBandera = false;
 var idEditarImagen = -1;
 var formaBandera = false;
 
-$(function(){    
+$(document).ready(function() {    
     $("#dialog-form-imagen").dialog({
         autoOpen: false,
         height:450,

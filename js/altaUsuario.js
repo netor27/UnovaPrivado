@@ -1,4 +1,4 @@
-$(function(){
+$(document).ready(function() {
     $("#btnAyuda").click(function(){
         $("#mensaje").show();
         var $msg = "";

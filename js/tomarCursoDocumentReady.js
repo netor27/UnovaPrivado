@@ -1,4 +1,4 @@
-$(function(){
+$(document).ready(function() {
     $('.wow').rating();
     $('.calificar').rating({
         callback: function(value, link){        

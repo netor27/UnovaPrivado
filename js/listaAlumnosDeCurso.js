@@ -1,4 +1,4 @@
-$(function(){
+$(document).ready(function() {
     $(".cuadro").hover(
         function () {
             $(this).children(".cuadroFooter").addClass("bottomFooterHover");

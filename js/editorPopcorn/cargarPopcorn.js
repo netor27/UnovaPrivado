@@ -2,7 +2,7 @@
 var $popPrincipal;
 var $videoDuration;
 
-$(function(){
+$(document).ready(function() {
     //Configuración inicial    
     
     $( "#modalDialog" ).dialog({

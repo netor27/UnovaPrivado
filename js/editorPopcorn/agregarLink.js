@@ -2,7 +2,7 @@ var links = [];
 var editarLinkBandera = false;
 var idEditarLink = -1;
 
-$(function(){    
+$(document).ready(function() {    
     $("#dialog-form-link").dialog({
         autoOpen: false,
         height:450,

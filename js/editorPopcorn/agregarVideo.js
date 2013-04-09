@@ -2,7 +2,7 @@ var videos = [];
 var editarVideoBandera = false;
 var idEditarVideo = -1;
 
-$(function(){    
+$(document).ready(function() {    
     $("#dialog-form-video").dialog({
         autoOpen: false,
         height:450,

@@ -1,4 +1,4 @@
-$(function(){
+$(document).ready(function() {
     
     $("#menuPerfilLink").hover(function(e){                 
         $("#flechaPerfil").removeClass('flechaAbajo');

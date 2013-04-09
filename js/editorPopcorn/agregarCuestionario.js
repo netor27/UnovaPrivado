@@ -1,7 +1,7 @@
 var cuestionarios = [];
 var editarCuestionarioBandera = false;
 var idEditar = -1;
-$(function(){    
+$(document).ready(function() {    
     $("#dialog-form-cuestionario").dialog({
         autoOpen: false,
         height:550,

@@ -264,7 +264,6 @@ function getVotacionDiscurso($idDiscusion) {
         //no hay datos guardados
         $resultado = 0;
     }
-    echo "voto anterior = " .$resultado;
     return $resultado;
 }
 
