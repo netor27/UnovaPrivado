@@ -131,7 +131,8 @@ function getUsuarioActual() {
 }
 
 function validarUsuarioLoggeado() {
-    if (!isset($_SESSION['usuario'])) {
+    $usuario = getUsuarioActual();
+    if (!isset($usuario)) {
         $pagina = getUrl();
         require_once 'modulos/principal/vistas/login.php';
         return false;
