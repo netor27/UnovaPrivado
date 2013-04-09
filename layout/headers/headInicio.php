@@ -25,3 +25,4 @@
         <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
         <script src="/lib/js/bootbox.min.js"></script>
         <script src="/js/funciones.js"></script>	
+        <script src="/lib/js/modernizr/modernizr-latest.js"></script>

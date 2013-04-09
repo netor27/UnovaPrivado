@@ -22,7 +22,13 @@
         <script>
             $( document ).ready(function() {
                 if (Modernizr.localstorage) {
-                    $("#mensajes").append("<h4>Localstorage</h4>");
+                    var valor = localStorage["unova.votacion.1"];
+                    if(valor == null){
+                        localStorage["unova.votacion.1"] = 1;
+                        $("#mensajes").append("Se guardo el valor");
+                    }else{
+                        $("#mensajes").append("Valor = " + valor);
+                    }
                 } else {
                     $("#mensajes").append("No Localstorage");
                 }

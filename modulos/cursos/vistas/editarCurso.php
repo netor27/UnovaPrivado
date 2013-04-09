@@ -21,7 +21,7 @@ require_once('layout/headers/headCierre.php');
                         <h2>
                             <?php echo $cursoParaModificar->titulo; ?>
                             <a href="/cursos/curso/editarInformacionCurso/<?php echo $cursoParaModificar->idCurso; ?>" >
-                                <i class="icon-pencil"></i>
+                                <i class="icon-pencil editarPencil"></i>
                             </a>
                         </h2>
                     </legend>
@@ -110,7 +110,7 @@ require_once('layout/headers/headCierre.php');
                                             echo "Tema " . ($i + 1) . ": " . $temas[$i]->nombre;
                                             ?>
                                             <a class="temaNombreIcon" href="/temas/tema/editarTema/<?php echo $cursoParaModificar->idCurso . '/' . $temas[$i]->idTema; ?>">
-                                                <i class="icon-pencil"></i>
+                                                <i class="icon-pencil editarPencil"></i>
                                             </a>
                                         </div>
                                         <div class="span3 temaNombreLinks">                                            
@@ -145,7 +145,9 @@ require_once('layout/headers/headCierre.php');
                                                             <div class="row-fluid">
                                                                 <div class="span10">
                                                                     <div class="span1 centerText">
-                                                                        <img class="iconClase" src="<?php echo getImagenTipoClase($clases[$j]->idTipoClase); ?>">
+                                                                        <a href="/curso/<?php echo $cursoParaModificar->uniqueUrl . "/" . $clases[$j]->idClase; ?>">
+                                                                            <img class="iconClase" src="<?php echo getImagenTipoClase($clases[$j]->idTipoClase); ?>">
+                                                                        </a>
                                                                     </div>
                                                                     <div class="span11 nombreClaseContainer">
                                                                         <a class="nombreClase" href="/curso/<?php echo $cursoParaModificar->uniqueUrl . "/" . $clases[$j]->idClase; ?>">
@@ -154,7 +156,7 @@ require_once('layout/headers/headCierre.php');
                                                                             ?>  
                                                                         </a>
                                                                         <a href="/cursos/clase/editarClase/<?php echo $cursoParaModificar->idCurso . "/" . $clases[$j]->idClase; ?>" alt="Cambiar nombre">
-                                                                            <i class="icon-pencil"></i>
+                                                                            <i class="icon-pencil editarPencil"></i>
                                                                         </a>
                                                                     </div>
                                                                 </div>
@@ -201,7 +203,7 @@ require_once('layout/headers/headCierre.php');
             </div>
             <div id="tabs-2" class="tab-pane">
                 <div class="right">
-                    <a href="/cursos/curso/editarInformacionCurso/<?php echo $cursoParaModificar->idCurso; ?>" class="btn"><i class="icon-pencil"></i> Editar esta información</a>
+                    <a href="/cursos/curso/editarInformacionCurso/<?php echo $cursoParaModificar->idCurso; ?>" class="btn"><i class="icon-pencil editarPencil"></i> Editar esta información</a>
                 </div>
                 <br>
                 <div id="descripcion" style="margin-top:30px;">

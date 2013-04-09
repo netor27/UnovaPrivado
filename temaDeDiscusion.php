@@ -1,6 +1,6 @@
 <?php
 $moduloPredefinido = "cursos";
-$controladorPredefinido = "tema";
+$controladorPredefinido = "discusion";
 $accionPredefinida = "principal";
 
 require_once 'manejador.php';

@@ -69,44 +69,46 @@ function obtenerNumeroDiscusiones() {
 
 function votarDiscusion() {
     $res = false;
-    $puedeVotar = true;
     if (isset($_POST['discusion']) && isset($_POST['delta'])) {
         $discusion = $_POST['discusion'];
-        $delta = $_POST['delta'];
-        $delta = intval($delta);
-        if ($delta > 1)
-            $delta = 1;
-        if ($delta < -1)
-            $delta = -1;
+        $delta = intval($_POST['delta']);
+        /* El voto puede ser:
+         *   1  Voto a favor
+         *  -1  Voto en contra
+         *   2  Había votado en contra y cambió su voto a favor. Es  2 para compensar su aniguo voto
+         *  -2  Había votado a favor y cambió su voto en contra. Es -2 para compensar su aniguo voto
+         */
+        if ($delta > 2)
+            $delta = 2;
+        if ($delta < -2)
+            $delta = -2;
         require_once 'modulos/cursos/modelos/DiscusionModelo.php';
-        $compensacion = $delta * usuarioPuedeVotar($discusion, $delta);
-        if ($puedeVotar) {            
-            if (actualizarVotacionDeDiscusion($discusion, $compensacion)) {
-                $nuevaPuntuacion = getPuntuacionDiscusion($discusion);
-                if (isset($nuevaPuntuacion)) {
-                    guardarVotacionDiscusionSesion($discusion, $delta);
-                    $res = true;
-                    $msg = $nuevaPuntuacion;
-                } else {
-                    $msg = "error al obtener la nueva puntuación";
-                }
+        
+        if (actualizarVotacionDeDiscusion($discusion, $delta)) {
+            $nuevaPuntuacion = getPuntuacionDiscusion($discusion);
+            if (isset($nuevaPuntuacion)) {
+                $res = true;
+                $msg = $nuevaPuntuacion;
             } else {
-                $msg = "error al actualizar la base de datos";
+                $msg = "error al obtener la nueva puntuación";
             }
         } else {
-            $res = true;
-            $nuevaPuntuacion = getPuntuacionDiscusion($discusion);
-            $msg = $nuevaPuntuacion;
+            $msg = "error al actualizar la base de datos";
         }
     } else {
-        $msg = "datos no válidios";
+        $msg = "datos no válidos";
     }
-    $resultado = array(
+    $resultado = json_encode(array(
         "res" => $res,
         "msg" => $msg
-    );
-    $resultado = json_encode($resultado);
+            ));
     echo $resultado;
 }
 
+function principal(){
+    //Ver una discusión en específico
+    if(isset($_GET[])){
+        
+    }
+}
 ?>

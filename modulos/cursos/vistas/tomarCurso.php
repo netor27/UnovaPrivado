@@ -122,16 +122,18 @@ require_once('layout/headers/headCierre.php');
                                                         if ($clases[$j]->idTema == $tema->idTema) {
                                                             ?>
                                                             <li id="clase_<?php echo $clases[$j]->idClase; ?>"  class="ui-state-default ui-corner-all">
-                                                                <a href="/curso/<?php echo $curso->uniqueUrl . "/" . $clases[$j]->idClase; ?>">
+                                                                <a  href="/curso/<?php echo $curso->uniqueUrl . "/" . $clases[$j]->idClase; ?>">
                                                                     <div class="row-fluid">
                                                                         <div class="span12">
-                                                                            <div class="span1">
+                                                                            <div class="span1 centerText">
                                                                                 <img class="iconClase" src="<?php echo getImagenTipoClase($clases[$j]->idTipoClase); ?>">
                                                                             </div>
-                                                                            <div class="span11 nombreClaseContainer">
-                                                                                <?php
-                                                                                echo $clases[$j]->titulo;
-                                                                                ?>  
+                                                                            <div class="span11 nombreClaseContainer">                                                                                
+                                                                                <div class="nombreClase">
+                                                                                    <?php
+                                                                                    echo $clases[$j]->titulo;
+                                                                                    ?>  
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>

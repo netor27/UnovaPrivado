@@ -127,19 +127,19 @@ function printDiscusion($discusion) {
         $badgeClass .= " badge-success";
     }
 
-    $votacionMas = "";
-    $iconMas = "";
-    $votacionMenos = "";
-    $iconMenos = "";
-    $votacion = getVotacionDiscurso($discusion->idDiscusion);
-    if ($votacion == 1) {
-        $votacionMas = "votado label label-success";
-        $iconMas = "icon-white";
-    }
-    if ($votacion == -1) {
-        $votacionMenos = "votado label label-important";
-        $iconMenos = "icon-white";
-    }
+//    $votacionMas = "";
+//    $iconMas = "";
+//    $votacionMenos = "";
+//    $iconMenos = "";
+//    $votacion = getVotacionDiscurso($discusion->idDiscusion);
+//    if ($votacion == 1) {
+//        $votacionMas = "votado label label-success";
+//        $iconMas = "icon-white";
+//    }
+//    if ($votacion == -1) {
+//        $votacionMenos = "votado label label-important";
+//        $iconMenos = "icon-white";
+//    }
     
     echo "<div class='well-small ui-state-default ui-corner-all margin-top10' ><div class='row-fluid'>
             <div class='span12'>
@@ -180,13 +180,13 @@ function printDiscusion($discusion) {
                         </div>
                         <div class='row-fluid'>
                             <div class='span2'>
-                                <span class='discusionVotacion discusionVotacionMas $votacionMas' discusion='$discusion->idDiscusion' id='votacionMas_$discusion->idDiscusion'>                                
-                                    <i class='icon-thumbs-up $iconMas'></i>
+                                <span class='discusionVotacion discusionVotacionMas' discusion='$discusion->idDiscusion' id='votacionMas_$discusion->idDiscusion'>                                
+                                    <i class='icon-thumbs-up'></i>
                                 </span>
                             </div>
                             <div class='span2'>
-                                <span class='discusionVotacion discusionVotacionMenos $votacionMenos' discusion='$discusion->idDiscusion' id='votacionMenos_$discusion->idDiscusion'>
-                                    <i class='icon-thumbs-down $iconMenos'></i>
+                                <span class='discusionVotacion discusionVotacionMenos' discusion='$discusion->idDiscusion' id='votacionMenos_$discusion->idDiscusion'>
+                                    <i class='icon-thumbs-down'></i>
                                 </span>
                             </div>
                         </div>
@@ -195,76 +195,4 @@ function printDiscusion($discusion) {
             </div>
         </div></div>";
 }
-
-function usuarioPuedeVotar($idDiscusion, $delta) {
-    $resultado = -1;
-    $arreglo = null;
-    //Revisamos primero las cookies
-    if (isset($_COOKIE['votacionesDiscusion'])) {
-        $arreglo = unserialize($_COOKIE['votacionesDiscusion']);
-    } else if (isset($_SESSION['votacionesDiscusion'])) {
-        $arreglo = $_SESSION['votacionesDiscusion'];
-    }
-    if (isset($arreglo)) {
-        //hay datos en session o cookies
-        if (isset($arreglo[$idDiscusion])) {
-            if ($arreglo[$idDiscusion] == $delta) {
-                //ya hay datos y es el mismo voto, ya no votar
-                $resultado = 0;
-            } else {
-                //cambio su voto, compensamos
-                $resultado = 2;
-            }
-        } else {
-            //no hay datos de esa discusion, puede votar
-            $resultado = 1;
-        }
-    } else {
-        //no hay datos guardados, puede votar
-        $resultado = 1;
-    }
-    return $resultado;
-}
-
-function guardarVotacionDiscusionSesion($idDiscusion, $delta) {
-    $arreglo = null;
-    //Revisamos primero las cookies
-    if (isset($_COOKIE['votacionesDiscusion'])) {
-        $arreglo = unserialize($_COOKIE['votacionesDiscusion']);
-    } else if (isset($_SESSION['votacionesDiscusion'])) {
-        $arreglo = $_SESSION['votacionesDiscusion'];
-    }
-    if (!isset($arreglo)) {
-        $arreglo = array();
-    }
-    $arreglo[$idDiscusion] = $delta;
-    $_SESSION['votacionesDiscusion'] = $arreglo;
-    $serialized = serialize($arreglo);
-    $tiempo = 2592000; //tiempo que va a durar la cookie, alrededor de 30 días
-    setcookie("votacionesDiscusion", $serialized, time() + $tiempo, '/');
-}
-
-function getVotacionDiscurso($idDiscusion) {
-    $resultado = 0;
-    $arreglo = null;
-    //Revisamos primero las cookies
-    if (isset($_COOKIE['votacionesDiscusion'])) {
-        $arreglo = unserialize($_COOKIE['votacionesDiscusion']);
-    } else if (isset($_SESSION['votacionesDiscusion'])) {
-        $arreglo = $_SESSION['votacionesDiscusion'];
-    }    
-    if (isset($arreglo)) {
-        //hay datos en session o cookies
-        if (isset($arreglo[$idDiscusion])) {
-            $resultado = $arreglo[$idDiscusion];
-        } else {
-            $resultado = 0;
-        }
-    } else {
-        //no hay datos guardados
-        $resultado = 0;
-    }
-    return $resultado;
-}
-
 ?>
