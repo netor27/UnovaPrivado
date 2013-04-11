@@ -1,5 +1,13 @@
 <?php
 
+function principal() {
+    //Ver una discusión en específico
+    if (isset($_GET['idDiscusion'])) {
+        $idDiscusion = $_GET['idDiscusion'];
+        echo 'Discusión ' . $idDiscusion;
+    }
+}
+
 function agregarDiscusion() {
     $res = false;
     $usuario = getUsuarioActual();
@@ -42,12 +50,16 @@ function obtenerDiscusiones() {
         $idCurso = $_POST['curso'];
         $pagina = $_POST['pagina'];
         $numRows = $_POST['rows'];
+        $orden = $_POST['orden'];
+        $ascendente = $_POST['ascendente'];
         $offset = $numRows * ($pagina - 1);
+        require_once 'modulos/cursos/modelos/CursoModelo.php';
+        $curso = getCurso($idCurso);
         require_once 'modulos/cursos/modelos/DiscusionModelo.php';
-        $array = getDiscusiones($idCurso, $offset, $numRows);
+        $array = getDiscusiones($idCurso, $offset, $numRows, $orden, $ascendente);
         $discusiones = $array['discusiones'];
         foreach ($discusiones as $discusion) {
-            printDiscusion($discusion);
+            printDiscusion($discusion, $curso->uniqueUrl);
         }
     } else {
         echo 'error -- datos no recibidos';
@@ -58,7 +70,7 @@ function obtenerNumeroDiscusiones() {
     if (isset($_POST['curso'])) {
         $idCurso = $_POST['curso'];
         require_once 'modulos/cursos/modelos/DiscusionModelo.php';
-        $array = getDiscusiones($idCurso, 0, 1);
+        $array = getDiscusiones($idCurso, 0, 1, "fecha", 0);
         $res = array(
             "n" => $array['n']
         );
@@ -83,7 +95,7 @@ function votarDiscusion() {
         if ($delta < -2)
             $delta = -2;
         require_once 'modulos/cursos/modelos/DiscusionModelo.php';
-        
+
         if (actualizarVotacionDeDiscusion($discusion, $delta)) {
             $nuevaPuntuacion = getPuntuacionDiscusion($discusion);
             if (isset($nuevaPuntuacion)) {
@@ -105,10 +117,25 @@ function votarDiscusion() {
     echo $resultado;
 }
 
-function principal(){
-    //Ver una discusión en específico
-    if(isset($_GET[])){
-        
+function eliminarDiscusion() {
+    $res = false;
+    if (isset($_POST['idDiscusion'])) {
+        $idDiscusion = intval($_POST['idDiscusion']);
+        require_once 'modulos/cursos/modelos/DiscusionModelo.php';
+        if(bajaDiscusion($idDiscusion) > 0){
+            $res = true;
+            $msg = "se borro correctamente";
+        }else{
+            $msg = "No se borró nada";
+        }
+    } else {
+        $msg = "datos no válidos";
     }
+    $resultado = json_encode(array(
+        "res" => $res,
+        "msg" => $msg
+            ));
+    echo $resultado;
 }
+
 ?>

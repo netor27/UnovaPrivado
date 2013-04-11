@@ -19,7 +19,7 @@ require_once('layout/headers/headCierre.php');
             <div class="row-fluid">
                 <div class="span4">
                     <strong>Autor de este curso:</strong><br>
-                    <a href="/usuario/<?php echo $usuarioDelCurso->uniqueUrl . '&b=' . getRequestUri(); ?>"><?php echo $usuarioDelCurso->nombreUsuario; ?></a>
+                    <a href="/usuario/<?php echo $usuarioDelCurso->uniqueUrl; ?>"><?php echo $usuarioDelCurso->nombreUsuario; ?></a>
                 </div>
                 <div class="span4">
                     <strong>Calificación total del curso:</strong>
@@ -172,28 +172,6 @@ require_once('layout/headers/headCierre.php');
 </div>
 <input type="hidden" id="iu" name="iu" value="<?php echo $usuario->idUsuario; ?>">
 <input type="hidden" id="ic" name="ic" value="<?php echo $curso->idCurso; ?>">
-<div class="row-fluid">
-    <div class="span2">
-        <?php
-        if (isset($backUrl)) {
-            ?>
-            <a href="<?php echo $backUrl; ?>" class="btn btn-inverse btn-small">
-                <i class="icon-white icon-arrow-left"></i>
-                Regresar
-            </a>
-            <?php
-        } else {
-            ?>
-            <a href="/" class="btn btn-inverse btn-small">
-                <i class="icon-white icon-arrow-left"></i>
-                Regresar al inicio
-            </a>
-            <?php
-        }
-        ?>
-
-    </div>
-</div>
 <?php
 require_once('layout/foot.php');
 ?>

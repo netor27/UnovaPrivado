@@ -1,5 +1,4 @@
-$(document).ready(function() {
-    
+$(document).ready(function() {    
     //Cambiamos la forma en la que el navegador ejecuta el drag y el drop
     $(document).bind('drop dragover', function (e) {
         e.preventDefault();

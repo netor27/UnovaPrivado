@@ -67,14 +67,6 @@ require_once('layout/headers/headCierre.php');
                 </div>
             </div>
         </div>
-        <div class="row-fluid">
-            <div id="botonTerminar" class="btn btn-inverse ">
-                <a href="/curso/<?php echo $curso->uniqueUrl; ?>" style="color:white;">
-                    <i class="icon icon-arrow-left icon-white"></i>
-                    Regresar
-                </a>
-            </div>
-        </div>
     </div>
     <div id="modal-gallery" class="modal modal-gallery hide fade">
         <div class="modal-header">

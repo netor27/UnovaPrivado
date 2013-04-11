@@ -43,7 +43,7 @@ require_once('layout/headers/headCierre.php');
                         <div class="span2">
                             <div class="thumbnail hoverBlueBorder">
                                 <div class="caption centerText break-words">
-                                    <a href="/usuario/<?php echo $usuario->uniqueUrl . '&b=' . getRequestUri(); ?>">
+                                    <a href="/usuario/<?php echo $usuario->uniqueUrl; ?>">
                                         <div class="row-fluid">
                                             <?php echo $usuario->nombreUsuario; ?>
                                         </div>
@@ -108,15 +108,7 @@ require_once('layout/headers/headCierre.php');
             <div class="row-fluid"><div class="span12"></div></div>
             <?php
         }
-        ?>
-        <div class="row-fluid">
-            <div class="span3 subir20px">
-                <a class="btn btn-inverse btn-small" href="/grupos">
-                    <i class="icon-white icon-arrow-left"></i>
-                    Regresar
-                </a>
-            </div>
-        </div>
+        ?>        
     </div>
 </div>
 <?php

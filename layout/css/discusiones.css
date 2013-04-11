@@ -14,10 +14,10 @@
     font-size: 16px;
     font-weight: bolder;
 }
-.discusionAvatarUsuario{
-    max-width: 67px;
-}
-
 .discusionVotacion{
     cursor: pointer;
+}
+.btnBorrarDiscusion:hover{
+    border-style: solid;
+    border-width: 1px;    
 }

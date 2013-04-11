@@ -74,13 +74,6 @@ function listarUsuarios($tipo) {
 
 function detalles() {
     $uniqueUrl = $_GET['i'];
-    $backUrl = null;
-    if (isset($_GET['b'])) {
-        $backUrl = $_GET['b'];
-        if (isset($_GET['p'])) {
-            $backUrl = $backUrl . '&p=' . $_GET['p'];
-        }
-    }
     require_once 'modulos/usuarios/modelos/usuarioModelo.php';
     //$usuarioPerfil = getUsuario($idUsuario);
     $usuarioPerfil = getUsuarioFromUniqueUrl($uniqueUrl);

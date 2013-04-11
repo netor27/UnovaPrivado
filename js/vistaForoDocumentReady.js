@@ -1,10 +1,16 @@
 var directionHide = "left";
 var directionShow = "right";
+var easingType = "";
 
-function mostrarPaginaDiscusiones($pagina, $force){
-    console.log("Cambiar a la pagina: "+$pagina);
+function mostrarPaginaDiscusiones($pagina, $force, $blind){
+    console.log("mostrarPaginaDiscusiones");
     if($pagina > maxPagina)
         $pagina = maxPagina;   
+    if($blind){
+        easingType = "blind";
+    }else{
+        easingType = "slide";
+    }
         
     if($pagina > paginaActual){
         directionHide = "left";
@@ -14,9 +20,7 @@ function mostrarPaginaDiscusiones($pagina, $force){
         directionShow = "left";
     }
     if(paginaActual != $pagina || $force){
-        console.log("La pagina es " + $pagina);
         paginaActual = $pagina;
-        console.log("La pagina es " + $pagina);
         $(".btnPagination.active").removeClass("active");
         $("#discusionPager_"+$pagina).addClass("active");
         if($pagina > 1){
@@ -38,8 +42,7 @@ function mostrarPaginaDiscusiones($pagina, $force){
             $("#paginaMas").addClass("disabled");
             $("#paginaMas").addClass("active");
         }               
-        console.log("La pagina es " + $pagina);
-        $("#discusionesPagerContent").hide('slide', {
+        $("#discusionesPagerContent").hide(easingType, {
             direction: directionHide
         }, function() {
             $("#discusionesPagerLoading").show();
@@ -47,7 +50,9 @@ function mostrarPaginaDiscusiones($pagina, $force){
             var data = {
                 pagina: $pagina,
                 rows: rows,
-                curso: curso
+                curso: curso,
+                orden : orden,
+                ascendente: ascendente
             };    
             $.ajax({
                 type: 'post',
@@ -57,22 +62,22 @@ function mostrarPaginaDiscusiones($pagina, $force){
             }).done(function( html ) {
                 var str = html.toString();
                 if(str.indexOf("error") != -1){
-                    console.log(html);                
+                //Error            
                 }else{
                     $("#discusionesPagerLoading").hide();                        
                     $("#discusionesPagerContent").html(html);
-                    $("#discusionesPagerContent").show("slide",{
+                    $("#discusionesPagerContent").show(easingType,{
                         direction:directionShow
                     });     
-                    ligarEventosDeClickDiscusion();
                     ligarEventosDeVotacion();
+                    ligarEventosBorrarDiscusion();
                     actualizarVotos();
                 }
             });
         });   
     }
 }
-function validarDiscusionesNuevas(){
+function validarDiscusionesNuevas($paginaDefault){
     var data = {
         curso: curso
     };    
@@ -84,10 +89,10 @@ function validarDiscusionesNuevas(){
     }).done(function( html ) {
         var resultado = jQuery.parseJSON(html);
         if(numDiscusiones != resultado.n){
+            //Hay discusiones nuevas
             numDiscusiones = resultado.n;
-            console.log("hay discusiones nuevas");
             actualizarPager();
-            mostrarPaginaDiscusiones(1,true);
+            mostrarPaginaDiscusiones($paginaDefault, true, true);
         }
     });
 }
@@ -95,7 +100,6 @@ function validarDiscusionesNuevas(){
 function actualizarPager(){
     $("#paginationDiscusion").empty();
     maxPagina = Math.ceil(numDiscusiones / rows);
-    console.log(maxPagina);
     var $dom = '<ul>';
     $dom +=  '<li class="btnPagination disabled" id="paginaMenos" pagina="1">';
     $dom +=     '<a href="javascript:void(0);">«</a></li>';
@@ -124,37 +128,10 @@ function actualizarPager(){
 function ligarEventosDeClickPager(){
     $(".btnPagination").click(function(){
         $pagina = parseInt($(this).attr("pagina"));
-        mostrarPaginaDiscusiones($pagina,false);                    
+        mostrarPaginaDiscusiones($pagina,false, false);                    
     });           
 }
-function ligarEventosDeClickDiscusion(){
-    $(".discusion").click(function(){
-        var discusion = $(this).attr("discusion");
-        alert("mostrar las entradas de la discusion "+discusion+ " -- En desarrollo --");
-    });
-}
 function ligarEventosDeVotacion(){
-    //Hover en la votacion
-    $(".discusionVotacionMas").hover(function(){
-        $(this).addClass("label label-success");
-        $(this).children("i").addClass("icon-white");
-    },function(){
-        if(!$(this).hasClass("votado")){
-            $(this).removeClass("label label-success");
-            $(this).children("i").removeClass("icon-white");
-        }            
-    });
-    $(".discusionVotacionMenos").hover(function(){
-        $(this).addClass("label label-important");
-        $(this).children("i").addClass("icon-white");
-    },function(){
-        if(!$(this).hasClass("votado")){
-            $(this).removeClass("label label-important");
-            $(this).children("i").removeClass("icon-white");
-        }
-    });
-        
-        
     //Clicks en la votacion
     $(".discusionVotacionMas").click(function(){
         $discusion = $(this).attr('discusion');
@@ -174,18 +151,50 @@ function ligarEventosDeVotacion(){
         votarDiscusion($discusion, -1);
     });
 }
+function ligarEventosBorrarDiscusion(){
+    $(".btnBorrarDiscusion").click(function(){
+        var idDiscusion = $(this).attr("discusion");
+        var data = {
+            idDiscusion: idDiscusion
+        }; 
+        bootbox.dialog("<h4>Se eliminará permanentemente esta entrada del foro<br>¿Estás seguro?</h4>", 
+            [{
+                "label" : "Cancelar",
+                "class" : "btn"
+            }, {
+                "label" : "Eliminar",
+                "class" : "btn-danger",
+                "icon"  : "icon-warning-sign icon-white",
+                "callback": function() {
+                    $.ajax({
+                        type: 'post',
+                        cache: false,
+                        url: '/cursos/discusion/eliminarDiscusion',
+                        data: data
+                    }).done(function( html ) {
+                        var resultado = jQuery.parseJSON(html);
+                        if(resultado.res){
+                            validarDiscusionesNuevas(paginaActual);     
+                            //bootbox.alert("Haz eliminado una entrada del foro");
+                        }else{
+                            bootbox.alert("Ocurrió un error al borrar la entrada. Intenta de nuevo más tarde");
+                        }
+                    });
+                }
+            }]);
+        return false;
+    });
+}
 function ligarTodosLosEventos(){
     ligarEventosDeClickPager();
-    ligarEventosDeClickDiscusion();
     ligarEventosDeVotacion();
+    ligarEventosBorrarDiscusion();
 }
 
 function actualizarVotos(){
     $(".discusion").each(function(){
         var idDiscusion = $(this).attr("discusion");
-        console.log("Discusion id="+idDiscusion);
         var votacion = getVotacion(idDiscusion);
-        console.log(votacion);
         if(votacion == 1){            
             $("#votacionMenos_"+idDiscusion).removeClass("label label-important");
             $("#votacionMenos_"+idDiscusion).children("i").removeClass("icon-white");
@@ -234,16 +243,34 @@ function enviarVotacion($discusion, $delta){
         data: data
     }).done(function( html ) {
         var resultado = jQuery.parseJSON(html);
-        if(resultado.res){
-            //mostramos la primara página
-            $("#puntuacion_"+$discusion).html(resultado.msg);
-            $("#puntuacion_"+$discusion).removeClass("badge-important");
-            $("#puntuacion_"+$discusion).removeClass("badge-success");
-            if (resultado.msg < 0) {
-                $("#puntuacion_"+$discusion).addClass("badge-important");
-            } else if (resultado.msg > 0) {
-                $("#puntuacion_"+$discusion).addClass("badge-success");
+        if(resultado.res){            
+            var puntuacionMas = parseInt(resultado.msg.puntuacionMas);
+            var puntuacionMenos = parseInt(resultado.msg.puntuacionMenos);
+            var votosTotales = puntuacionMas + puntuacionMenos;
+            var porcentajePositivo, porcentajeNegativo;
+            if(puntuacionMas > 0){
+                if(puntuacionMenos > 0){
+                    porcentajePositivo = Math.round(puntuacionMas / votosTotales * 100);                    
+                    porcentajeNegativo = 100 - porcentajePositivo;                    
+                }else{
+                    porcentajePositivo = 100;
+                    porcentajeNegativo = 0;
+                }
+            }else{
+                if(puntuacionMenos > 0){
+                    porcentajePositivo = 0;
+                    porcentajeNegativo = 100;
+                }else{
+                    porcentajePositivo = 0;
+                    porcentajeNegativo = 0;
+                }
             }
+            //actualizamos el texto de los botones    
+            $("#votacionMas_"+$discusion).children("span").text(puntuacionMas);
+            $("#votacionMenos_"+$discusion).children("span").text(puntuacionMenos);
+            //actualizamos la barra
+            $("#porcentajePositivo_"+$discusion).css("width",porcentajePositivo+"%");
+            $("#porcentajeNegativo_"+$discusion).css("width",porcentajeNegativo+"%");
         }else{
             bootbox.alert("Error. "+resultado.msg);
         }
@@ -261,8 +288,8 @@ function getVotacion($discusion){
             return valor;
         }        
     }else{
-        return 0;
-        console.log("Tu navegador no soporta esta funcionalidad. Te sugerimos actualizarlo");
+        //El navegador no soporta esta funcionalidad.
+        return 0;        
     }
 }
     
@@ -314,7 +341,7 @@ $(document).ready(function() {
                         $("#dialogoErrorDiscusion").show();
                         return false;
                     }else{
-                        //Enviamos la solicitud par crear la discution
+                        //Enviamos la solicitud par crear la discusion
                         var data = {
                             titulo: $titulo,
                             texto: $texto,
@@ -327,16 +354,29 @@ $(document).ready(function() {
                             data: data
                         }).done(function( html ) {
                             var resultado = jQuery.parseJSON(html);
-                            console.log(html);
                             if(resultado.res){
-                                validarDiscusionesNuevas();
+                                //Se agrego la discusion, ordenamos por fecha descendente para que el usuario vea su entrada
+                                orden = "fecha";
+                                ascendente = 0;
+                                $("#selectOrden").val(orden);
+                                $("#selectAscendente").val(ascendente);                                
+                                validarDiscusionesNuevas(1);
                             }else{
                                 bootbox.alert("Error. "+resultado.msg);
                             }
                         });
+                        return true;
                     }                
                 }                                
             }]);
+    });
+    $("#selectOrden").change(function(){
+        orden = $(this).val();
+        mostrarPaginaDiscusiones(1, true, true);
+    });
+    $("#selectAscendente").change(function(){
+        ascendente = $(this).val();
+        mostrarPaginaDiscusiones(1, true, true);
     });
     ligarTodosLosEventos();    
 });

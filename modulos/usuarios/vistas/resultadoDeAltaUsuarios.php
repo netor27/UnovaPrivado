@@ -99,18 +99,6 @@ require_once('layout/headers/headCierre.php');
         </a>
     </div>
 </div>
-<div class="row-fluid">
-    <div class="span12"></div>
-</div>
-<div class="row-fluid">
-    <div class="span3">
-        <a class="btn btn-inverse btn-small" href="<?php echo $urlRegreso; ?>">
-            <i class="icon-white icon-arrow-left"></i>
-            Regresar
-        </a>
-    </div>
-</div>
-
 <?php
 require_once('layout/foot.php');
 ?>

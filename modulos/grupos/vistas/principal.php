@@ -72,6 +72,9 @@ if (isset($grupos)) {
                 }
                 $i++;
             }
+            if (($i % 3) == 2) {
+                echo '</div>';
+            }
             ?>                        
         </div>
     </div>
@@ -111,14 +114,6 @@ if (isset($grupos)) {
     <?php
 }
 ?>
-<div class="row-fluid">
-    <div class="span3 subir20px">
-        <a class="btn btn-inverse btn-small" href="/">
-            <i class="icon-white icon-arrow-left"></i>
-            Regresar al inicio
-        </a>
-    </div>
-</div>
 <?php
 require_once('layout/foot.php');
 ?>

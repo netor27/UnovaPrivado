@@ -49,23 +49,24 @@ if ($numCursos == 0 && !isset($cursos)) {
                     <div class="row-fluid">
                         <div class="span12">
                             <legend>
-                                <a href="/curso/<?php echo $curso->uniqueUrl . '&b=' . getRequestUri(); ?>" class="tituloCurso">
+                                <a href="/curso/<?php echo $curso->uniqueUrl; ?>" class="tituloCurso">
                                     <h4 class="centerText"><?php echo $curso->titulo; ?></h4>
                                 </a>
                             </legend>
                         </div>
                     </div>
                     <div class="row-fluid">
-                        <div class="span4">
-                            <a href="/curso/<?php echo $curso->uniqueUrl . '&b=' . getRequestUri(); ?>">
-                                <img src="<?php echo $curso->imagen; ?>" class="img-polaroid span12">
+                        <div class="span4 centerText">
+                            <a href="/curso/<?php echo $curso->uniqueUrl; ?>">
+                                <img class="hidden-phone img-polaroid span12" src="<?php echo $curso->imagen; ?>">
+                                <img class="visible-phone imageSmallPhone img-polaroid span12" src="<?php echo $curso->imagen; ?>">
                                 <button class="btn btn-mini offset3 span6">Ver curso</button>
                             </a>
                         </div>
                         <div class="span8">
                             <div class="row-fluid">
                                 <strong>Autor:</strong>
-                                <a href="/usuario/<?php echo $curso->uniqueUrlUsuario . '&b=' . getRequestUri(); ?>">
+                                <a href="/usuario/<?php echo $curso->uniqueUrlUsuario; ?>">
                                     <?php echo $curso->nombreUsuario; ?>
                                 </a>
                             </div>
@@ -154,22 +155,6 @@ if ($numCursos == 0 && !isset($cursos)) {
     <?php
 }
 ?>
-<?php
-if ($usuario->tipoUsuario == 2) {
-    ?>
-    <div class="row-fluid">
-        <div class="span3 subir20px">
-            <a class="btn btn-inverse btn-small" href="/">
-                <i class="icon-white icon-arrow-left"></i>
-                Regresar al inicio
-            </a>
-        </div>
-    </div>
-    <?php
-}
-?>
-</div>
-</div>
 <?php
 require_once('layout/foot.php');
 ?>

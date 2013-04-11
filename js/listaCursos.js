@@ -13,8 +13,7 @@ $(document).ready(function() {
                 "callback": function() {
                     $url = "/cursos/curso/eliminar/"+id;
                     redirect($url);
-                }
-                
+                }                
             }]);
     });
 });

@@ -7,9 +7,11 @@ class Discusion{
     public $fecha;
     public $titulo;
     public $texto;
-    public $puntuacion;
+    public $puntuacionMas;
+    public $puntuacionMenos;
     
     //no son parte de la bd
+    public $puntuacion;
     public $usuarioAvatar;
     public $usuarioNombre;
     public $usuarioUrl;

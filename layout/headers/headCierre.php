@@ -15,6 +15,9 @@
                     </button>
                     <div class="nav-collapse collapse">
                         <ul class="nav pull-right">
+                            <li>
+                                <a href="/">Inicio</a> 
+                            </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mis Cursos
                                     <b class="caret"></b>

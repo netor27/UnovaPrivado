@@ -41,14 +41,6 @@ require_once('layout/headers/headCierre.php');
         </div>
     </div>
 </div>
-<div class="row-fluid">
-    <div class="span3">
-        <a class="btn btn-inverse btn-small" href="/grupos">
-            <i class="icon-white icon-arrow-left"></i>
-            Regresar
-        </a>
-    </div>
-</div>
 <?php
 require_once('layout/foot.php');
 ?>

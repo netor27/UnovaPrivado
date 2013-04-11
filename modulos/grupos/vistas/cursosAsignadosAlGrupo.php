@@ -108,14 +108,6 @@ if (isset($grupos)) {
     <?php
 }
 ?>
-<div class="row-fluid">
-    <div class="span3 subir20px">
-        <a class="btn btn-inverse btn-small" href="/cursos&p=<?php echo $paginaCursos; ?>">
-            <i class="icon-white icon-arrow-left"></i>
-            Regresar a la lista de cursos
-        </a>
-    </div>
-</div>
 <?php
 require_once('layout/foot.php');
 ?>

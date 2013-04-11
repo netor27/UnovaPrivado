@@ -91,13 +91,6 @@ function crearCursoSubmit() {
 
 function detalles() {
     require_once 'modulos/cursos/modelos/CursoModelo.php';
-    $backUrl = null;
-    if (isset($_GET['b'])) {
-        $backUrl = $_GET['b'];
-        if (isset($_GET['p'])) {
-            $backUrl = $backUrl . '&p=' . $_GET['p'];
-        }
-    }
     $cursoUrl = $_GET['i'];
     $curso = getCursoFromUniqueUrl($cursoUrl);
 
@@ -109,14 +102,14 @@ function detalles() {
         $usuario = getUsuarioActual();
         //Verficiar si es el dueño del curso y lo mandamos a edición
         if ($curso->idUsuario == $usuario->idUsuario) {
-            editarCurso($curso, $usuario, $backUrl);
+            editarCurso($curso, $usuario);
         } else {
             require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
             //Revisamos si el usuario ya esta tomando este curso      
             $esAlumno = esUsuarioUnAlumnoDelCurso($usuario->idUsuario, $curso->idCurso);
             if ($esAlumno || tipoUsuario() == "administrador" || tipoUsuario() == "administradorPrivado") {
                 //Si ya es un alumno o es un administrador, mostramos la página donde toma las clases
-                tomarCurso($curso, $usuario, $esAlumno, $backUrl);
+                tomarCurso($curso, $usuario, $esAlumno);
             } else {
                 //No esta suscrito al curso, mostramos el error               
                 setSessionMessage("Lo sentimos, no estas inscrito a este curso.", " ¡Error! ", "error");
@@ -126,7 +119,7 @@ function detalles() {
     }
 }
 
-function tomarCurso($curso, $usuario, $esAlumno, $backUrl) {
+function tomarCurso($curso, $usuario, $esAlumno) {
     $temas = getTemas($curso->idCurso);
     $clases = getClases($curso->idCurso);
     $duracion = 0;
@@ -145,7 +138,7 @@ function tomarCurso($curso, $usuario, $esAlumno, $backUrl) {
     require_once 'modulos/cursos/vistas/tomarCurso.php';
 }
 
-function editarCurso($cursoParaModificar, $usuario, $backUrl) {
+function editarCurso($cursoParaModificar, $usuario) {
     require_once 'modulos/cursos/modelos/ClaseModelo.php';
     $temas = getTemas($cursoParaModificar->idCurso);
     $clases = getClases($cursoParaModificar->idCurso);

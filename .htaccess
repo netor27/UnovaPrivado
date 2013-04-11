@@ -18,6 +18,9 @@ RewriteBase /
 RewriteRule ^curso/([a-zA-Z0-9_.]+)/([0-9]+)$ clases.php?a=tomarClase&curso=$1&clase=$2 [L]
 RewriteRule ^curso/([a-zA-Z0-9_.]+)/([0-9]+)/$ clases.php?a=tomarClase&curso=$1&clase=$2 [L]
 
+RewriteRule ^curso/([a-zA-Z0-9_.]+)/temaDiscusion/([0-9]+)$ cursos.php?c=discusion&a=principal&curso=$1&idDiscusion=$2 [L]
+RewriteRule ^curso/([a-zA-Z0-9_.]+)/temaDiscusion/([0-9]+)/$ cursos.php?c=discusion&a=principal&curso=$1&idDiscusion=$2 [L]
+
 RewriteRule ^curso/([a-zA-Z0-9_.]+)$ cursos.php?a=detalles&i=$1 [L]
 RewriteRule ^curso/([a-zA-Z0-9_.]+)/$ cursos.php?a=detalles&i=$1 [L]
 

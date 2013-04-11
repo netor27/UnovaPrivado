@@ -69,9 +69,18 @@ require_once('layout/headers/headCierre.php');
                         <div class="span2">
                             <div class="thumbnail hoverBlueBorder">
                                 <div class="caption centerText break-words">
-                                    <a href="/usuario/<?php echo $usuario->uniqueUrl . '&b=' . getRequestUri(); ?>">
-                                        <?php echo $usuario->nombreUsuario; ?>                                    
-                                        <img src="<?php echo $usuario->avatar; ?>"/>
+                                    <a href="/usuario/<?php echo $usuario->uniqueUrl; ?>">
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <?php echo $usuario->nombreUsuario; ?>                                    
+                                        </div>
+                                    </div>
+                                    <div class="row-fluid">
+                                        <div class="span12 centerText">
+                                            <img class="hidden-phone" src="<?php echo $usuario->avatar; ?>"/>
+                                            <img class="visible-phone imageSmallPhone" src="<?php echo $usuario->avatar; ?>"/>
+                                        </div>
+                                    </div>
                                     </a>
                                 </div>
                                 <div class="caption centerText">
@@ -132,19 +141,8 @@ require_once('layout/headers/headCierre.php');
             <?php
         }
         ?>
-        <div class="row-fluid">
-            <div class="span3 subir20px">
-                <a class="btn btn-inverse btn-small" href="/">
-                    <i class="icon-white icon-arrow-left"></i>
-                    Regresar al inicio
-                </a>
-            </div>
-        </div>
     </div>
 </div>
-</div>
-
-
 <?php
 require_once('layout/foot.php');
 ?>

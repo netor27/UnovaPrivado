@@ -19,6 +19,9 @@ body{
 .centerText{    
     text-align: center;
 }
+.rightText{
+    text-align: right;
+}
 h1, h2, h3, h4, h5, h6
 {
     color:#dc5f21 !important;
@@ -84,4 +87,13 @@ footer .copyright .copy p {
     border:solid;
     border-width: 1px;
     border-radius: 2px;
+}
+
+.imageSmallPhone{
+    max-width: 75px;
+    margin: 0 auto!important;
+}
+
+.collapse .dropdown-menu a:hover{
+    color:white!important;
 }

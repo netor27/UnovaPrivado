@@ -7,7 +7,8 @@ require_once('layout/headers/headCierre.php');
     <div class="span12 well well-large">
         <div class="span3">
             <div class="row-fluid">
-                <img class="span12 img-polaroid"src="<?php echo $usuarioPerfil->avatar; ?>" >
+                <img class="hidden-phone span12 img-polaroid"src="<?php echo $usuarioPerfil->avatar; ?>" >
+                <img class="visible-phone imageSmallPhone span12 img-polaroid"src="<?php echo $usuarioPerfil->avatar; ?>" >
             </div>
             <?php
             if ($miPerfil) {
@@ -93,28 +94,6 @@ require_once('layout/headers/headCierre.php');
             echo $usuarioPerfil->bio;
         }
         ?>
-    </div>
-</div>
-<div class="row-fluid">
-    <div class="span2">
-        <?php
-        if (isset($backUrl)) {
-            ?>
-            <a href="<?php echo $backUrl; ?>" class="btn btn-inverse btn-small">
-                <i class="icon-white icon-arrow-left"></i>
-                Regresar
-            </a>
-            <?php
-        } else {
-            ?>
-            <a href="/" class="btn btn-inverse btn-small">
-                <i class="icon-white icon-arrow-left"></i>
-                Regresar al inicio
-            </a>
-            <?php
-        }
-        ?>
-
     </div>
 </div>
 <?php
