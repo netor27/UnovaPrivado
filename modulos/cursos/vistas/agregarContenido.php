@@ -4,26 +4,26 @@ require_once('layout/headers/headAgregarContenido.php');
 require_once('layout/headers/headCierre.php');
 ?>
 <div class="row-fluid">
-    <div class="well well-large">
+    <div class="well well-small">
         <div class="row-fluid">
             <div class="span12">
-                <div class="centerText">
+                <legend>
                     <h3 >Agrega contenido a tu curso</h3>    
-                    <?php
-                    if (isset($error) && $error != "") {
-                        echo '<h5 class="error centerText">' . $error . '</h5>';
-                    }
-                    if (isset($info) && $info != "") {
-                        echo '<h5 class="info centerText">' . $info . '</h5>';
-                    }
-                    ?>
-                    <h4>
-                        Sube tus archivos y se creará automáticamente una clase por cada uno de ellos
-                    </h4>
-                    <div class="alert alert-info">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <strong>¡Atención!</strong> Recuerda que si cambias o cierras esta página, tu descarga se cancelará.
-                    </div>
+                </legend>
+                <?php
+                if (isset($error) && $error != "") {
+                    echo '<h5 class="error centerText">' . $error . '</h5>';
+                }
+                if (isset($info) && $info != "") {
+                    echo '<h5 class="info centerText">' . $info . '</h5>';
+                }
+                ?>
+                <h4 class="black">
+                    Sube tus archivos y se creará automáticamente una clase por cada uno de ellos
+                </h4>
+                <div class="alert alert-info">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>¡Atención!</strong> Recuerda que si cambias o cierras esta página, tu descarga se cancelará.
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@ require_once('layout/headers/headCierre.php');
                                 </span>
                                 <button type="reset" class="btn btn-warning cancel">
                                     <i class="icon-ban-circle icon-white"></i>
-                                    <span>Cancelar la carga</span>
+                                    <span>Detener la carga de archivos</span>
                                 </button>
                             </div>
                             <div class="span5">                    
@@ -65,6 +65,11 @@ require_once('layout/headers/headCierre.php');
                         Puedes arrastrar tus archivos aquí para subirlos
                     </h4>
                 </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span3">
+                <a href="/curso/<?php echo $curso->uniqueUrl; ?>" class="btn ">Cancelar y regresar al curso</a>
             </div>
         </div>
     </div>

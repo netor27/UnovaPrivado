@@ -4,7 +4,7 @@ require_once('layout/headers/headIndexAdministradorPrivado.php');
 require_once('layout/headers/headCierre.php');
 ?>
 <div class="row-fluid">
-    <div class="span12 well well-large">
+    <div class="span12 well">
         <div class="row-fluid">
             <div class="span12">
                 <legend><h3>Administración</h3></legend>

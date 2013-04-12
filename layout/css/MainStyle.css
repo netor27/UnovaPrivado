@@ -88,12 +88,24 @@ footer .copyright .copy p {
     border-width: 1px;
     border-radius: 2px;
 }
-
 .imageSmallPhone{
     max-width: 75px;
     margin: 0 auto!important;
 }
-
 .collapse .dropdown-menu a:hover{
     color:white!important;
+}
+
+body .modal.fullWidth{
+  width: 80%; /* desired relative width */
+  left: 10%; /* (100%-width)/2 */
+  margin: auto auto auto auto; /* place center */
+}
+
+
+.mostrarListas ul > li{
+    list-style-type:disc!important;
+}
+.mostrarListas ol > li{
+    list-style-type:decimal!important;
 }

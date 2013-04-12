@@ -4,7 +4,7 @@ require_once('layout/headers/headCrearCurso.php');
 require_once('layout/headers/headCierre.php');
 ?>
 <div class="row-fluid">
-    <div class="well well-large span12">
+    <div class="well span12">
         <div class="row-fluid">
             <legend><h4 class="black">Crear un curso</h4></legend>
         </div>

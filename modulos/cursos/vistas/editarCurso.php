@@ -5,7 +5,7 @@ require_once('layout/headers/headStarRating.php');
 require_once('layout/headers/headCierre.php');
 ?>
 <div class="row-fluid">
-    <div class="span12 well well-large">
+    <div class="span12 well well-small">
         <div class="row-fluid">
             <div class="span3">
                 <div class="row-fluid">
@@ -67,9 +67,9 @@ require_once('layout/headers/headCierre.php');
 <div class="row-fluid">
     <div id="cursoTabs" class="well well-small">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tabs-1" data-toggle="tab">Contenido del curso</a></li>
-            <li><a href="#tabs-2" data-toggle="tab">Descripción</a></li>
-            <li><a href="#tabs-3" data-toggle="tab">Foro</a></li>
+            <li class="active"><a href="#tabs-1" data-toggle="tab" id="tabContenido">Contenido del curso</a></li>
+            <li><a href="#tabs-2" data-toggle="tab" id="tabDescripcion">Descripción</a></li>
+            <li><a href="#tabs-3" data-toggle="tab" id="tabForo">Foro</a></li>
         </ul>
         <div class="tab-content" style="overflow:visible;">
             <div id="tabs-1" class="tab-pane active">

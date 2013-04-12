@@ -4,7 +4,7 @@ require_once('layout/headers/headCierre.php');
 ?>
 <div class="row-fluid">
     <div class="span12">
-        <div class="well well-large">
+        <div class="well ">
             <form class="form-horizontal" action="/grupos/grupo/grupoSubmit" method="post">
                 <input type="hidden" name="tipo" value="<?php echo $tipo; ?>">
                 <input type="hidden" name="pagina" value="<?php echo $pagina; ?>">

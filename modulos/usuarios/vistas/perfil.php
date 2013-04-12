@@ -4,7 +4,7 @@ require_once('layout/headers/headPerfil.php');
 require_once('layout/headers/headCierre.php');
 ?>
 <div class="row-fluid">
-    <div class="span12 well well-large">
+    <div class="span12 well">
         <div class="span3">
             <div class="row-fluid">
                 <img class="hidden-phone span12 img-polaroid"src="<?php echo $usuarioPerfil->avatar; ?>" >
@@ -87,7 +87,7 @@ require_once('layout/headers/headCierre.php');
 </div>
 
 <div class="row-fluid">
-    <div class="span12 well well-large">
+    <div class="span12 well ">
         <legend><h3>Biografía</h3></legend>
         <?php
         if (isset($usuarioPerfil->bio)) {

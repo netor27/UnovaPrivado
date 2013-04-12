@@ -3,7 +3,6 @@ var directionShow = "right";
 var easingType = "";
 
 function mostrarPaginaDiscusiones($pagina, $force, $blind){
-    console.log("mostrarPaginaDiscusiones");
     if($pagina > maxPagina)
         $pagina = maxPagina;   
     if($blind){
@@ -72,6 +71,7 @@ function mostrarPaginaDiscusiones($pagina, $force, $blind){
                     ligarEventosDeVotacion();
                     ligarEventosBorrarDiscusion();
                     actualizarVotos();
+                    actualizarLinkHash();
                 }
             });
         });   
@@ -128,7 +128,7 @@ function actualizarPager(){
 function ligarEventosDeClickPager(){
     $(".btnPagination").click(function(){
         $pagina = parseInt($(this).attr("pagina"));
-        mostrarPaginaDiscusiones($pagina,false, false);                    
+        mostrarPaginaDiscusiones($pagina,false, false);
     });           
 }
 function ligarEventosDeVotacion(){
@@ -175,7 +175,7 @@ function ligarEventosBorrarDiscusion(){
                         var resultado = jQuery.parseJSON(html);
                         if(resultado.res){
                             validarDiscusionesNuevas(paginaActual);     
-                            //bootbox.alert("Haz eliminado una entrada del foro");
+                        //bootbox.alert("Haz eliminado una entrada del foro");
                         }else{
                             bootbox.alert("Ocurrió un error al borrar la entrada. Intenta de nuevo más tarde");
                         }
@@ -292,84 +292,125 @@ function getVotacion($discusion){
         return 0;        
     }
 }
-    
-$(document).ready(function() {
-    actualizarVotos();
-    $("#btnAgregarDiscusion").click(function(){
-        var $msg = "<legend><h4>Agregar un tema de discusión</h4></legend>";
-        $msg += "<div class='row-fluid'>";
-        $msg += "<div id='dialogoErrorDiscusion' style='display:none;'></div>";
-        $msg += "</div>"
-        $msg += "<div class='row-fluid'>";
-        $msg += "<div class='span2'><strong style='padding-top:10px;'>Titulo:</strong></div>";
-        $msg += "<div class='span8'><input class='span12' type='text' id='inputTitulo'></div>";
-        $msg += "</div>"
-        $msg += "<div class='row-fluid'>";
-        $msg += "<div class='span2'><strong>Texto:</strong></div>";
-        $msg += "<div class='span8'><textarea rows='10' class='span12' id='inputTexto'></textarea></div>";
-        $msg += "</div>"
-        bootbox.dialog($msg, 
-            [{
-                "label" : "Cancelar",
-                "class" : "btn"
-            }, {
-                "label" : "Agregar",
-                "class" : "btn-primary",
-                "callback": function() {
-                    var error = false;
-                    var msgError = "";
-                    $titulo = trim($("#inputTitulo").val());
-                    $texto = trim($("#inputTexto").val());                
-                    if($texto.length <= 0 ){
-                        error = true;
-                        msgError = "Introduce el texto";
-                    }
-                    if($titulo.length <= 0 ){
-                        error = true;
-                        msgError = "Introduce un título";
-                    }
-                    if($titulo.length > 140 ){
-                        error = true;
-                        msgError = "El título no puede tener más de 140 letras";
-                    }
-                    if(error){
-                        var auxBlock = '<div class="alert alert-error alert-block">';
-                        auxBlock += '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-                        auxBlock += '<strong>¡Error! </strong>  '+msgError;
-                        $("#dialogoErrorDiscusion").empty();
-                        $("#dialogoErrorDiscusion").html(auxBlock);
-                        $("#dialogoErrorDiscusion").show();
-                        return false;
-                    }else{
-                        //Enviamos la solicitud par crear la discusion
-                        var data = {
-                            titulo: $titulo,
-                            texto: $texto,
-                            curso: curso
-                        };    
-                        $.ajax({
-                            type: 'post',
-                            cache: false,
-                            url: '/cursos/discusion/agregarDiscusion',
-                            data: data
-                        }).done(function( html ) {
-                            var resultado = jQuery.parseJSON(html);
-                            if(resultado.res){
-                                //Se agrego la discusion, ordenamos por fecha descendente para que el usuario vea su entrada
-                                orden = "fecha";
-                                ascendente = 0;
-                                $("#selectOrden").val(orden);
-                                $("#selectAscendente").val(ascendente);                                
-                                validarDiscusionesNuevas(1);
-                            }else{
-                                bootbox.alert("Error. "+resultado.msg);
-                            }
-                        });
-                        return true;
-                    }                
-                }                                
-            }]);
+
+function bindEventBtnAgregarDiscusion(){
+    $('#agregarDiscusionModal').on('hidden', function () {        
+        $("#inputTitulo").val("");
+        $("#editor").empty();
     });
+    $("#btnAgregarDiscusion").click(function(){
+        error = false;
+        var msgError = "";
+        $titulo = trim($("#inputTitulo").val());
+        console.log($('#editor').html());
+        $texto = $('#editor').cleanHtml();
+        console.log($texto);
+        if($texto.length <= 0 ){
+            error = true;
+            msgError = "Introduce el texto";
+        }
+        if($titulo.length <= 0 ){
+            error = true;
+            msgError = "Introduce un título";
+        }
+        if($titulo.length > 140 ){
+            error = true;
+            msgError = "El título no puede tener más de 140 letras";
+        }
+        if(error){
+            var auxBlock = '<div class="alert alert-error alert-block">';
+            auxBlock += '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+            auxBlock += '<strong>¡Error! </strong>  '+msgError;
+            $("#dialogoErrorDiscusion").empty();
+            $("#dialogoErrorDiscusion").html(auxBlock);
+            $("#dialogoErrorDiscusion").show();
+        }else{
+            //Enviamos la solicitud par crear la discusion
+            var data = {
+                titulo: $titulo,
+                texto: $texto,
+                curso: curso
+            };    
+            $.ajax({
+                type: 'post',
+                cache: false,
+                url: '/cursos/discusion/agregarDiscusion',
+                data: data
+            }).done(function( html ) {
+                var resultado = jQuery.parseJSON(html);
+                if(resultado.res){
+                    //Se agrego la discusion, ordenamos por fecha descendente para que el usuario vea su entrada
+                    orden = "fecha";
+                    ascendente = 0;
+                    $("#selectOrden").val(orden);
+                    $("#selectAscendente").val(ascendente);                                
+                    validarDiscusionesNuevas(1);
+                }else{
+                    bootbox.alert("Error. "+resultado.msg);
+                }
+            });
+        }      
+        $('#agregarDiscusionModal').modal('hide');
+        return false;
+    });
+}
+function bindEventsTabs(){
+    $('#tabContenido').on('shown', function(e) {
+        location.hash = "Contenido";
+    });
+    $('#tabDescripcion').on('shown', function(e) {
+        location.hash = "Descripción";
+    });
+    $('#tabForo').on('shown', function(e) {
+        actualizarLinkHash();
+    });
+}
+function actualizarPaginaPorLinkHash(){
+    if (location.hash !== ''){ 
+        if(location.hash.indexOf("Contenido") >= 0){
+            $('#tabContenido').tab("show");
+        }else if(location.hash.indexOf("Descripción") >= 0){
+            $('#tabDescripcion').tab("show");
+        }else if(location.hash.indexOf("Foro") >= 0){
+            $('#tabForo').tab("show");
+            var splitted = location.hash.split(",");
+            var n = splitted.length;
+            $auxPagina = 1;
+            if(n > 1){
+                //Tenemos el valor de la página
+                $auxPagina = parseInt(splitted[1],10);
+            }
+            if(n > 2){
+                //tenemos la informacion de la forma de ordenar
+                var posiblesOrdenamientos = ["puntuacion","fecha","alfabetico"];
+                if($.inArray(splitted[2], posiblesOrdenamientos) >= 0){
+                    orden = splitted[2];
+                    $("#selectOrden").val(orden);
+                }
+            }
+            if(n > 3){
+                //tenemos la informacion del ordenamiento
+                var posiblesValores = ["mayor","menor"];
+                var pos = $.inArray(splitted[3], posiblesValores)
+                if(pos >= 0){
+                    ascendente = pos;
+                    $("#selectAscendente").val(ascendente);
+                }
+            }
+            mostrarPaginaDiscusiones($auxPagina, true, true);
+        }
+    }    
+}
+function actualizarLinkHash(){
+    var posiblesValores = ["mayor","menor"];
+    var auxHash = "Foro,"+paginaActual+","+$("#selectOrden").val()+","+posiblesValores[$("#selectAscendente").val()];    
+    location.hash = auxHash;
+}
+
+$(document).ready(function() {
+    $("#editor").wysiwyg();
+    actualizarVotos();
+    bindEventBtnAgregarDiscusion();
     $("#selectOrden").change(function(){
         orden = $(this).val();
         mostrarPaginaDiscusiones(1, true, true);
@@ -379,4 +420,6 @@ $(document).ready(function() {
         mostrarPaginaDiscusiones(1, true, true);
     });
     ligarTodosLosEventos();    
+    actualizarPaginaPorLinkHash();
+    bindEventsTabs();
 });

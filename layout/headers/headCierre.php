@@ -23,7 +23,6 @@
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/usuarios/cursos/inscrito">Cursos a los que estoy inscrito</a></li>
                                     <?php
                                     if (tipoUsuario() != "usuario") {
                                         ?>
@@ -31,13 +30,13 @@
                                         <?php
                                     }
                                     ?>
+                                    <li><a href="/usuarios/cursos/inscrito">Cursos a los que estoy inscrito</a></li>
                                 </ul>                                
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <?php
-                                    //echo substr($usuarioHead->nombreUsuario, 0, 14); 
-                                    echo $usuarioHead->nombreUsuario;
+                                    echo substr($usuarioHead->nombreUsuario, 0, 30);
                                     ?> <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">

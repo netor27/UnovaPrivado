@@ -241,22 +241,11 @@ function getSessionMessage() {
 }
 
 function removeBadHtmlTags($badHtml) {
-    //echo "<br><br><br><br>Bad:<br>";
-    //echo "<pre>" . htmlspecialchars($badHtml) . "</pre>";
-
     require_once 'lib/php/htmlPurifier/library/HTMLPurifier.auto.php';
     $config = HTMLPurifier_Config::createDefault();
-
-
     $config->set('HTML.Doctype', 'XHTML 1.0 Transitional'); // replace with your doctype
-
     $purifier = new HTMLPurifier($config);
-
     $pureHtml = $purifier->purify($badHtml);
-
-    //echo "<br>Good:<br>";
-    //echo "<pre>" .htmlspecialchars($pureHtml) . "</pre>";
-
     return $pureHtml;
 }
 

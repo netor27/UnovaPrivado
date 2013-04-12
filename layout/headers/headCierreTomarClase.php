@@ -35,20 +35,29 @@
                                 </ul>
                             </li>
                         </ul>
-                        <ul class="nav pull-right">                            
+                        <ul class="nav pull-right">   
+                            <li>
+                                <a href="/">Inicio</a> 
+                            </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mis Cursos
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
+                                    <?php
+                                    if (tipoUsuario() != "usuario") {
+                                        ?>
+                                        <li><a href="/usuarios/cursos/instructor">Cursos que imparto</a></li>
+                                        <?php
+                                    }
+                                    ?>
                                     <li><a href="/usuarios/cursos/inscrito">Cursos a los que estoy inscrito</a></li>
-                                    <li><a href="/usuarios/cursos/instructor">Cursos que imparto</a></li>
                                 </ul>                                
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <?php
-                                    echo $usuarioHead->nombreUsuario;
+                                    echo substr($usuarioHead->nombreUsuario, 0, 30);
                                     ?> <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">

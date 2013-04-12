@@ -34,9 +34,9 @@ require_once('layout/headers/headCierre.php');
 </div>
 <div class="row-fluid"><h1></h1></div>
 <div class="row-fluid">
-    <div class="well well-large">
-        <legend>
-            <h4>
+    <div class="well well-small">
+        <legend >            
+            <h4 >
                 <?php
                 switch ($tipo) {
                     case 'alumnos':

@@ -10,7 +10,7 @@ require_once('layout/headers/headCierreTomarClase.php');
 </style>
 <div class="container" style="padding-bottom: 175px;">
     <div class="row-fluid">
-        <div class="span12 well well-large">
+        <div class="span12 well ">
             <legend>
                 <h1><?php echo $clase->titulo; ?></h1>
             </legend>

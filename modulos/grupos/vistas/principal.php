@@ -7,23 +7,20 @@ require_once('layout/headers/headCierre.php');
     <div class="span6">
         <?php
         if ($numGrupos == 1) {
-            echo '<h1>Hay un grupo en total</h1>';
+            echo '<h3>Hay un grupo en total</h3>';
         } else {
-            echo '<h1>Hay ' . $numGrupos . ' grupos en total</h1>';
+            echo '<h3>Hay ' . $numGrupos . ' grupos en total</h3>';
         }
         ?>
     </div>
     <div class="span3 offset3">
         <div style="padding-top: 20px;">
-            <a href="/grupos/grupo/agregar" class="btn btn-primary">
-                <i class="icon-white icon-plus"></i>
+            <a href="/grupos/grupo/agregar" class="btn span12">
+                <i class="icon-plus"></i>
                 Agregar un grupo
             </a>
         </div>
     </div>
-</div>
-<div class="row-fluid">
-    <div class="span12"></div>
 </div>
 <?php
 $columna = 1;

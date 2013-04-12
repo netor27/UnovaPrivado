@@ -30,7 +30,7 @@ require_once('layout/headers/headCierre.php');
     </div>
 </div>
 <div class="row-fluid">
-    <div class="span6 well well-large">
+    <div class="span6 well ">
         <legend class="warning">
             <span class="badge badge-success" style="position: relative; top: -3px;"><?php echo $numAltas; ?></span>
             Altas satisfactorias
@@ -60,7 +60,7 @@ require_once('layout/headers/headCierre.php');
         }
         ?>
     </div>
-    <div class="span6 well well-large">
+    <div class="span6 well ">
         <legend>
             <span class="badge badge-important" style="position: relative; top: -3px;"><?php echo $numFallos; ?></span>
             Errores

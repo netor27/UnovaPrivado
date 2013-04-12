@@ -4,34 +4,27 @@ require_once('layout/headers/headListaUsuariosDeGrupo.php');
 require_once('layout/headers/headCierre.php');
 ?>
 <div class="row-fluid">
-    <div class="well well-large">
-        <div class="row-fluid">
-            <div class="span6">
-                <?php
-                if ($numUsuarios == 1)
-                    echo '<h4>Hay un usuario en este grupo</h4>';
-                else
-                    echo '<h4>Hay ' . $numUsuarios . ' usuarios en este grupo</h4>';
-                ?>
-            </div>
-            <div class="span3 offset3">
-                <div style="padding-top: 20px;">
-                    <a href="/grupos/usuarios/usuariosDelGrupo/<?php echo $idGrupo; ?>" class="btn btn-primary">
-                        <i class="icon-white icon-plus"></i>
-                        Agregar usuario(s) al grupo
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="row-fluid">
-            <div class="span12"></div>
-        </div>
+    <div class="span3 offset9">
+        <a href="/grupos/usuarios/usuariosDelGrupo/<?php echo $idGrupo; ?>" class="btn btn-primary span12">
+            <i class="icon-white icon-plus"></i>
+            Agregar usuario(s) al grupo
+        </a>
+    </div>
+</div>
+<div class="row-fluid"><h1></h1></div>
+<div class="row-fluid">
+    <div class="well well-small">
+        <legend>
+            <h4>
+                Lista de usuarios inscritos en este grupo
+            </h4>
+        </legend>
         <?php
         $columna = 1;
         $fila = 1;
         if (isset($usuarios)) {
             ?>
-        <div class="row-fluid">
+            <div class="row-fluid">
                 <ul class="thumbnails">
                     <?php
                     $i = 1;
@@ -48,7 +41,7 @@ require_once('layout/headers/headCierre.php');
                                             <?php echo $usuario->nombreUsuario; ?>
                                         </div>
                                         <div class="row-fluid">
-                                        <img src="<?php echo $usuario->avatar; ?>">
+                                            <img src="<?php echo $usuario->avatar; ?>">
                                         </div>
                                     </a>
                                 </div>
@@ -67,7 +60,7 @@ require_once('layout/headers/headCierre.php');
                         }
                         $i++;
                     }
-                    if($i % 6 !== 1){
+                    if ($i % 6 !== 1) {
                         echo '</div>';
                     }
                     ?>

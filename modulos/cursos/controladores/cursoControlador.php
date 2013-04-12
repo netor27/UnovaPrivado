@@ -323,7 +323,6 @@ function cambiarImagenSubmit() {
 
 function agregarContenido() {
     if (validarUsuarioLoggeado()) {
-
         if (isset($_GET['i'])) {
             $idCurso = $_GET['i'];
             $idTema = -1;

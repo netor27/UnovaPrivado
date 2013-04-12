@@ -1,6 +1,5 @@
 $(document).ready(function() {    
-    $('.wow').rating();    
-    //    $("#cursoTabs").tabs();    
+    $('.wow').rating();        
     if(layout == "desktop"){
         var i;
         var n = 0;

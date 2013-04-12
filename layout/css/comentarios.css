@@ -1,26 +1,22 @@
-.discusion:hover{
-    cursor: pointer;
-    text-decoration: underline;    
-}
-.discusionNombreUsuario{
+.comentarioNombreUsuario{
     font-size: 14px;
     font-weight: bold;
 }
-.discusionNombreUsuario:hover{
+.comentarioNombreUsuario:hover{
     text-decoration: underline;
 }
-.discusionTiempo{
+.comentarioTiempo{
     font-weight: bold;
 }
-.discusionTitulo{
+.comentarioTitulo{
     color: #08c;
     font-size: 16px;
     font-weight: bolder;
 }
-.discusionVotacion{
+.comentarioVotacion{
     cursor: pointer;
 }
-.btnBorrarDiscusion:hover{
+.btnBorrarComentario:hover{
     border-style: solid;
     border-width: 1px;    
 }

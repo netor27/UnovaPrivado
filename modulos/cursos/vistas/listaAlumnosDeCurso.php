@@ -4,7 +4,7 @@ require_once('layout/headers/headListaAlumnosDeCurso.php');
 require_once('layout/headers/headCierre.php');
 ?>
 <div class="row-fluid">
-    <div class="well well-large">
+    <div class="well ">
         <div class="row-fluid">
             <div class="span9">
                 <?php

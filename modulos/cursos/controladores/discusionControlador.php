@@ -2,9 +2,50 @@
 
 function principal() {
     //Ver una discusión en específico
-    if (isset($_GET['idDiscusion'])) {
-        $idDiscusion = $_GET['idDiscusion'];
-        echo 'Discusión ' . $idDiscusion;
+    if (isset($_GET['idDiscusion']) && isset($_GET['curso'])) {
+        require_once 'modulos/cursos/modelos/CursoModelo.php';
+        $curso = getCursoFromUniqueUrl($_GET['curso']);
+        require_once 'modulos/cursos/modelos/DiscusionModelo.php';
+        $discusion = getDiscusion($_GET['idDiscusion']);
+        if (isset($curso) && isset($discusion)) {
+            //Hacemos los calculos de la puntuacion de esta discusión
+            $votosTotales = $discusion->puntuacionMas + $discusion->puntuacionMenos;
+            if ($discusion->puntuacionMas > 0) {
+                if ($discusion->puntuacionMenos > 0) {
+                    $porcentajePositivo = round($discusion->puntuacionMas / $votosTotales * 100);
+                    $porcentajeNegativo = 100 - $porcentajePositivo;
+                } else {
+                    $porcentajePositivo = 100;
+                    $porcentajeNegativo = 0;
+                }
+            } else {
+                if ($discusion->puntuacionMenos > 0) {
+                    $porcentajePositivo = 0;
+                    $porcentajeNegativo = 100;
+                } else {
+                    $porcentajePositivo = 0;
+                    $porcentajeNegativo = 0;
+                }
+            }
+            $numRows = 5;
+            $pagina = 1;
+            $sigPagina = 2;
+            $orden = "puntuacion";
+            $ascendente = 0;
+            $offset = $numRows * ($pagina - 1);
+            require_once 'modulos/cursos/modelos/ComentarioModelo.php';
+            $array = getComentarios($discusion->idDiscusion, $offset, $numRows, $orden, $ascendente);
+            $comentarios = $array['comentarios'];
+            $numComentarios = $array['n'];
+            $maxPagina = ceil($numComentarios / $numRows);
+            require_once 'modulos/cursos/vistas/vistaDiscusionForo.php';
+        } else {
+            //Los datos recibidos no son correctos
+            require_once 'errorPages/404Page.php';
+        }
+    } else {
+        //No hay datos
+        require_once 'errorPages/404Page.php';
     }
 }
 
@@ -13,7 +54,7 @@ function agregarDiscusion() {
     $usuario = getUsuarioActual();
     if (isset($_POST['titulo']) && isset($_POST['texto']) && isset($_POST['curso'])) {
         $titulo = removeBadHtmlTags(trim($_POST['titulo']));
-        $texto = removeBadHtmlTags(trim($_POST['texto']));
+        $texto = $_POST['texto'];
         $idCurso = removeBadHtmlTags($_POST['curso']);
         if (strlen($titulo) > 0 && strlen($titulo) <= 140 && strlen($texto) > 0) {
             require_once 'modulos/cursos/modelos/DiscusionModelo.php';
@@ -122,10 +163,10 @@ function eliminarDiscusion() {
     if (isset($_POST['idDiscusion'])) {
         $idDiscusion = intval($_POST['idDiscusion']);
         require_once 'modulos/cursos/modelos/DiscusionModelo.php';
-        if(bajaDiscusion($idDiscusion) > 0){
+        if (bajaDiscusion($idDiscusion) > 0) {
             $res = true;
             $msg = "se borro correctamente";
-        }else{
+        } else {
             $msg = "No se borró nada";
         }
     } else {

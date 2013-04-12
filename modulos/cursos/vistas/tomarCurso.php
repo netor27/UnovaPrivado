@@ -6,9 +6,10 @@ require_once('layout/headers/headCierre.php');
 ?>
 
 <div class="row-fluid">
-    <div class="span12 well well-large">
+    <div class="span12 well well-small">
         <div class="span3">
-            <img class="span12 img-polaroid" src="<?php echo $curso->imagen; ?>">
+            <img class="hidden-phone span12 img-polaroid" src="<?php echo $curso->imagen; ?>">
+            <img class="visible-phone imageSmallPhone span12 img-polaroid" src="<?php echo $curso->imagen; ?>">
         </div>
         <div class="span9">                    
             <legend>
@@ -92,8 +93,8 @@ require_once('layout/headers/headCierre.php');
 <div class="row-fluid">            
     <div id="cursoTabs" class="well well-small">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tabs-1" data-toggle="tab" >Contenido del curso</a></li>
-            <li ><a href="#tabs-2" data-toggle="tab" >Foro</a></li>
+            <li class="active"><a href="#tabs-1" data-toggle="tab" id="tabContenido">Contenido del curso</a></li>
+            <li ><a href="#tabs-2" data-toggle="tab" id="tabForo">Foro</a></li>
         </ul>
         <div class="tab-content" style="overflow-x: visible">
             <div id="tabs-1" class="tab-pane active"> 

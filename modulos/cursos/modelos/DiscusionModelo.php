@@ -32,10 +32,16 @@ function bajaDiscusion($idDiscusion) {
 function getDiscusion($idDiscusion) {
     require_once 'bd/conex.php';
     global $conex;
-    $stmt = $conex->prepare("SELECT * FROM discusion
-                            WHERE idDiscusion = :id");
+    $stmt = $conex->prepare("SELECT d.idDiscusion, d.idCurso, d.idUsuario, 
+                            d.fecha, d.titulo, d.texto, u.avatar, u.nombreUsuario, u.uniqueUrl, 
+                            d.puntuacionMas, d.puntuacionMenos
+                            FROM discusion d, usuario u                            
+                            WHERE idDiscusion = :id AND d.idUsuario = u.idUsuario");
     $stmt->bindParam(':id', $idDiscusion);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        echo $stmt->queryString . "<br>";
+        print_r($stmt->errorInfo());
+    }
     $discusion = NULL;
     if ($stmt->rowCount() > 0) {
         $row = $stmt->fetch();
@@ -49,6 +55,9 @@ function getDiscusion($idDiscusion) {
         $discusion->texto = $row['texto'];
         $discusion->puntuacionMas = $row['puntuacionMas'];
         $discusion->puntuacionMenos = $row['puntuacionMenos'];
+        $discusion->usuarioAvatar = $row['avatar'];
+        $discusion->usuarioNombre = $row['nombreUsuario'];
+        $discusion->usuarioUrl = $row['uniqueUrl'];
     }
     return $discusion;
 }
@@ -183,7 +192,7 @@ function getDiscusiones($idCurso, $offset, $numRows, $ordenarPor, $ascendente) {
     return $array;
 }
 
-function printDiscusion($discusion,$cursoUrl) {
+function printDiscusion($discusion, $cursoUrl) {
     $fecha = transformaMysqlDateDDMMAAAAConHora($discusion->fecha);
     $votosTotales = $discusion->puntuacionMas + $discusion->puntuacionMenos;
     if ($discusion->puntuacionMas > 0) {
@@ -208,66 +217,71 @@ function printDiscusion($discusion,$cursoUrl) {
     if (tipoUsuario() != 'usuario') {
         $botonBorrar = "<a class='btnBorrarDiscusion' href='#' discusion='$discusion->idDiscusion'><i class='icon-remove'></i></a>";
     }
-    echo "<div class='well-small ui-state-default ui-corner-all margin-top10' ><div class='row-fluid'>
-            <div class='span12'>
-                <div class='row-fluid'>
-                    <div class='span1'>
+    echo "<div class='well-small ui-state-default ui-corner-all margin-top10' >
+    <div class='row-fluid'>
+        <div class='span12'>
+            <div class='row-fluid'>
+                <div class='span1'>
+                    <a href='/usuario/$discusion->usuarioUrl'>
                         <img class='hidden-phone img-polaroid ui-corner-all discusionAvatarUsuario' src='$discusion->usuarioAvatar'>
                         <img class='visible-phone img-polaroid ui-corner-all discusionAvatarUsuario imageSmallPhone' src='$discusion->usuarioAvatar'>
-                    </div>
-                    <div class='span8'>
-                        <div class='row-fluid'>
-                            <div class='span12'>
+                    </a>
+                </div>
+                <div class='span8'>
+                    <div class='row-fluid'>
+                        <div class='span12'>
+                            <a href='/usuario/$discusion->usuarioUrl'>
                                 <span class='discusionNombreUsuario'>
                                     $discusion->usuarioNombre
                                 </span>
-                            </div>                            
-                        </div>
-                        <div class='row-fluid'>
-                            <div class='span12'>
+                            </a>
+                        </div>                            
+                    </div>
+                    <div class='row-fluid'>
+                        <div class='span12'>
                             <a href='/curso/$cursoUrl/temaDiscusion/$discusion->idDiscusion'>
                                 <span class='discusionTitulo discusion' discusion='$discusion->idDiscusion'>
                                     $discusion->titulo
                                 </span>    
-                                </a>
-                            </div>                            
-                        </div>
-                    </div>
-                    <div class='span3'>
-                        <div class='row-fluid centerText'>
-                            <div class='span11'>
-                                <span class='discusionTiempo'>
-                                    $fecha
-                                </span>
-                            </div>
-                            <div class='span1'>
-                                $botonBorrar
-                            </div>
-                        </div> 
-                        <div class='row-fluid'>
-                            <div class='span4 offset4'>
-                                <span class='discusionVotacion discusionVotacionMas' discusion='$discusion->idDiscusion' id='votacionMas_$discusion->idDiscusion'>                                
-                                    <i class='icon-thumbs-up'></i> <span>$discusion->puntuacionMas</span>
-                                </span>
-                            </div>
-                            <div class='span4'>
-                                <span class='discusionVotacion discusionVotacionMenos' discusion='$discusion->idDiscusion' id='votacionMenos_$discusion->idDiscusion'>
-                                    <i class='icon-thumbs-down'></i> <span>$discusion->puntuacionMenos</span>
-                                </span>
-                            </div>
-                        </div>
-                        <div class='row-fluid' style='min-height:3px;'>
-                            <div class='span10 offset2' style='min-height:3px;'>
-                                <div class='progress' style='height:3px;margin-bottom:0px;'>
-                                    <div class='bar bar-success' style='width: $porcentajePositivo%;' id='porcentajePositivo_$discusion->idDiscusion'></div>
-                                    <div class='bar bar-danger' style='width: $porcentajeNegativo%;' id='porcentajeNegativo_$discusion->idDiscusion'></div>
-                                </div>                                
-                            </div>
-                        </div>                        
+                            </a>
+                        </div>                            
                     </div>
                 </div>
+                <div class='span3'>
+                    <div class='row-fluid centerText'>
+                        <div class='span11'>
+                            <span class='discusionTiempo'>
+                                $fecha
+                            </span>
+                        </div>
+                        <div class='span1'>
+                            $botonBorrar
+                        </div>
+                    </div> 
+                    <div class='row-fluid'>
+                        <div class='span4 offset4'>
+                            <span class='discusionVotacion discusionVotacionMas' discusion='$discusion->idDiscusion' id='votacionMas_$discusion->idDiscusion'>                                
+                                <i class='icon-thumbs-up'></i> <span>$discusion->puntuacionMas</span>
+                            </span>
+                        </div>
+                        <div class='span4'>
+                            <span class='discusionVotacion discusionVotacionMenos' discusion='$discusion->idDiscusion' id='votacionMenos_$discusion->idDiscusion'>
+                                <i class='icon-thumbs-down'></i> <span>$discusion->puntuacionMenos</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class='row-fluid' style='min-height:3px;'>
+                        <div class='span10 offset2' style='min-height:3px;'>
+                            <div class='progress' style='height:3px;margin-bottom:0px;'>
+                                <div class='bar bar-success' style='width: $porcentajePositivo%;' id='porcentajePositivo_$discusion->idDiscusion'></div>
+                                <div class='bar bar-danger' style='width: $porcentajeNegativo%;' id='porcentajeNegativo_$discusion->idDiscusion'></div>
+                            </div>                                
+                        </div>
+                    </div>                        
+                </div>
             </div>
-        </div></div>";
+        </div>
+    </div>
+</div>";
 }
-
 ?>
