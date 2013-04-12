@@ -37,12 +37,12 @@ require_once('layout/headers/headCierre.php');
                         Puntuación de esta entrada:
                         <div class='row-fluid'>
                             <div class='span4 offset2'>
-                                <span class='discusionVotacion discusionVotacionMas' discusion='<?php echo $discusion->idDiscusion; ?>' id='votacionMas_<?php echo $discusion->idDiscusion; ?>'>                                
+                                <span class='discusionVotacion discusionVotacionMas' discusion='<?php echo $discusion->idDiscusion; ?>' id='votacionDiscusionMas_<?php echo $discusion->idDiscusion; ?>'>                                
                                     <i class='icon-thumbs-up'></i> <span><?php echo $discusion->puntuacionMas; ?></span>
                                 </span>
                             </div>
                             <div class='span4'>
-                                <span class='discusionVotacion discusionVotacionMenos' discusion='<?php echo $discusion->idDiscusion; ?>' id='votacionMenos_<?php echo $discusion->idDiscusion; ?>'>
+                                <span class='discusionVotacion discusionVotacionMenos' discusion='<?php echo $discusion->idDiscusion; ?>' id='votacionDiscusionMenos_<?php echo $discusion->idDiscusion; ?>'>
                                     <i class='icon-thumbs-down'></i> <span><?php echo $discusion->puntuacionMenos; ?></span>
                                 </span>
                             </div>
@@ -50,8 +50,8 @@ require_once('layout/headers/headCierre.php');
                         <div class='row-fluid' style='min-height:3px;'>
                             <div class='span10' style='min-height:3px;'>
                                 <div class='progress' style='height:3px;margin-bottom:0px;'>
-                                    <div class='bar bar-success' style='width: <?php echo $porcentajePositivo . '%'; ?>;' id='porcentajePositivo_<?php echo $discusion->idDiscusion; ?>'></div>
-                                    <div class='bar bar-danger' style='width: <?php echo $porcentajeNegativo . '%'; ?>;' id='porcentajeNegativo_<?php echo $discusion->idDiscusion ?>'></div>
+                                    <div class='bar bar-success' style='width: <?php echo $porcentajePositivo . '%'; ?>;' id='porcentajeDiscusionPositivo_<?php echo $discusion->idDiscusion; ?>'></div>
+                                    <div class='bar bar-danger' style='width: <?php echo $porcentajeNegativo . '%'; ?>;' id='porcentajeDiscusionNegativo_<?php echo $discusion->idDiscusion ?>'></div>
                                 </div>                                
                             </div>
                         </div> 

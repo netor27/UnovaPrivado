@@ -3,15 +3,15 @@ function actualizarVotosDiscusion(){
     var idDiscusion = $("#discusion").attr("discusion");
     var votacion = getVotacionDiscusion(idDiscusion);
     if(votacion == 1){            
-        $("#votacionMenos_"+idDiscusion).removeClass("label label-important");
-        $("#votacionMenos_"+idDiscusion).children("i").removeClass("icon-white");
-        $("#votacionMas_"+idDiscusion).addClass("label label-success votado");
-        $("#votacionMas_"+idDiscusion).children("i").addClass("icon-white");     
+        $("#votacionDiscusionMenos_"+idDiscusion).removeClass("label label-important");
+        $("#votacionDiscusionMenos_"+idDiscusion).children("i").removeClass("icon-white");
+        $("#votacionDiscusionMas_"+idDiscusion).addClass("label label-success votado");
+        $("#votacionDiscusionMas_"+idDiscusion).children("i").addClass("icon-white");     
     }else if(votacion == -1){
-        $("#votacionMas_"+idDiscusion).removeClass("label label-success");
-        $("#votacionMas_"+idDiscusion).children("i").removeClass("icon-white");
-        $("#votacionMenos_"+idDiscusion).addClass("label label-important votado");
-        $("#votacionMenos_"+idDiscusion).children("i").addClass("icon-white");
+        $("#votacionDiscusionMas_"+idDiscusion).removeClass("label label-success");
+        $("#votacionDiscusionMas_"+idDiscusion).children("i").removeClass("icon-white");
+        $("#votacionDiscusionMenos_"+idDiscusion).addClass("label label-important votado");
+        $("#votacionDiscusionMenos_"+idDiscusion).children("i").addClass("icon-white");
     }
 }
 function votarDiscusion($discusion, $delta){
@@ -71,11 +71,11 @@ function enviarVotacionDiscusion($discusion, $delta){
                 }
             }
             //actualizamos el texto de los botones    
-            $("#votacionMas_"+$discusion).children("span").text(puntuacionMas);
-            $("#votacionMenos_"+$discusion).children("span").text(puntuacionMenos);
+            $("#votacionDiscusionMas_"+$discusion).children("span").text(puntuacionMas);
+            $("#votacionDiscusionMenos_"+$discusion).children("span").text(puntuacionMenos);
             //actualizamos la barra
-            $("#porcentajePositivo_"+$discusion).css("width",porcentajePositivo+"%");
-            $("#porcentajeNegativo_"+$discusion).css("width",porcentajeNegativo+"%");
+            $("#porcentajeDiscusionPositivo_"+$discusion).css("width",porcentajePositivo+"%");
+            $("#porcentajeDiscusionNegativo_"+$discusion).css("width",porcentajeNegativo+"%");
         }else{
             bootbox.alert("Error. "+resultado.msg);
         }
@@ -490,8 +490,8 @@ $(document).ready(function() {
     //Clicks en la votacion de la discusión
     $(".discusionVotacionMas").click(function(){
         $discusion = $(this).attr('discusion');
-        $("#votacionMenos_"+$discusion).removeClass("label label-important");
-        $("#votacionMenos_"+$discusion).children("i").removeClass("icon-white");
+        $("#votacionDiscusionMenos_"+$discusion).removeClass("label label-important");
+        $("#votacionDiscusionMenos_"+$discusion).children("i").removeClass("icon-white");
         $(this).addClass("label label-success votado");
         $(this).children("i").addClass("icon-white");              
         votarDiscusion($discusion, 1);
@@ -499,8 +499,8 @@ $(document).ready(function() {
         
     $(".discusionVotacionMenos").click(function(){
         $discusion = $(this).attr('discusion');
-        $("#votacionMas_"+$discusion).removeClass("label label-success");
-        $("#votacionMas_"+$discusion).children("i").removeClass("icon-white");
+        $("#votacionDiscusionMas_"+$discusion).removeClass("label label-success");
+        $("#votacionDiscusionMas_"+$discusion).children("i").removeClass("icon-white");
         $(this).addClass("label label-important votado");
         $(this).children("i").addClass("icon-white");
         votarDiscusion($discusion, -1);
