@@ -59,7 +59,11 @@ require_once('layout/headers/headCierre.php');
                                     break;
                             }
                             ?>
-                        </label>
+                        </label>                        
+                    </div>
+                </div>
+                <div class="contro-group">
+                    <div class="controls">
                         <button type="submit" class="btn btn-primary">Aceptar</button>
                     </div>
                 </div>

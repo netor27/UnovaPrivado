@@ -1,20 +1,5 @@
-#cursoHeader_img{
-    padding: 0px 30px 5px 0px;
-}
-#cursoHeader_info{
-
-}
-#cursoHeader_info_titulo h1{    
-    padding-top: 0px;
-}
-#cursoHeader_right{
-    text-align:center;
-}
 .cursoRating{
     margin-top: 10px!important;
-}
-#cursoTabs{
-    border: 1px solid #aaaaaa;
 }
 .temaHeader{
     margin: 0px!important;
@@ -75,19 +60,11 @@
     text-decoration: underline!important;
 }
 #descripcionContent{
-    padding-top: 20px;
-    padding-bottom: 20px;
-    margin: auto;
-    width: 90%;
     word-wrap: break-word;
 }
-#descripcion ul li{
-    list-style-position:outside;
-    list-style-type:disc;
-    list-style-image:initial;
+.deleteTema:hover{
+    cursor: pointer;
 }
-#descripcion ol li{
-    list-style-position:outside;
-    list-style-type:decimal;
-    list-style-image:initial;
+.deleteClase:hover{
+    cursor: pointer;
 }

@@ -1,7 +1,8 @@
 <?php
 require_once('layout/headers/headInicio.php');
+require_once 'layout/headers/headBootstrap-wysiwyg.php';
 require_once('layout/headers/headEditarPerfil.php');
-require_once('layout/headers/headTinyMCE.php');
+//require_once('layout/headers/headTinyMCE.php');
 require_once('layout/headers/headCierre.php');
 ?>
 <div class="row-fluid">
@@ -26,21 +27,25 @@ require_once('layout/headers/headCierre.php');
         <div class="row-fluid">
             <form method="post" id="customForm" action="/usuarios/usuario/editarInformacionSubmit" class="form-horizontal">  
                 <div class="control-group">
-                    <label class="control-label" for="inputNombre">Nombre</label>
+                    <label class="control-label" for="inputNombre">Nombre:</label>
                     <div class="controls">
                         <input class="span6" id="inputNombre" name="nombre" type="text" value='<?php echo $usuario->nombreUsuario; ?>'/>  
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="inputTitulo">Título personal</label>
+                    <label class="control-label" for="inputTitulo">Título personal:</label>
                     <div class="controls">
                         <input class="span10" id="inputTitulo" name="tituloPersonal" type="text" value="<?php echo $usuario->tituloPersonal; ?>" placeholder="Ej. Experto en tocar la guitarra, Profesor de tiempo completo, diseñador web en Unova, etc."/>
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="inputBio">Biografía</label>
+                    <label class="control-label" for="inputBio" style="margin-top: 10px;">Biografía:</label>
                     <div class="controls">
-                        <textarea id="inputBio" name="bio"><?php echo $usuario->bio; ?></textarea>
+                        <input type="hidden" id="bio" name="bio"/>
+                        <?php
+                        $valorEditor = $usuario->bio;
+                        require_once 'lib/js/bootstrap-wysiwyg/editorDiv.php';
+                        ?>
                     </div>
                 </div>
                 <div class="control-group">

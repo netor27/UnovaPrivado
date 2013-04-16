@@ -18,18 +18,18 @@ require_once('layout/headers/headCierre.php');
             </div>
             <div class="span9">
                 <div class="row-fluid">                    
-                    <legend>
-                        <h2>
+                    <legend class="pull-left">
+                        <h2 class="pull-left">
                             <?php echo $cursoParaModificar->titulo; ?>
-                            <a href="/cursos/curso/editarInformacionCurso/<?php echo $cursoParaModificar->idCurso; ?>" >
-                                <i class="icon-pencil editarPencil"></i>
-                            </a>
-                        </h2>
+                        </h2> 
+                        <a class="pull-left" href="/cursos/curso/editarInformacionCurso/<?php echo $cursoParaModificar->idCurso; ?>" style=" padding-left: 8px;">
+                            <i class="black icon-pencil editarPencil" style="font-size: 14px;">   </i>
+                        </a>
                     </legend>
                 </div>
                 <div class="row-fluid">
                     <div class="span12">
-                        <strong>Descripción: </strong><?php echo $cursoParaModificar->descripcionCorta; ?>
+                        <strong>Descripción corta: </strong><?php echo $cursoParaModificar->descripcionCorta; ?>
                     </div>
                 </div>
                 <div class="row-fluid">
@@ -122,7 +122,7 @@ require_once('layout/headers/headCierre.php');
                                         </div>
                                         <div class="span2 temaNombreLinks">
                                             <a class="deleteTema" id="<?php echo $temas[$i]->idTema; ?>" curso="<?php echo $cursoParaModificar->idCurso; ?>" >
-                                                <i class="icon-fire"></i>
+                                                <i class="icon-trash"></i>
                                                 Borrar
                                             </a>
                                         </div>
@@ -203,27 +203,13 @@ require_once('layout/headers/headCierre.php');
                 </div>
             </div>
             <div id="tabs-2" class="tab-pane">
-                <div class="right">
-                    <a href="/cursos/curso/editarInformacionCurso/<?php echo $cursoParaModificar->idCurso; ?>" class="btn"><i class="icon-pencil editarPencil"></i> Editar esta información</a>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <a href="/cursos/curso/editarInformacionCurso/<?php echo $cursoParaModificar->idCurso; ?>" class="btn pull-right"><i class="icon-pencil editarPencil"></i> Editar esta información</a>
+                    </div>                    
                 </div>
-                <br>
-                <div id="descripcion" style="margin-top:30px;">
-                    <legend>
-                        <h2>Descripción corta</h2>   
-                    </legend>
-                    <div id="descripcionContent">
-                        <p itemprop="description">
-                            <?php
-                            echo $cursoParaModificar->descripcionCorta;
-                            ?>
-                        </p>
-                    </div>
-                </div>
-                <div id="descripcion">                
-                    <legend>
-                        <h2 >Descripción</h2>
-                    </legend>
-                    <div id="descripcionContent">
+                <div class="row-fluid">
+                    <div id="descripcionContent" class="mostrarListas">
                         <?php
                         echo $cursoParaModificar->descripcion;
                         ?>

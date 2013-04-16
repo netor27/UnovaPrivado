@@ -89,11 +89,13 @@ require_once('layout/headers/headCierre.php');
 <div class="row-fluid">
     <div class="span12 well ">
         <legend><h3>Biografía</h3></legend>
-        <?php
-        if (isset($usuarioPerfil->bio)) {
-            echo $usuarioPerfil->bio;
-        }
-        ?>
+        <div class="mostrarListas">
+            <?php
+            if (isset($usuarioPerfil->bio)) {
+                echo $usuarioPerfil->bio;
+            }
+            ?>
+        </div>
     </div>
 </div>
 <?php

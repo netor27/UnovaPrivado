@@ -39,6 +39,8 @@ function obtenerComentarios() {
     if (isset($_POST['discusion']) && isset($_POST['pagina']) && isset($_POST['rows'])) {
         $idDiscusion = $_POST['discusion'];
         $pagina = $_POST['pagina'];
+        if ($pagina < 1)
+            $pagina = 1;
         $numRows = $_POST['rows'];
         $orden = $_POST['orden'];
         $ascendente = $_POST['ascendente'];
@@ -46,8 +48,12 @@ function obtenerComentarios() {
         require_once 'modulos/cursos/modelos/ComentarioModelo.php';
         $array = getComentarios($idDiscusion, $offset, $numRows, $orden, $ascendente);
         $comentarios = $array['comentarios'];
-        foreach ($comentarios as $comentario) {
-            printComentario($comentario);
+        if (sizeof($comentarios) > 0) {
+            foreach ($comentarios as $comentario) {
+                printComentario($comentario);
+            }
+        }else {
+            echo '<h4 class="centerText">No hay comentarios</h4>';
         }
     } else {
         echo 'error -- datos no recibidos';

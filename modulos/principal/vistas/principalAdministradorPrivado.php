@@ -46,7 +46,7 @@ require_once('layout/headers/headCierre.php');
             <div class="span4"id="grupos">
                 <a href="/grupos">
                     <div class="row-fluid hidden-phone">
-                        <img class="span12 img-polaroid img-index" src="/layout/imagenes/index/grupos.jpg">
+                        <img class="span12 img-polaroid img-index" src="/layout/imagenes/index/groups.jpg">
                     </div>
                     <div class="row-fluid margin-top10">
                         <button class="btn btn-large btn-info span12" >Administrar Grupos</button>

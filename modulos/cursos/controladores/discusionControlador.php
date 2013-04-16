@@ -90,6 +90,8 @@ function obtenerDiscusiones() {
     if (isset($_POST['curso']) && isset($_POST['pagina']) && isset($_POST['rows'])) {
         $idCurso = $_POST['curso'];
         $pagina = $_POST['pagina'];
+        if ($pagina < 1)
+            $pagina = 1;
         $numRows = $_POST['rows'];
         $orden = $_POST['orden'];
         $ascendente = $_POST['ascendente'];
@@ -99,8 +101,12 @@ function obtenerDiscusiones() {
         require_once 'modulos/cursos/modelos/DiscusionModelo.php';
         $array = getDiscusiones($idCurso, $offset, $numRows, $orden, $ascendente);
         $discusiones = $array['discusiones'];
-        foreach ($discusiones as $discusion) {
-            printDiscusion($discusion, $curso->uniqueUrl);
+        if (sizeof($discusiones) > 0) {
+            foreach ($discusiones as $discusion) {
+                printDiscusion($discusion, $curso->uniqueUrl);
+            }
+        } else {
+            echo '<h4 class="centerText">No hay temas de discusión en el foro</h4>';
         }
     } else {
         echo 'error -- datos no recibidos';

@@ -1,7 +1,8 @@
 $(document).ready(function(){
+    $("#editor").wysiwyg();
     var form = $("#customForm");  
     var titulo = $("#inputTitulo");  
-    var descripcionCorta = $("#inputDescripcion");      
+    var descripcionCorta = $("#inputDescripcion");  
     var msgError = '<div class="row-fluid"><div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button><strong>¡Error! </strong>';
     var aux;
     function validateTitulo(){  
@@ -40,11 +41,15 @@ $(document).ready(function(){
             return true;  
         }  
     }    
-    
+    function validateDescripcion(){
+        $("#descripcion").val($('#editor').cleanHtml());
+        return true;
+    }
     form.submit(function(){  
         if(validateTitulo())
             if(validateDescripcionCorta())
-                return true;
+                if(validateDescripcion())
+                    return true;
         return false;
     });
 });

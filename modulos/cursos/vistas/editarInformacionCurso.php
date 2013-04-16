@@ -1,7 +1,7 @@
 <?php
 require_once('layout/headers/headInicio.php');
-require_once('layout/headers/headTinyMCE.php');
-require_once('layout/headers/headCrearCurso.php');
+require_once('layout/headers/headBootstrap-wysiwyg.php');
+require_once('layout/headers/headEditarInformacionCurso.php');
 require_once('layout/headers/headCierre.php');
 ?>
 <div class="row-fluid">
@@ -9,18 +9,20 @@ require_once('layout/headers/headCierre.php');
         <div class="row-fluid">
             <legend><h4 class="black">Editar información del curso</h4></legend>
         </div>
-        <?php
-        if (isset($msgForma)) {
-            ?>
-            <div class="row-fluid">
-                <div class="alert alert-error">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    <strong>¡Error! </strong> <?php echo $msgForma; ?>
-                </div>
-            </div>
+        <div id="errorMessage">
             <?php
-        }
-        ?>
+            if (isset($msgForma)) {
+                ?>
+                <div class="row-fluid">
+                    <div class="alert alert-error">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>¡Error! </strong> <?php echo $msgForma; ?>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+        </div>
         <div class="row-fluid">
             <form method="post" id="customForm" class="form-horizontal" action="/cursos/curso/editarInformacionCursoSubmit/<?php echo $cursoParaModificar->idCurso; ?>">
                 <div class="control-group">
@@ -36,9 +38,13 @@ require_once('layout/headers/headCierre.php');
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="inputDescripcion">Descripción</label>
+                    <label class="control-label" for="inputDescripcionLarga">Descripción</label>
                     <div class="controls">
-                        <textarea id="descripcion" name="descripcion"><?php echo $cursoParaModificar->descripcion; ?></textarea>
+                        <input type="hidden" id="descripcion" name="descripcion"/>
+                        <?php
+                        $valorEditor = $cursoParaModificar->descripcion;
+                        require_once 'lib/js/bootstrap-wysiwyg/editorDiv.php';
+                        ?>
                     </div>
                 </div>
                 <div class="control-group">

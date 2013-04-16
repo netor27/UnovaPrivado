@@ -26,19 +26,13 @@ require_once('layout/headers/headCierre.php');
                     <strong>Calificación total del curso:</strong>
                     <div id="cursoStars">
                         <?php
-                        $primera = true;
                         $aux = 0;
+                        $calif = round($curso->rating * 4);                        
                         for ($i = 1; $i <= 20; $i++) {
-                            $aux = ceil($i / 4);
-                            if (($i / 4) < $curso->rating) {
-                                echo '<input title="' . $aux . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}"/>';
+                            if ($i == $calif) {
+                                echo '<input title="' . $aux . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}" checked="checked"/>';
                             } else {
-                                if ($primera && $curso->rating > 0) {
-                                    echo '<input title="' . $aux . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}" checked="checked"/>';
-                                    $primera = false;
-                                } else {
-                                    echo '<input title="' . $aux . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}"/>';
-                                }
+                                echo '<input title="' . $aux . '" name="adv2" type="radio" disabled="disabled" class="wow star {split:4}"/>';
                             }
                         }
                         ?>

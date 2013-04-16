@@ -11,7 +11,7 @@ $(document).ready(function() {
                 "class" : "btn-danger",
                 "icon"  : "icon-warning-sign icon-white",
                 "callback": function() {
-                    $url = "/grupos/cursos/eliminarGrupoDeCurso:ig="+id+"&ic="+curso+"&pagina="+pagina;
+                    $url = "/grupos/cursos/eliminarGrupoDeCurso&ig="+id+"&ic="+curso+"&pagina="+pagina;
                     redirect($url);
                 }
             }]);

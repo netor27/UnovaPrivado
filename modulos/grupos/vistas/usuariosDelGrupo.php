@@ -46,7 +46,7 @@ require_once('layout/headers/headCierre.php');
                                     </a>
                                 </div>
                                 <div class="caption centerText">
-                                    <a class=" btn btn-mini btn-danger borrarInscripcion" id="<?php echo $usuario->idUsuario; ?>">
+                                    <a class=" btn btn-mini btn-danger btnQuitar" id="<?php echo $usuario->idUsuario; ?>">
                                         <i class="icon-white icon-trash"></i>
                                         Quitar de este curso
                                     </a>

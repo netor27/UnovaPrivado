@@ -26,9 +26,13 @@ function bajaCurso($idCurso) {
     global $conex;
     $stmt = $conex->prepare("DELETE FROM curso WHERE idCurso = :id");
     $stmt->bindParam(':id', $idCurso);
-    $stmt->execute();
-    $n = $stmt->rowCount();
-    return $n;
+    if ($stmt->execute()) {
+        $n = $stmt->rowCount();
+        return $n;
+    } else {
+        print_r($stmt->errorInfo());
+        return 0;
+    }
 }
 
 function actualizaInformacionCurso($curso) {
@@ -119,6 +123,20 @@ function getCurso($idCurso) {
         $curso->rating = $row['rating'];
     }
     return $curso;
+}
+
+function getRatingCurso($idCurso) {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("SELECT rating FROM curso where idCurso = :id");
+    $stmt->bindParam(':id', $idCurso);
+
+    $i = 0;
+    if($stmt->execute()){
+        $row = $stmt->fetch();
+        $i = $row['rating'];
+    }
+    return $i;
 }
 
 function getCursoFromUniqueUrl($cursoUrl) {
@@ -400,7 +418,7 @@ function getAlumnosDeCurso($idCurso, $offset, $numRows) {
     return $array;
 }
 
-function getTodosAlumnosDecurso($idCurso){
+function getTodosAlumnosDecurso($idCurso) {
     require_once 'bd/conex.php';
     global $conex;
     $stmt = $conex->prepare("SELECT u.*

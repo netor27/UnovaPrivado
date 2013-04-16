@@ -17,7 +17,7 @@ $(document).ready(function() {
                 "class" : "btn-danger",
                 "icon"  : "icon-warning-sign icon-white",
                 "callback": function() {
-                    $url = "/grupos/usuarios/eliminarInscripcion:ig="+grupo+"&iu="+id+"&pagina="+pagina;
+                    $url = "/grupos/usuarios/eliminarInscripcion&ig="+grupo+"&iu="+id+"&pagina="+pagina;
                     redirect($url);
                 }
             }, {

@@ -11,7 +11,24 @@ $(document).ready(function() {
                 type: 'get',
                 url: url,             
                 success: function(data) {
-                    bootbox.alert("<strong>Calificación enviada</strong><br><p>"+data+"</p>");
+                    var res = jQuery.parseJSON(data);        
+                    console.log(res);
+                    if(res.res){                                           
+                        var aux = parseInt(res.rating * 4, 10);
+                        if(aux > 0)
+                            aux = aux - 1;
+                        else{
+                            aux = false;
+                        }
+                        console.log("Poner valor = "+aux);
+                        
+                        $('input.wow').rating('readOnly',false);
+                        $('input.wow').rating('select',aux);                        
+                        $('input.wow').rating('readOnly');
+                    //bootbox.alert("<strong>Calificación enviada</strong><br><p>"+res.msg+"</p>");
+                    }else{
+                    //bootbox.alert("<strong>Error al guardar tu calificación</strong><br><p>"+res.msg+"</p>");
+                    }                    
                 }
             }); 
         }

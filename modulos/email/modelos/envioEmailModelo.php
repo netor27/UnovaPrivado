@@ -4,12 +4,12 @@ require_once 'modulos/aws/modelos/sesModelo.php';
 require_once 'modulos/email/modelos/defineEmailVariables.php';
 
 function enviarMailBienvenida($email, $nombreUsuario, $urlConfirmacion) {
-    $text = 'Bienvenido a Unova,\n' . utf8_encode($nombreUsuario) . '\n
+    $text = 'Bienvenido a Unova,\n' . $nombreUsuario . '\n
         Haz quedado registrado satisfactoriamente en Unova,\n 
         por favor confirma tu cuenta siguiendo este enlace:\n\n
         ' . $urlConfirmacion;
     $html = HEADER . '
-        <h1 style="font-size:18px">Bienvenido a Unova, ' . utf8_encode($nombreUsuario) . '</h1>
+        <h1 style="font-size:18px">Bienvenido a Unova, ' . $nombreUsuario . '</h1>
             <table bgcolor="#ffffff" width="100%" cellpadding="0" cellspacing="0" style="padding:15px 0 15px 0">
                 <tbody>
                     <tr valign="top">
@@ -67,7 +67,7 @@ function enviarMailOlvidePassword($email, $urlReestablecer) {
             </table>
         ' . FOOTER;
     $to[] = $email;
-    return sendMailSES($text, $html, utf8_encode("Reestablecer contraseña"), EMAIL_FROM, $to);
+    return sendMailSES($text, $html, "Reestablecer contraseña", EMAIL_FROM, $to);
 }
 
 function enviarMailSuscripcionUsuario($email, $urlReestablecer) {
@@ -91,7 +91,7 @@ function enviarMailSuscripcionUsuario($email, $urlReestablecer) {
             </table>
         ' . FOOTER;
     $to[] = $email;
-    return sendMailSES($text, $html, utf8_encode("Bienvenido a Unova"), EMAIL_FROM, $to);
+    return sendMailSES($text, $html, "Bienvenido a Unova", EMAIL_FROM, $to);
 }
 
 function enviarMailTransformacionVideoCompleta($email, $tituloCurso, $tituloClase, $urlCurso, $idTipoClase) {
@@ -106,7 +106,7 @@ function enviarMailTransformacionVideoCompleta($email, $tituloCurso, $tituloClas
     }
 
     $text = 'Transformaci&oacute;n de ' . $txtTipo . ' completa,\n\n
-        El ' . $txtTipo . ' de tu clase "' . utf8_encode($tituloClase) . '" perteneciente a tu curso "' . utf8_encode($tituloCurso) . '"\n
+        El ' . $txtTipo . ' de tu clase "' . $tituloClase . '" perteneciente a tu curso "' . $tituloCurso . '"\n
         ha sido transformado satisfactoriamente.\n
         Ya esta disponible en l&iacute;nea en la p&aacute;gina de tu curso:\n
         ' . $urlCurso . '\n\n
@@ -117,7 +117,7 @@ function enviarMailTransformacionVideoCompleta($email, $tituloCurso, $tituloClas
                 <tbody>
                     <tr valign="top">
                         <td style="font-size:13px;margin: 10px; padding: 10px;">
-                            <p style="padding:10px;margin:0">El ' . $txtTipo . ' de tu clase "' . utf8_encode($tituloClase) . '" perteneciente a tu curso "' . utf8_encode($tituloCurso) . '" ha sido transformado satisfactoriamente.</p>
+                            <p style="padding:10px;margin:0">El ' . $txtTipo . ' de tu clase "' . $tituloClase . '" perteneciente a tu curso "' . $tituloCurso . '" ha sido transformado satisfactoriamente.</p>
                             <p style="padding:10px;margin:0">Ya esta disponible en l&iacute;nea en la p&aacute;gina de tu curso:</p>
                             <p style="padding:10px;margin:0"><a href="' . $urlCurso . '">' . $urlCurso . '</a></p>
                         </td>
@@ -126,7 +126,7 @@ function enviarMailTransformacionVideoCompleta($email, $tituloCurso, $tituloClas
             </table>
         ' . FOOTER;
     $to[] = $email;
-    return sendMailSES($text, $html, utf8_encode("Transformación de " . $txtTipo . " completa"), EMAIL_FROM, $to);
+    return sendMailSES($text, $html, "Transformación de " . $txtTipo . " completa", EMAIL_FROM, $to);
 }
 
 ?>

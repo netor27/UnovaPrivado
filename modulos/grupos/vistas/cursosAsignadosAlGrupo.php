@@ -67,6 +67,9 @@ if (isset($grupos)) {
                 }
                 $i++;
             }
+            if (($i % 3) == 2 || ($i % 3) == 1 ) {
+                echo '</div>';
+            }
             ?>                        
         </div>
     </div>

@@ -38,12 +38,12 @@ if (isset($grupos)) {
                 ?>
                 <div class="thumbnail span4 well well-small ui-corner-all" >
                     <div class="row-fluid">
-                        <div class="span12">
+                        <div class="span12" style="word-break:break-all;">
                             <h4><?php echo $grupo->nombre; ?></h4>
                         </div>
                     </div>
                     <div class="row-fluid">
-                        <div class="span12">
+                        <div class="span12" style="word-break:break-all;">
                             <p><?php echo $grupo->descripcion; ?></p>
                         </div>
                     </div>
@@ -69,7 +69,7 @@ if (isset($grupos)) {
                 }
                 $i++;
             }
-            if (($i % 3) == 2) {
+            if (($i % 3) == 2 || ($i % 3) == 1 ) {
                 echo '</div>';
             }
             ?>                        

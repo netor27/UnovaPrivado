@@ -96,7 +96,7 @@ if (isset($cursos)) {
                                         <li><a href="/cursos/curso/alumnos/<?php echo $curso->idCurso . "&pc=" . $pagina; ?>"><i class="icon-user"></i> Editar usuarios inscritos</a></li>
                                         <li><a href="/grupos/cursos/asignados/<?php echo $curso->idCurso; ?>"><i class="icon-globe"></i> Editar grupos asignados</a></li>
                                         <li class="divider"></li>
-                                        <li><a class="borrarCurso" id="<?php echo $curso->idCurso; ?>"><i class="icon-fire"></i> Eliminar curso</a></li>
+                                        <li><a class="borrarCurso" id="<?php echo $curso->idCurso; ?>" href="#"><i class="icon-fire"></i> Eliminar curso</a></li>
                                     </ul>
                                 </div>
                             </div>

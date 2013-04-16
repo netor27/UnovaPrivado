@@ -97,15 +97,19 @@ footer .copyright .copy p {
 }
 
 body .modal.fullWidth{
-  width: 80%; /* desired relative width */
-  left: 10%; /* (100%-width)/2 */
-  margin: auto auto auto auto; /* place center */
+    width: 80%; /* desired relative width */
+    left: 10%; /* (100%-width)/2 */
+    margin: auto auto auto auto; /* place center */
 }
-
 
 .mostrarListas ul > li{
     list-style-type:disc!important;
 }
 .mostrarListas ol > li{
     list-style-type:decimal!important;
+}
+
+.inputError{
+    box-shadow: 0 0 6px #f8b9b7!important;
+    border-color: #ee5f5b!important;
 }

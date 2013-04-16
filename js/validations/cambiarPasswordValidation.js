@@ -9,8 +9,10 @@ $(document).ready(function(){
         if(passAnterior.val().length < 1){
             aux =  msgError + 'Introduce tu contraseña anterior</div></div>';            
             $("#errorMessage").html(aux);
+            $(passAnterior).addClass("inputError");
             return false;
         }else{
+            $(passAnterior).removeClass("inputError");
             return true;
         }
     }
@@ -18,19 +20,22 @@ $(document).ready(function(){
     function validatePass1(){  
         if(pass1.val().length <5){  
             aux =  msgError + 'Tu contraseña debe tener mínimo 5 caracteres</div></div>';            
-            $("#errorMessage").html(aux);
+            $("#errorMessage").html(aux);            
+            $(pass1).addClass("inputError");
             return false;  
         }else{  
+            $(pass1).removeClass("inputError");
             return true;  
         }  
     }  
     function validatePass2(){  
-
         if( pass1.val() != pass2.val() ){  
             var aux =  msgError + 'Las contraseñas no coinciden</div></div>';            
             $("#errorMessage").html(aux);
+            $(pass2).addClass("inputError");
             return false;  
         }else{  
+            $(pass2).removeClass("inputError");
             return true;  
         }  
     } 

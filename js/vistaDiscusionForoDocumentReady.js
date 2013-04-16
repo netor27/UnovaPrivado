@@ -398,14 +398,17 @@ function bindEventBtnAgregarComentario(){
     $('#agregarComentarioModal').on('hidden', function () {        
         $("#inputTitulo").val("");
         $("#editor").empty();
+        $("#dialogoErrorComentario").empty();
     });
     $("#btnAgregarComentario").click(function(){
+        $('#editor').removeClass("inputError");
         error = false;
         var msgError = "";
         $texto = $('#editor').cleanHtml();
-        if($texto.length <= 0 ){
+        if($texto.length < 10 ){
             error = true;
-            msgError = "Introduce el texto";
+            msgError = "Introduce el texto, por lo menos 10 letras";
+            $('#editor').addClass("inputError");
         }
         if(error){
             var auxBlock = '<div class="alert alert-error alert-block">';
@@ -426,6 +429,7 @@ function bindEventBtnAgregarComentario(){
                 url: '/cursos/comentario/agregarComentario',
                 data: data
             }).done(function( html ) {
+                $('#agregarComentarioModal').modal('hide');
                 var resultado = jQuery.parseJSON(html);
                 if(resultado.res){
                     //Se agrego la comentario, ordenamos por fecha descendente para que el usuario vea su entrada
@@ -437,9 +441,9 @@ function bindEventBtnAgregarComentario(){
                 }else{
                     bootbox.alert("Error. "+resultado.msg);
                 }
+                
             });
         }      
-        $('#agregarComentarioModal').modal('hide');
         return false;
     });
 }
@@ -447,15 +451,15 @@ function bindEventsTabs(){
     
 }
 function actualizarPaginaPorLinkHash(){
+    $auxPagina = 1;
     if (location.hash !== ''){ 
         var splitted = location.hash.split(",");
-        var n = splitted.length;
-        $auxPagina = 1;
+        var n = splitted.length;        
         if(n > 0){
             //Tenemos el valor de la página
             $auxPagina = splitted[0].substr(1);
             $auxPagina = parseInt($auxPagina,10);
-            console.log($auxPagina);
+        //console.log($auxPagina);
         }
         if(n > 1){
             //tenemos la informacion de la forma de ordenar
@@ -474,8 +478,8 @@ function actualizarPaginaPorLinkHash(){
                 $("#selectAscendente").val(ascendente);
             }
         }
-        mostrarPaginaComentarios($auxPagina, true, true);
     }    
+    mostrarPaginaComentarios($auxPagina, true, true);
 }
 function actualizarLinkHash(){
     var posiblesValores = ["mayor","menor"];

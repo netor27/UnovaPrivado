@@ -297,25 +297,34 @@ function bindEventBtnAgregarDiscusion(){
     $('#agregarDiscusionModal').on('hidden', function () {        
         $("#inputTitulo").val("");
         $("#editor").empty();
+        $("#dialogoErrorDiscusion").empty();
     });
     $("#btnAgregarDiscusion").click(function(){
         error = false;
         var msgError = "";
         $titulo = trim($("#inputTitulo").val());
-        console.log($('#editor').html());
         $texto = $('#editor').cleanHtml();
-        console.log($texto);
-        if($texto.length <= 0 ){
+        
+        $("#inputTitulo").removeClass("inputError");
+        $("#editor").removeClass("inputError");
+        
+        if($titulo.length <= 10 ){
             error = true;
-            msgError = "Introduce el texto";
-        }
-        if($titulo.length <= 0 ){
-            error = true;
-            msgError = "Introduce un título";
-        }
-        if($titulo.length > 140 ){
+            msgError = "Introduce un título, por lo menos 10 letras";
+            $("#inputTitulo").addClass("inputError");
+        }else if($titulo.length > 140 ){
             error = true;
             msgError = "El título no puede tener más de 140 letras";
+            $("#inputTitulo").addClass("inputError");
+        }else{
+            $("#inputTitulo").removeClass("inputError");
+            if($texto.length <= 10 ){
+                error = true;
+                msgError = "Introduce el texto, por lo menos 10 letras";
+                $("#editor").addClass("inputError");
+            }else{
+                $("#editor").removeClass("inputError");
+            }     
         }
         if(error){
             var auxBlock = '<div class="alert alert-error alert-block">';
@@ -337,6 +346,7 @@ function bindEventBtnAgregarDiscusion(){
                 url: '/cursos/discusion/agregarDiscusion',
                 data: data
             }).done(function( html ) {
+                $('#agregarDiscusionModal').modal('hide');
                 var resultado = jQuery.parseJSON(html);
                 if(resultado.res){
                     //Se agrego la discusion, ordenamos por fecha descendente para que el usuario vea su entrada
@@ -345,12 +355,12 @@ function bindEventBtnAgregarDiscusion(){
                     $("#selectOrden").val(orden);
                     $("#selectAscendente").val(ascendente);                                
                     validarDiscusionesNuevas(1);
+                    
                 }else{
                     bootbox.alert("Error. "+resultado.msg);
                 }
             });
         }      
-        $('#agregarDiscusionModal').modal('hide');
         return false;
     });
 }
@@ -366,6 +376,7 @@ function bindEventsTabs(){
     });
 }
 function actualizarPaginaPorLinkHash(){
+    $auxPagina = 1;
     if (location.hash !== ''){ 
         if(location.hash.indexOf("Contenido") >= 0){
             $('#tabContenido').tab("show");
@@ -375,7 +386,6 @@ function actualizarPaginaPorLinkHash(){
             $('#tabForo').tab("show");
             var splitted = location.hash.split(",");
             var n = splitted.length;
-            $auxPagina = 1;
             if(n > 1){
                 //Tenemos el valor de la página
                 $auxPagina = parseInt(splitted[1],10);
@@ -397,9 +407,9 @@ function actualizarPaginaPorLinkHash(){
                     $("#selectAscendente").val(ascendente);
                 }
             }
-            mostrarPaginaDiscusiones($auxPagina, true, true);
         }
-    }    
+    }
+    mostrarPaginaDiscusiones($auxPagina, true, true);    
 }
 function actualizarLinkHash(){
     var posiblesValores = ["mayor","menor"];

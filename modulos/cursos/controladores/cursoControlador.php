@@ -373,17 +373,27 @@ function calificarCurso() {
     $idUsuario = $_GET['iu'];
     $idCurso = $_GET['ic'];
     $rating = $_GET['rating'];
-
+    $msg = "";
+    $res = false;
+    $auxRating = 0;
     require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
     if (esUsuarioUnAlumnoDelCurso($idUsuario, $idCurso)) {
         if (setRatingUsuario($idUsuario, $idCurso, $rating)) {
-            echo "Tu calificación ha sido guardada. ¡Gracias!";
+            $res = true;
+            $msg = "Tu calificación ha sido guardada. ¡Gracias!";
+            require_once 'modulos/cursos/modelos/CursoModelo.php';
+            $auxRating = getRatingCurso($idCurso);
         } else {
-            echo "Ocurrió un error al calificar el curso";
+            $msg = "Ocurrió un error al calificar el curso";
         }
     } else {
-        echo "Ocurrió un error al calificar el curso";
+        $msg = "Ocurrió un error al calificar el curso";
     }
+    echo json_encode(array(
+        "res" => $res,
+        "msg" => $msg,
+        "rating" => $auxRating
+    ));
 }
 
 function publicar() {
