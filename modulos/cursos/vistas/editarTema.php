@@ -4,9 +4,11 @@ require_once('layout/headers/headAgregarTema.php');
 require_once('layout/headers/headCierre.php');
 ?>
 <div class="row-fluid">
-    <div class="well span8 offset2">
+    <div class="well well-small span8 offset2">
         <div class="row-fluid">
-            <legend><h4 class="black">Editar el tema</h4></legend>
+            <legend>
+                <h4 class="blue">Editar el tema</h4>
+            </legend>
         </div>
         <div id="errorMessage">
             <?php
@@ -25,9 +27,9 @@ require_once('layout/headers/headCierre.php');
         <div class="row-fluid">
             <form method="post" id="customForm" action="/temas/tema/editarTemaSubmit" class="form-horizontal">  
                 <div class="control-group">
-                    <label class="control-label" for="inputTitulo">Título del tema</label>
+                    <label class="control-label" for="inputTitulo">Título del tema:</label>
                     <div class="controls">
-                        <input class="span9" type="text" id="inputTitulo" name="titulo" value="<?php echo $tema->nombre; ?>"/>
+                        <input class="span8" type="text" id="inputTitulo" name="titulo" value="<?php echo $tema->nombre; ?>"/>
                     </div>
                 </div>
                 <div class="control-group">

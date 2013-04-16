@@ -9,10 +9,10 @@ require_once('layout/headers/headCierre.php');
             <?php
             switch ($tipo) {
                 case "alta":
-                    echo '<legend><h4 class="black">Agregar un grupo</h4></legend>';
+                    echo '<legend><h4 class="blue">Agregar un grupo</h4></legend>';
                     break;
                 case "edita":
-                    echo '<legend><h4 class="black">Modificar el grupo</h4></legend>';
+                    echo '<legend><h4 class="blue">Modificar el grupo</h4></legend>';
                     break;
             }
             ?>

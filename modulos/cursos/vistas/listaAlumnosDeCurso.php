@@ -4,6 +4,15 @@ require_once('layout/headers/headListaAlumnosDeCurso.php');
 require_once('layout/headers/headCierre.php');
 ?>
 <div class="row-fluid">
+    <div class="span3 offset9">
+        <a href="/usuarios/cursos/inscribirUsuario/<?php echo $curso->idCurso; ?>" class="btn btn-primary">
+            <i class="icon-white icon-plus"></i>
+            Inscribir usuario(s) a este curso
+        </a>
+    </div>
+</div>
+<div class="row-fluid"><h6></h6></div>
+<div class="row-fluid">
     <div class="well ">
         <div class="row-fluid">
             <div class="span9">
@@ -13,14 +22,6 @@ require_once('layout/headers/headCierre.php');
                 else
                     echo '<h4>Hay ' . $numAlumnos . ' alumnos inscritos al curso: "' . $curso->titulo . '"</h4>';
                 ?>
-            </div>
-            <div class="span3">
-                <div>
-                    <a href="/usuarios/cursos/inscribirUsuario/<?php echo $curso->idCurso; ?>" class="btn btn-primary">
-                        <i class="icon-white icon-plus"></i>
-                        Inscribir usuario(s) a este curso
-                    </a>
-                </div>
             </div>
         </div>
         <div class="row-fluid">
@@ -48,7 +49,7 @@ require_once('layout/headers/headCierre.php');
                                             <?php echo $alumno->nombreUsuario; ?>
                                         </div>
                                         <div class="row-fluid">
-                                        <img src="<?php echo $alumno->avatar; ?>">
+                                            <img src="<?php echo $alumno->avatar; ?>">
                                         </div>
                                     </a>
                                 </div>
@@ -67,7 +68,7 @@ require_once('layout/headers/headCierre.php');
                         }
                         $i++;
                     }
-                    if($i % 6 !== 1){
+                    if ($i % 6 !== 1) {
                         echo '</div>';
                     }
                     ?>

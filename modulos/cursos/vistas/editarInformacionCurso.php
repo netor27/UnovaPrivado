@@ -7,7 +7,7 @@ require_once('layout/headers/headCierre.php');
 <div class="row-fluid">
     <div class="well span12 ">
         <div class="row-fluid">
-            <legend><h4 class="black">Editar información del curso</h4></legend>
+            <legend><h4 class="blue">Editar información del curso</h4></legend>
         </div>
         <div id="errorMessage">
             <?php
@@ -26,19 +26,19 @@ require_once('layout/headers/headCierre.php');
         <div class="row-fluid">
             <form method="post" id="customForm" class="form-horizontal" action="/cursos/curso/editarInformacionCursoSubmit/<?php echo $cursoParaModificar->idCurso; ?>">
                 <div class="control-group">
-                    <label class="control-label" for="inputTitulo">Título del curso</label>
+                    <label class="control-label" for="inputTitulo">Título del curso:</label>
                     <div class="controls">
-                        <input class="span5" type="text" id="inputTitulo" name="titulo" value="<?php echo $cursoParaModificar->titulo; ?>">
+                        <input class="span8" type="text" id="inputTitulo" name="titulo" value="<?php echo $cursoParaModificar->titulo; ?>">
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="inputDescripcion">Descripción corta</label>
+                    <label class="control-label" for="inputDescripcion">Descripción corta:</label>
                     <div class="controls">
-                        <textarea class="span10" id="inputDescripcion" name="descripcionCorta" rows="5"><?php echo $cursoParaModificar->descripcionCorta; ?></textarea>
+                        <textarea class="span12" id="inputDescripcion" name="descripcionCorta" rows="5"><?php echo $cursoParaModificar->descripcionCorta; ?></textarea>
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="inputDescripcionLarga">Descripción</label>
+                    <label class="control-label" for="inputDescripcionLarga">Descripción:</label>
                     <div class="controls">
                         <input type="hidden" id="descripcion" name="descripcion"/>
                         <?php

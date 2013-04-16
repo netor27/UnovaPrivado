@@ -9,9 +9,10 @@
 }
 
 .descripcion{
-    max-width: 272px;
     height:80px;
     overflow: auto;    
+    word-wrap:break-word;
+    text-align: left;
 }
 
 .tituloCurso:hover{

@@ -8,7 +8,7 @@ require_once('layout/headers/headCierre.php');
         <div class="row-fluid">
             <div class="span12">
                 <legend>
-                    <h3 >Agrega contenido a tu curso</h3>    
+                    <h4 class="blue" >Agrega contenido a tu curso</h4>    
                 </legend>
                 <?php
                 if (isset($error) && $error != "") {

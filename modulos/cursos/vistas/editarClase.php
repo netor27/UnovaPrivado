@@ -7,8 +7,9 @@ require_once('layout/headers/headCierre.php');
     <?php
     if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
         ?>
-        <div class="span4 offset6">
+        <div class="span3 offset9">
             <a class="span12 btn btn-info"  href="/cursos/clase/editor/<?php echo $curso->idCurso . "/" . $clase->idClase; ?>">
+                <i class="icon-white icon-edit"></i>
                 Agregar interactividad a esta clase
             </a>
         </div>
@@ -18,9 +19,11 @@ require_once('layout/headers/headCierre.php');
 </div>
 <div class="row-fluid"><h3></h3></div>
 <div class="row-fluid">
-    <div class="span12 well span9 offset1">
+    <div class="span12 well well-small">
         <div class="row-fluid">
-            <legend><h4 class="black">Editar clase</h4></legend>
+            <legend>
+                <h4 class="blue">Editar clase</h4>
+            </legend>
         </div>
         <div id="errorMessage">
             <?php
@@ -41,13 +44,13 @@ require_once('layout/headers/headCierre.php');
                 <div class="control-group">
                     <label class="control-label" for="inputTitulo">Título: </label>
                     <div class="controls">
-                        <input class="span11" type="text" id="inputTitulo" name="titulo" value="<?php echo $clase->titulo; ?>">
+                        <input class="span8" type="text" id="inputTitulo" name="titulo" value="<?php echo $clase->titulo; ?>">
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="inputDescripcion">Descripción: </label>
                     <div class="controls">
-                        <textarea class="span12" id="inputDescripcion" name="descripcion" rows="5"><?php echo $clase->descripcion; ?></textarea>
+                        <textarea class="span11" id="inputDescripcion" name="descripcion" rows="5"><?php echo $clase->descripcion; ?></textarea>
                     </div>
                 </div>
                 <div class="control-group">

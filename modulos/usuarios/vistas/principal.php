@@ -11,20 +11,20 @@ require_once('layout/headers/headCierre.php');
         <?php
         switch ($tipo) {
             case 'alumnos':
-                echo '<a href="/alumnos/usuario/altaAlumnos" class="btn btn-primary span12">';
-                echo '<i class="icon-white icon-plus"></i>';
+                echo '<a href="/alumnos/usuario/altaAlumnos" class="btn  span12">';
+                echo '<i class=" icon-plus"></i> ';
                 echo 'Agregar alumno(s)';
                 echo '</a>';
                 break;
             case 'profesores':
-                echo '<a href="/profesores/usuario/altaProfesores" class="btn btn-primary span12">';
-                echo '<i class="icon-white icon-plus"></i>';
+                echo '<a href="/profesores/usuario/altaProfesores" class="btn  span12">';
+                echo '<i class="icon-plus"></i> ';
                 echo 'Agregar prefesor(es)';
                 echo '</a>';
                 break;
             case 'administradores':
-                echo '<a href="/administradores/usuario/altaAdministradores" class="btn btn-primary span12">';
-                echo '<i class="icon-white icon-plus"></i>';
+                echo '<a href="/administradores/usuario/altaAdministradores" class="btn  span12">';
+                echo '<i class=" icon-plus"></i> ';
                 echo 'Agregar administrador(es)';
                 echo '</a>';
                 break;
@@ -32,21 +32,21 @@ require_once('layout/headers/headCierre.php');
         ?>
     </div>
 </div>
-<div class="row-fluid"><h1></h1></div>
+<div class="row-fluid"><h6></h6></div>
 <div class="row-fluid">
     <div class="well well-small">
         <legend >            
-            <h4 >
+            <h4 class="blue">
                 <?php
                 switch ($tipo) {
                     case 'alumnos':
-                        echo 'Lista de alumnos';
+                        echo 'Lista de todos los alumnos';
                         break;
                     case 'profesores':
-                        echo 'Lista de profesores';
+                        echo 'Lista de todos los profesores';
                         break;
                     case 'administradores':
-                        echo 'Lista de administradores';
+                        echo 'Lista de todos los administradores';
                         break;
                 }
                 ?>
@@ -67,7 +67,7 @@ require_once('layout/headers/headCierre.php');
                         }
                         ?>
                         <div class="span2">
-                            <div class="thumbnail hoverBlueBorder">
+                            <div class="thumbnail hoverBlueBorder whiteBackground">
                                 <div class="caption centerText break-words">
                                     <a href="/usuario/<?php echo $usuario->uniqueUrl; ?>">
                                     <div class="row-fluid">

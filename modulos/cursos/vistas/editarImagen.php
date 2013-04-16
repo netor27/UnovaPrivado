@@ -1,11 +1,12 @@
 <?php
 require_once('layout/headers/headInicio.php');
+require_once('layout/headers/headUploadInputStyler.php');
 require_once('layout/headers/headCierre.php');
 ?>
 <div class="row-fluid">
     <div class="well span8 offset2">
         <div class="row-fluid">
-            <legend><h4 class="black">Cambiar imagen del curso</h4></legend>
+            <legend><h4 class="blue">Cambiar imagen del curso</h4></legend>
         </div>
         <?php
         if (isset($msgForma)) {
@@ -30,7 +31,7 @@ require_once('layout/headers/headCierre.php');
                 <div class="control-group">
                     <label class="control-label" for="inputImagen">Sube una imagen:</label>
                     <div class="controls">
-                        <input id="imagen" name="imagen" type="file" />
+                            <input id="imagen" name="imagen" type="file" title="<i class='icon-picture'/> Click para seleccionar imagen"/>
                     </div>
                 </div>
                 <div class="control-group">

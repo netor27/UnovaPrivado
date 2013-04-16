@@ -4,9 +4,11 @@ require_once('layout/headers/headCambiarPassword.php');
 require_once('layout/headers/headCierre.php');
 ?>
 <div class="row-fluid">
-    <div class="well span8 offset2">
+    <div class="well span6 offset3">
         <div class="row-fluid">
-            <legend><h4 class="black">Cambiar contraseña</h4></legend>
+            <legend>
+                <h4 class="blue">Cambiar contraseña</h4>
+            </legend>
         </div>
         <div id="errorMessage">
             <?php

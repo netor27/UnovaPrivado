@@ -8,7 +8,9 @@ require_once('layout/headers/headCierre.php');
 <div class="row-fluid">
     <div class="well span12 ">
         <div class="row-fluid">
-            <legend><h4 class="black">Actualizar mi información</h4></legend>
+            <legend>
+                <h4 class="blue">Actualizar mi información</h4>
+            </legend>
         </div>
         <div id="errorMessage">
             <?php
@@ -29,13 +31,13 @@ require_once('layout/headers/headCierre.php');
                 <div class="control-group">
                     <label class="control-label" for="inputNombre">Nombre:</label>
                     <div class="controls">
-                        <input class="span6" id="inputNombre" name="nombre" type="text" value='<?php echo $usuario->nombreUsuario; ?>'/>  
+                        <input class="span9" id="inputNombre" name="nombre" type="text" value='<?php echo $usuario->nombreUsuario; ?>'/>  
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="inputTitulo">Título personal:</label>
                     <div class="controls">
-                        <input class="span10" id="inputTitulo" name="tituloPersonal" type="text" value="<?php echo $usuario->tituloPersonal; ?>" placeholder="Ej. Experto en tocar la guitarra, Profesor de tiempo completo, diseñador web en Unova, etc."/>
+                        <input class="span9" id="inputTitulo" name="tituloPersonal" type="text" value="<?php echo $usuario->tituloPersonal; ?>" placeholder="Ej. Experto en tocar la guitarra, Profesor de tiempo completo, diseñador web en Unova, etc."/>
                     </div>
                 </div>
                 <div class="control-group">

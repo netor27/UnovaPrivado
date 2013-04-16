@@ -6,7 +6,9 @@ require_once('layout/headers/headCierre.php');
 <div class="row-fluid">
     <div class="well span8 offset2">
         <div class="row-fluid">
-            <legend><h4 class="black">Cambiar contraseña</h4></legend>
+            <legend>
+                <h4 class="blue">Cambiar contraseña</h4>
+            </legend>
         </div>
         <?php
         if (isset($msgForma)) {
@@ -26,18 +28,19 @@ require_once('layout/headers/headCierre.php');
                 <div class="control-group">
                     <label class="control-label" for="inputPass1">Contraseña:</label>
                     <div class="controls">
-                        <input id="inputPass1" name="pass1" type="password"/>  
+                        <input class="span6" id="inputPass1" name="pass1" type="password"/>  
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="inputPass2">Repetir contraseña:</label>
                     <div class="controls">
-                        <input id="inputPass2" name="pass2" type="password"/> 
+                        <input class="span6" id="inputPass2" name="pass2" type="password"/> 
                     </div>
                 </div>
                 <div class="control-group">
                     <div class="controls">
                         <button type="submit" class="btn btn-primary"> Aceptar </button>  
+                        <a class="btn offset1" href="/"> Cancelar </a>  
                     </div>
                 </div>
             </form>
