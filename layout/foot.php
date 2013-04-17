@@ -1,5 +1,5 @@
 <?php
-require_once 'layout/breadcrumbs.php';
+require 'layout/breadcrumbs.php';
 ?>
 </div>
 <div id="pushfooter">

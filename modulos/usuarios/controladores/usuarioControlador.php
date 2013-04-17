@@ -27,7 +27,7 @@ function listaAdministradores() {
 function listarUsuarios($tipo) {
     if (isset($tipo)) {
         $offset = 0;
-        $numRows = 18;
+        $numRows = 16;
         $pagina = 1;
         if (isset($_GET['p'])) {
             if (is_numeric($_GET['p'])) {
@@ -495,7 +495,6 @@ function altaUsuariosSubmit() {
 function altaUsuariosArchivoCsvSubmit() {
     if (validarAdministradorPrivado()) {
         if (isset($_FILES['csv'])) {
-            $csv = array();
             if ($_FILES['csv']['error'] == 0) {
                 $name = $_FILES['csv']['name'];
                 $ext = strtolower(end(explode('.', $_FILES['csv']['name'])));
@@ -572,7 +571,6 @@ function altaUsuariosArchivoCsvSubmit() {
                             }
                         }
                         require_once 'modulos/usuarios/vistas/resultadoDeAltaUsuarios.php';
-                        print_r($csv);
                         fclose($handle);
                     } else {
                         setSessionMessage("Ocurrió un error al procesar tu archivo. Intenta de nuevo más tarde", " ¡Error! ", "error");

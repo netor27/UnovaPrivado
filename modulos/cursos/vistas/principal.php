@@ -88,7 +88,6 @@ require_once('layout/headers/headCierre.php');
                                         </p>
                                     </div>
                                     <div class="row-fluid">
-
                                         <div class="btn-group span3 offset6">
                                             <a class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown">
                                                 <i class="icon-pencil icon-white"></i> Administrar

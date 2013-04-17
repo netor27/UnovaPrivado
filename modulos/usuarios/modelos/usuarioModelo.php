@@ -8,17 +8,15 @@ function altaUsuario($usuario) {
     $uuid = md5($usuario->email) . getUniqueCode(4);
     $usuario->setRandomProfilePic();
     $stmt = $conex->prepare("INSERT into usuario 
-                            (email, password, nombreUsuario, uniqueUrl, fechaRegistro, uuid, idTipoUsuario, avatar) 
-                            values(:email,:password,:nombreUsuario,:uniqueUrl, NOW() ,:uuid , :tipoUsuario, :avatar)");
+                            (email, password, nombreUsuario, uniqueUrl, fechaRegistro, uuid, idTipoUsuario) 
+                            values(:email,:password,:nombreUsuario,:uniqueUrl, NOW() ,:uuid , :tipoUsuario)");
     $stmt->bindParam(':email', $usuario->email);
     $stmt->bindParam(':password', $usuario->password);
     $stmt->bindParam(':nombreUsuario', $usuario->nombreUsuario);
     $stmt->bindParam(':uuid', $uuid);
     $stmt->bindParam(':uniqueUrl', $usuario->uniqueUrl);
     $stmt->bindParam(':tipoUsuario', $usuario->tipoUsuario);
-    $stmt->bindParam(':avatar', $usuario->avatar);
     $id = -1;
-
     if ($stmt->execute()) {
         $id = $conex->lastInsertId();
         return array("resultado" => "ok", "id" => $id, "uuid" => $uuid);

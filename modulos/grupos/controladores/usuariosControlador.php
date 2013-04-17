@@ -6,7 +6,7 @@ function inscritos() {
             $idGrupo = $_GET['i'];
             require_once 'modulos/grupos/modelos/grupoModelo.php';
             $offset = 0;
-            $numRows = 18;
+            $numRows = 16;
             $pagina = 1;
             if (isset($_GET['p'])) {
                 if (is_numeric($_GET['p'])) {
