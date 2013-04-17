@@ -13,7 +13,7 @@ require_once('layout/headers/headCierre.php');
 </div>
 <div class="row-fluid"><h1></h1></div>
 <div class="row-fluid">
-    <div class="well well-small">
+    <div class="well well-small">        
         <legend>
             <h4 class="blue">Lista de todos los cursos</h4>
         </legend>
@@ -22,7 +22,7 @@ require_once('layout/headers/headCierre.php');
         $fila = 1;
         if (isset($cursos)) {
             ?>            
-            
+
             <div class="row-fluid">
                 <div class="span12">
                     <?php
@@ -47,7 +47,7 @@ require_once('layout/headers/headCierre.php');
                                     <a href="/curso/<?php echo $curso->uniqueUrl; ?>">
                                         <img class="hidden-phone img-polaroid span12" src="<?php echo $curso->imagen; ?>">
                                         <img class="visible-phone imageSmallPhone img-polaroid span12" src="<?php echo $curso->imagen; ?>">
-                                        <button class="btn btn-mini offset3 span6">Ver curso</button>
+                                        <button class="btn btn-mini offset3 span6" style="margin-top: 5px;">Ver curso</button>
                                     </a>
                                 </div>
                                 <div class="span8">
@@ -95,7 +95,7 @@ require_once('layout/headers/headCierre.php');
                                                 <span class="caret"></span>
                                             </a>                                            
                                             <ul class="dropdown-menu">
-                                                <li><a href="/cursos/curso/alumnos/<?php echo $curso->idCurso . "&pc=" . $pagina; ?>"><i class="icon-user"></i> Editar usuarios inscritos</a></li>
+                                                <li><a href="/cursos/curso/alumnos/<?php echo $curso->idCurso; ?>"><i class="icon-user"></i> Editar usuarios inscritos</a></li>
                                                 <li><a href="/grupos/cursos/asignados/<?php echo $curso->idCurso; ?>"><i class="icon-globe"></i> Editar grupos asignados</a></li>
                                                 <li class="divider"></li>
                                                 <li><a class="borrarCurso" id="<?php echo $curso->idCurso; ?>" href="#"><i class="icon-fire"></i> Eliminar curso</a></li>

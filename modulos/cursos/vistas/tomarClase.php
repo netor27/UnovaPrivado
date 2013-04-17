@@ -12,16 +12,21 @@ require_once('layout/headers/headCierreTomarClase.php');
     <div class="row-fluid">
         <div class="span12 well ">
             <legend>
-                <h1><?php echo $clase->titulo; ?></h1>
+                <h4 class="blue"><?php echo $clase->titulo; ?></h4>
             </legend>
-            <h4><?php echo $clase->descripcion; ?></h4>
-            <p>Descarga el archivo del siguiente link</p>
+            <?php
+            if(isset($clase->descripcion)){
+                echo "<p> $clase->descripcion </p>";
+            }
+            ?>          
+            <div class="row-fluid"><h6></h6></div>
+            <p>Descarga el archivo del siguiente link:</p>
             <p>
                 <?php echo '<a style="text-decoration: underline;" href="' . $clase->archivo . '" target="_blank">' . $clase->titulo . '</a>'; ?>
             </p>
         </div>
     </div>
-</div>
 <?php
+$noBreadCrumbs = false;
 require_once('layout/foot.php');
 ?>

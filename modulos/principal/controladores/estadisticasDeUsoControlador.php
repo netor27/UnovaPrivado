@@ -21,7 +21,9 @@ function principal() {
     $usuariosPorcentaje = round(($numUsuarios / $maxUsuarios) * 100);
     $discoPorcentaje = round(($discoUsado / $maxDisco) * 100);
     $anchoPorcentaje = round(($anchoUsado / $maxAncho) * 100);
-    
+
+    clearBreadCrumbs();
+    pushBreadCrumb(getUrl(), "Estadísticas de uso", true);
     require_once 'modulos/principal/vistas/estadisticasDeUso.php';
 }
 

@@ -1,4 +1,6 @@
-    <div class="row-fluid"><h4></h4></div>
+<?php
+require_once 'layout/breadcrumbs.php';
+?>
 </div>
 <div id="pushfooter">
     <footer id="footer">

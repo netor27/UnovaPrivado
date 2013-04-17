@@ -5,6 +5,7 @@ function principal() {
         goToIndex();
     } else {
         $pagina = "/";
+        clearBreadCrumbs();
         require_once 'modulos/principal/vistas/login.php';
     }
 }

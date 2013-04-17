@@ -291,4 +291,41 @@ function getTipoLayout() {
     return $_SESSION['layout'];
 }
 
+function clearBreadCrumbs() {
+    unset($_SESSION['breadcrumbs']);
+    $_SESSION['breadcrumbs'] = array();
+}
+
+function pushBreadCrumb($url, $txt, $lastBreadcrumb = false) {
+    $insertValue = array("url" => $url, "txt" => $txt);
+    if ($lastBreadcrumb) {
+        //hay que borrar todos los breadcrumbs que le sigan a este
+        $auxArray = array_keys($_SESSION['breadcrumbs']);
+        $indiceBorrar = array_search($insertValue, $_SESSION['breadcrumbs']);
+        if ($indiceBorrar !== FALSE) {
+            $borrando = false;
+            for ($i = 0; $i < sizeof($auxArray); $i++) {
+                if ($auxArray[$i] === $indiceBorrar) {
+                    $borrando = true;
+                }
+                if ($borrando) {
+                    unset($_SESSION['breadcrumbs'][$auxArray[$i]]);
+                }
+            }
+            $_SESSION['breadcrumbs'] = array_values($_SESSION['breadcrumbs']);
+        }
+        $_SESSION['breadcrumbs'][] = $insertValue;
+    } else {
+        if (!in_array($insertValue, $_SESSION['breadcrumbs']))
+            $_SESSION['breadcrumbs'][] = $insertValue;
+    }
+}
+
+function getBreadCrumbs() {
+    if (isset($_SESSION['breadcrumbs']))
+        return $_SESSION['breadcrumbs'];
+    else
+        return array();
+}
+
 ?>

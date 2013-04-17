@@ -38,6 +38,8 @@ function principal() {
             $comentarios = $array['comentarios'];
             $numComentarios = $array['n'];
             $maxPagina = ceil($numComentarios / $numRows);
+            pushBreadCrumb("/curso/" . $curso->uniqueUrl . "#Foro", "Foro", false);
+            pushBreadCrumb(getUrl() , $discusion->titulo, true);
             require_once 'modulos/cursos/vistas/vistaDiscusionForo.php';
         } else {
             //Los datos recibidos no son correctos

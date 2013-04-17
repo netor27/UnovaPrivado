@@ -53,18 +53,10 @@ function listarUsuarios($tipo) {
         $numUsuarios = $res['n'];
         $maxPagina = ceil($numUsuarios / $numRows);
         if ($pagina != 1 && $pagina > $maxPagina) {
-            switch ($tipo) {
-                case 'alumnos':
-                    redirect("/alumnos&p=" . $maxPagina);
-                    break;
-                case 'profesores':
-                    redirect("/profesores&p=" . $maxPagina);
-                    break;
-                case 'administradores':
-                    redirect("/administradores&p=" . $maxPagina);
-                    break;
-            }
+            redirect('/' . $tipo . '&p=' . $maxPagina);
         } else {
+            clearBreadCrumbs();
+            pushBreadCrumb(getUrl(), "Lista de " . $tipo, true);
             require_once 'modulos/usuarios/vistas/principal.php';
         }
     } else {
@@ -88,11 +80,13 @@ function detalles() {
         if (validarUsuarioLoggeadoParaSubmits()) {
             if (getUsuarioActual()->idUsuario == $usuarioPerfil->idUsuario) {
                 $miPerfil = true;
+                clearBreadCrumbs();
             }
         }
         require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';
         $numTomados = getNumeroCursosTomados($usuarioPerfil->idUsuario);
         $numCursos = getNumeroCursosCreados($usuarioPerfil->idUsuario);
+        pushBreadCrumb(getUrl(), $usuarioPerfil->nombreUsuario,true);
         require_once 'modulos/usuarios/vistas/perfil.php';
     } else {
         setSessionMessage("El usuario no existe", " ¡Error! ", "error");

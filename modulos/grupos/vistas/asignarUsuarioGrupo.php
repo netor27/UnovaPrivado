@@ -8,7 +8,7 @@ require_once('layout/headers/headCierre.php');
         <div class="row-fluid">
             <div class="span12">
                 <legend>
-                    <h4 class="black">Agregar usuarios al grupo: "<?php echo $grupo->nombre; ?>"</h4>
+                    <h4 class="blue break-words">Agregar usuarios al grupo: "<?php echo $grupo->nombre; ?>"</h4>
                 </legend>
             </div>
         </div>
@@ -89,6 +89,7 @@ require_once('layout/headers/headCierre.php');
     </div>
 </div>
 <?php
+$noBreadCrumbs = true;
 require_once('layout/foot.php');
 ?>
             

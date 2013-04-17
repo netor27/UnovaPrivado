@@ -44,5 +44,6 @@ require_once('layout/headers/headCierre.php');
     </div>
 </div>
 <?php
+$noBreadCrumbs = false;
 require_once('layout/foot.php');
 ?>

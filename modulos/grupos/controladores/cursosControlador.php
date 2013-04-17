@@ -25,6 +25,7 @@ function asignados() {
                 $grupos = $res['grupos'];
                 $numGrupos = $res['n'];
                 $maxPagina = ceil($numGrupos / $numRows);
+                pushBreadCrumb(getUrl(), "Lista de grupos asignados al curso",true);
                 require_once 'modulos/grupos/vistas/cursosAsignadosAlGrupo.php';
             } else {
                 setSessionMessage("Ocurrió un error"," ¡Error! ", "error");

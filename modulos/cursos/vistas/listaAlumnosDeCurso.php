@@ -74,7 +74,7 @@ require_once('layout/headers/headCierre.php');
                         <ul>
                             <?php
                             if ($pagina > 1)
-                                echo '<li><a href="/cursos/curso/alumnos/' . $idCurso . '&p=' . ($pagina - 1) . '&pc=' . $paginaCursos . '">«</a></li>';
+                                echo '<li><a href="/cursos/curso/alumnos/' . $idCurso . '&p=' . ($pagina - 1) . '">«</a></li>';
                             else
                                 echo '<li class="disabled"><a href="#">«</a></li>';
 
@@ -82,11 +82,11 @@ require_once('layout/headers/headCierre.php');
                                 if ($i == $pagina)
                                     echo '<li class="active"><a href="#">' . $i . '</a></li>';
                                 else
-                                    echo '<li><a href="/cursos/curso/alumnos/' . $idCurso . '&p=' . $i . '&pc=' . $paginaCursos . '">' . $i . '</a></li>';
+                                    echo '<li><a href="/cursos/curso/alumnos/' . $idCurso . '&p=' . $i . '">' . $i . '</a></li>';
                             }
 
                             if ($pagina < $maxPagina)
-                                echo '<li><a href="/cursos/curso/alumnos/' . $idCurso . '&p=' . ($pagina + 1) . '&pc=' . $paginaCursos . '">»</a></li>';
+                                echo '<li><a href="/cursos/curso/alumnos/' . $idCurso . '&p=' . ($pagina + 1) . '">»</a></li>';
                             else
                                 echo '<li class="disabled"><a href="#">»</a></li>';
                             ?>

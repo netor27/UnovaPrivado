@@ -21,6 +21,7 @@ function inscritos() {
             if ($pagina != 1 && $pagina > $maxPagina) {
                 redirect("grupos/usuarios/inscritos/1&p=" . $maxPagina);
             } else {
+                pushBreadCrumb(getUrl(), "Lista de usuarios del grupo",true);
                 require_once 'modulos/grupos/vistas/usuariosDelGrupo.php';
             }
         } else {

@@ -20,6 +20,8 @@ function principal() {
             if ($pagina != 1 && $pagina > $maxPagina) {
                 redirect("/cursos&p=" . $maxPagina);
             } else {
+                clearBreadCrumbs();
+                pushBreadCrumb(getUrl(), "Lista de cursos",true);
                 require_once 'modulos/cursos/vistas/principal.php';
             }
         } else {
@@ -135,6 +137,7 @@ function tomarCurso($curso, $usuario, $esAlumno) {
         $ratingUsuario = getRatingUsuario($usuario->idUsuario, $curso->idCurso);
     $numAlumnos = getNumeroDeAlumnos($curso->idCurso);
     $tituloPagina = substr($curso->titulo, 0, 50);
+    pushBreadCrumb(getUrl(), $curso->titulo,true);
     require_once 'modulos/cursos/vistas/tomarCurso.php';
 }
 
@@ -152,6 +155,7 @@ function editarCurso($cursoParaModificar, $usuario) {
     $usuarioDelCurso = getUsuarioDeCurso($cursoParaModificar->idCurso);
     $tituloPagina = substr($cursoParaModificar->titulo, 0, 50);
     $numAlumnos = getNumeroDeAlumnos($cursoParaModificar->idCurso);
+    pushBreadCrumb(getUrl(), $cursoParaModificar->titulo,true);
     require_once 'modulos/cursos/vistas/editarCurso.php';
 }
 
@@ -429,10 +433,6 @@ function alumnos() {
                 $offset = 0;
                 $numRows = 18;
                 $pagina = 1;
-                $paginaCursos = 1;
-                if (isset($_GET['pc']) && is_numeric($_GET['pc'])) {
-                    $paginaCursos = $_GET['pc'];
-                }
                 if (isset($_GET['p']) && is_numeric($_GET['p'])) {
                     $pagina = intval($_GET['p']);
                     $offset = $numRows * ($pagina - 1);
@@ -444,8 +444,9 @@ function alumnos() {
                 $numAlumnos = $res['n'];
                 $maxPagina = ceil($numAlumnos / $numRows);
                 if ($pagina != 1 && $pagina > $maxPagina) {
-                    redirect("/cursos/curso/alumnos/" . $idCurso . "&pc=" . $paginaCursos . "&p=" . $maxPagina);
+                    redirect("/cursos/curso/alumnos/" . $idCurso . "&p=" . $maxPagina);
                 } else {
+                    pushBreadCrumb(getUrl(), "Usuarios inscritos al curso",true);
                     require_once 'modulos/cursos/vistas/listaAlumnosDeCurso.php';
                 }
             } else {

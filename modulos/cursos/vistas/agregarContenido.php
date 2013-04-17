@@ -165,5 +165,6 @@ require_once('layout/headers/headCierre.php');
 <div id="keepAlive">        
 </div>
 <?php
+$noBreadCrumbs = false;
 require_once('layout/foot.php');
 ?>

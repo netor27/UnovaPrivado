@@ -98,6 +98,8 @@ function instructor() {
         if ($pagina != 1 && $pagina > $maxPagina) {
             redirect("/usuarios/cursos/instructor&p=" . $maxPagina);
         } else {
+            clearBreadCrumbs();
+            pushBreadCrumb(getUrl(), "Cursos que imparto",true);
             require_once 'modulos/usuarios/vistas/cursosInstructor.php';
         }
     }
@@ -123,6 +125,8 @@ function inscrito() {
         if ($pagina != 1 && $pagina > $maxPagina) {
             redirect("/usuarios/cursos/inscrito&p=" . $maxPagina);
         } else {
+            clearBreadCrumbs();
+            pushBreadCrumb(getUrl(), "Cursos a los que estoy inscrito",true);
             require_once 'modulos/usuarios/vistas/cursosAlumno.php';
         }
     }

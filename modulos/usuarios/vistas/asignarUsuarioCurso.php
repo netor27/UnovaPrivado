@@ -6,7 +6,7 @@ require_once('layout/headers/headCierre.php');
 <div class="well">
     <div class="row-fluid">
         <legend>
-            <h4 class="black">Inscribir usuarios al curso: "<?php echo $curso->titulo; ?>"</h4>
+            <h4 class="blue">Inscribir usuarios al curso: "<?php echo $curso->titulo; ?>"</h4>
         </legend>
     </div>
     <div class="row-fluid">

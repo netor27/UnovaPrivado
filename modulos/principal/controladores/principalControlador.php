@@ -6,7 +6,7 @@ function principal() {
     $array = getCursosFuncion();
     $numCursos = $array['n'];
     $cursos = $array['cursos'];
-
+    clearBreadCrumbs();
     switch (tipoUsuario()) {
         case 'usuario':
             redirect("/usuarios/cursos/inscrito");
