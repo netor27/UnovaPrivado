@@ -15,18 +15,12 @@ require_once('layout/headers/headCierre.php');
 <div class="row-fluid">
     <div class="well ">
         <div class="row-fluid">
-            <div class="span9">
-                <?php
-                if ($numAlumnos == 1)
-                    echo '<h4>Hay un alumno inscritos al curso: "' . $curso->titulo . '"</h4>';
-                else
-                    echo '<h4>Hay ' . $numAlumnos . ' alumnos inscritos al curso: "' . $curso->titulo . '"</h4>';
-                ?>
-            </div>
+            <legend>
+                <h4 class="blue">
+                    Usuarios inscritos a este curso                    
+                </h4>
+            </legend>
         </div>
-        <div class="row-fluid">
-            <div class="span12"></div>
-        </div>    
         <?php
         $columna = 1;
         $fila = 1;
@@ -42,7 +36,7 @@ require_once('layout/headers/headCierre.php');
                         }
                         ?>
                         <div class="span2">
-                            <div class="thumbnail hoverBlueBorder">
+                            <div class="thumbnail hoverBlueBorder whiteBackground">
                                 <div class="caption centerText break-words">
                                     <a href="/usuario/<?php echo $alumno->uniqueUrl; ?>">
                                         <div class="row-fluid">

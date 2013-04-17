@@ -4,13 +4,11 @@ require_once('layout/headers/headCierre.php');
 ?>
 
 <div class="row-fluid">
-    <div class="span12 well">
+    <div class="span12 well well-small">
         <div class="row-fluid">
             <div class="span12">
                 <legend>
-                    <h2>
-                        Estadísticas de uso
-                    </h2>
+                    <h4 class="blue">Estadísticas de uso</h4>
                 </legend>
             </div>
         </div>
@@ -30,15 +28,15 @@ require_once('layout/headers/headCierre.php');
                         if ($usuariosPorcentaje < 50) {
                             echo '<span class="badge badge-success" style="padding: 3px; float: left; width: 25px; text-align: center;">
                              ' . $usuariosPorcentaje . '%</span>';
-                            echo '<div class="progress progress-striped progress-success" style="margin-left:38px;">';
+                            echo '<div class="progress progress-striped progress-success" style="margin-left:38px;border: 1px solid #e3e3e3;">';
                         } else if ($usuariosPorcentaje < 75) {
                             echo '<span class="badge badge-warning" style="padding: 3px; float: left; width: 25px; text-align: center;">
                              ' . $usuariosPorcentaje . '%</span>';
-                            echo '<div class="progress progress-striped progress-warning" style="margin-left:38px;">';
+                            echo '<div class="progress progress-striped progress-warning" style="margin-left:38px;border: 1px solid #e3e3e3;">';
                         } else {
                             echo '<span class="badge badge-important" style="padding: 3px; float: left; width: 25px; text-align: center;">
                              ' . $usuariosPorcentaje . '%</span>';
-                            echo '<div class="progress progress-striped progress-danger" style="margin-left:38px;">';
+                            echo '<div class="progress progress-striped progress-danger" style="margin-left:38px;border: 1px solid #e3e3e3;">';
                         }
                         echo '<div class="bar" style="width:' . $usuariosPorcentaje . '%;"></div>';
                         echo '</div>';
@@ -63,15 +61,15 @@ require_once('layout/headers/headCierre.php');
                         if ($discoPorcentaje < 50) {
                             echo '<span class="badge badge-success" style="padding: 3px; float: left; width: 25px; text-align: center;">
                              ' . $discoPorcentaje . '%</span>';
-                            echo '<div class="progress progress-striped progress-success" style="margin-left:38px;">';
+                            echo '<div class="progress progress-striped progress-success" style="margin-left:38px;border: 1px solid #e3e3e3;">';
                         } else if ($discoPorcentaje < 75) {
                             echo '<span class="badge badge-warning" style="padding: 3px; float: left; width: 25px; text-align: center;">
                              ' . $discoPorcentaje . '%</span>';
-                            echo '<div class="progress progress-striped progress-warning" style="margin-left:38px;">';
+                            echo '<div class="progress progress-striped progress-warning" style="margin-left:38px;border: 1px solid #e3e3e3;">';
                         } else {
                             echo '<span class="badge badge-important" style="padding: 3px; float: left; width: 25px; text-align: center;">
                              ' . $discoPorcentaje . '%</span>';
-                            echo '<div class="progress progress-striped progress-danger" style="margin-left:38px;">';
+                            echo '<div class="progress progress-striped progress-danger" style="margin-left:38px;border: 1px solid #e3e3e3;">';
                         }
                         echo '<div class="bar" style="width:' . $discoPorcentaje . '%;"></div>';
                         echo '</div>';
@@ -96,15 +94,15 @@ require_once('layout/headers/headCierre.php');
                         if ($anchoPorcentaje < 50) {
                             echo '<span class="badge badge-success" style="padding: 3px; float: left; width: 25px; text-align: center;">
                              ' . $anchoPorcentaje . '%</span>';
-                            echo '<div class="progress progress-striped progress-success" style="margin-left:38px;">';
+                            echo '<div class="progress progress-striped progress-success" style="margin-left:38px;border: 1px solid #e3e3e3;">';
                         } else if ($anchoPorcentaje < 75) {
                             echo '<span class="badge badge-warning" style="padding: 3px; float: left; width: 25px; text-align: center;">
                              ' . $anchoPorcentaje . '%</span>';
-                            echo '<div class="progress progress-striped progress-warning" style="margin-left:38px;">';
+                            echo '<div class="progress progress-striped progress-warning" style="margin-left:38px;border: 1px solid #e3e3e3;">';
                         } else {
                             echo '<span class="badge badge-important" style="padding: 3px; float: left; width: 25px; text-align: center;">
                              ' . $anchoPorcentaje . '%</span>';
-                            echo '<div class="progress progress-striped progress-danger" style="margin-left:38px;">';
+                            echo '<div class="progress progress-striped progress-danger" style="margin-left:38px;border: 1px solid #e3e3e3;">';
                         }
                         echo '<div class="bar" style="width:' . $anchoPorcentaje . '%;"></div>';
                         echo '</div>';

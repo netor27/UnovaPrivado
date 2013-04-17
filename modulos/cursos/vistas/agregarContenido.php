@@ -69,7 +69,10 @@ require_once('layout/headers/headCierre.php');
         </div>
         <div class="row-fluid">
             <div class="span3">
-                <a href="/curso/<?php echo $curso->uniqueUrl; ?>" class="btn ">Cancelar y regresar al curso</a>
+                <a href="/curso/<?php echo $curso->uniqueUrl; ?>" class="btn btn-inverse">
+                    <i class="icon-white icon-arrow-left"></i> 
+                    Terminar y regresar al curso
+                </a>
             </div>
         </div>
     </div>

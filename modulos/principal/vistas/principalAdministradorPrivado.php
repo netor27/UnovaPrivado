@@ -7,7 +7,9 @@ require_once('layout/headers/headCierre.php');
     <div class="span12 well">
         <div class="row-fluid">
             <div class="span12">
-                <legend><h3>Administración</h3></legend>
+                <legend>
+                    <h4 class="blue">Página de inicio </h4>
+                </legend>
             </div>
         </div>
         <div class="row-fluid">

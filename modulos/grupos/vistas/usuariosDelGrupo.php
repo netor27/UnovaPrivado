@@ -15,9 +15,7 @@ require_once('layout/headers/headCierre.php');
 <div class="row-fluid">
     <div class="well well-small">
         <legend>
-            <h4>
-                Lista de usuarios inscritos en este grupo
-            </h4>
+            <h4 class="blue">Lista de usuarios inscritos en este grupo</h4>
         </legend>
         <?php
         $columna = 1;
@@ -34,7 +32,7 @@ require_once('layout/headers/headCierre.php');
                         }
                         ?>
                         <div class="span2">
-                            <div class="thumbnail hoverBlueBorder">
+                            <div class="thumbnail hoverBlueBorder whiteBackground">
                                 <div class="caption centerText break-words">
                                     <a href="/usuario/<?php echo $usuario->uniqueUrl; ?>">
                                         <div class="row-fluid">

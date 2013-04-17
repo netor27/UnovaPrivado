@@ -2,7 +2,7 @@ var directionHide = "left";
 var directionShow = "right";
 var easingType = "";
 
-function mostrarPaginaDiscusiones($pagina, $force, $blind){
+function mostrarPaginaDiscusiones($pagina, $force, $blind, $updateHash){
     if($pagina > maxPagina)
         $pagina = maxPagina;   
     if($blind){
@@ -71,7 +71,8 @@ function mostrarPaginaDiscusiones($pagina, $force, $blind){
                     ligarEventosDeVotacion();
                     ligarEventosBorrarDiscusion();
                     actualizarVotos();
-                    actualizarLinkHash();
+                    if($updateHash)
+                        actualizarLinkHash();
                 }
             });
         });   
@@ -92,7 +93,7 @@ function validarDiscusionesNuevas($paginaDefault){
             //Hay discusiones nuevas
             numDiscusiones = resultado.n;
             actualizarPager();
-            mostrarPaginaDiscusiones($paginaDefault, true, true);
+            mostrarPaginaDiscusiones($paginaDefault, true, true, true);
         }
     });
 }
@@ -128,7 +129,7 @@ function actualizarPager(){
 function ligarEventosDeClickPager(){
     $(".btnPagination").click(function(){
         $pagina = parseInt($(this).attr("pagina"));
-        mostrarPaginaDiscusiones($pagina,false, false);
+        mostrarPaginaDiscusiones($pagina,false, false, true);
     });           
 }
 function ligarEventosDeVotacion(){
@@ -409,7 +410,7 @@ function actualizarPaginaPorLinkHash(){
             }
         }
     }
-    mostrarPaginaDiscusiones($auxPagina, true, true);    
+    mostrarPaginaDiscusiones($auxPagina, true, true, false);    
 }
 function actualizarLinkHash(){
     var posiblesValores = ["mayor","menor"];
@@ -423,11 +424,11 @@ $(document).ready(function() {
     bindEventBtnAgregarDiscusion();
     $("#selectOrden").change(function(){
         orden = $(this).val();
-        mostrarPaginaDiscusiones(1, true, true);
+        mostrarPaginaDiscusiones(1, true, true, true);
     });
     $("#selectAscendente").change(function(){
         ascendente = $(this).val();
-        mostrarPaginaDiscusiones(1, true, true);
+        mostrarPaginaDiscusiones(1, true, true, true);
     });
     ligarTodosLosEventos();    
     actualizarPaginaPorLinkHash();
