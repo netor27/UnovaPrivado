@@ -58,8 +58,8 @@ require_once('layout/headers/headCierre.php');
                                                     </a>
                                                     <ul class="dropdown-menu">
                                                         <li>
-                                                            <a class=" btn btn-mini btn-danger btnQuitar" id="<?php echo $usuario->idUsuario; ?>">
-                                                                <i class="icon-white icon-trash"></i>
+                                                            <a class="btnQuitar" id="<?php echo $usuario->idUsuario; ?>" href="#">
+                                                                <i class=" icon-trash"></i>
                                                                 Quitar de este curso
                                                             </a>
                                                         </li>

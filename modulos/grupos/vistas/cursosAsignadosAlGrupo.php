@@ -33,8 +33,10 @@ require_once('layout/headers/headCierre.php');
                         ?>
                         <div class="span4 well well-small ui-corner-all whiteBackground" >
                             <div class="row-fluid">
-                                <div class="span12 break-words">
-                                    <h4><?php echo $grupo->nombre; ?></h4>
+                                <div class="span12 break-words centerText">
+                                    <legend>
+                                        <h4><?php echo $grupo->nombre; ?></h4>
+                                    </legend>
                                 </div>
                             </div>
                             <div class="row-fluid">
@@ -43,11 +45,19 @@ require_once('layout/headers/headCierre.php');
                                 </div>
                             </div>
                             <div class="row-fluid">
-                                <div class="span12">
-                                    <a class="btn btn-mini btn-danger borrarGrupo" id="<?php echo $grupo->idGrupo; ?>">
-                                        <i class="icon-white icon-trash"></i>
-                                        Quitar grupo del curso
+                                <div class="span12 btn-group">
+                                    <a class="pull-right btn btn-small btn-danger dropdown-toggle" data-toggle="dropdown">
+                                        <i class="icon-trash icon-white"></i>
+                                        <span class="caret"></span>
                                     </a>
+                                    <ul class="pull-right dropdown-menu">
+                                        <li>
+                                            <a class="borrarGrupo" id="<?php echo $grupo->idGrupo; ?>" href="#">
+                                                <i class="icon-trash"></i>
+                                                Quitar grupo del curso
+                                            </a>
+                                        </li>
+                                    </ul>                                    
                                 </div>
                             </div>
                         </div>
@@ -69,7 +79,7 @@ require_once('layout/headers/headCierre.php');
                         <ul>
                             <?php
                             if ($pagina > 1)
-                                echo '<li><a href="/grupos/cursos/asignados/' . $idCurso . '&p=' . ($pagina - 1) .  '">«</a></li>';
+                                echo '<li><a href="/grupos/cursos/asignados/' . $idCurso . '&p=' . ($pagina - 1) . '">«</a></li>';
                             else
                                 echo '<li class="disabled"><a href="#">«</a></li>';
 

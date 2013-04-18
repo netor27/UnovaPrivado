@@ -12,7 +12,6 @@ $(document).ready(function() {
                 url: url,             
                 success: function(data) {
                     var res = jQuery.parseJSON(data);        
-                    console.log(res);
                     if(res.res){                                           
                         var aux = parseInt(res.rating * 4, 10);
                         if(aux > 0)
@@ -20,8 +19,6 @@ $(document).ready(function() {
                         else{
                             aux = false;
                         }
-                        console.log("Poner valor = "+aux);
-                        
                         $('input.wow').rating('readOnly',false);
                         $('input.wow').rating('select',aux);                        
                         $('input.wow').rating('readOnly');

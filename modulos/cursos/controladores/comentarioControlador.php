@@ -4,7 +4,7 @@ function agregarComentario() {
     $res = false;
     $usuario = getUsuarioActual();
     if (isset($_POST['texto']) && isset($_POST['discusion'])) {
-        $texto = $_POST['texto'];
+        $texto = removeBadHtmlTags($_POST['texto']);
         $idDiscusion = removeBadHtmlTags($_POST['discusion']);
         if (strlen($texto) > 0) {
             require_once 'modulos/cursos/modelos/ComentarioModelo.php';

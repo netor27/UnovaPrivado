@@ -9,14 +9,14 @@ function principal() {
     clearBreadCrumbs();
     switch (tipoUsuario()) {
         case 'usuario':
-            redirect("/usuarios/cursos/inscrito");
+            require_once('modulos/principal/vistas/principal.php');
             break;
         case 'administradorPrivado':
         case 'administrador':
             require_once('modulos/principal/vistas/principalAdministradorPrivado.php');
             break;
         case 'profesor':
-            redirect("/usuarios/cursos/instructor");
+            require_once('modulos/principal/vistas/principalProfesor.php');
             break;
     }
 }

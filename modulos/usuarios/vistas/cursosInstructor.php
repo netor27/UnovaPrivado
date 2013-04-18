@@ -142,7 +142,13 @@ require_once ('layout/headers/headCierre.php');
             <?php
         }else {
             ?>
-        <h3 class="centerText">Aún no has creado ningún curso</h3>
+            <h3 class="centerText">Aún no has creado ningún curso</h3>
+            <div class="span6 offset3">
+                <a href="/cursos/curso/crearCurso" class="btn btn-primary btn-large span12" style="font-weight: bolder;">
+                    <i class="icon-plus icon-white"></i>
+                    Crea un curso aquí
+                </a>
+            </div>
             <?php
         }
         ?>

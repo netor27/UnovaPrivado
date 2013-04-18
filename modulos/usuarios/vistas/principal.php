@@ -93,7 +93,7 @@ require_once('layout/headers/headCierre.php');
                                                     </a>
                                                     <ul class="dropdown-menu">
                                                         <li>
-                                                            <a class="borrarUsuario" id="<?php echo $usuario->idUsuario; ?>">
+                                                            <a class="borrarUsuario" id="<?php echo $usuario->idUsuario; ?>" href="#">
                                                                 <i class=" icon-trash"></i>
                                                                 Eliminar alumno                                        
                                                             </a>

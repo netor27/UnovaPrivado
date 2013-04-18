@@ -80,7 +80,6 @@ function detalles() {
         if (validarUsuarioLoggeadoParaSubmits()) {
             if (getUsuarioActual()->idUsuario == $usuarioPerfil->idUsuario) {
                 $miPerfil = true;
-                clearBreadCrumbs();
             }
         }
         require_once 'modulos/usuarios/modelos/UsuarioCursosModelo.php';

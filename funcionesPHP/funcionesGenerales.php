@@ -296,28 +296,39 @@ function clearBreadCrumbs() {
     $_SESSION['breadcrumbs'] = array();
 }
 
-function pushBreadCrumb($url, $txt, $lastBreadcrumb = false) {
+function pushBreadCrumb($url, $txt, $lastBreadcrumb = false, $level = -1) {
     $insertValue = array("url" => $url, "txt" => $txt);
-    if ($lastBreadcrumb) {
-        //hay que borrar todos los breadcrumbs que le sigan a este
+    if ($level >= 0) {
+        //si establecen un nivel, guardamos en ese nivel y borramos todo lo que sigue
         $auxArray = array_keys($_SESSION['breadcrumbs']);
-        $indiceBorrar = array_search($insertValue, $_SESSION['breadcrumbs']);
-        if ($indiceBorrar !== FALSE) {
-            $borrando = false;
-            for ($i = 0; $i < sizeof($auxArray); $i++) {
-                if ($auxArray[$i] === $indiceBorrar) {
-                    $borrando = true;
-                }
-                if ($borrando) {
-                    unset($_SESSION['breadcrumbs'][$auxArray[$i]]);
-                }
-            }
-            $_SESSION['breadcrumbs'] = array_values($_SESSION['breadcrumbs']);
+        //empezamos a borrar desde $level+1
+        for ($i = $level; $i < sizeof($auxArray); $i++) {
+            unset($_SESSION['breadcrumbs'][$auxArray[$i]]);
         }
+        $_SESSION['breadcrumbs'] = array_values($_SESSION['breadcrumbs']);
         $_SESSION['breadcrumbs'][] = $insertValue;
     } else {
-        if (!in_array($insertValue, $_SESSION['breadcrumbs']))
+        if ($lastBreadcrumb) {
+            //hay que borrar todos los breadcrumbs que le sigan a este
+            $auxArray = array_keys($_SESSION['breadcrumbs']);
+            $indiceBorrar = array_search($insertValue, $_SESSION['breadcrumbs']);
+            if ($indiceBorrar !== FALSE) {
+                $borrando = false;
+                for ($i = 0; $i < sizeof($auxArray); $i++) {
+                    if ($auxArray[$i] === $indiceBorrar) {
+                        $borrando = true;
+                    }
+                    if ($borrando) {
+                        unset($_SESSION['breadcrumbs'][$auxArray[$i]]);
+                    }
+                }
+                $_SESSION['breadcrumbs'] = array_values($_SESSION['breadcrumbs']);
+            }
             $_SESSION['breadcrumbs'][] = $insertValue;
+        } else {
+            if (!in_array($insertValue, $_SESSION['breadcrumbs']))
+                $_SESSION['breadcrumbs'][] = $insertValue;
+        }
     }
 }
 

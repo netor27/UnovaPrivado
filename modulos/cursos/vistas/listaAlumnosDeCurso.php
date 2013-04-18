@@ -61,7 +61,7 @@ require_once('layout/headers/headCierre.php');
                                                     </a>
                                                     <ul class="dropdown-menu">
                                                         <li>
-                                                            <a class="borrarInscripcion" id="<?php echo $alumno->idUsuario; ?>">
+                                                            <a class="borrarInscripcion" id="<?php echo $alumno->idUsuario; ?>" href="#">
                                                                 <i class="icon-trash"></i>
                                                                 Quitar de este curso
                                                             </a>

@@ -446,7 +446,7 @@ function alumnos() {
                 if ($pagina != 1 && $pagina > $maxPagina) {
                     redirect("/cursos/curso/alumnos/" . $idCurso . "&p=" . $maxPagina);
                 } else {
-                    pushBreadCrumb(getUrl(), "Usuarios inscritos al curso",true);
+                    pushBreadCrumb(getUrl(), "Usuarios inscritos al curso",true,1);
                     require_once 'modulos/cursos/vistas/listaAlumnosDeCurso.php';
                 }
             } else {

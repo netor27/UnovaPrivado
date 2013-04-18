@@ -56,7 +56,7 @@ function agregarDiscusion() {
     $usuario = getUsuarioActual();
     if (isset($_POST['titulo']) && isset($_POST['texto']) && isset($_POST['curso'])) {
         $titulo = removeBadHtmlTags(trim($_POST['titulo']));
-        $texto = $_POST['texto'];
+        $texto = removeBadHtmlTags($_POST['texto']);
         $idCurso = removeBadHtmlTags($_POST['curso']);
         if (strlen($titulo) > 0 && strlen($titulo) <= 140 && strlen($texto) > 0) {
             require_once 'modulos/cursos/modelos/DiscusionModelo.php';
