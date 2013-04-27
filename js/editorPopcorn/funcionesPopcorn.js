@@ -1,27 +1,6 @@
+var $preguntarAntesDeSalir = true;
+
 $(document).ready(function() {
-    
-    $("#menuPerfilLink").hover(function(e){                 
-        $("#flechaPerfil").removeClass('flechaAbajo');
-        $("#flechaPerfil").addClass('flechaArriba');  
-        $("#perfil_menu").show("swing"); 
-        cerrarMenuAgregar();
-    },function(){
-        
-        });   
-    
-    $('#menuAgregarLink').hover(function(){
-        //hover in, mostramos el menu
-        $("#flechaMenuAgregar").removeClass('flechaAbajo');
-        $("#flechaMenuAgregar").addClass('flechaArriba');  
-        $("#menuAgregar").show("swing"); 
-        cerrarMenuPerfil();
-    },
-    function(){
-        //        //hover out, escondemos el menu
-        //        $("#flechaMenuAgregar").removeClass('flechaArriba');
-        //        $("#flechaMenuAgregar").addClass('flechaAbajo');
-        });
-    
     //Para evitar que al presionar enter se cierre el dialogo
     $('form').submit(function(e){
         return false;
@@ -59,18 +38,6 @@ $(document).ready(function() {
             });
             $( "#modalDialog" ).dialog("open");
         });
-    $(document).mouseup(function(e){       
-        var id = $(e.target).parents("div").attr("id");
-        
-        if(id != "menuAgregarLink"){
-            cerrarMenuAgregar();
-        }   
-    });
-    $("#editorContainment").hover(function(){
-        cerrarMenuAgregar();
-        cerrarMenuPerfil();
-    });
-    
     //Para mantener la sesión abierta
     KeepAlive();
     setInterval(KeepAlive, '600000');
@@ -87,7 +54,10 @@ $(document).ready(function() {
             //le damos pausa
             pauseVideo();
         }
-    });    
+    });
+    
+    //console.log("Se quitó la pregunta de abandono durante el desarrollo");
+    window.onbeforeunload = checkIsEdit;      
 });
 
 function cerrarMenuAgregar(){
@@ -167,7 +137,6 @@ function stringToSeconds(str){
 //Guardar los datos
 function guardar(u, uuid, cu, cl, salirDespuesDeGuardar){    
     $("#guardando").show("blind");        
-    backgroundColor = $("#editorContainment").css("background-color");    
     $containmentWidth = getContainmentWidth();
     $containmentHeight  = getContainmentHeight();
     var videoData = {
@@ -181,12 +150,12 @@ function guardar(u, uuid, cu, cl, salirDespuesDeGuardar){
         uuid: uuid,
         cu: cu,
         cl: cl,
-        backgroundColor : backgroundColor,
         videoData: videoData,
         textos:  textos,
         imagenes: imagenes,
         videos: videos,
-        links: links
+        links: links,
+        preguntas: cuestionarios
     };    
     $.ajax({
         type: 'post',
@@ -219,9 +188,16 @@ function guardar(u, uuid, cu, cl, salirDespuesDeGuardar){
 }
 
 function salir(){
+    $preguntarAntesDeSalir = false;
     redirect(urlCurso);
 }
 
 function guardadoAutomatico(){
     guardar(iu, uuid, ic, icl,false);
 }
+
+function checkIsEdit() {  
+    if($preguntarAntesDeSalir)
+        return "Si sales de la página los cambios que has realizado se perderán";  
+    return null;
+}  

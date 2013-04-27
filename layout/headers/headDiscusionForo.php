@@ -14,4 +14,13 @@ require_once 'layout/headers/headBootstrap-wysiwyg.php';
     var numComentarios = <?php echo json_encode($numComentarios); ?>;
 </script>
 <script src="/lib/js/jquery-ui/jquery-ui-1.10.1.custom.min.js"></script>
+<?php
+//Si es tablet cargamos la librería touch-punch
+if (getTipoLayout() == "tablet") {
+    ?>
+    <script src="/lib/js/jquery-ui/jquery.ui.touch-punch.min.js"></script>
+    <?
+}
+?>
+
 <script src="/js/vistaDiscusionForoDocumentReady.js"></script>

@@ -46,6 +46,7 @@ Popcorn( function() {
 function inicializarPopcorn(){
     $popPrincipal = Popcorn('#mediaPopcorn');
     $popPrincipal.controls($esAudio);
+    console.log("Por pruebas el volumen esta en cero");
     $popPrincipal.volume(0);
     $popPrincipal.autoplay(true);
 
@@ -55,7 +56,7 @@ function inicializarPopcorn(){
         $('#controlTiempo').text(transformaSegundos(current)+" / "+transformaSegundos($videoDuration));
     });
 
-    $popPrincipal.on("playing", function() {    	
+    $popPrincipal.on("canplay", function() {    	
         $videoDuration = $popPrincipal.duration();
         //Configuración del slider
         $( "#slider" ).slider({

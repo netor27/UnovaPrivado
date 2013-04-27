@@ -1,14 +1,14 @@
 <?php
 
-function agregarControlSubmit() {
+function agregarPregunta() {
     $res = "error";
+    $msg = "";
     if (validarUsuarioLoggeado()) {
         if (isset($_POST['u']) && isset($_POST['uuid']) && isset($_POST['cu']) && isset($_POST['cl'])) {
             $idUsuario = $_POST['u'];
             $uuid = $_POST['uuid'];
             $idCurso = $_POST['cu'];
             $idClase = $_POST['cl'];
-
             $usuario = getUsuarioActual();
             require_once 'modulos/cursos/modelos/ClaseModelo.php';
             require_once 'modulos/cursos/modelos/CursoModelo.php';
@@ -16,37 +16,135 @@ function agregarControlSubmit() {
                     && $usuario->idUsuario == $idUsuario
                     && $usuario->uuid == $uuid
                     && clasePerteneceACurso($idCurso, $idClase)) {
+                //$_POST['pregunta']
+                $pregunta = $_POST['pregunta'];
+                //contiene idTipoControlPregunta, pregunta, respuesta, inicio
                 require_once 'modulos/cursos/modelos/ControlModelo.php';
-                $idControl = altaControl($idClase);
-                if($idControl >= 0){
-                    $res = "ok";
-                    $msg = $idControl;
-                }else{
-                    //No se agrego a la bd
-                    $msg = "Error al agregar archivo en la bd";
+                //Obtenemos el "control" correspondiente a esta clase
+                $control = getControlDeClase($idClase);
+                if (!isset($control)) {
+                    //si el "control" no existe, lo creamos
+                    $idControl = altaControl($idClase);
+                    if ($idControl < 0) {
+                        $msg = 'Error al crear el control';
+                    } else {
+                        $control = new Control();
+                        $control->idControl = $idControl;
+                    }
                 }
-            }else{
+                if ($msg == "") {
+                    require_once 'modulos/cursos/modelos/ControlPreguntaModelo.php';
+                    $controlPregunta = new ControlPregunta();
+                    $controlPregunta->idControl = $control->idControl;
+                    $controlPregunta->idTipoControlPregunta = $pregunta['idTipoControlPregunta'];
+                    $controlPregunta->pregunta = $pregunta['pregunta'];
+                    $controlPregunta->respuesta = $pregunta['respuesta'];
+                    $idPregunta = altaControlPregunta($controlPregunta);
+                    if ($idPregunta >= 0) {
+                        $res = "ok";
+                        $msg = $idPregunta;
+                    } else {
+                        $msg = "Error al agregar pregunta en la bd";
+                    }
+                }
+            } else {
                 //Error en la integridad usuario-curso-clase
                 $msg = "Error de integridad usuario-curso-clase";
             }
-        }else{
+        } else {
             //Error en los datos recibidos
             $msg = "Datos recibidos incorrectos";
         }
-    }else{
+    } else {
         //Usuario no loggeado
         $msg = "usuario no loggeado";
     }
-    $resultado = array(
-        "res" => $res,
-        "mensaje" => $msg
-    );
-    $resultado = json_encode($resultado);
-    echo $resultado;
+    echo json_encode(array("res" => $res, "mensaje" => $msg));
 }
 
-function borrarControl() {
-    
+function editarPregunta() {
+    $res = "error";
+    $msg = "";
+    if (validarUsuarioLoggeado()) {
+        if (isset($_POST['u']) && isset($_POST['uuid']) && isset($_POST['cu']) && isset($_POST['cl'])) {
+            $idUsuario = $_POST['u'];
+            $uuid = $_POST['uuid'];
+            $idCurso = $_POST['cu'];
+            $idClase = $_POST['cl'];
+            $usuario = getUsuarioActual();
+            require_once 'modulos/cursos/modelos/ClaseModelo.php';
+            require_once 'modulos/cursos/modelos/CursoModelo.php';
+            if ($usuario->idUsuario == getIdUsuarioDeCurso($idCurso)
+                    && $usuario->idUsuario == $idUsuario
+                    && $usuario->uuid == $uuid
+                    && clasePerteneceACurso($idCurso, $idClase)) {
+                //$_POST['pregunta']
+                $pregunta = $_POST['pregunta'];
+                //contiene idControlPregunta, pregunta, respuesta
+                require_once 'modulos/cursos/modelos/ControlPreguntaModelo.php';
+                $controlPregunta = new ControlPregunta();
+                $controlPregunta->idControlPregunta = $pregunta['idControlPregunta'];
+                $controlPregunta->pregunta = $pregunta['pregunta'];
+                $controlPregunta->respuesta = $pregunta['respuesta'];
+                
+                if (actualizarControlPregunta($controlPregunta)) {
+                    $res = "ok";
+                } else {
+                    $msg = "Error al actualizar pregunta en la bd";
+                }
+            } else {
+                //Error en la integridad usuario-curso-clase
+                $msg = "Error de integridad usuario-curso-clase";
+            }
+        } else {
+            //Error en los datos recibidos
+            $msg = "Datos recibidos incorrectos";
+        }
+    } else {
+        //Usuario no loggeado
+        $msg = "usuario no loggeado";
+    }
+    echo json_encode(array("res" => $res, "mensaje" => $msg));
+}
+
+function borrarPregunta(){
+    $res = "error";
+    $msg = "";
+    if (validarUsuarioLoggeado()) {
+        if (isset($_POST['u']) && isset($_POST['uuid']) && isset($_POST['cu']) && isset($_POST['cl'])) {
+            $idUsuario = $_POST['u'];
+            $uuid = $_POST['uuid'];
+            $idCurso = $_POST['cu'];
+            $idClase = $_POST['cl'];
+            $usuario = getUsuarioActual();
+            require_once 'modulos/cursos/modelos/ClaseModelo.php';
+            require_once 'modulos/cursos/modelos/CursoModelo.php';
+            if ($usuario->idUsuario == getIdUsuarioDeCurso($idCurso)
+                    && $usuario->idUsuario == $idUsuario
+                    && $usuario->uuid == $uuid
+                    && clasePerteneceACurso($idCurso, $idClase)) {
+                //$_POST['pregunta']
+                $pregunta = $_POST['pregunta'];
+                //contiene idControlPregunta
+                require_once 'modulos/cursos/modelos/ControlPreguntaModelo.php';
+                if (bajaControlPregunta($pregunta['idControlPregunta'])) {
+                    $res = "ok";
+                } else {
+                    $msg = "Error al agregar pregunta en la bd";
+                }
+            } else {
+                //Error en la integridad usuario-curso-clase
+                $msg = "Error de integridad usuario-curso-clase";
+            }
+        } else {
+            //Error en los datos recibidos
+            $msg = "Datos recibidos incorrectos";
+        }
+    } else {
+        //Usuario no loggeado
+        $msg = "usuario no loggeado";
+    }
+    echo json_encode(array("res" => $res, "mensaje" => $msg));
 }
 
 ?>

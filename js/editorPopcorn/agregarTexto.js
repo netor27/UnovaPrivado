@@ -195,7 +195,6 @@ function agregarTextoDiv(indice, texto, inicio, fin, color, top, left, width, he
             textos[indice].top = ui.offset.top * 100 / $containmentHeight;
             textos[indice].left = ui.offset.left * 100 / $containmentWidth;
         },
-        snap: true,
         start: function() {
             // if we're scrolling, don't start and cancel drag
             if ($(this).data("scrolled")) {
@@ -204,7 +203,7 @@ function agregarTextoDiv(indice, texto, inicio, fin, color, top, left, width, he
             }
             return true;
         }
-    }).find("*").andSelf().scroll(function() {               
+    }).find("*").addBack().scroll(function() {               
         // bind to the scroll event on current elements, and all children.
         //  we have to bind to all of them, because scroll doesn't propagate.        
         //set a scrolled data variable for any parents that are draggable, so they don't drag on scroll.

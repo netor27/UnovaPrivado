@@ -220,26 +220,33 @@ function editor() {
             if ($usuario->idUsuario == getIdUsuarioDeCurso($idCurso) && clasePerteneceACurso($idCurso, $idClase)) {
                 $clase = getClase($idClase);
                 $curso = getCurso($idCurso);
-                if ($clase->transformado == 1) {
-                    if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
-                        $usoEnDisco = $clase->usoDeDisco / 2;
-                        //aquí aumentamos el ancho de banda utilizado
-                        require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
-                        if (deltaVariableDeProducto("usoActualAnchoDeBanda", $usoEnDisco)) {
-                            //obtenemos las formas predefinidas
-                            require_once 'modulos/editorPopcorn/modelos/formasPredefinidasModelo.php';
-                            $formasPredefinidas = getFormasPredefinidas();
-                            require_once 'modulos/editorPopcorn/vistas/editorPopcorn.php';
+                $tipoLayout = getTipoLayout();
+                //Solo usar el editor en tables y desktops. Telefonos no!!
+                if ($tipoLayout == "desktop" || $tipoLayout == "tablet") {
+                    if ($clase->transformado == 1) {
+                        if ($clase->idTipoClase == 0 || $clase->idTipoClase == 4) {
+                            $usoEnDisco = $clase->usoDeDisco / 2;
+                            //aquí aumentamos el ancho de banda utilizado
+                            require_once('modulos/principal/modelos/variablesDeProductoModelo.php');
+                            if (deltaVariableDeProducto("usoActualAnchoDeBanda", $usoEnDisco)) {
+                                //obtenemos las formas predefinidas
+                                require_once 'modulos/editorPopcorn/modelos/formasPredefinidasModelo.php';
+                                $formasPredefinidas = getFormasPredefinidas();
+                                require_once 'modulos/editorPopcorn/vistas/editorPopcorn.php';
+                            } else {
+                                setSessionMessage("Ocurrió un error al cargar el video.", " ¡Error! ", "error");
+                                redirect('/curso/' . $curso->uniqueUrl);
+                            }
                         } else {
-                            setSessionMessage("Ocurrió un error al cargar el video.", " ¡Error! ", "error");
+                            setSessionMessage("No se puede editar este tipo de clase.", " ¡Error! ", "error");
                             redirect('/curso/' . $curso->uniqueUrl);
                         }
                     } else {
-                        setSessionMessage("No se puede editar este tipo de clase.", " ¡Error! ", "error");
+                        setSessionMessage("No se puede editar hasta que se termine de transformar.", " ¡Espera un poco! ", "error");
                         redirect('/curso/' . $curso->uniqueUrl);
                     }
                 } else {
-                    setSessionMessage("No se puede editar hasta que se termine de transformar.", " ¡Espera un poco! ", "error");
+                    setSessionMessage("El editor no esta disponible en teléfonos móviles", " ¡Espera un poco! ", "error");
                     redirect('/curso/' . $curso->uniqueUrl);
                 }
             } else {
@@ -263,7 +270,6 @@ function guardarEdicionVideo() {
             $uuid = $_POST['uuid'];
             $idCurso = $_POST['cu'];
             $idClase = $_POST['cl'];
-
             $usuario = getUsuarioActual();
             require_once 'modulos/cursos/modelos/ClaseModelo.php';
             require_once 'modulos/cursos/modelos/CursoModelo.php';
@@ -271,8 +277,45 @@ function guardarEdicionVideo() {
                     && $usuario->idUsuario == $idUsuario
                     && $usuario->uuid == $uuid
                     && clasePerteneceACurso($idCurso, $idClase)) {
-
-                $json = json_encode($_POST);
+                $auxPostArray = array();
+                //Cargamos los datos de video
+                if (isset($_POST['videoData']))
+                    array_push($auxPostArray, $_POST['videoData']);
+                //Cargamos los textos
+                if (isset($_POST['textos']))
+                    array_push($auxPostArray, $_POST['textos']);
+                //Cargamos las imagenes
+                if (isset($_POST['imagenes']))
+                    array_push($auxPostArray, $_POST['imagenes']);
+                //Cargamos los videos
+                if (isset($_POST['videos']))
+                    array_push($auxPostArray, $_POST['videos']);
+                //Cargamos los links
+                if (isset($_POST['links']))
+                    array_push($auxPostArray, $_POST['links']);
+                //Cargamos las preguntas
+                if (isset($_POST['preguntas'])) {
+                    array_push($auxPostArray, $_POST['preguntas']);
+                    //validamos que las preguntas que ya no se usen, se borren de la bd
+                    require_once 'modulos/cursos/modelos/ControlModelo.php';
+                    require_once 'modulos/cursos/modelos/ControlPreguntaModelo.php';
+                    $control = getControlDeClase($idClase);
+                    $preguntasEnBD = getIdsPreguntasDeControl($control->idControl);
+                    //Cargamos los ids de las preguntas en un arreglo, para poder checarlo y borrar las que 
+                    //ya no se usen
+                    $idPreguntasNuevas = array();
+                    foreach($_POST['preguntas'] as $pregunta){
+                        array_push($idPreguntasNuevas, $pregunta['idPregunta']);
+                    }
+                    foreach($preguntasEnBD as $pregunta){
+                        //checamos que esta pregunta este en uso
+                        if(!in_array($pregunta, $idPreguntasNuevas)){
+                           //Si no esta en el arreglo, la debemos de borrar
+                           bajaControlPregunta($pregunta);
+                        }
+                    }
+                }
+                $json = json_encode($auxPostArray);
                 $json = str_replace("'", "", $json);
                 //revisamos que los archivos que se subieron para esta clase aún se utilizen
                 require_once 'modulos/editorPopcorn/modelos/archivosExtraModelo.php';

@@ -10,7 +10,7 @@ function altaControl($idClase) {
     $stmt->bindParam(":idClase", $idClase);
     $id = -1;
     if ($stmt->execute()) {
-        $id = $conex->lastInsertId();        
+        $id = $conex->lastInsertId();
     } else {
         print_r($stmt->errorInfo());
     }
@@ -26,31 +26,40 @@ function bajaControl($idControl) {
     return $stmt->rowCount();
 }
 
-//function actualizaTema($tema) {
-//    require_once 'bd/conex.php';
-//    global $conex;
-//    $stmt = $conex->prepare("UPDATE tema SET nombre = :nombre
-//                             WHERE idTema = :idTema");
-//    $stmt->bindParam(':nombre', $tema->nombre);
-//    $stmt->bindParam(':idTema', $tema->idTema);
-//    return $stmt->execute();
-//}
-//
-//function getTema($idTema) {
-//    require_once 'bd/conex.php';
-//    global $conex;
-//    $stmt = $conex->prepare("SELECT * FROM tema where idTema = :id");
-//    $stmt->bindParam(':id', $idTema);
-//    $stmt->execute();
-//    $tema = NULL;
-//    if ($stmt->rowCount() > 0) {
-//        $row = $stmt->fetch();
-//        $tema = new Tema();
-//        $tema->idCurso = $row['idCurso'];
-//        $tema->idTema = $row['idTema'];
-//        $tema->nombre = $row['nombre'];
-//    }
-//    return $tema;
-//}
+function getControl($idControl) {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("SELECT * FROM control where idControl = :id");
+    $stmt->bindParam(':id', $idControl);
+    $stmt->execute();
+    $control = NULL;
+    if ($stmt->rowCount() > 0) {
+        $row = $stmt->fetch();
+        $control = new Control();
+        $control->idControl = $row['idControl'];
+        $control->idClase = $row['idClase'];
+        $control->aplicacionUnica = $row['aplicacionUnica'];
+        $control->tiempoLimite = $row['tiempoLimite'];
+    }
+    return $control;
+}
+
+function getControlDeClase($idClase) {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("SELECT * FROM control where idClase = :id");
+    $stmt->bindParam(':id', $idClase);
+    $stmt->execute();
+    $control = NULL;
+    if ($stmt->rowCount() > 0) {
+        $row = $stmt->fetch();
+        $control = new Control();
+        $control->idControl = $row['idControl'];
+        $control->idClase = $row['idClase'];
+        $control->aplicacionUnica = $row['aplicacionUnica'];
+        $control->tiempoLimite = $row['tiempoLimite'];
+    }
+    return $control;
+}
 
 ?>

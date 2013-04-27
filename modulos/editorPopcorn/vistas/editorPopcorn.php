@@ -1,5 +1,4 @@
 <?php
-$usuarioHead = getUsuarioActual();
 $json = $clase->codigo;
 $var = json_decode($json, true);
 if (isset($var['textos']))
@@ -37,17 +36,24 @@ if (isset($var['videoData'])) {
         <link rel="stylesheet" href="/lib/js/jquery-ui/bootstrap-theme/jquery-ui-1.10.0.custom.css" />
         <link type="text/css" href="/layout/css/editorPopcorn.css" rel="stylesheet" />	
         <link rel="stylesheet" href="/layout/css/cus-icons.css" />
-
         <script src="/lib/js/jquery-1.9.1.min.js"></script>	        
         <script src="/lib/js/jquery-migrate-1.1.1.js"></script>	        
         <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
         <script src="/lib/js/ajaxFileUpload/ajaxfileupload.js"></script>
         <script src="/lib/js/jquery-ui/jquery-ui-1.10.1.custom.min.js"></script>
-
+        <?php
+        //Si es tablet cargamos la librería touch-punch
+        if (getTipoLayout() == "tablet") {
+            ?>
+            <script src="/lib/js/jquery-ui/jquery.ui.touch-punch.min.js"></script>
+            <?
+        }
+        ?>
         <script src="/lib/js/popcorn-complete.min.js"></script>
 
         <script src="/lib/js/colorPicker/evol.colorpicker.min.js"></script>
         <script src="/lib/js/tiny_mce/jquery.tinymce.js"></script>
+        <script src="/lib/bootstrap/js/bootstrap.file-input.js"></script>
 
         <script src="/js/editorPopcorn/funcionesPopcorn.js"></script>
 
@@ -59,13 +65,6 @@ if (isset($var['videoData'])) {
 
         <script src="/js/editorPopcorn/cargarPopcorn.js"></script>
         <script src="/js/funciones.js"></script>        
-
-        <script language="javascript">
-            function showHideControles(){
-                $("#controlesContainer").toggle("slow");
-                $(".toggleControles").toggle();
-            }
-        </script>
 
         <script languague="javascript">
             function cargarElementosGuardados(){
@@ -125,8 +124,7 @@ if (isset($links))
                     </button>
                     <a class="brand" href="/" style="padding: 0px; padding-right: 40px;"><img src="/layout/imagenes/Unova_Logo_135x47.png"></a>
                     <?php
-                    $usuarioHead = getUsuarioActual();
-                    if (isset($usuarioHead)) {
+                    if (isset($usuario)) {
                         ?>
                         <div class="nav-collapse collapse">
                             <ul class="nav ">
@@ -153,11 +151,11 @@ if (isset($links))
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <?php
-                                        echo $usuarioHead->nombreUsuario;
+                                        echo $usuario->nombreUsuario;
                                         ?> <b class="caret"></b>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="/usuario/<?php echo $usuarioHead->uniqueUrl; ?>">Mi perfil</a></li>
+                                        <li><a href="/usuario/<?php echo $usuario->uniqueUrl; ?>">Mi perfil</a></li>
                                         <li class="divider"></li>                                
                                         <li><a href="/login/login/logout">Cerrar sesión</a></li>
                                     </ul>
@@ -187,7 +185,7 @@ if (isset($links))
                     <div class="row-fluid">
                         <div class="span12 ">
                             <a href="#" onclick="mostrarDialogoInsertarTexto()">
-                                <i class="cus-application-add herramientasIcon"></i>Texto
+                                <i class="cus-page-white-text herramientasIcon"></i>Texto
                             </a>
                         </div>
                     </div>    
@@ -219,13 +217,13 @@ if (isset($links))
                             </a>
                         </div>
                     </div>          
-<!--                    <div class="row-fluid">
+                    <div class="row-fluid">
                         <div class="span12 ">
                             <a href="#" onclick="mostrarDialogoInsertarCuestionario()">
-                                <i class="cus-report-add herramientasIcon"></i>Cuestionario
+                                <i class="cus-help herramientasIcon"></i>Pregunta
                             </a>
                         </div>
-                    </div>          -->
+                    </div> 
                 </div>
             </div>
             <div id="videoContainer" class="draggable resizable" style="z-index:-10; position: absolute; top: <?php echo $top . '%'; ?>; left: <?php echo $left . '%'; ?>; width: <?php echo $width . '%'; ?>; height: <?php echo $height . '%'; ?>;">				
@@ -253,7 +251,7 @@ if (isset($links))
         <div id="controlesContainer" class="ui-widget-header ui-corner-all">	
             <div id="botonPlayContainer">
                 <a id="btnPlayToggle">
-                    <div class="ui-state-default ui-corner-all playBox" >
+                    <div class="playBox" >
                         <div id="iconPlayPausa" class="pauseIcon"></div>
                     </div>
                 </a>

@@ -166,7 +166,7 @@ require_once('layout/headers/headCierre.php');
                                                                             <?php
                                                                             if ($clases[$j]->idTipoClase == 0 || $clases[$j]->idTipoClase == 4) {
                                                                                 ?>
-                                                                                <a class="claseLinks" href="/cursos/clase/editor/<?php echo $cursoParaModificar->idCurso . "/" . $clases[$j]->idClase; ?>">Editar</a>
+                                                                                <a class="claseLinks hidden-phone" href="/cursos/clase/editor/<?php echo $cursoParaModificar->idCurso . "/" . $clases[$j]->idClase; ?>">Editar</a>
                                                                                 <?php
                                                                             }
                                                                             ?>

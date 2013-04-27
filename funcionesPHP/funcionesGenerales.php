@@ -310,19 +310,21 @@ function pushBreadCrumb($url, $txt, $lastBreadcrumb = false, $level = -1) {
     } else {
         if ($lastBreadcrumb) {
             //hay que borrar todos los breadcrumbs que le sigan a este
-            $auxArray = array_keys($_SESSION['breadcrumbs']);
-            $indiceBorrar = array_search($insertValue, $_SESSION['breadcrumbs']);
-            if ($indiceBorrar !== FALSE) {
-                $borrando = false;
-                for ($i = 0; $i < sizeof($auxArray); $i++) {
-                    if ($auxArray[$i] === $indiceBorrar) {
-                        $borrando = true;
+            if (isset($_SESSION['breadcrumbs'])) {
+                $auxArray = array_keys($_SESSION['breadcrumbs']);
+                $indiceBorrar = array_search($insertValue, $_SESSION['breadcrumbs']);
+                if ($indiceBorrar !== FALSE) {
+                    $borrando = false;
+                    for ($i = 0; $i < sizeof($auxArray); $i++) {
+                        if ($auxArray[$i] === $indiceBorrar) {
+                            $borrando = true;
+                        }
+                        if ($borrando) {
+                            unset($_SESSION['breadcrumbs'][$auxArray[$i]]);
+                        }
                     }
-                    if ($borrando) {
-                        unset($_SESSION['breadcrumbs'][$auxArray[$i]]);
-                    }
+                    $_SESSION['breadcrumbs'] = array_values($_SESSION['breadcrumbs']);
                 }
-                $_SESSION['breadcrumbs'] = array_values($_SESSION['breadcrumbs']);
             }
             $_SESSION['breadcrumbs'][] = $insertValue;
         } else {

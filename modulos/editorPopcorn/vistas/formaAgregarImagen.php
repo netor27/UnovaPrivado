@@ -9,9 +9,9 @@
         <div id="imagenTab">
             <div id="formaSubirImagen">
                 <p><strong>Para agregar una imagen, puedes subirla o escribir el link a la imagen</strong></p>
-                <label>Subir la imagen</label>
+                
                 <form name="form" action="" method="POST" enctype="multipart/form-data">                     
-                    <input id="fileToUploadImage" type="file" name="imagen">
+                    <input id="fileToUploadImage" type="file" name="imagen" title="<i class='icon-picture'/> Click para seleccionar imagen">
                     <br><br>
                     <button class="button" id="buttonUpload" onclick="return ajaxImageFileUpload();">Subir imagen</button>
                     <div id="loadingUploadImage" style="display: none;">

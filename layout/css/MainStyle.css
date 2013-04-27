@@ -20,7 +20,10 @@ body{
     text-align: center;
 }
 .rightText{
-    text-align: right;
+    text-align: right!important;
+}
+.leftText{
+    text-align: left!important;
 }
 h1, h2, h3, h4, h5, h6
 {

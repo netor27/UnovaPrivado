@@ -31,7 +31,7 @@ require_once('layout/headers/headCierre.php');
                 <div class="control-group">
                     <label class="control-label" for="inputImagen">Sube una imagen:</label>
                     <div class="controls">
-                        <input id="imagen" name="imagen" type="file"  title="<i class='icon-picture'/> Click para seleccionar imagen"/>
+                        <input id="imagen" name="imagen" type="file" title="<i class='icon-picture'/> Click para seleccionar imagen"/>
                     </div>
                 </div>
                 <div class="control-group">

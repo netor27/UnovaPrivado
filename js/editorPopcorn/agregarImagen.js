@@ -219,8 +219,7 @@ function agregarImagenDiv(indice, urlImagen, inicio, fin, color, top, left, widt
             $containmentHeight  = getContainmentHeight();
             imagenes[indice].top = ui.offset.top * 100 / $containmentHeight;
             imagenes[indice].left = ui.offset.left * 100 / $containmentWidth;
-        },
-        snap: true
+        }
     });
     
     $("#imagen_"+indice).hover(function(){

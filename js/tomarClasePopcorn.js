@@ -77,7 +77,7 @@ function agregarTextoDiv(texto, inicio, fin, color, top, left, width, height){
                 return false;
             }
         }
-    }).find("*").andSelf().scroll(function() {               
+    }).find("*").addBack().scroll(function() {               
         // bind to the scroll event on current elements, and all children.
         //  we have to bind to all of them, because scroll doesn't propagate.
         

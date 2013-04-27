@@ -168,8 +168,7 @@ function agregarVideoDiv(indice, urlVideo, inicio, fin, color, top, left, width,
             $containmentHeight  = getContainmentHeight();
             videos[indice].top = ui.offset.top * 100 / $containmentHeight;
             videos[indice].left = ui.offset.left * 100 / $containmentWidth;
-        },
-        snap: true
+        }
     });
     
     $("#videoContainer_"+indice).hover(function(){
