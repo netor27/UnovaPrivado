@@ -155,7 +155,7 @@ function guardar(u, uuid, cu, cl, salirDespuesDeGuardar){
         imagenes: imagenes,
         videos: videos,
         links: links,
-        preguntas: cuestionarios
+        preguntas: preguntas
     };    
     $.ajax({
         type: 'post',

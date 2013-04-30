@@ -174,7 +174,6 @@ function agregarTextoDiv(indice, texto, inicio, fin, color, top, left, width, he
     '</div>' +
     '</div>' +
     '</div>';
- 
     $popPrincipal.footnote({
         start: inicio,
         end: fin,

@@ -29,17 +29,42 @@ function bajaControlPregunta($idControlPregunta) {
     return $stmt->rowCount();
 }
 
-function actualizarControlPregunta($controlPregunta){
+function actualizarControlPregunta($controlPregunta) {
     require_once 'bd/conex.php';
     global $conex;
     $stmt = $conex->prepare("UPDATE controlpregunta 
                     SET pregunta = :pregunta, respuesta = :respuesta
                     WHERE idControlPregunta = :id");
-    $stmt->bindParam();
     $stmt->bindParam(":pregunta", $controlPregunta->pregunta);
     $stmt->bindParam(":respuesta", json_encode($controlPregunta->respuesta));
     $stmt->bindParam(':id', $controlPregunta->idControlPregunta);
     return $stmt->execute();
+}
+
+function getPregunta($idControlPregunta) {
+    require_once 'bd/conex.php';
+    global $conex;
+    $stmt = $conex->prepare("SELECT *
+                            FROM controlpregunta p
+                            WHERE p.idControlPregunta =  :idControlPregunta");
+    $stmt->bindParam(":idControlPregunta", $idControlPregunta);
+    $pregunta = NULL;
+
+    if ($stmt->execute()) {
+        $row = $stmt->fetch();
+        if ($stmt->rowCount() > 0) {
+            $pregunta = new ControlPregunta();
+            $pregunta->idControl = $row['idControl'];
+            $pregunta->idControlPregunta = $row['idControlPregunta'];
+            $pregunta->idTipoControlPregunta = $row['idTipoControlPregunta'];
+            $pregunta->pregunta = $row['pregunta'];
+            $pregunta->respuesta = $row['respuesta'];
+        }
+    } else {
+        echo $stmt->queryString . "<br>";
+        print_r($stmt->errorInfo());
+    }
+    return $pregunta;
 }
 
 function getPreguntasDeControl($idControl) {
@@ -71,7 +96,7 @@ function getPreguntasDeControl($idControl) {
     return $preguntas;
 }
 
-function getIdsPreguntasDeControl($idControl){
+function getIdsPreguntasDeControl($idControl) {
     require_once 'bd/conex.php';
     global $conex;
     $stmt = $conex->prepare("SELECT idControlPregunta
@@ -92,4 +117,5 @@ function getIdsPreguntasDeControl($idControl){
     }
     return $preguntas;
 }
+
 ?>

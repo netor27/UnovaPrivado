@@ -7,7 +7,9 @@
  *
  * Portions copyright jQuery UI & Twitter Bootstrap
 */
-
+.ui-dialog-titlebar-close{
+    visibility: hidden;
+}
 
 /* Layout helpers
 ----------------------------------*/

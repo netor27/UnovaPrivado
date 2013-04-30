@@ -32,7 +32,7 @@ if (isset($var['textos'])) {
     foreach ($textos as $texto) {
         ?>
                         agregarTextoDiv( '<?php echo $texto['texto']; ?>','<?php echo $texto['inicio']; ?>','<?php echo $texto['fin']; ?>','<?php echo $texto['color']; ?>','<?php echo $texto['top']; ?>','<?php echo $texto['left']; ?>','<?php echo $texto['width']; ?>','<?php echo $texto['height']; ?>');
-                                                        
+                                                                        
         <?php
     }
 }
@@ -60,6 +60,14 @@ if (isset($var['links'])) {
         <?php
     }
 }
+if (isset($var['preguntas'])) {
+    $preguntas = $var['preguntas'];
+    foreach($preguntas as $pregunta) {
+        ?> 
+                agregarPreguntaDiv(<?php echo $pregunta['idPregunta']; ?>,'<?php echo $pregunta['inicio']; ?>');
+        <?php
+    }
+}
 ?>
     }
 </script>
@@ -75,5 +83,11 @@ require_once('layout/headers/headCierreTomarClase.php');
         <a href="http://www.google.com/intl/es/chrome/browser/"> desde aquí</a>
     </video>  
     <div id="footnotediv">
+    </div>
+</div>
+
+<div id="dialog-form-responderPregunta" title="Pregunta" style="display:none;">
+    <div id="preguntaContainer">
+
     </div>
 </div>

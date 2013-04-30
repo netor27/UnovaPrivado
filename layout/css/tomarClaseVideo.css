@@ -58,3 +58,39 @@
     padding: 0;
     background-color: rgb(42, 128, 145);
 }
+
+.inputRadio{
+    opacity: 0;
+    width: 18px;
+    background: url("images/radio-off.png");
+}
+
+.inputRadio + label{
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    clear: none;
+    cursor: pointer;
+    background: url("images/radio-off.png") left center no-repeat;
+    position: relative;
+    top: -10px;
+    left: 25px;
+}
+
+.inputRadio:checked + label{
+    background-image: url("images/radio-on.png");
+}
+
+.respuestaContainer + button{
+    width: 100px!important;
+}
+
+.respuestaContainer:hover + button{
+
+}
+
+.inputTextGenerado{
+    width:auto!important;
+    margin-right: 5px!important;
+    margin-left: 5px!important;
+}

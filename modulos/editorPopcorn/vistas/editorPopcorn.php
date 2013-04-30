@@ -9,6 +9,8 @@ if (isset($var['videos']))
     $videos = $var['videos'];
 if (isset($var['links']))
     $links = $var['links'];
+if(isset($var['preguntas']))
+    $preguntas = $var['preguntas'];
 if (isset($var['videoData'])) {
     $videoData = $var['videoData'];
     $top = $videoData['top'];
@@ -96,6 +98,12 @@ if (isset($links))
     foreach ($links as $link) {
         ?>
                         cargarLinkEnArreglo('','<?php echo $link['url']; ?>','<?php echo $link['inicio']; ?>','<?php echo $link['fin']; ?>','<?php echo $link['color']; ?>','<?php echo $link['top']; ?>','<?php echo $link['left']; ?>','<?php echo $link['width']; ?>','<?php echo $link['height']; ?>');
+        <?php
+    }
+if (isset($preguntas))
+    foreach ($preguntas as $pregunta) {
+        ?>
+                cargarPreguntaEnArreglo(<?php echo $pregunta['idPregunta'];?>, '<?php echo $pregunta['inicio']; ?>');
         <?php
     }
 ?>

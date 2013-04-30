@@ -72,3 +72,8 @@ require_once('layout/headers/headCierreTomarClase.php');
     <div id="footnotediv">
     </div>
 </div>
+<div id="dialog-form-responderPregunta" title="Pregunta" style="display:none;">
+    <div id="preguntaContainer">
+        
+    </div>
+</div>

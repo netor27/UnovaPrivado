@@ -1,18 +1,22 @@
-var cuestionarios = [];
+var preguntas = [];
 var editarCuestionarioBandera = false;
 var idEditar = -1;
 var contadorOpcionMultiple=0;
 var tipoPregunta = "";
+var idPreguntaPorCambiar = -1;
 
-function agregarOpcionDeRespuesta(){
+function agregarOpcionDeRespuesta(texto, correcta){
+    var strChecked = "";
+    if(correcta)
+        strChecked = "checked";
     contadorOpcionMultiple++;
     var dom = '<div class="row-fluid respuestaContainer">'+
     '<div class="span1">'+
-    '<input type="checkbox" name="respuesta" class="inputRadio" id="radio-'+contadorOpcionMultiple+'">'+
+    '<input type="checkbox" name="respuesta" '+strChecked+' class="inputRadio" id="radio-'+contadorOpcionMultiple+'">'+
     '<label for="radio-'+contadorOpcionMultiple+'"></label>'+
     '</div>'+
     '<div class="span10">'+
-    '<input placeholder="Escribe una respuesta" type="text" class="span12 opcionTexto">'+
+    '<input placeholder="Escribe una respuesta" type="text" class="span12 opcionTexto" value="'+texto+'">'+
     '</div>'+
     '<div class="span1">'+
     '<button class="btn btn-danger btnQuitarOpcion" style="display:none;">'+
@@ -24,10 +28,37 @@ function agregarOpcionDeRespuesta(){
     bindEventoHoverRespuestaRow();
 }
 
+function generarOpcionDeRespuesta(texto, correcta, readonly){
+    var i = Math.floor((Math.random()*10000)+1);
+    var strChecked = "", strReadonly ="";
+    if(correcta == "true")        
+        strChecked = "checked";
+    if(readonly)
+        strReadonly = 'readonly onclick="javascript: return false;"';
+    var dom = '<div class="row-fluid respuestaContainer">'+
+    '<div class="span1">'+
+    '<input type="checkbox" '+strChecked+' name="respuesta" class="inputRadio" id="radio-'+i+'" '+ strReadonly +'>'+
+    '<label for="radio-'+i+'"></label>'+
+    '</div>'+
+    '<div class="span10">'+
+    '<input readonly type="text" class="span12" value="'+texto+'">'+
+    '</div>'+
+    '</div>';
+    return dom;
+}
+
 function cambioPreguntaCompletarTexto(){
-    var str = $(this).val();
+    var str = procesarTextoPreguntaCompletar($("#preguntaCompletarTexto").val());
+    $("#preguntaCompletarResultado").html(str, true);   
+}
+
+function procesarTextoPreguntaCompletar(str, readonly){
+    var readonlyStr = "";
     var inicio, fin, answer;
     var hayRespuesta = true;
+    if(readonly){
+        readonlyStr = "readonly";
+    }
     while(hayRespuesta){
         inicio = str.indexOf("[");
         fin = str.indexOf("]",inicio);
@@ -35,14 +66,14 @@ function cambioPreguntaCompletarTexto(){
             answer = replaceAll($.trim(str.substring(inicio+1,fin)),'[','');
             answer = replaceAll(answer,']','');
             str = str.substring(0,inicio) + 
-            "<input readonly type='text' value='" + 
+            "<input " + readonlyStr + " type='text' value='" + 
             answer + "' size='"+answer.length+"' class='inputTextGenerado' />" +
             str.substring(fin+1);
         }else{
             hayRespuesta = false;
         }
     }
-    $("#preguntaCompletarResultado").html(str);   
+    return str;
 }
 
 function bindEventoHoverRespuestaRow(){
@@ -66,7 +97,7 @@ function mostrarPaginaPregunta(pagina){
 }
 
 function mostrarDialogoInsertarCuestionario(){
-    clearFormaPregunta();
+    clearFormaPregunta(3);
     editarCuestionarioBandera = false;    
     pauseVideo();
     var currentTime = getCurrentTime();    
@@ -76,10 +107,16 @@ function mostrarDialogoInsertarCuestionario(){
 }
 
 function cargarPreguntaEnArreglo(idPregunta, inicio){
-    cuestionarios.push({
+    preguntas.push({
         idPregunta : idPregunta, 
         inicio : inicio
     });   
+}
+
+function agregarPreguntaDiv(idPregunta, inicio){
+    $popPrincipal.cue(inicio,function(){
+        mostrarPregunta(idPregunta);
+    });
 }
 
 function agregarPregunta(){    
@@ -137,7 +174,63 @@ function agregarPregunta(){
     pregunta = pregunta.replace(/(\r\n|\n|\r)/gm,"");    
     //La siguiente es una llamada asincrona
     crearPreguntaBD(idTipoControlPregunta, pregunta, respuesta, inicio);  
-    clearFormaPregunta();
+    clearFormaPregunta(3);
+    return "ok";
+}
+
+function editarPregunta(){    
+    var pregunta, respuesta;
+    var inicio = $("#tiempoInicioCuestionario").val();
+    switch(tipoPregunta){
+        case 'preguntaAbierta':
+            pregunta = $.trim($("#preguntaAbiertaTexto").val());
+            if(pregunta.length <= 0){
+                //no hay pregunta
+                return "Escribe tu pregunta";
+            }
+            respuesta = null;
+            break;
+        case 'opcionMultiple':
+            pregunta = $.trim($("#preguntaOpcionMultipleTexto").val());
+            if(pregunta.length <= 0){
+                //no hay pregunta
+                return "Escribe tu pregunta";
+            }
+            respuesta = [];
+            var unaCorrecta = false;
+            $(".respuestaContainer").each(function(){
+                var strOpcion = $.trim($(this).find(".opcionTexto").val());
+                strOpcion = strOpcion.replace(/(\r\n|\n|\r)/gm,"");
+                if(strOpcion.length > 0){
+                    var correcta = ($(this).find(".inputRadio").is(':checked'));
+                    if(correcta)
+                        unaCorrecta = true;
+                    respuesta.push({
+                        correcta : correcta,
+                        texto : strOpcion
+                    });
+                }
+            });  
+            if(!unaCorrecta){
+                return "Introduce una opción de respuesta correcta";
+            }
+            break;
+        case 'completarEspacios':
+            pregunta = $.trim($("#preguntaCompletarTexto").val());
+            if(pregunta.length <= 0){
+                //no hay pregunta
+                return "Escribe tu pregunta";
+            }
+            respuesta = null;
+            break;
+        default:
+            return "Selecciona el tipo de pregunta";
+            break;
+    }    
+    pregunta = pregunta.replace(/(\r\n|\n|\r)/gm,"");    
+    //La siguiente es una llamada asincrona
+    editarPreguntaBD(idPreguntaPorCambiar, pregunta, respuesta, inicio);
+    clearFormaPregunta(3);
     return "ok";
 }
 
@@ -166,19 +259,53 @@ function crearPreguntaBD(idTipoControlPregunta, pregunta, respuesta, inicio){
         }else{
             var idPregunta = res.mensaje;
             cargarPreguntaEnArreglo(idPregunta, inicio);
+            agregarPreguntaDiv(idPregunta, inicio);
             guardadoAutomatico();
         }
     });
 }
 
-function clearFormaPregunta(){
+function editarPreguntaBD(idPregunta, pregunta, respuesta, inicio){
+    var preguntaArray = {
+        idControlPregunta: idPregunta,
+        pregunta: pregunta,
+        respuesta: respuesta
+    };
+    var data = {
+        u: iu,
+        uuid: uuid,
+        cu: ic,
+        cl: icl,
+        pregunta: preguntaArray
+    };    
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: '/cursos/control/editarPregunta',
+        data: data
+    }).done(function( html ) {
+        var res = jQuery.parseJSON(html);        
+        if(res.resultado == "error"){
+            console.log(res.mensaje);
+        }else{
+            eliminarPreguntaDeArreglo(idPregunta);
+            cargarPreguntaEnArreglo(idPregunta, inicio);
+            agregarPreguntaDiv(idPregunta, inicio);
+            guardadoAutomatico();
+        }
+    });
+}
+
+function clearFormaPregunta(numOpciones){
+    $(".btnCambiarTipoPregunta").show();
     mostrarPaginaPregunta('seleccionarTipoPregunta');    
     $("#preguntaAbiertaTexto").val("");
     $("#preguntaOpcionMultipleTexto").val("");
     $("#respuestasContainer").empty();
-    agregarOpcionDeRespuesta();
-    agregarOpcionDeRespuesta();
-    agregarOpcionDeRespuesta();
+    var i;
+    for(i=0;i<numOpciones;i++)
+        agregarOpcionDeRespuesta("",false);
+    
     $("#preguntaCompletarResultado").empty();
     $("#preguntaCompletarTexto").val("");
     $("#errorContainerPreguntas").empty();
@@ -213,6 +340,195 @@ function inicializarSlidersCuestionario($inicio){
         }
     });
 }
+
+function cargarPreguntas(){
+    var i;    
+    for(i=0;i<preguntas.length;i++){
+        agregarPreguntaDiv(preguntas[i].idPregunta, preguntas[i].inicio);
+    }
+}
+
+function eliminarPreguntas(){
+//no hay nada que eliminar
+}
+
+function mostrarPregunta($idPregunta){
+    pauseVideo();
+    var data = {
+        u: iu,
+        uuid: uuid,
+        cu: ic,
+        cl: icl,
+        idPregunta: $idPregunta
+    };    
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: '/cursos/control/obtenerPregunta',
+        data: data
+    }).done(function( html ) {
+        var res = jQuery.parseJSON(html);        
+        
+        if(res.resultado == "error"){
+            console.log(res.mensaje);
+        }else if(res.res == "borrar"){
+            //esta pregunta ya no existe en la bd, borrar del arreglo
+            eliminarPreguntaDeArreglo($idPregunta);
+        }else{
+            var pregunta = jQuery.parseJSON(res.mensaje);
+            var dom, titulo;
+            switch(pregunta.idTipoControlPregunta){
+                case '1'://Pregunta abierta
+                    titulo = "Pregunta abierta";
+                    dom = '<div class="row-fluid">'+
+                    '<h3 class="black">'+pregunta.pregunta+'</h3>'+
+                    '</div>'+
+                    '<div class="row-fluid">'+
+                    '<div class="span12">'+
+                    '<textarea class="span12" rows="5"></textarea>'+
+                    '</div>'+
+                    '</div>'+
+                    '<div class="row-fluid">'+
+                    '<div class="pull-right span6">'+
+                    '<button class="btn span6" onclick="mostrarDialogoEditarPregunta('+$idPregunta+')">Editar pregunta</btn>'+
+                    '<button class="btn btn-danger span6" onclick="eliminarPregunta('+$idPregunta+')">Eliminar pregunta</btn>'+
+                    '</div>'+
+                    '</div>';
+                    break;
+                case '2':
+                    titulo = "Pregunta de opción múltiple";
+                    dom = '<div class="row-fluid">'+
+                    '<h3 class="black">'+pregunta.pregunta+'</h3>'+
+                    '</div>';
+                    var respuestas = jQuery.parseJSON(pregunta.respuesta);                    
+                    var i = 0;
+                    for(i=0;i<respuestas.length;i++){
+                        dom = dom + generarOpcionDeRespuesta(respuestas[i].texto, respuestas[i].correcta, true);
+                    }                                       
+                    dom = dom + '<div class="row-fluid">'+
+                    '<div class="pull-right span6">'+
+                    '<button class="btn span6" onclick="mostrarDialogoEditarPregunta('+$idPregunta+')">Editar pregunta</btn>'+
+                    '<button class="btn btn-danger span6" onclick="eliminarPregunta('+$idPregunta+')">Eliminar pregunta</btn>'+
+                    '</div>'+
+                    '</div>';
+                    break;
+                case '3':
+                    titulo = "Completar los espacios en blanco";
+                    dom = '<div class="row-fluid">'+
+                    '<h3 class="black">'+procesarTextoPreguntaCompletar(pregunta.pregunta,true)+'</h3>'+
+                    '</div>'+
+                    '<div class="row-fluid"><h6></h6></div>'+
+                    '<div class="row-fluid"><h6></h6></div>'+
+                    '<div class="row-fluid"><h6></h6></div>'+
+                    '<div class="row-fluid">'+
+                    '<div class="pull-right span6">'+
+                    '<button class="btn span6" onclick="mostrarDialogoEditarPregunta('+$idPregunta+')">Editar pregunta</btn>'+
+                    '<button class="btn btn-danger span6" onclick="eliminarPregunta('+$idPregunta+')">Eliminar pregunta</btn>'+
+                    '</div>'+
+                    '</div>';                    
+                    break;
+            }            
+            $("#preguntaContainer").html(dom);
+            $("#dialog-form-responderPregunta").dialog('option', 'title', titulo);
+            $("#dialog-form-responderPregunta").dialog("open");
+        }
+    });
+}
+
+function mostrarDialogoEditarPregunta(idPregunta){
+    pauseVideo();
+    $("#dialog-form-responderPregunta").dialog("close");
+    var data = {
+        u: iu,
+        uuid: uuid,
+        cu: ic,
+        cl: icl,
+        idPregunta: idPregunta
+    };    
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: '/cursos/control/obtenerPregunta',
+        data: data
+    }).done(function( html ) {
+        var res = jQuery.parseJSON(html);        
+        
+        if(res.resultado == "error"){
+            console.log(res.mensaje);
+        }else if(res.res == "borrar"){
+            //esta pregunta ya no existe en la bd, borrar del arreglo
+            eliminarPreguntaDeArreglo($idPregunta);
+        }else{
+            idPreguntaPorCambiar = idPregunta;
+            var pregunta = jQuery.parseJSON(res.mensaje);
+            clearFormaPregunta(0);
+            editarCuestionarioBandera = true;
+            var currentTime = getCurrentTime();    
+            inicializarSlidersCuestionario(currentTime);
+            $(".btnCambiarTipoPregunta").hide();
+            $("#dialog-form-cuestionario").dialog('option', 'title', 'Editar cuestionario');
+            $("#dialog-form-cuestionario").dialog("open");
+            switch(pregunta.idTipoControlPregunta){
+                case '1'://Pregunta abierta
+                    $("#preguntaAbiertaTexto").val(pregunta.pregunta);
+                    mostrarPaginaPregunta('preguntaAbierta');
+                    break;
+                case '2':
+                    var respuestas = jQuery.parseJSON(pregunta.respuesta);                    
+                    var i = 0;
+                    for(i=0;i<respuestas.length;i++){
+                        agregarOpcionDeRespuesta(respuestas[i].texto,(respuestas[i].correcta == "true"));
+                    }                                       
+                    $("#preguntaOpcionMultipleTexto").val(pregunta.pregunta);
+                    mostrarPaginaPregunta('opcionMultiple');                    
+                    break;
+                case '3':
+                    $("#preguntaCompletarTexto").val(pregunta.pregunta);
+                    cambioPreguntaCompletarTexto();
+                    mostrarPaginaPregunta('completarEspacios');
+                    break;
+            }            
+        }
+    });
+}
+
+function eliminarPregunta(idPregunta){
+    if(confirm("¿Seguro que deseas eliminar la pregunta?")){
+        var data = {
+            u: iu,
+            uuid: uuid,
+            cu: ic,
+            cl: icl,
+            idPregunta: idPregunta
+        };    
+        $.ajax({
+            type: 'post',
+            cache: false,
+            url: '/cursos/control/borrarPregunta',
+            data: data
+        }).done(function( html ) {
+            var res = jQuery.parseJSON(html);        
+            if(res.res == "error"){
+                console.log(res.mensaje);
+            }else{
+                $("#dialog-form-responderPregunta").dialog("close");
+                eliminarPreguntaDeArreglo(idPregunta);
+            }
+        });
+    }   
+}
+
+function eliminarPreguntaDeArreglo(idPregunta){
+    destroyPopcorn();    
+    var i;
+    for(i = 0; i < preguntas.length; i++){
+        if(preguntas[i].idPregunta == idPregunta){
+            preguntas.splice(i,1);
+        }
+    }
+    inicializarPopcorn();   
+}
+
 
 $(document).ready(function() {    
     $("#dialog-form-cuestionario").dialog({
@@ -249,9 +565,25 @@ $(document).ready(function() {
     });
     $('#cuestionarioTabs').tabs();
     $("#btnAgregarOtraOpcion").click(function(){
-        agregarOpcionDeRespuesta();
+        agregarOpcionDeRespuesta("",false);
     });
     $("#preguntaCompletarTexto").bind('input propertychange',cambioPreguntaCompletarTexto);
+    
     bindEventoHoverRespuestaRow();
-    clearFormaPregunta();
+    clearFormaPregunta(3);
+    
+    $("#dialog-form-responderPregunta").dialog({
+        autoOpen: false,
+        height:550,
+        width: 750,
+        modal: true,
+        resizable: false,
+        buttons:{
+            "Continuar": function(){
+                $(this).dialog("close");
+                playVideo();
+            }
+        },
+        closeOnEscape: false        
+    });	 
 });

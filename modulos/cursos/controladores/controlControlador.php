@@ -86,7 +86,7 @@ function editarPregunta() {
                 $controlPregunta->idControlPregunta = $pregunta['idControlPregunta'];
                 $controlPregunta->pregunta = $pregunta['pregunta'];
                 $controlPregunta->respuesta = $pregunta['respuesta'];
-                
+
                 if (actualizarControlPregunta($controlPregunta)) {
                     $res = "ok";
                 } else {
@@ -107,7 +107,7 @@ function editarPregunta() {
     echo json_encode(array("res" => $res, "mensaje" => $msg));
 }
 
-function borrarPregunta(){
+function borrarPregunta() {
     $res = "error";
     $msg = "";
     if (validarUsuarioLoggeado()) {
@@ -123,11 +123,11 @@ function borrarPregunta(){
                     && $usuario->idUsuario == $idUsuario
                     && $usuario->uuid == $uuid
                     && clasePerteneceACurso($idCurso, $idClase)) {
-                //$_POST['pregunta']
-                $pregunta = $_POST['pregunta'];
+                //$_POST['idPregunta']
+                $idPregunta = $_POST['idPregunta'];
                 //contiene idControlPregunta
                 require_once 'modulos/cursos/modelos/ControlPreguntaModelo.php';
-                if (bajaControlPregunta($pregunta['idControlPregunta'])) {
+                if (bajaControlPregunta($idPregunta)) {
                     $res = "ok";
                 } else {
                     $msg = "Error al agregar pregunta en la bd";
@@ -139,6 +139,72 @@ function borrarPregunta(){
         } else {
             //Error en los datos recibidos
             $msg = "Datos recibidos incorrectos";
+        }
+    } else {
+        //Usuario no loggeado
+        $msg = "usuario no loggeado";
+    }
+    echo json_encode(array("res" => $res, "mensaje" => $msg));
+}
+
+function obtenerPregunta() {
+    $res = "error";
+    $msg = "";
+    if (validarUsuarioLoggeado()) {
+        if (isset($_POST['u']) && isset($_POST['uuid']) && isset($_POST['cu']) && isset($_POST['cl'])) {
+            $idUsuario = $_POST['u'];
+            $uuid = $_POST['uuid'];
+            $idCurso = $_POST['cu'];
+            $idClase = $_POST['cl'];
+            $usuario = getUsuarioActual();
+            require_once 'modulos/cursos/modelos/ClaseModelo.php';
+            require_once 'modulos/cursos/modelos/CursoModelo.php';
+            if ($usuario->idUsuario == getIdUsuarioDeCurso($idCurso)
+                    && $usuario->idUsuario == $idUsuario
+                    && $usuario->uuid == $uuid
+                    && clasePerteneceACurso($idCurso, $idClase)) {
+                //$_POST['idPregunta']
+                $idPregunta = $_POST['idPregunta'];
+                require_once 'modulos/cursos/modelos/ControlPreguntaModelo.php';
+                $pregunta = getPregunta($idPregunta);
+                if (isset($pregunta) && !is_null($pregunta)) {
+                    $res = "ok";
+                    $msg = json_encode($pregunta);
+                } else {
+                    $res = "borrar";
+                    $msg = "la pregunta no existe";
+                }
+            } else {
+                //Error en la integridad usuario-curso-clase
+                $msg = "Error de integridad usuario-curso-clase";
+            }
+        } else {
+            //Error en los datos recibidos
+            $msg = "Datos recibidos incorrectos";
+        }
+    } else {
+        //Usuario no loggeado
+        $msg = "usuario no loggeado";
+    }
+    echo json_encode(array("res" => $res, "mensaje" => $msg));
+}
+
+function obtenerPreguntaAlumno() {
+    $res = "error";
+    $msg = "";
+    if (validarUsuarioLoggeado()) {
+        $usuario = getUsuarioActual();
+        require_once 'modulos/cursos/modelos/ClaseModelo.php';
+        require_once 'modulos/cursos/modelos/CursoModelo.php';
+        //$_POST['idPregunta']
+        $idPregunta = $_POST['idPregunta'];
+        require_once 'modulos/cursos/modelos/ControlPreguntaModelo.php';
+        $pregunta = getPregunta($idPregunta);
+        if (isset($pregunta) && !is_null($pregunta)) {
+            $res = "ok";
+            $msg = json_encode($pregunta);
+        }else{
+            $msg = "la pregunta no existe";
         }
     } else {
         //Usuario no loggeado

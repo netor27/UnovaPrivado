@@ -280,22 +280,22 @@ function guardarEdicionVideo() {
                 $auxPostArray = array();
                 //Cargamos los datos de video
                 if (isset($_POST['videoData']))
-                    array_push($auxPostArray, $_POST['videoData']);
+                    $auxPostArray['videoData'] = $_POST['videoData'];
                 //Cargamos los textos
                 if (isset($_POST['textos']))
-                    array_push($auxPostArray, $_POST['textos']);
+                    $auxPostArray['textos'] = $_POST['textos'];
                 //Cargamos las imagenes
                 if (isset($_POST['imagenes']))
-                    array_push($auxPostArray, $_POST['imagenes']);
+                    $auxPostArray['imagenes'] = $_POST['imagenes'];
                 //Cargamos los videos
                 if (isset($_POST['videos']))
-                    array_push($auxPostArray, $_POST['videos']);
+                    $auxPostArray['videos'] = $_POST['videos'];
                 //Cargamos los links
                 if (isset($_POST['links']))
-                    array_push($auxPostArray, $_POST['links']);
+                    $auxPostArray['links'] = $_POST['links'];
                 //Cargamos las preguntas
                 if (isset($_POST['preguntas'])) {
-                    array_push($auxPostArray, $_POST['preguntas']);
+                    $auxPostArray['preguntas'] = $_POST['preguntas'];
                     //validamos que las preguntas que ya no se usen, se borren de la bd
                     require_once 'modulos/cursos/modelos/ControlModelo.php';
                     require_once 'modulos/cursos/modelos/ControlPreguntaModelo.php';
@@ -304,14 +304,14 @@ function guardarEdicionVideo() {
                     //Cargamos los ids de las preguntas en un arreglo, para poder checarlo y borrar las que 
                     //ya no se usen
                     $idPreguntasNuevas = array();
-                    foreach($_POST['preguntas'] as $pregunta){
+                    foreach ($_POST['preguntas'] as $pregunta) {
                         array_push($idPreguntasNuevas, $pregunta['idPregunta']);
                     }
-                    foreach($preguntasEnBD as $pregunta){
+                    foreach ($preguntasEnBD as $pregunta) {
                         //checamos que esta pregunta este en uso
-                        if(!in_array($pregunta, $idPreguntasNuevas)){
-                           //Si no esta en el arreglo, la debemos de borrar
-                           bajaControlPregunta($pregunta);
+                        if (!in_array($pregunta, $idPreguntasNuevas)) {
+                            //Si no esta en el arreglo, la debemos de borrar
+                            bajaControlPregunta($pregunta);
                         }
                     }
                 }

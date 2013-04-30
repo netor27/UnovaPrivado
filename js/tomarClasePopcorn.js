@@ -5,12 +5,27 @@ $(document).ready(function() {
     validarSesion();
     var segundos  = 30;
     setInterval(validarSesion, segundos * 1000);
+    console.log("Se dejo el click derecho para el desarrollo, quitarlo para production");
     //    $("body").bind("contextmenu", function(e) {
     //        e.preventDefault();
     //    });
     //mantener la sesión abierta
     KeepAlive();
     setInterval(KeepAlive, '600000');
+    $("#dialog-form-responderPregunta").dialog({
+        autoOpen: false,
+        height:550,
+        width: 750,
+        modal: true,
+        resizable: false,
+        buttons:{
+            "Continuar": function(){
+                $(this).dialog("close");
+                $popPrincipal.play();
+            }
+        },
+        closeOnEscape: false        
+    });	 
 });
 
 function validarSesion(){
@@ -160,4 +175,114 @@ function agregarVideoDiv(urlVideo, inicio, fin, color, top, left, width, height)
         containment: "#editorContainment",
         stack: ".stack"
     });
+}
+
+function agregarPreguntaDiv(idPregunta, inicio){
+    $popPrincipal.cue(inicio,function(){
+        mostrarPregunta(idPregunta);
+    });
+}
+
+function mostrarPregunta($idPregunta){
+    pauseVideo();
+    var data = {
+        idPregunta: $idPregunta
+    };    
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: '/cursos/control/obtenerPreguntaAlumno',
+        data: data
+    }).done(function( html ) {
+        var res = jQuery.parseJSON(html);        
+        
+        if(res.resultado == "error"){
+            console.log(res.mensaje);
+        }else if(res.res == "borrar"){
+            //esta pregunta ya no existe en la bd, borrar del arreglo
+            eliminarPreguntaDeArreglo($idPregunta);
+        }else{
+            var pregunta = jQuery.parseJSON(res.mensaje);
+            var dom, titulo;
+            switch(pregunta.idTipoControlPregunta){
+                case '1'://Pregunta abierta
+                    titulo = "Pregunta abierta";
+                    dom = '<div class="row-fluid">'+
+                    '<h3 class="black">'+pregunta.pregunta+'</h3>'+
+                    '</div>'+
+                    '<div class="row-fluid">'+
+                    '<div class="span12">'+
+                    '<textarea class="span12" rows="5" id="respuestaTexto"></textarea>'+
+                    '</div>'+
+                    '</div>'+
+                    '</div>';
+                    break;
+                case '2':
+                    titulo = "Pregunta de opción múltiple";
+                    dom = '<div class="row-fluid">'+
+                    '<h3 class="black">'+pregunta.pregunta+'</h3>'+
+                    '</div>';
+                    var respuestas = jQuery.parseJSON(pregunta.respuesta);                    
+                    var i = 0;
+                    for(i=0;i<respuestas.length;i++){
+                        dom = dom + generarOpcionDeRespuesta(respuestas[i].texto, "false", false);
+                    }
+                    break;
+                case '3':
+                    titulo = "Completar los espacios en blanco";
+                    dom = '<div class="row-fluid">'+
+                    '<h3 class="black">'+procesarTextoPreguntaCompletar(pregunta.pregunta,false)+'</h3>'+
+                    '</div>'+
+                    '<div class="row-fluid"><h6></h6></div>'+
+                    '<div class="row-fluid"><h6></h6></div>'+
+                    '<div class="row-fluid"><h6></h6></div>';                    
+                    break;
+            }            
+            $("#preguntaContainer").html(dom);
+            $("#dialog-form-responderPregunta").dialog('option', 'title', titulo);
+            $("#dialog-form-responderPregunta").dialog("open");
+        }
+    });
+}
+
+function generarOpcionDeRespuesta(texto, correcta, readonly){
+    var i = Math.floor((Math.random()*10000)+1);
+    var strChecked = "", strReadonly ="";
+    if(correcta == "true")        
+        strChecked = "checked";
+    if(readonly)
+        strReadonly = 'readonly onclick="javascript: return false;"';
+    var dom = '<div class="row-fluid respuestaContainer">'+
+    '<div class="span1">'+
+    '<input type="checkbox" '+strChecked+' name="respuesta" class="inputRadio" id="radio-'+i+'" '+ strReadonly +'>'+
+    '<label for="radio-'+i+'"></label>'+
+    '</div>'+
+    '<div class="span10">'+
+    '<h4 class="black">'+texto+'</h4>'+
+    '</div>'+
+    '</div>';
+    return dom;
+}
+
+function procesarTextoPreguntaCompletar(str, readonly){
+    var readonlyStr = "";
+    var inicio, fin, answer;
+    var hayRespuesta = true;
+    if(readonly){
+        readonlyStr = "readonly";
+    }
+    while(hayRespuesta){
+        inicio = str.indexOf("[");
+        fin = str.indexOf("]",inicio);
+        if(inicio >= 0 && fin >= 0){
+            answer = replaceAll($.trim(str.substring(inicio+1,fin)),'[','');
+            answer = replaceAll(answer,']','');
+            str = str.substring(0,inicio) + 
+            "<input " + readonlyStr + " type='text' value='" + "' size='"+answer.length+"' class='inputTextGenerado' />" +
+            str.substring(fin+1);
+        }else{
+            hayRespuesta = false;
+        }
+    }
+    return str;
 }

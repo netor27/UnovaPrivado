@@ -45,7 +45,7 @@
                             <div class="row-fluid"><h6></h6></div>
                             <div class="row-fluid">
                                 <div class="span3">
-                                    <button class="btn btn-inverse" onclick="mostrarPaginaPregunta('seleccionarTipoPregunta')">
+                                    <button class="btn btn-inverse btnCambiarTipoPregunta" onclick="mostrarPaginaPregunta('seleccionarTipoPregunta')">
                                         <i class="icon-white icon-arrow-left"> </i> Cambiar tipo de pregunta
                                     </button>
                                 </div>
@@ -77,7 +77,7 @@
                             <div class="row-fluid"><h6></h6></div>
                             <div class="row-fluid">
                                 <div class="span3">
-                                    <button class="btn btn-inverse" onclick="mostrarPaginaPregunta('seleccionarTipoPregunta')">
+                                    <button class="btn btn-inverse btnCambiarTipoPregunta" onclick="mostrarPaginaPregunta('seleccionarTipoPregunta')">
                                         <i class="icon-white icon-arrow-left"> </i> Cambiar tipo de pregunta
                                     </button>
                                 </div>
@@ -101,7 +101,7 @@
                             </div>
                             <div class="row-fluid">
                                 <div class="span3">
-                                    <button class="btn btn-inverse" onclick="mostrarPaginaPregunta('seleccionarTipoPregunta')">
+                                    <button class="btn btn-inverse btnCambiarTipoPregunta" onclick="mostrarPaginaPregunta('seleccionarTipoPregunta')">
                                         <i class="icon-white icon-arrow-left"> </i> Cambiar tipo de pregunta
                                     </button>
                                 </div>
@@ -128,3 +128,9 @@
         </div>        
     </div>
 </div>	
+
+<div id="dialog-form-responderPregunta" title="Pregunta" style="display:none;">
+    <div id="preguntaContainer">
+        
+    </div>
+</div>
