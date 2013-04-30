@@ -15,12 +15,6 @@ if (isset($var['videoData'])) {
     $videoData['width'] = 100;
     $videoData['height'] = 100;
 }
-
-if (isset($var['backgroundColor'])) {
-    $backgroundColor = $var['backgroundColor'];
-} else {
-    $backgroundColor = "#000";
-}
 ?>
 <link rel="stylesheet" href="/layout/css/tomarClaseVideo.css" />
 
@@ -75,7 +69,7 @@ if (isset($var['preguntas'])) {
 require_once('layout/headers/headCierreTomarClase.php');
 ?>
 </div>
-<div id="editorContainment" style="background-color: <?php echo $backgroundColor; ?>; z-index:-50;">
+<div id="editorContainment" style="z-index:-50;">
     <video id="mediaPopcorn" class="videoClass" style="z-index:-10; position: absolute; top: <?php echo $videoData['top'] . '%'; ?>; left: <?php echo $videoData['left'] . '%'; ?>; width: <?php echo $videoData['width'] . '%'; ?>; height: <?php echo $videoData['height'] . '%'; ?>;">
         <source src="<?php echo $clase->archivo; ?>" type="video/mp4"></source>      
         <source src="<?php echo $clase->archivo2; ?>" type="video/webm"></source>      
